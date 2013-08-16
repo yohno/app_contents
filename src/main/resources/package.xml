@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+<infos/>
+<name>WiperDog_Backup_20131608</name>
+<description></description>
+<licence>LGPL</licence>
+<author>XWiki.Admin</author>
+<version></version>
+<backupPack>false</backupPack>
+<preserveVersion>false</preserveVersion><files>
+<file defaultAction="0" language="">WiperDog.WebHome</file>
+<file defaultAction="0" language="">WiperDog.WebPreferences</file>
+<file defaultAction="0" language="">Lib.DataToDrawChart</file>
+<file defaultAction="0" language="">Lib.LivetableDataAdapter</file>
+<file defaultAction="0" language="">Lib.MongoDBConnection</file>
+<file defaultAction="0" language="">Lib.JqGridLib</file>
+<file defaultAction="0" language="">Lib.Highcharts</file>
+<file defaultAction="0" language="">Lib.JQueryUILib</file>
+<file defaultAction="0" language="">Lib.WebHome</file>
+<file defaultAction="0" language="">Lib.WebPreferences</file>
+<file defaultAction="0" language="">Lib.MenuGenerator</file></files></package>
