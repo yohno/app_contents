@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376364375000</creationDate>
-<date>1376649835000</date>
-<contentUpdateDate>1376649835000</contentUpdateDate>
-<version>3.12</version>
+<date>1376966654000</date>
+<contentUpdateDate>1376966654000</contentUpdateDate>
+<version>3.21</version>
 <title>DataToDrawChart</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -408,169 +408,107 @@
 
 	// Get data to AREA chart
 	def static getDataToDrawArea(collection){
-                def result
-                def dataSize = collection.size
-                if (dataSize &gt; 2) {
-                   result = [collection[dataSize - 2], collection[dataSize - 1]]
-                } else {
-		   result = collection
-                }
+		def result = collection
 		def dataChart = result.KEYEXPR._chart[0]
 		def type
 		def resultData
-                def finalResultData = []
-		def  unit = result[0].KEYEXPR._unit		
-		dataChart.each {
-			type = it.type
+		def finalResultData = []
+		def lstKey
+		def  unit = result[0].KEYEXPR._unit
+		dataChart.each {itemDataChart -&gt;
+			type = itemDataChart.type
 			if(type == "area") {
-                                resultData = []
-				// get data to draw area chart
-				def chart_columns = it.chart_columns
-				def hint_columns = it.hint_columns
-				if (hint_columns == null ){
-					hint_columns = []
-					result[0].data[0].each{
-						hint_columns.add(it.key)
-					}
+				resultData = []
+				def chart_columns = itemDataChart.chart_columns
+				def keyExprRoot = null
+				if(result.KEYEXPR != null) {
+					keyExprRoot = result.KEYEXPR._root[0]
 				}
 				def finalData = [:]
-				chart_columns.each {chartColumn -&gt;
-					def KEYEXPR
-					def dataToDraw = [:]
-					def dataToToolTip = [:]
-
+				if(keyExprRoot == null) {// KEYEXPR hasn't _root
 					// xAxis
 					def mapCategories = [:]
 					mapCategories['categories'] = result['fetchAt']
 					finalData['xAxis'] = mapCategories
+					// chart_name
+					finalData['chart_name'] = itemDataChart.name
 
-                                        // chart_name
-					finalData['chart_name'] = it.name
+					def series = []
+					def listFinalData = []
+					def detail_data = []
+					chart_columns.each {chartColumn -&gt;
 
-					// Chart Column and Hint Column
-					finalData['chart_columns'] = chart_columns
-					finalData['hint_columns'] = hint_columns
-
-					if(result.KEYEXPR != null) {
-						KEYEXPR = result.KEYEXPR._root[0]
-					}
-					if(KEYEXPR != null) {
-						def lstKey = []
-						result.each{record-&gt;
-							record.data.each {dat-&gt;
-								def tmp = []
-								KEYEXPR.each{
-									tmp.add(dat[it])
-								}
-								if(!lstKey.contains(tmp)){
-									lstKey.add(tmp)
-								}
-							}
-						}
-						result['data'].each {data-&gt;
-							lstKey.each {keySet-&gt;
-								def dataChartColumn
-								def key = ""
-								keySet.each{ key += it + "." }
-								key = key.substring(0, key.length()-1)
-
-								if(dataToDraw[key] == null){
-									dataToDraw[key] = []
-								}
-								data.each {dat-&gt;
-									def isData = true
-									for(int i = 0; i&lt; KEYEXPR.size(); i++){
-										isData = isData &amp;&amp; (dat[KEYEXPR[i]] == keySet[i])
-									}
-									if(isData){
-										dataChartColumn = dat[chartColumn]
-									}
-								}
-								dataToDraw[key].add(dataChartColumn)
-							}
-						}
-
-						def series = []
-						dataToDraw.each{
-							def tmp = [:]
-							tmp['name'] = it.key
-							tmp['data'] = it.value
-							series.add(tmp)
-						}
-						finalData['series'] = series
-
-						// get detail data to draw tooltip
-						def hintData = [:]
-						result.each {elementResult -&gt;
-							elementResult['data'].each {elementData -&gt;
-								def mapHintData = [:]
-								mapHintData['fetchAt'] = elementResult.fetchAt
-								hint_columns.each {elementHint -&gt;
-									mapHintData[elementHint] = elementData[elementHint]
-									unit.each{key, value -&gt;
-										if(elementHint == key) {
-											mapHintData[elementHint] = elementData[elementHint] + " ( " + value + " )"
-										}
-									}
-								}
-								def key = ""
-								KEYEXPR.each {eKeyexpr -&gt;
-									key += elementData[eKeyexpr] + "."
-								}
-								key = key.substring(0, key.length()-1)
-								if(hintData[key] == null) {
-									hintData[key] = []
-								}
-								hintData[key].add(mapHintData)
-								mapHintData = [:]
-							}
-						}
-						def detail_data = []
-						def mapFinalData = [:]
-						hintData.each {key,value -&gt;
-							mapFinalData['name'] = key
-							mapFinalData['data'] = value
-							detail_data.add(mapFinalData)
-							mapFinalData = [:]
-						}
-						finalData['detail_data'] = detail_data
-					} else {
 						// series
-						def series = []
 						def tmp = [:]
 						tmp['name'] = chartColumn
 						tmp['data'] = []
-						result.each {
-							tmp['data'].add(it.data[0][chartColumn])
+						result.each {itemResult -&gt;
+							tmp['data'].add(itemResult.data[0][chartColumn])
 						}
 						series.add(tmp)
-						finalData['series'] = series
-
-						// detail_data
-						def hintData = []
-						result.each {elementResult -&gt;
-							def mapHintData = [:]
-							mapHintData['fetchAt'] = elementResult.fetchAt
-							hint_columns.each {elementHint-&gt;
-							        mapHintData[elementHint] = elementResult.data[0][elementHint]
-								unit.each{key, value -&gt;
-									if(elementHint == key) {
-										mapHintData[elementHint] = elementResult.data[0][elementHint] + " ( " + value + " )"
-									}
-								}
-							}
-							hintData.add(mapHintData)
-							mapHintData = [:]
-						}
-						def mapFinalData = [:]
-						def listFinalData = []
-						mapFinalData['data'] = hintData
-						listFinalData.add(mapFinalData)
-						finalData['detail_data'] = listFinalData
 					}
+					finalData['series'] = series
+                                        finalData['chartItemName'] = ["root"]
 					resultData.add(finalData)
 					finalData = [:]
-				}
+				} else { // KEYEXPR has _root
+					lstKey = []
+					result.each{record-&gt;
+						record.data.each {dat-&gt;
+							def tmp = []
+							keyExprRoot.each{
+								tmp.add(dat[it])
+							}
+							if(!lstKey.contains(tmp)){
+								lstKey.add(tmp)
+							}
+						}
+					}
+					def itemList = []
+					lstKey.each {keySet -&gt;
+						// xAxis
+						def mapCategories = [:]
+						mapCategories['categories'] = result['fetchAt']
+						finalData['xAxis'] = mapCategories
+						
+						def valueOfKey = ""
+						keySet.each{
+							valueOfKey += it + "."
+						}
+						valueOfKey = valueOfKey.substring(0, valueOfKey.length()-1)
+						finalData['chart_name'] = itemDataChart.name + " (" + valueOfKey + ")"
+                                                itemList.add(valueOfKey.replaceAll("\\.","_"))
+						finalData['series'] = []
+						def mapSeries
+						chart_columns.each {itemChart -&gt;
+							mapSeries = [:]
+							mapSeries['name'] = itemChart
+							mapSeries['data'] = []
+							def isHasData = false
+							
+							result['data'].each {oneRunData -&gt;
+								oneRunData.each {itemData -&gt;
+									def dataKey = ""
+									keyExprRoot.each {itemKeyExpr -&gt;
+										 dataKey += itemData[itemKeyExpr] + "."
+									}
+									dataKey = dataKey.substring(0, dataKey.length()-1)
+									if (valueOfKey.equals(dataKey)) {
+										isHasData = true
+										mapSeries['data'].add(itemData[itemChart])
+									}
+								}
+								if (!isHasData) {
+									mapSeries['data'].add(null)
+								}
+							}
+							finalData['series'].add(mapSeries)
+						}
+                                                finalData['chartItemName'] = itemList
+						resultData.add(finalData)
+						finalData = [:]
+					}		
+				} // End else
                                 finalResultData.add(resultData)
 			}
 		}
@@ -578,7 +516,7 @@
 	}
 
 	// Get data to draw subtype
-      def static getDataToDrawSubtype(dataSubtype){
+        def static getDataToDrawSubtype(dataSubtype){
 	  def listDataStore = []
 	  def mapForKey = [:]
 	  

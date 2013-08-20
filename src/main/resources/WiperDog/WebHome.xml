@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376364375000</creationDate>
-<date>1376623938000</date>
-<contentUpdateDate>1376623938000</contentUpdateDate>
-<version>61.62</version>
+<date>1376966772000</date>
+<contentUpdateDate>1376966585000</contentUpdateDate>
+<version>61.123</version>
 <title>WiperDog</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -2676,29 +2676,6 @@ jQuery.noConflict()
 						}
 					}
 				},
-				tooltip: {
-					formatter: function() {
-						var index = 0
-						var tooltip_str = ""
-						var name = this.series.name
-						var fetchAt = this.x
-						for(var i=0;i&lt;detail.length;i++){
-							if(detail[i].name == null || detail[i].name == name){
-								for(var j=0;j&lt;detail[i].data.length;j++){
-									var detail_data = detail[i].data
-									if(fetchAt == detail_data[j].fetchAt){
-										for(var k in detail_data[j]){
-											if(k != "fetchAt") {
-												tooltip_str += "&lt;p&gt;" + k + " : " + detail_data[j][k] + "&lt;/p&gt;&lt;br&gt;"
-											}
-										}
-									}
-								}
-							}
-						}
-						return tooltip_str
-					}
-				},
 				plotOptions: {
 					area: {
 						stacking: 'normal',
@@ -2728,7 +2705,7 @@ jQuery.noConflict()
 						text: chartName
 					},
 					tooltip: {
-						pointFormat: '{series.name}: &lt;b&gt;{point.percentage:.1f}%&lt;/b&gt;'
+						pointFormat: '&lt;b&gt;{point.percentage:.1f}%&lt;/b&gt;'
 					},
 					plotOptions: {
 						pie: {
@@ -2888,7 +2865,7 @@ jQuery.noConflict()
 						      if(data_all[j].series[0].name == null){
 						         data_all[j].series[0].name = lstContainer[j]
 						       }
-                                                       chartName = data_all[j].chart_name + " ( " + data_all[j].chart_columns[j] + " )"
+                                                       chartName = data_all[j].chart_name
 						       drawAreaChart(data_all[j].xAxis, data_all[j].series, finalKey + "_" + i + "_" + lstContainer[j], data_all[j].detail_data, chartName)
 						   }
 					      }
@@ -2912,7 +2889,7 @@ jQuery.noConflict()
                                             if(data_all[j].series[0].name == null){
 						data_all[j].series[0].name = lstContainer[j]
 					    }
-                                            chartName = data_all[j].chart_name + " ( " + data_all[j].chart_columns[j] + " )"
+                                            chartName = data_all[j].chart_name
 					    drawAreaChart(data_all[j].xAxis, data_all[j].series, i + "_" + lstContainer[j], data_all[j].detail_data, chartName)
 					}
                                     }
@@ -3363,7 +3340,7 @@ if(result[0].type == "Subtyped") {
                 }
                 dataArea.each {itemDataArea -&gt;
                     if(itemDataArea.size() &gt; 0 ){
-		        chartColumnsArea.add(itemDataArea[0].chart_columns)
+		        chartColumnsArea.add(itemDataArea[0].chartItemName)
 	            }
                 }
 
@@ -3392,6 +3369,7 @@ if(result[0].type == "Subtyped") {
 		if(dataPie != []) {
 		    jsonPie = com.mongodb.util.JSON.serialize(dataPie)
 		}
+
 		if(dataLine != []) {
 		    jsonLine = com.mongodb.util.JSON.serialize(dataLine)
 		}
@@ -3537,7 +3515,7 @@ if(result[0].type == "Subtyped") {
 
         dataArea.each {itemDataArea -&gt;
             if(itemDataArea.size() &gt; 0 ){
-		chartColumnsArea.add(itemDataArea[0].chart_columns)
+		chartColumnsArea.add(itemDataArea[0].chartItemName)
 	    }
         }
 
@@ -3556,7 +3534,7 @@ if(result[0].type == "Subtyped") {
            tmpListNameContainer .add(nameContainerItem )
        }
     }
-    
+
     def jsonPie = com.mongodb.util.JSON.serialize(dataPie)
     def jsonLine = com.mongodb.util.JSON.serialize(dataLine)
     def jsonBar = com.mongodb.util.JSON.serialize(dataBar)
