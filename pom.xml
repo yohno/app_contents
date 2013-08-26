@@ -25,6 +25,23 @@
         <artifactId>xwiki-xar-plugin</artifactId>
         <version>1.14</version>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <id>rename</id>
+            <configuration>
+              <tasks>
+                <move file="target/${artifactId}.xar" tofile="target/${artifactId}-${version}.${packaging}"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
