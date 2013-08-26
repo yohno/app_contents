@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>Lib</web>
+<name>ConsoleService</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>Main.SpaceIndex</parent>
+<creator>XWiki.nguyenvannghia</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1377243761000</creationDate>
+<date>1377513463000</date>
+<contentUpdateDate>1377513463000</contentUpdateDate>
+<version>8.17</version>
+<title>ConsoleService</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>true</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<content>{{include document='WiperDog.GetServletClass'/}}
+{{groovy}}
+        import groovy.json.*
+        
+        if(request.xpage == "plain") {
+	   response.setContentType('text/html')
+        }
+	def cmd = request.getParameter("cmd");
+        def errorStr = ""
+   	if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("start")){
+            def command = '/bin/sh /home/luvina/wiperdog/bin/wiperdog start '  	   
+            def proc = command.execute()
+	    proc.waitFor()
+            errorStr = proc.err.text
+            if(errorStr != null &amp;&amp; errorStr  != '')
+                println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;" 
+	    println "&lt;p&gt; Output: ${proc.in.text}&lt;/p&gt;"
+	}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("stop")){
+            def command = '/bin/sh /home/luvina/wiperdog/bin/wiperdog stop '  	   
+            def proc = command.execute()
+	    proc.waitFor()
+            errorStr = proc.err.text
+            if(errorStr != null &amp;&amp; errorStr  != '')
+                println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;" 
+	    println "&lt;p&gt; Output: ${proc.in.text}&lt;/p&gt;"
+        }else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("status")){
+            def command = ''
+            def proc
+            command = '/bin/sh /home/luvina/wiperdog/bin/wiperdog status '
+            proc = command.execute()
+            proc.waitFor()
+            errorStr = proc.err.text
+            if(errorStr != null &amp;&amp; errorStr  != '')
+                println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;" 
+	    println "&lt;p&gt; Checking status: ${proc.in.text}&lt;/p&gt;"
+            def paramObj = new GetServlet()
+            def consoleServlet = paramObj.getParam('dbconsole')
+            command = 'curl -Is  ' + consoleServlet 
+
+            proc = command.execute()
+	    proc.waitFor()
+            errorStr = proc.err.text
+            if(errorStr != null &amp;&amp; errorStr  != '')
+                println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;" 
+	    println "&lt;p&gt; Checking echo servlet: ${proc.in.text}&lt;/p&gt;"
+        }else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("hostinfo")){
+            def hostInfo = [:]
+            def command = ''
+            def proc
+            command = 'hostname '
+            proc = command.execute()
+            proc.waitFor()            
+            hostInfo['hostName'] = proc.in.text
+            
+	        command = 'ifconfig eth0 '
+            proc = command.execute()            
+            proc.waitFor()
+            def tmpHostIp = proc.in.text
+            def hostIp = ''
+            if(tmpHostIp != null &amp;&amp; tmpHostIp.indexOf("inet addr:") != -1){
+            	hostIp = tmpHostIp.split("inet addr:")[1].split(" ")[0]
+            }
+            hostInfo['hostIp'] = hostIp
+            
+            command = 'cat /home/luvina/wiperdog/etc/system.properties'
+            proc = command.execute()            
+            proc.waitFor()
+            def tmpHostPort = proc.in.text
+            def hostPort = ""            
+            if(tmpHostPort != null &amp;&amp; tmpHostPort.indexOf("jetty.port=") != -1){
+            	hostPort = tmpHostPort.split("jetty.port=")[1].split("\n")[0]
+            }
+            hostInfo['hostPort'] = hostPort
+            def builder = new JsonBuilder(hostInfo)
+            println builder.toPrettyString()
+        }else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("hostport")){
+            def command = ''
+            def proc
+            command = 'cat /home/luvina/wiperdog/etc/system.properties'
+            proc = command.execute()
+            proc.waitFor()            
+            println proc.in.text.split("jetty.port=")[1].split("\n")[0]
+        }
+{{/groovy}}</content></xwikidoc>

@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>WiperDog</web>
+<name>LastAccumulation</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>WiperDog.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1377485232000</creationDate>
+<date>1377509387000</date>
+<contentUpdateDate>1377509387000</contentUpdateDate>
+<version>96.1</version>
+<title>LastAccumulation</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden><attachment>
+<filename>cross.png</filename>
+<filesize>544</filesize>
+<author>XWiki.Admin</author>
+<date>1377484600000</date>
+<version>1.1</version>
+<comment></comment><content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAAcJJREFUeNqkUz1PAkEQfStggjESejU0GozlGqn8SGywkYIYY0IsaLCw
+IBTQUN5fMLGm8S8QSWwslVAYjAlUBEJDhCgWwp3nzN6eHqIVl8zN7rx5b+dm9oRt25jlmcOMj59f
+10JAkPcBcXIGWdECyqYn6TfGdZ9S9d4K4gQYx4WCtJzE+G/sKJudwpQABUGnGSf5vKzX60jmctL8
+SYzz+iCdls1mEzuplMIsLSC4iSUh1ClUlpHIZGStVkM0GsVNqVRlIJZIyG63i1AohMdKpUrZRQqX
+z4j7LWA7VSiR/WRSNhsNRRgOh+i02wgGg3hrtRSZelLmI6cExs7nKJGVtTX50uupMn0+H157PUWm
+ZpYDXLoWUFPo6MC87jivx4MBFtxOWZYS11VipNdT98DWDVsPh2XQNLFIMdc4xpg9OZ3JMdIpRowS
+XVKt36+yuXvGxn+N0XS+3zj0kG+JSPEi261H5FCLmN9lUyNWyZ+Qag54eA6Hbfa8j1A88g+2qrlq
+CkKIZdovbAG7m8D5E3B5D9xR7IPsk/u7DextABd14OrBwd6J23YFligQ0IPwXE7lbedXUAPya5yH
+MiLuq5j1d/4SYAAj3NATBGE4PgAAAABJRU5ErkJggg==
+</content></attachment><attachment>
+<filename>exclamation.png</filename>
+<filesize>654</filesize>
+<author>XWiki.Admin</author>
+<date>1377484607000</date>
+<version>1.1</version>
+<comment></comment><content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAAjBJREFUeNqkk0trE1EUx8/cO49OfGTSRNJMYsA0aVonoYh13YW71uJC
+KFQhKqibfgFLwYULsR/AhY+VG1d+C124kJiFIGipmoIZNUXtZDKTycz1njGpaRNU8MJv7txzzv/c
+5xEYY/A/TRQEAW5c5KwM+aKcR73/a5zvg84HT371wv07Apwuj0x+PZW/vArA4NO7x/f4+OGoIHLK
+AAiC/fBdHadSbCGZPTeTzC7OUElbQNvBOISMMnIqeqFSYs57mTkfZD1/qYS2f0rAZ5pVDmXnY/FS
+bn3jM6xvfAEtfjKnRDLz6BtK4PPPADi+ms6vGK71lti2DUintUVSJ84b6OvF7GlI4PNMPVgAZ49o
+xpyqRnXf+wGWZYX4ngWRiKYfPpqfw5hBjej7eweqCkSo6JOLhmd/hI7vQLVaBdM0YXt1FgK2CeJ4
+0fCbmxUWsGc8vh3egtcFQPhyLsQnzpQJcbVmuw5mawtqtRo0Gg3wJQeY7ALIrqZEM2WM7esIPkRO
+AgR5OZEpTTV3X4IXNEGiLnw1b4fItBNCBQuiqeQUA7qMGtSSLt8C38aVRLo47QVvVJFYoFAnJJG8
+FdIfI6rSVWMTx6ZRg1rS7UKeSspSMj2Wk+AbjPGZ+vTboA1JZbQcEcUl1Iq2zdZyxURBpruUMTzR
+38Vl79wM+9bO0/3vlwLVs+OF16/MNdFug/vi+Xadm+vDL/3uHyuR16Er4E3gKvEaOTLa/1LBuEQP
+F8hxfgowAINnMqTBUH7hAAAAAElFTkSuQmCC
+</content></attachment><attachment>
+<filename>tick.png</filename>
+<filesize>634</filesize>
+<author>XWiki.Admin</author>
+<date>1377484615000</date>
+<version>1.1</version>
+<comment></comment><content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAAhxJREFUeNpi/P//PwMlgImBQsACIhhnCAFZjEAGkANy0B8gwQ00m5kR
+ogpEMYHl5YF4LZBXw/D3/47/Ea/xuOD7PwaGX1AMMvDvfwGGf/8nprkkGQPZLUAVHqR4gY3hH0Of
+oby+6ZcvXxjinWL0Gf4wtMC9QAAwAjXXK0jIO8gLyUl9/Pzx98Fjh24AXdOA7gIPoP/PwJwGdvoP
+oNP/MGQIcwkGq4mrKHz5+uXf0UtH7wBdMRGodgvCgP9ATX/+tyT5JxqCaDAfIu7DwcSWJckjqfzg
+wQOGU5dP3f3w4cNSoJq5DL//I0Xjn38tMX4xes+ePWOK8IowAPGBmnNZ/jPVS4vLqH7985Xl5YcX
+Dz99+rAJGIDtQAxxIcKA/zVLViy8xM7J9uvU7VPMDnaOOkAb4sVkxTV+sPxgf/fhzdOP797vZ/gL
+jD4GBojObT8gAQRKiYx9/AxADaAwaDF2NtN6+vMZpwCnAMP7b+8Zfrz49vrj3fdHGJgZkhhYmT4w
+7P4J1wzWCyY8OBgY5JiBmBFsiLSdvMYP3l/cv1/+/PD57Psz/5kYEhgO/H4K1owEEAYwQlOcAtAQ
+c2YPBmnGFi4TfpnvFz7d+f/wXyrD8T/XGR79w4hfZANAYcELxAJAzMdgzGTJoMOQxnDmfyfD1f9X
+gGIgq39AaRD+xQDyNBDADAA5gR2IOaA0MzRX/IPiP1D8F4n+BzeAEgAQYAC7HATaTnWSLQAAAABJ
+RU5ErkJggg==
+</content></attachment>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.LastAccumulation</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>bdb297ed-8c78-428d-8f8d-3843d95e3598</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>require(['jquery'],function($){
+	$(window).ready(function(){
+		var pjData = $('.jsonData');
+		var paData = [];
+		var poOption = {};
+
+		for(var i=0,len=pjData.length;i&lt;len;i++){
+			paData.push(jQuery.parseJSON(pjData[i].value));
+		}
+		$("#gridList").jqGrid({
+			data: paData,
+			datatype: "local",
+			colNames:['interval(days)', 'CollectionName', 'Update', 'StorageSize(Byte)', 'AccumulationCount'],
+			colModel:[
+				{name:'cumStatus', width:20},
+				{name:'jobName', width:200},
+				{name:'UnixToDate', width:150},
+				{name:'getStorageSize', sorttype:'int', align:"right", width:150},
+				{name:'getCumCount', sorttype:'int', align:"right", width:150}
+			],
+			multiselect: false,
+			caption: 'test'
+		}); 
+
+		$('#createChart').bind('click', function(){
+			var pjData = $('.jsonData');
+			var paData = [];
+			var poOption = {};
+			var pnCount = $('option:selected', '#viewLimit').val();
+			var psChartType = $('option:selected', '#chartType').val();
+			
+			for(var i=0,len=pjData.length;i&lt;len;i++){
+				paData.push(jQuery.parseJSON(pjData[i].value));
+			}
+
+			paData.sort(function(a,b){
+				var a = a.getStorageSize;
+				var b = b.getStorageSize;
+				if(a &lt; b) return 1;
+				if(a &gt; b) return -1;
+				return 0;
+			});
+
+			var paSeries = [];
+			if(psChartType === 'column'){
+				var paCategory = [];
+				for(var i=0, len=pnCount;i&lt;len;i++){
+					paSeries.push(paData[i]['getStorageSize']);
+					paCategory.push(paData[i]['jobName']);
+				}
+				poOption = {
+					chart : {
+						type:'column'
+					},
+					title : {
+						text:'StorageSize Top' + pnCount
+					},
+					xAxis : {
+						categories: paCategory,
+						title: {
+							text: "CollectionName"
+						},
+						labels: {
+							rotation: -30,
+							align: 'right'
+						}
+					},
+					yAxis : {
+						title: {
+							text: "Size"
+						}
+					}
+				}
+			}else{
+				for(var i=0, len=pnCount;i&lt;len;i++){
+					var paCache = [paData[i]['jobName'], paData[i]['getStorageSize']];
+					paSeries.push(paCache);
+				}
+				var pnSize = 0;
+				for(var i=5, len=paData.length;i&lt;len;i++){
+					pnSize += paData[i]['getStorageSize'];
+				}
+				var paCacheOthers = ['Others', pnSize];
+				paSeries.push(paCacheOthers);
+
+				poOption = {
+					chart : {
+						type:'pie'
+					},
+					title : {
+						text:'StorazeSize'
+					}
+				}
+			}
+			
+			paSeries = [{name:'size', data:paSeries}]
+			poOption['series'] = paSeries;
+			
+			$('#chartArea').highcharts(poOption)
+		});
+$('#deleteChart').bind('click', function(){
+$('#chartArea').html('');
+});
+	});
+jQuery.noConflict()
+});</code>
+</property>
+<property>
+<name>NewCum</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.LastAccumulation</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>3a9a8b5a-2c02-494b-9e77-786898e309d4</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>.severity0{
+	background-image : url($doc.getAttachmentURL("tick.png"));
+	background-repeat : no-repeat;
+	background-position : center;
+	width : 16px;
+}
+.severity1{
+	background-image : url($doc.getAttachmentURL("exclamation.png"));
+	background-repeat : no-repeat;
+	background-position : center;
+	width : 16px;
+}</code>
+</property>
+<property>
+<name>NewCum_CSS</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<content>{{groovy}}
+	xwiki.jsx.use('Lib.JQueryUILib')
+	xwiki.ssx.use('Lib.JQueryUILib')
+	xwiki.jsx.use('Lib.JqGridLib')
+	xwiki.ssx.use('Lib.JqGridLib')
+	xwiki.jsx.use('Lib.Highcharts')
+	xwiki.jsx.use("LastAccumulation")
+	xwiki.ssx.use("LastAccumulation")
+
+	@Grab(group='com.gmongo', module='gmongo', version='1.0')
+	import com.gmongo.GMongo
+
+	def gmongo = new GMongo()
+	def db = gmongo.getDB('wiperdog')
+
+	def jobs = []
+	db.getCollectionNames().findAll({it != "system.indexes"}).each {
+		jobs.add(it)
+	}
+
+	println('{{html}}')
+	def dataSet = [:]
+
+	println '&lt;div id="container"&gt;'
+	println '&lt;label for="chartType"&gt;Chart Type: &lt;/label&gt;'
+	println '&lt;select id="chartType"&gt;&lt;option&gt;column&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;'
+	println '&lt;label for="viewLimit"&gt;View Limit: &lt;/label&gt;'
+	println '&lt;select id="viewLimit"&gt;&lt;option&gt;5&lt;/option&gt;&lt;option&gt;10&lt;/option&gt;&lt;option&gt;20&lt;/option&gt;&lt;/select&gt;'
+	println '&lt;input type="button" id="createChart" value="view" /&gt;'
+	println '&lt;input type="button" id="deleteChart" value="hide" /&gt;'
+	println '&lt;div id="chartArea"&gt;&lt;/div&gt;'
+	println '&lt;/div&gt;'
+	println '&lt;table id="gridList"&gt;&lt;/table&gt;'
+	jobs.each { jobName -&gt;
+		def col = db[jobName]
+		def getStorageSize = col.getStats().size
+		def getCumCount = col.getStats().count
+		def cumStatus = '0'
+
+		def nowDate = System.currentTimeMillis()
+		col.find().sort(_id:-1).limit(1).each { document -&gt;
+			def unixTime = document['fetchedAt_bin'].toLong()*1000
+			def diffTime = nowDate - unixTime
+			def UnixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
+
+			cumStatus = (diffTime / (24 * 3600 * 1000)).toLong()
+
+			def gridData = [:]
+
+			gridData['cumStatus'] = cumStatus
+			gridData['jobName'] = jobName
+			gridData['UnixToDate'] = UnixToDate
+			gridData['getStorageSize'] = getStorageSize
+			gridData['getCumCount'] = getCumCount
+			
+			gridData =  com.mongodb.util.JSON.serialize(gridData)
+			println('&lt;div style="display:none"&gt;&lt;textarea class="jsonData"&gt;' + gridData + '&lt;/textarea&gt;&lt;/div&gt;')
+
+		}
+	}
+	println('{{/html}}')
+	gmongo.close()
+{{/groovy}}</content></xwikidoc>

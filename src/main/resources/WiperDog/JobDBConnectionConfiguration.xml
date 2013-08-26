@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376566693000</creationDate>
-<date>1376880063000</date>
+<date>1377512388000</date>
 <contentUpdateDate>1376646643000</contentUpdateDate>
-<version>4.8</version>
+<version>4.14</version>
 <title>JobDBConnectionConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -105,15 +105,16 @@
 var isDirty = false
 var previousSelectedDB = ""
 var previousSelectedJob = ""
-var domainURL = "http://153.122.22.111:13111/DBCommonConfig"
 function deleteInstanceRecord(r){
 	var i= r.parentNode.parentNode.rowIndex;
 	var row = r.parentNode.parentNode
 	document.getElementById('instanceParamTable').deleteRow(i);
 	var instanceName = row.cells[0].innerText
 	delete paramsResult.instances[instanceName]
+        isDirty = true
    }
 require(['jquery'],function($){
+
 
    function resetControl(){
       $("#jobName").empty()
@@ -131,7 +132,21 @@ require(['jquery'],function($){
    }
 
    $(document).ready(function(){
-      
+           var params = 'dbcommon'
+		   
+               $.ajax({
+                type: "GET",
+                url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+params,
+                success : function(result){
+                        processData(result)
+
+                },
+                error: function(xhr,status,error){
+                }
+               });
+
+
+    function processData(domainURL) {
       $("#dbTypeCbb").change(function(){
           var choice = false
           if(isDirty){
@@ -169,7 +184,7 @@ require(['jquery'],function($){
                  "Access-Control-Allow-Origin":domainURL
                });
           }
-          
+
       });
 
       $("#listJob").change(function(){
@@ -239,7 +254,7 @@ require(['jquery'],function($){
          if($("#dbTypeCbb option:selected").val() == ""){
              $("#message").text("DB Type is required")
             $("#message").addClass("error").removeClass("message")
-             return 
+             return
          } else {
            $("#message").text("")
          }
@@ -251,7 +266,7 @@ require(['jquery'],function($){
            $("#message").text("")
          }
          if(hostID != null &amp;&amp; hostID != ""){
-            
+
             var mapData = {}
             mapData['dbHostId'] = hostID
             mapData['dbSid'] = sid
@@ -265,7 +280,7 @@ require(['jquery'],function($){
          if($("#dbTypeCbb option:selected").val() == ""){
              $("#message").text("DB Type is required")
             $("#message").addClass("error").removeClass("message")
-             return 
+             return
          } else {
            $("#message").text("")
          }
@@ -319,7 +334,7 @@ require(['jquery'],function($){
             //   paramsResult.instances[instanceName] = {}
             //}
             //paramsResult.instances[instanceName] = finalMapData
-            //paramsResult.instances[instanceName].schedule = instanceSchedule 
+            //paramsResult.instances[instanceName].schedule = instanceSchedule
             //$("#instanceParamContent").text(JSON.stringify(paramsResult.instances))
             if(paramsResult.instances[instanceName] == null){
                 paramsResult.instances[instanceName] = {}
@@ -341,7 +356,7 @@ require(['jquery'],function($){
             }
             isDirty = true
          }
-      });      
+      });
 
       $("#CancelBtn").click(function(){
          if(!isDirty){
@@ -364,7 +379,7 @@ require(['jquery'],function($){
          if(isDirty){
          var jobName = $("#listJob option:selected").val()
          var finalMapResult = {}
-         
+
          finalMapResult['job'] = jobName
          finalMapResult['data'] = paramsResult
          if(paramsResult)
@@ -394,6 +409,7 @@ require(['jquery'],function($){
             $("#message").text("There is no modification!").addClass('notice').removeClass('error').removeClass('message')
          }
       });
+     }
 
    });
 jQuery.noConflict();

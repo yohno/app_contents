@@ -7,13 +7,13 @@
 <translation>0</translation>
 <parent>Main.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.leminhquan</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.leminhquan</contentAuthor>
 <creationDate>1376364375000</creationDate>
-<date>1376966654000</date>
-<contentUpdateDate>1376966654000</contentUpdateDate>
-<version>3.21</version>
+<date>1377171929000</date>
+<contentUpdateDate>1377171929000</contentUpdateDate>
+<version>3.45</version>
 <title>DataToDrawChart</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -41,7 +41,7 @@
 			if(type == "bar") {
                                 resultData = []
 				// get data to draw bar chart
-				def chart_columns = it.chart_columns
+                                def chart_columns = it.chart_columns
 				def hint_columns = it.hint_columns
 				if (hint_columns == null ){
 					hint_columns = []
@@ -49,7 +49,6 @@
 						hint_columns.add(it.key)
 					}
 				}
-
 				def finalData = [:]
 				chart_columns.each {chartColumn -&gt;
 					def KEYEXPR
@@ -196,169 +195,121 @@
 
 	// Get data to LINE chart
 	def static getDataToDrawLine(collection){
-		def result = collection
-		def dataChart = result.KEYEXPR._chart[0]
-		def type
-		def resultData
-		def finalResultData = []
-		def lstKey
-		def dataToDraw
-		def  unit = result[0].KEYEXPR._unit
-		dataChart.each {
-			type = it.type
-			if(type == "line") {
-				resultData = []
-				def chart_columns = it.chart_columns
-				def hint_columns = it.hint_columns
-				if (hint_columns == null ){
-					hint_columns = []
-					result[0].data[0].each{
-						hint_columns.add(it.key)
-					}
+             def finalResult = []
+             def returnResult = []
+             def key_chart = collection[0].KEYEXPR._chart
+             def key_root = collection[0].KEYEXPR._root
+             def key_unit = collection[0].KEYEXPR._unit
+             def categories = []
+             def listNameKey = []
+
+             collection.each{record-&gt;
+             	categories.add(record.fetchAt)
+             }
+
+             collection.each {record-&gt;
+             	def data = record['data']
+             	data.each {dat-&gt;
+             		def datName
+		        key_root.each{keyRoot-&gt;
+             			if(datName == null){
+		             		datName = dat[keyRoot]
+             			}else{
+				             datName += "." + dat[keyRoot]
+		             	}
+             		}
+		        if(!listNameKey.contains(datName)){
+             		    listNameKey.add(datName)
+		        }
+             	   }
+             }             
+             key_chart.each{chart-&gt;
+             	if(chart.type == "line"){
+             		def result = [:]
+		        def collumns = chart.chart_columns
+                        def hintColumns = chart.chart_columns.clone()
+		        if(chart.hint_columns != null){
+			    chart.hint_columns.each{hintCol-&gt;
+				if(!hintColumns.contains(hintCol)){
+					hintColumns.add(hintCol)
 				}
-
-				def finalData = [:]
-				chart_columns.each {chartColumn -&gt;
-					def KEYEXPR
-					dataToDraw = [:]
-					def dataToToolTip = [:]
-					def hintData = [:]
-					def detail_data = []
-
-					// xAxis
-					def mapCategories = [:]
-					mapCategories['categories'] = result['fetchAt']
-					finalData['xAxis'] = mapCategories
-
-                                        // chart_name
-					finalData['chart_name'] = it.name
-
-					// Chart Column and Hint Column
-					finalData['chart_columns'] = chart_columns
-					finalData['hint_columns'] = hint_columns
-
-					if(result.KEYEXPR != null) {
-						KEYEXPR = result.KEYEXPR._root[0]
-					}
-					if(KEYEXPR != null) {
-						lstKey = []
-
-						result.each{record-&gt;
-							record.data.each {dat-&gt;
-								def tmp = []
-								KEYEXPR.each{
-									tmp.add(dat[it])
-								}
-								if(!lstKey.contains(tmp)){
-									lstKey.add(tmp)
-								}
-							}
-						}
-						result['data'].each {data-&gt;
-							lstKey.each {keySet-&gt;
-								def dataChartColumn
-								def key = ""
-								keySet.each{ key += it + "." }
-								key = key.substring(0, key.length()-1)
-
-								if(dataToDraw[key] == null){
-									dataToDraw[key] = []
-								}
-								data.each {dat-&gt;
-									def isData = true
-									for(int i = 0; i&lt; KEYEXPR.size(); i++){
-										isData = isData &amp;&amp; (dat[KEYEXPR[i]] == keySet[i])
-									}
-									if(isData){
-										dataChartColumn = dat[chartColumn]
-									}
-								}
-								dataToDraw[key].add(dataChartColumn)
-							}
-						}
-
-						def series = []
-						dataToDraw.each{
-							def tmp = [:]
-							tmp['name'] = it.key
-							tmp['data'] = it.value
-							series.add(tmp)
-						}
-						finalData['series'] = series
-
-						// get detail data to draw tooltip
-						result.each {elementResult -&gt;
-							elementResult['data'].each {elementData -&gt;
-								def mapHintData = [:]
-								mapHintData['fetchAt'] = elementResult.fetchAt
-								hint_columns.each {elementHint -&gt;
-									mapHintData[elementHint] = elementData[elementHint]
-									unit.each{key, value -&gt;
-										if(elementHint == key) {
-											mapHintData[elementHint] = elementData[elementHint] + " ( " + value + " )"
-										}
-									}
-								}
-								def key = ""
-								KEYEXPR.each {eKeyexpr -&gt;
-									key += elementData[eKeyexpr] + "."
-								}
-								key = key.substring(0, key.length()-1)
-								if(hintData[key] == null) {
-									hintData[key] = []
-								}
-								hintData[key].add(mapHintData)
-								mapHintData = [:]
-							}
-						}
-						def mapFinalData = [:]
-						hintData.each {key,value -&gt;
-							mapFinalData['name'] = key
-							mapFinalData['data'] = value
-							detail_data.add(mapFinalData)
-							mapFinalData = [:]
-						}
-						finalData['detail_data'] = detail_data
-					} else {
-						// series
-						def series = []
-						def tmp = [:]
-						tmp['name'] = chartColumn
-						tmp['data'] = []
-						result.each {
-							tmp['data'].add(it.data[0][chartColumn])
-						}
-						series.add(tmp)
-						finalData['series'] = series
-
-						// detail_data
-						result.each {elementResult -&gt;
-							def mapHintData = [:]
-							mapHintData['fetchAt'] = elementResult.fetchAt
-							hint_columns.each {elementHint-&gt;
-							        mapHintData[elementHint] = elementResult.data[0][elementHint]
-								unit.each{key, value -&gt;
-									if(elementHint == key) {
-										mapHintData[elementHint] = elementResult.data[0][elementHint] + " ( " + value + " )"
-									}
-								}
-							}
-							detail_data .add(mapHintData)
-							mapHintData = [:]
-						}
-						def mapFinalData = [:]
-						def listFinalData = []
-						mapFinalData['data'] = detail_data
-						listFinalData.add(mapFinalData)
-						finalData['detail_data'] = listFinalData
-					}
-					resultData.add(finalData)
-					finalData = [:]
+			    }
+		        }
+		        result.xAxis = [:]
+             		result.xAxis.categories = categories
+                        def chartName
+                        def title = chart.name
+		        collumns.each{col-&gt;
+             		    if(chartName != null){
+		      		chartName += "_" + col
+             		    }else {
+		       		chartName = col
+             	            }
+		        }
+             		result.chart_name = chartName 
+		        result.series = []
+             		result.chart_columns = collumns
+                        result.hint_columns = hintColumns
+             		result.detail_data = []
+                        result.title = title
+             		listNameKey.each{nameKey-&gt;
+		             collumns.each{col-&gt;
+             			def seriesRecord = [:]
+				def detailDataRecord = [:]
+		             	if(nameKey != null){
+					seriesRecord['name'] = nameKey + "($col)"
+             				detailDataRecord['name'] = nameKey + "($col)"
+				}else{
+		             	        seriesRecord['name'] = col
+             				detailDataRecord['name'] = col
 				}
-				finalResultData.add(resultData)
-			}
-		}
-		return finalResultData
+		             	seriesRecord['data'] = []
+             			detailDataRecord['data'] = []
+				collection.each {record-&gt;
+		             		boolean hasData = false
+             				def data = record['data']
+				        def eachData
+		             		data.each{dat-&gt;
+             				     def datName
+				             key_root.each{keyRoot-&gt;
+				             	if(datName == null){
+		             			        datName = dat[keyRoot]
+             					}else{
+							datName += "." + dat[keyRoot]
+						}
+				             }
+		             		     if(datName == nameKey){
+             					hasData = true
+						eachData = dat
+				             }
+		             		 }
+             				 if(hasData){
+					      seriesRecord['data'].add(eachData[col])
+                                              def fullDetailData = [:]
+		             		      fullDetailData.fetchAt = record.fetchAt
+             				      if(hintColumns != null){
+						 hintColumns.each{hintCol-&gt;
+				             	     fullDetailData[hintCol] = eachData[hintCol]  + (key_unit[hintCol] != null ? ("( " + key_unit[hintCol] + " )") : "") 
+		             			 }
+             				      }else{
+						 fullDetailData = eachData
+                                                 fullDetailData.fetchAt = record.fetchAt
+				              }
+		             		      detailDataRecord['data'].add(fullDetailData)
+             				  }else{
+					      seriesRecord['data'].add(null)
+				              detailDataRecord['data'].add(null)
+		             		  }
+             				}
+			             	result.series.add(seriesRecord)
+                                        result.detail_data.add(detailDataRecord)
+             			}
+		             }
+             		finalResult.add(result)
+             	   }
+             }
+             returnResult.add(finalResult)
+             return returnResult
 	}
 
 	// Get data to PIE chart
@@ -377,6 +328,7 @@
 					def dataPie = [:]
 					dataPie['type'] = "pie"
                                         dataPie['chart_name'] = elementChart.name
+                                        dataPie['unit'] = result.KEYEXPR._unit[elementChart.chart_columns[0]]
 					dataPie['data'] = []
 					elementChart.chart_columns.each {
 						def tmp = []
@@ -446,6 +398,7 @@
 							tmp['data'].add(itemResult.data[0][chartColumn])
 						}
 						series.add(tmp)
+                                                finalData['unit'] = unit[chartColumn]
 					}
 					finalData['series'] = series
                                         finalData['chartItemName'] = ["root"]
@@ -503,6 +456,7 @@
 								}
 							}
 							finalData['series'].add(mapSeries)
+                                                        finalData['unit'] = unit[itemChart]
 						}
                                                 finalData['chartItemName'] = itemList
 						resultData.add(finalData)

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
-<web>Lib</web>
-<name>MenuGenerator</name>
+<web>WiperDog</web>
+<name>JobDoc</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent>WiperDog.MonitoringData</parent>
+<parent>Main.AllDocs</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1376364375000</creationDate>
-<date>1377223095000</date>
-<contentUpdateDate>1376364375000</contentUpdateDate>
-<version>4.4</version>
-<title>MenuGenerator</title>
+<creationDate>1377481871000</creationDate>
+<date>1377512622000</date>
+<contentUpdateDate>1377510878000</contentUpdateDate>
+<version>4.113</version>
+<title>JobDoc</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Changed parent to MonitoringData following the rename of that page</comment>
+<comment></comment>
 <minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
@@ -93,10 +93,248 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Lib.MenuGenerator</name>
+<name>WiperDog.JobDoc</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
-<guid>22d47077-abde-480e-893b-1c77d94fe25a</guid>
+<guid>7ccc0883-52b0-4fe2-90f0-d6c8a8009548</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>var jobName
+
+require(['jquery'],function($){
+                
+                var param = 'dbjobdoc'
+                var servlet = ''
+                $.ajax({
+                type: "GET",
+                url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+param,
+                success : function(result){
+                        processData(result)
+
+                },
+                error: function(xhr,status,error){
+                }
+               });
+
+		function drawMenu(domainURL,result){
+                        var ul_open_r = false
+                        var ul_open_c = false
+                        var ul_open_j = false
+
+			var strMenu = "&lt;div id='nav'&gt;&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt;"
+			for(database in result){	
+				 if(!ul_open_r){
+					 strMenu += "&lt;ul id='treemenu2' class='treeview'&gt;"
+					 ul_open_r = true
+				 }
+				 strMenu += "&lt;li&gt;" + database
+				 for(group in result[database]){
+					 if(!ul_open_c){
+						 strMenu += "&lt;ul&gt;"
+						 ul_open_c = true
+					 }
+					 strMenu +=  "&lt;li&gt;" + group
+					 for( var i = 0; i &lt; result[database][group].length; i++){
+						 if(!ul_open_j){
+							 strMenu += "&lt;ul&gt;"
+							 ul_open_j = true
+						 }
+						 strMenu += "&lt;li&gt;&lt;a&gt;" + result[database][group][i] +"&lt;/a&gt;&lt;/li&gt;"
+					 }
+					 if(ul_open_j){
+						 strMenu += "&lt;/ul&gt;"
+						 strMenu += "&lt;/li&gt;"	
+						 ul_open_j = false
+					 }else{
+					 	 strMenu += "&lt;/li&gt;"
+					 }		 
+				 }
+				 if(ul_open_c){
+					 strMenu += "&lt;/ul&gt;"
+					 strMenu += "&lt;/li&gt;"						 
+					 ul_open_c = false
+				 } else {
+				 strMenu += "&lt;/li&gt;"
+				 }
+			 }
+			 if(ul_open_r){
+				 strMenu += "&lt;/ul&gt;"
+				 ul_open_r = false
+ 			}
+                        
+			strMenu += "&lt;/div&gt;"
+			$("#menu").html(strMenu)
+                        ddtreemenu.createTree("treemenu2", true, 5)
+
+		        $("#treemenu2 a").click(function(){
+			         jobName = $(this).text()
+                                 $("#intro").css('display','none')
+				 ajax_post_data(domainURL,function(result){});
+		        });
+                        
+		}
+
+                function setDataForTextArea(result){
+                        var sourceHtml = ""
+                        sourceHtml += "&lt;h5&gt;&lt;b&gt;" + result.jobName + "&lt;/b&gt;&lt;/h5&gt;"
+                        // Description
+                        sourceHtml += "&lt;h6&gt;&lt;b&gt;Description&lt;/b&gt;&lt;/h6&gt;" + "&lt;h6&gt;" + result.description + "&lt;/h6&gt;" 
+                        $("#result").html(sourceHtml)
+                        // Target version
+                        sourceHtml += "&lt;h6&gt;&lt;b&gt;Target Version&lt;/b&gt;&lt;/h6&gt;" + "&lt;h6&gt;" + result.targetVersion + "&lt;/h6&gt;" 
+                        $("#result").html(sourceHtml)
+                        // Param
+                        sourceHtml += "&lt;h6&gt;&lt;b&gt;Param&lt;/b&gt;&lt;/h6&gt;"
+                        for (key in result.param) {
+                                sourceHtml += "&lt;h6&gt;&lt;i&gt;" + key + ":&lt;/i&gt; " + result.param[key] + "&lt;/h6&gt;" 
+                        }
+                        $("#result").html(sourceHtml)
+                        // Return
+                        sourceHtml += "&lt;h6&gt;&lt;b&gt;Return&lt;/b&gt;&lt;/h6&gt;" + "&lt;h6&gt;" + result.return + "&lt;/h6&gt;" 
+                        $("#result").html(sourceHtml)
+                        // Return Param
+                        sourceHtml += "&lt;h6&gt;&lt;b&gt;Return Param&lt;/b&gt;&lt;/h6&gt;"
+                        for (key in result.returnParams) {
+                                sourceHtml += "&lt;h6&gt;&lt;i&gt;" + key + ":&lt;/i&gt; " + result.returnParams[key] + "&lt;/h6&gt;"
+                        } 
+                        $("#result").html(sourceHtml)
+                }
+
+		function ajax_get_data(domainURL,callback){
+			$.ajax({
+				type: "GET",
+				crossDomain: true,
+				url: domainURL,
+				dataType: 'json',
+				success : function(result){
+					drawMenu(domainURL,result)
+					callback(result)
+
+				},
+				error : function(xhr,status,error){
+                                       $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+				}
+
+			});
+		}
+
+		function ajax_post_data(domainURL,callback){
+                        var jobNameMap = {}
+                        jobNameMap['job'] =  jobName
+                        
+			$.ajax({
+				type: "POST",
+				crossDomain: true,
+				url: domainURL,
+				dataType: 'json',
+                                data: JSON.stringify(jobNameMap),
+				success : function(result){
+					console.log(result)
+					setDataForTextArea(result)
+					callback(result)
+
+				},
+				error : function(xhr,status,error){
+                                       $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+				}
+
+			});
+		}
+                function processData(domainURL){
+                    ajax_get_data(domainURL,function(result){});
+                }
+
+jQuery.noConflict();
+});</code>
+</property>
+<property>
+<name>jobDocData-js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.JobDoc</name>
+<number>1</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>c15b4d89-3381-4cbf-b189-9d4b9767e75e</guid>
 <property>
 <cache>default</cache>
 </property>
@@ -247,96 +485,6 @@ target.attachEvent(tasktype, functionref)
 </object>
 <object>
 <class>
-<name>XWiki.JavaScriptExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>Lib.MenuGenerator</name>
-<number>1</number>
-<className>XWiki.JavaScriptExtension</className>
-<guid>8ea5c46d-1647-4958-8d98-6cf380267004</guid>
-<property>
-<cache>default</cache>
-</property>
-<property>
-<code>ddtreemenu.createTree("treemenu2", true, 5)
-</code></property><property><name>creatTreeMenu-js</name>
-</property>
-<property>
-<parse>0</parse>
-</property>
-<property>
-<use>onDemand</use>
-</property>
-</object>
-<object>
-<class>
 <name>XWiki.StyleSheetExtension</name>
 <customClass></customClass>
 <customMapping></customMapping>
@@ -407,10 +555,10 @@ target.attachEvent(tasktype, functionref)
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Lib.MenuGenerator</name>
+<name>WiperDog.JobDoc</name>
 <number>0</number>
 <className>XWiki.StyleSheetExtension</className>
-<guid>9a8cb683-6376-40e5-8bcb-a9e33cc762b3</guid>
+<guid>ae8e5757-cafe-4535-b6e3-d43311ce718d</guid>
 <property>
 <cache>default</cache>
 </property>
@@ -438,15 +586,14 @@ list-style-type: none;
 padding-left: 22px;
 margin-bottom: 3px;
 font-weight:bold
-
 }
 
 .treeview li.submenu{ /* Style for LI that contains sub lists (other ULs). */
 background: white url("/xwiki/resources/SimpleTreeMenu/closed.gif") no-repeat left 1px;
 cursor: hand !important;
 cursor: pointer !important;
-
 }
+
 .treeview .ui-state-disabled {
 background: white url("/xwiki/resources/SimpleTreeMenu/closed.gif") no-repeat left 1px;
 color:#DBD9DA
@@ -463,13 +610,33 @@ font-weight:normal
 }
 #nav{
  float:left;
-width:400px;
+width:40%;
 margin-right:20px;
 }
 #viewer #jobname{
   font-weight:bold;
   color:#0089DC;
   float :left;
+  width:60%;
+}
+
+h6 {
+    margin-left: 20px;
+    color:black;
+    font-family:arial;
+    font-size:14px;
+}
+
+h5 {
+    color:black;
+    font-family:arial;
+    font-size:16px;
+}
+
+#message_add {
+    float: left;
+    color: red;
+    font-size: 1.5em;
 }</code>
 </property>
 <property>
@@ -482,138 +649,34 @@ margin-right:20px;
 <use>currentPage</use>
 </property>
 </object>
-<content>{{include document="Lib.MongoDBConnection"/}}
-{{groovy}}
-@Grab(group='com.gmongo', module='gmongo', version='1.0')
-import com.gmongo.GMongo
-import java.text.SimpleDateFormat
-import org.xwiki.context.*
-
-def ec = services.component.getInstance(Execution.class).getContext()
-
-println '{{html wiki = "true" clean="false"}}'
-//def  dbName = 'wiperdog'
-//def gmongo = new GMongo()
-//db = gmongo.getDB(dbName)
-
-MongoDBConnection.getConnection()
-def root = [
-	"MySQL",
-	"SQL_Server",
-	"Postgres"
-	
-]
-def child = [
-	"Database_Area",
-	"Database_Statistic",
-	"Database_Structure",
-	"FaultManagement",
-	"Performance",
-	"Proactive_Check",
-	"Others"
-]
-
-def check_coll = { coll-&gt;
-	if( coll!="system.indexes" &amp;&amp; (coll.startsWith("MySQL")|| coll.startsWith("SQL_Server")|| coll.startsWith("Postgres"))){
-		return true
-	} else {
-		return false
-	}
-}
-
-def tmp_c = [:]
-child.each{c-&gt;
-	tmp_c[c]=[]
-}
-def tmp_r=[:]
-root.each{r-&gt;
-	tmp_r[r]=[:]
-	child.each{c-&gt;
-		tmp_r[r][c] = []
-	}
-}
-
-
-
-def tmp = new ArrayList&lt;String&gt;();
-def list_coll = []
-def mapJobIstIid = [:]
-MongoDBConnection.db.getCollectionNames().each{
-	tmp = it.split("\\.")
-	if(tmp.size() == 4){
-		tmp += tmp[0] + "." + tmp[1] + "." + tmp[2]
-                if(mapJobIstIid[tmp[4]] == null){
-                   mapJobIstIid[tmp[4]] = [] 
-                }
-                mapJobIstIid[tmp[4]].add(tmp[3])
-		list_coll.add(tmp)
-	}
-	tmp = []
-}
-ec.setProperty("mapJobIstIid", mapJobIstIid)
-
-list_coll.each{
-	if(root.contains(it[0])){
-		if(child.contains(it[1])){
-                        if(!tmp_r[it[0]][it[1]].contains(it[4])){
-			   tmp_r[it[0]][it[1]].add(it[4])
-                        }
-		} else {
-                    if(!tmp_r[it[0]]["Others"].contains(it[4])){
-		        tmp_r[it[0]]["Others"].add(it[4])		
-                    }
-		}
-	} 
-
-}
-def ul_open_r = false
-def ul_open_c = false
-def ul_open_j = false
-println "&lt;div id='nav'&gt;"
-println "&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt; "
-
-
-
- tmp_r.each { r-&gt;	
-	 if(!ul_open_r){
-		 println "&lt;ul id='treemenu2' class='treeview'&gt;"
-		 ul_open_r = true
-	 }
-	 print"&lt;li&gt;"+r.key
-	 
-	 r.value.each{ c-&gt;
-		 if(!ul_open_c){
-			 println "&lt;ul&gt;"
-			 ul_open_c = true
-		 }
-		 println "&lt;li&gt;" + c.key
-		 c.value.each{ j-&gt;
-			 if(!ul_open_j){
-				 println "&lt;ul&gt;"
-				 ul_open_j = true
-			 }
-			 println "&lt;li&gt;&lt;a&gt;" + j +"&lt;/a&gt;&lt;/li&gt;"
-		 }
-		 if(ul_open_j){
-			 println "&lt;/ul&gt;"
-			 println"&lt;/li&gt;"	
-			 ul_open_j = false
-		 }else{
-		 	 println"&lt;/li&gt;"
-		 }		 
-	 }
-	 if(ul_open_c){
-		 println "&lt;/ul&gt;"
-		 println"&lt;/li&gt;"						 
-		 ul_open_c = false
-	 } else {
-	 print "&lt;/li&gt;"
-	 }
- }
- if(ul_open_r){
-	 println "&lt;/ul&gt;"
-	 ul_open_r = false
- } 
-println "&lt;/div&gt;"
-println "{{/html}}"
-{{/groovy}}</content></xwikidoc>
+<content>{{html wiki="true" clean="false"}}
+&lt;div id="menu"&gt;&lt;/div&gt;
+&lt;div id="viewer"&gt;
+&lt;table style="text-align:left;"&gt;
+ &lt;tr&gt;
+  &lt;td colspan=3&gt;
+    &lt;div id="intro" style="color:black"&gt;
+       &lt;h6&gt;&lt;i&gt;About wiperdog system&lt;/i&gt;&lt;/h6&gt;
+             WiperDog will watch your system mildly.
+       &lt;br/&gt;
+       + Is a monitoring framework that collects system resource data
+       is written by Groovy for easy installation and customization.
+       &lt;br/&gt;
+       + Provides a monitoring job easy to describe.
+       &lt;br/&gt;
+       + Enables you to use data store without setting by adopting mongoDB.
+       &lt;br/&gt;
+       + Has monitoring screens you can customize with Wiki.
+       &lt;br/&gt;
+       &lt;h6&gt;&lt;i&gt;About monitoring Jobs&lt;/i&gt;&lt;/h6&gt;
+       + You can see description of current Jobs by choice job in menu.
+       &lt;br/&gt;
+    &lt;/div&gt;
+    &lt;div id="result" &gt;&lt;/div&gt;
+  &lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt; 
+&lt;div id="message"&gt;&lt;span id="message_add"&gt;&lt;span&gt;&lt;/div&gt;
+&lt;/body&gt;
+{{/html}}</content></xwikidoc>
