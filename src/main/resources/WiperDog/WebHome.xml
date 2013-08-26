@@ -11,14 +11,14 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377223171000</creationDate>
-<date>1377502076000</date>
-<contentUpdateDate>1377485260000</contentUpdateDate>
-<version>21.2</version>
+<date>1377515526000</date>
+<contentUpdateDate>1377515515000</contentUpdateDate>
+<version>22.1</version>
 <title>WiperDog Functions</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Added comment</comment>
-<minorEdit>true</minorEdit>
+<comment></comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
 <filename>wp-u.png</filename>
@@ -1310,6 +1310,7 @@ sisAAAAAAGRXAAAAAADIrgAAAACAqvL/BwB+A7367exQBwAAAABJRU5ErkJggg==
 
 
 === Wiperdog Config===
+* [[**Config servlets to connect Wiperdog server**&gt;&gt;WiperdogServletConfig]]
 * [[**Configuration of Database Info**&gt;&gt;DBConfiguration]]
 * [[**Configuration of Job for Database Connection**&gt;&gt;JobDBConnectionConfiguration]]
 
