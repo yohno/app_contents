@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377485232000</creationDate>
-<date>1377509387000</date>
-<contentUpdateDate>1377509387000</contentUpdateDate>
-<version>96.1</version>
+<date>1377679765000</date>
+<contentUpdateDate>1377654444000</contentUpdateDate>
+<version>244.1</version>
 <title>LastAccumulation</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -21,6 +21,50 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
+<filename>antena0.gif</filename>
+<filesize>864</filesize>
+<author>XWiki.Admin</author>
+<date>1377654444000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEAAQAPcAAAAAAP///yMjIwAAAAAAgIAAgACAgMDAwMDcwKbK8AAAADMAAGYAAJkAAMwA
+AP8AAQAzADMzAGYzAJkzAMwzAP8zAABmADNmAGZmAJlmAMxmAP9mAACZADOZAGaZAJmZAMyZAP+Z
+AADMADPMAGbMAJnMAMzMAP/MAAD/ATP/AGb/AJn/AMz/AP//AQAAMzMAM2YAM5kAM8wAM/8AMwAz
+MzMzM2YzM5kzM8wzM/8zMwBmMzNmM2ZmM5lmM8xmM/9mMwCZMzOZM2aZM5mZM8yZM/+ZMwDMMzPM
+M2bMM5nMM8zMM//MMwD/MzP/M2b/M5n/M8z/M///MwAAZjMAZmYAZpkAZswAZv8AZgAzZjMzZmYz
+ZpkzZswzZv8zZgBmZjNmZmZmZplmZsxmZv9mZgCZZjOZZmaZZpmZZsyZZv+ZZgDMZjPMZmbMZpnM
+ZszMZv/MZgD/ZjP/Zmb/Zpn/Zsz/Zv//ZgAAmTMAmWYAmZkAmcwAmf8AmQAzmTMzmWYzmZkzmcwz
+mf8zmQBmmTNmmWZmmZlmmcxmmf9mmQCZmTOZmWaZmZmZmcyZmf+ZmQDMmTPMmWbMmZnMmczMmf/M
+mQD/mTP/mWb/mZn/mcz/mf//mQAAzDMAzGYAzJkAzMwAzP8AzAAzzDMzzGYzzJkzzMwzzP8zzABm
+zDNmzGZmzJlmzMxmzP9mzACZzDOZzGaZzJmZzMyZzP+ZzADMzDPMzGbMzJnMzMzMzP/MzAD/zDP/
+zGb/zJn/zMz/zP//zAAAADMA/2YA/5kA/8wA//8AAQAz/zMz/2Yz/5kz/8wz//8z/wBm/zNm/2Zm
+/5lm/8xm//9m/wCZ/zOZ/2aZ/5mZ/8yZ//+Z/wDM/zPM/2bM/5nM/8zM///M/wD/ATP//2b//5n/
+/8z/////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAP/78KCgpICAgP8AAAD/AP//AAAA//8A/wD//////yH5BAEAAAEALAAAAAAQABAA
+AAg8AAMIHEiwYAABCBMqRFiQ4UEBAh02hMhQosGFEA0SVKjxYsaOGz+CjChypEWTJUGeVJmy40qX
+LTW+FBgQADs7
+</content></attachment><attachment>
+<filename>antena3.gif</filename>
+<filesize>875</filesize>
+<author>XWiki.Admin</author>
+<date>1377654210000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEAAQAPcAAAAAAP///yMjIwAAAAAAgIAAgACAgMDAwMDcwKbK8AAAADMAAGYAAJkAAMwA
+AP8AAQAzADMzAGYzAJkzAMwzAP8zAABmADNmAGZmAJlmAMxmAP9mAACZADOZAGaZAJmZAMyZAP+Z
+AADMADPMAGbMAJnMAMzMAP/MAAD/ATP/AGb/AJn/AMz/AP//AQAAMzMAM2YAM5kAM8wAM/8AMwAz
+MzMzM2YzM5kzM8wzM/8zMwBmMzNmM2ZmM5lmM8xmM/9mMwCZMzOZM2aZM5mZM8yZM/+ZMwDMMzPM
+M2bMM5nMM8zMM//MMwD/MzP/M2b/M5n/M8z/M///MwAAZjMAZmYAZpkAZswAZv8AZgAzZjMzZmYz
+ZpkzZswzZv8zZgBmZjNmZmZmZplmZsxmZv9mZgCZZjOZZmaZZpmZZsyZZv+ZZgDMZjPMZmbMZpnM
+ZszMZv/MZgD/ZjP/Zmb/Zpn/Zsz/Zv//ZgAAmTMAmWYAmZkAmcwAmf8AmQAzmTMzmWYzmZkzmcwz
+mf8zmQBmmTNmmWZmmZlmmcxmmf9mmQCZmTOZmWaZmZmZmcyZmf+ZmQDMmTPMmWbMmZnMmczMmf/M
+mQD/mTP/mWb/mZn/mcz/mf//mQAAzDMAzGYAzJkAzMwAzP8AzAAzzDMzzGYzzJkzzMwzzP8zzABm
+zDNmzGZmzJlmzMxmzP9mzACZzDOZzGaZzJmZzMyZzP+ZzADMzDPMzGbMzJnMzMzMzP/MzAD/zDP/
+zGb/zJn/zMz/zP//zAAAADMA/2YA/5kA/8wA//8AAQAz/zMz/2Yz/5kz/8wz//8z/wBm/zNm/2Zm
+/5lm/8xm//9m/wCZ/zOZ/2aZ/5mZ/8yZ//+Z/wDM/zPM/2bM/5nM/8zM///M/wD/ATP//2b//5n/
+/8z/////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAP/78KCgpICAgP8AAAD/AP//AAAA//8A/wD//////yH5BAEAAAEALAAAAAAQABAA
+AAhHAAMIHEiwYAABCBMqRCiQIcODAhpGlEjR4USKEhUWfJjx4kCOGCt6hEjQ4kaPJkuijAiSpMmW
+L1mOjElSpUuZJ2/W/IjTYkAAOzs=
+</content></attachment><attachment>
 <filename>cross.png</filename>
 <filesize>544</filesize>
 <author>XWiki.Admin</author>
@@ -155,38 +199,29 @@ RU5ErkJggg==
 <property>
 <code>require(['jquery'],function($){
 	$(window).ready(function(){
-		var pjData = $('.jsonData');
-		var paData = [];
-		var poOption = {};
-
-		for(var i=0,len=pjData.length;i&lt;len;i++){
-			paData.push(jQuery.parseJSON(pjData[i].value));
-		}
-		$("#gridList").jqGrid({
-			data: paData,
-			datatype: "local",
-			colNames:['interval(days)', 'CollectionName', 'Update', 'StorageSize(Byte)', 'AccumulationCount'],
-			colModel:[
-				{name:'cumStatus', width:20},
-				{name:'jobName', width:200},
-				{name:'UnixToDate', width:150},
-				{name:'getStorageSize', sorttype:'int', align:"right", width:150},
-				{name:'getCumCount', sorttype:'int', align:"right", width:150}
-			],
-			multiselect: false,
-			caption: 'test'
-		}); 
+		
+//		$('#first_pager, #prev_pager, #next_pager, #last_pager, #gridList_jobName, #gridList_UnixToDate, #gridList_getStorageSize, #gridList_getCumCount').on('click', function(){
+//			viewStatus();
+//		});
+		
+		var pbTimer = false;
+		$(window).bind('resize', function(){
+			if (pbTimer !== false) {
+     			clearTimeout(pbTimer);
+    		}
+			pbTimer = setTimeout(function() {
+				$("#gbox_gridList").remove();
+				$('#container').after('&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;');
+				var pnResizeWidth = $('#xwikicontent').width() - 20;
+				createLqgred(pnResizeWidth);
+			}, 200);
+		});
 
 		$('#createChart').bind('click', function(){
-			var pjData = $('.jsonData');
-			var paData = [];
+			var paData = getJsonData();
 			var poOption = {};
 			var pnCount = $('option:selected', '#viewLimit').val();
 			var psChartType = $('option:selected', '#chartType').val();
-			
-			for(var i=0,len=pjData.length;i&lt;len;i++){
-				paData.push(jQuery.parseJSON(pjData[i].value));
-			}
 
 			paData.sort(function(a,b){
 				var a = a.getStorageSize;
@@ -195,9 +230,8 @@ RU5ErkJggg==
 				if(a &gt; b) return -1;
 				return 0;
 			});
-
 			var paSeries = [];
-			if(psChartType === 'column'){
+			if(psChartType === 'bar'){
 				var paCategory = [];
 				for(var i=0, len=pnCount;i&lt;len;i++){
 					paSeries.push(paData[i]['getStorageSize']);
@@ -205,7 +239,7 @@ RU5ErkJggg==
 				}
 				poOption = {
 					chart : {
-						type:'column'
+						type:'bar'
 					},
 					title : {
 						text:'StorageSize Top' + pnCount
@@ -214,10 +248,6 @@ RU5ErkJggg==
 						categories: paCategory,
 						title: {
 							text: "CollectionName"
-						},
-						labels: {
-							rotation: -30,
-							align: 'right'
 						}
 					},
 					yAxis : {
@@ -247,16 +277,73 @@ RU5ErkJggg==
 					}
 				}
 			}
-			
 			paSeries = [{name:'size', data:paSeries}]
 			poOption['series'] = paSeries;
 			
 			$('#chartArea').highcharts(poOption)
 		});
-$('#deleteChart').bind('click', function(){
-$('#chartArea').html('');
-});
+		
+		$('#deleteChart').bind('click', function(){
+			$('#chartArea').html('');
+		});
+		init();
 	});
+
+	function init(){
+		var pnXwikiContentsWidth = $('#xwikicontent').width() - 20;
+		createLqgred(pnXwikiContentsWidth);
+	}
+	
+	function getJsonData(){
+		var pjData = $('.jsonData');
+		var paData = [];
+
+		for(var i=0,len=pjData.length;i&lt;len;i++){
+			paData.push(jQuery.parseJSON(pjData[i].value));
+		}
+		return paData
+	}
+
+	function createLqgred(psWidth){
+		
+		var paData = getJsonData();
+		var poGridOption = {
+			data: paData,
+			height : 'auto',
+			width : psWidth,
+			rowNum : 10, 
+			datatype: 'local',
+			colNames:['', 'CollectionName', 'Update', 'StorageSize(Byte)', 'AccumulationCount'],
+			colModel:[
+				{name:'cumStatus', sortable:false, width:20},
+				{name:'jobName', width:250},
+				{name:'UnixToDate', width:150},
+				{name:'getStorageSize', sorttype:'int', align:"right", width:150},
+				{name:'getCumCount', sorttype:'int', align:"right", width:150}
+			],
+			multiselect: false,
+			caption: 'Infomation',
+			pager : 'pager'
+		}
+		$("#gridList").jqGrid(poGridOption);
+		$('#first_pager, #prev_pager, #next_pager, #last_pager, #gridList_jobName, #gridList_UnixToDate, #gridList_getStorageSize, #gridList_getCumCount').bind('click', function(){
+			viewStatus();
+		});
+		viewStatus();
+	}
+	
+	function viewStatus(){
+		var pjTds = $('tr &gt; td:contains(\'severity\')', '#gbox_gridList');
+		for(var i=0;i&lt;pjTds.length;i++){
+			if($(pjTds[i]).attr('title') === 'severity0'){
+				$(pjTds[i]).text('')
+					.addClass('severity0');
+			}else{
+				$(pjTds[i]).text('')
+					.addClass('severity1');
+			}
+		}
+	}
 jQuery.noConflict()
 });</code>
 </property>
@@ -398,30 +485,36 @@ jQuery.noConflict()
 
 	println '&lt;div id="container"&gt;'
 	println '&lt;label for="chartType"&gt;Chart Type: &lt;/label&gt;'
-	println '&lt;select id="chartType"&gt;&lt;option&gt;column&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;'
+	println '&lt;select id="chartType"&gt;&lt;option&gt;bar&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;'
 	println '&lt;label for="viewLimit"&gt;View Limit: &lt;/label&gt;'
 	println '&lt;select id="viewLimit"&gt;&lt;option&gt;5&lt;/option&gt;&lt;option&gt;10&lt;/option&gt;&lt;option&gt;20&lt;/option&gt;&lt;/select&gt;'
 	println '&lt;input type="button" id="createChart" value="view" /&gt;'
 	println '&lt;input type="button" id="deleteChart" value="hide" /&gt;'
 	println '&lt;div id="chartArea"&gt;&lt;/div&gt;'
 	println '&lt;/div&gt;'
-	println '&lt;table id="gridList"&gt;&lt;/table&gt;'
+	println '&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;'
 	jobs.each { jobName -&gt;
 		def col = db[jobName]
 		def getStorageSize = col.getStats().size
 		def getCumCount = col.getStats().count
-		def cumStatus = '0'
+//		def cumStatus = '0 days ago'
+		def cumStatus = 'severity0'
 
 		def nowDate = System.currentTimeMillis()
 		col.find().sort(_id:-1).limit(1).each { document -&gt;
 			def unixTime = document['fetchedAt_bin'].toLong()*1000
 			def diffTime = nowDate - unixTime
 			def UnixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
+			if(diffTime &gt;= 86400000){
+				cumStatus = 'severity1'
+			}
 
-			cumStatus = (diffTime / (24 * 3600 * 1000)).toLong()
+		//	cumStatus = (diffTime / (24 * 3600 * 1000)).toLong() + ' days ago'
+		//	cumStatus = new Date(unixTime).format("yyyy-MM-dd")
 
 			def gridData = [:]
 
+			gridData['empty'] = ''
 			gridData['cumStatus'] = cumStatus
 			gridData['jobName'] = jobName
 			gridData['UnixToDate'] = UnixToDate

@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377512284000</creationDate>
-<date>1377513418000</date>
-<contentUpdateDate>1377513418000</contentUpdateDate>
-<version>1.9</version>
+<date>1377686358000</date>
+<contentUpdateDate>1377686358000</contentUpdateDate>
+<version>1.10</version>
 <title>GetServlet</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -28,5 +28,7 @@ if(request.xpage == "plain") {
 }
 def paramObj = new GetServlet()
 def name = request.getParameter('name')
+if(name != null){
 println paramObj.getParam(name)
+}
 {{/groovy}}</content></xwikidoc>

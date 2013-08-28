@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>WiperDog</web>
+<name>LogFileInfo</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>Main.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1377678669000</creationDate>
+<date>1377682281000</date>
+<contentUpdateDate>1377680720000</contentUpdateDate>
+<version>3.8</version>
+<title>LogFileInfo</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>true</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.LogFileInfo</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>48b34faf-0d1a-48b5-acfc-9616483a15d6</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>var logFileName
+
+require(['jquery'],function($){
+
+    // Set width for area content
+    var widthMenu = document.getElementById('xwikicontent').offsetWidth * 0.2
+    var widthContent = document.getElementById('xwikicontent').offsetWidth * 0.7
+    $("#lstLog").css('width', widthMenu)
+    $("#contentLog").css('width', widthContent)
+
+    // Get servlet
+    var param = 'logfileinfo'
+    var servlet = ''
+    $.ajax({
+        type: "GET",
+        url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + param,
+        success : function(result){
+            processData(result)
+        },
+        error: function(xhr,status,error){
+            $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+        }
+    });
+
+    // Draw list log and get anchor text
+    function drawListLog(domainURL,result){
+        // Draw
+        var htmlSource = "&lt;ul&gt;"
+        var lstAID = new Array()
+        for(var i = 0; i &lt; result.length; i ++) {
+            var aID = "logfile" + i
+            lstAID[i] = aID
+            htmlSource += "&lt;li&gt;&lt;a id=\"" + aID + "\"&gt;" + result[i] + "&lt;/a&gt;&lt;/li&gt;"
+        }
+        htmlSource += "&lt;/ul&gt;"
+        $("#lstLog").html(htmlSource)
+
+        // Get anchor text
+         $("#lstLog a").click(function(){
+             logFileName = $(this).text()
+             var aID = $(this).attr('id')
+             for(var e = 0; e &lt; lstAID.length; e ++) {
+                 if(lstAID[e] == aID) {
+                     $("#" + lstAID[e]).css('color', '#1E90FF')
+                 } else {
+                     $("#" + lstAID[e]).css('color', 'black')
+                 }
+             }
+             
+	     ajax_post_data(domainURL,function(result){})
+         });
+    }
+
+    // Set data response to textarea
+    function setDataForTextArea(result){
+        var htmlSource = ""
+        for(var i = 0; i &lt; result.length; i ++) {
+            htmlSource += result[i] + "&lt;br/&gt;"
+        }
+        $("#contentLog").html(htmlSource)
+    }
+
+    // Get list log
+    function processData(domainURL) {
+        ajax_get_data(domainURL,function(result){});
+    }
+
+    function ajax_get_data(domainURL,callback){
+	$.ajax({
+	    type: "GET",
+	    crossDomain: true,
+	    url: domainURL,
+	    dataType: 'json',
+	    success : function(result){
+	        drawListLog(domainURL,result)
+	        callback(result)
+	    },
+	    error : function(xhr,status,error){
+                $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+	    }
+    	});
+    }
+
+    // Get content of log
+    function ajax_post_data(domainURL,callback){
+        var logNameMap = {}
+        logNameMap['log'] = logFileName
+        $.ajax({
+	    type: "POST",
+	    crossDomain: true,
+	    url: domainURL,
+	    dataType: 'json',
+            data: JSON.stringify(logNameMap),
+	    success : function(result){
+	        setDataForTextArea(result)
+	        callback(result)
+            },
+	    error : function(xhr,status,error){
+                $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+	    }
+        });
+    }
+
+jQuery.noConflict();
+});</code>
+</property>
+<property>
+<name>LogFileInfo-js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.LogFileInfo</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>35f946f8-d38a-42c1-b76d-b10588cef7f0</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>b {
+    font-size: 1.3em;
+}
+
+ul li {
+    font-size: 1.3em;
+}
+
+#lstLog {
+    height: 500px;
+}
+
+#lstLog a:hover {
+    text-decoration: none;
+    font-size: 110%;
+}
+
+#contentLog {
+    overflow: scroll;
+    height: 500px;
+}</code>
+</property>
+<property>
+<name>LogFileInfo-css</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<content>{{html wiki="true" clean="false"}}
+&lt;div id="container"&gt;
+&lt;table style="text-align:left;"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;
+            &lt;b&gt;LIST LOG FILES&lt;/b&gt;
+        &lt;/th&gt;
+        &lt;th&gt;
+            &lt;b&gt;CONTENT OF LOG FILES&lt;/b&gt;
+        &lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            &lt;div id="lstLog"&gt;&lt;/div&gt;
+        &lt;/td&gt;
+        &lt;td&gt;
+            &lt;div id="contentLog"&gt;&lt;/div&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+{{/html}}</content></xwikidoc>

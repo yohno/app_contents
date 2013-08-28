@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.XWikiGuest</contentAuthor>
 <creationDate>1376621434000</creationDate>
-<date>1377512321000</date>
+<date>1377685582000</date>
 <contentUpdateDate>1377225738000</contentUpdateDate>
-<version>4.53</version>
+<version>4.56</version>
 <title></title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -692,6 +692,7 @@ if (typeof JSON !== 'object') {
                 type: "GET",
                 url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+param ,
                 success : function(result){
+
                         processData(result)
 
                 },
@@ -1024,35 +1025,12 @@ if (typeof JSON !== 'object') {
 
 					$("#table_display").append(tr_node)
 				      }
-					$(".delete_btn").each(function(){
-                                                $(this).unbind("click")
-						$(this).click(function(){
-							var conf_del = confirm("Are you sure ?")
-							if(conf_del){
-								var row = deleteRow(this)
-								var key_remove = row.cells[0].innerText
-								delete result[key_remove]
-                                                                
-							}
-						})
-					})
-                                    var row_edit = null
-			            $(".edit_btn").each(function(){
-				           $(this).click(function(){
-				           row_edit = editRow(this,result)
-                                           $("#dbtype").prop('disabled','disabled').addClass('readonly')
-                                           $("#hostID").prop('readonly','readonly').addClass('readonly')
-                                           $("#sid").prop('readonly','readonly').addClass('readonly')                                      
-                                           $("#hostName").focus()	           
-
-			         	})
-			           })
 					result[key] = map_db_info_inner
 				}
 			});
 
-			$(".delete_btn").each(function(){
-				$(this).click(function(){
+
+				$(document).on("click",".delete_btn",function(){
 					var conf_del = confirm("Are you sure ?")
 					if(conf_del){
 						var row = deleteRow(this)
@@ -1061,17 +1039,19 @@ if (typeof JSON !== 'object') {
                                                 
 					}
 				})
-			})
 
-			            $(".edit_btn").each(function(){
-				           $(this).click(function(){
+				     $(document).on("click",".edit_btn",function(){
 				           editRow(this,result)	
                                            $("#dbtype").prop('disabled','disabled').addClass('readonly')
                                            $("#hostID").prop('readonly','readonly').addClass('readonly')
+                                           $("#setHostIdAs").prop('disabled','disabled').addClass('readonly')
+                                           $("#setSidAs").prop('disabled','disabled').addClass('readonly')
                                            $("#sid").prop('readonly','readonly').addClass('readonly')                                      
+                                           $(".readonly").css('background','#636B75')
+                                           $(".readonly").css('color','white')                                   
+
                                            $("#hostName").focus()	           
 			         	})
-			           })
  
 
 			$("#create_db_info").click(function(){

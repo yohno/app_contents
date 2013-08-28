@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376566693000</creationDate>
-<date>1377512388000</date>
+<date>1377680086000</date>
 <contentUpdateDate>1376646643000</contentUpdateDate>
-<version>4.14</version>
+<version>4.17</version>
 <title>JobDBConnectionConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -176,7 +176,7 @@ require(['jquery'],function($){
                        }
                  },
                  error : function(xhr,status,error){
-                       alert("There is an error! Wiperdog agent is on yet?")
+                       alert("There is an error! Wiperdog agent is on yettttttttttttt?")
                        console.log(status)
                        console.log(error)
                        console.log(xhr)

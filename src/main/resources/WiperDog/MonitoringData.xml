@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377223088000</creationDate>
-<date>1377223552000</date>
-<contentUpdateDate>1377167353000</contentUpdateDate>
-<version>84.46</version>
+<date>1377576338000</date>
+<contentUpdateDate>1377576221000</contentUpdateDate>
+<version>84.108</version>
 <title>WiperDog</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -2350,6 +2350,7 @@ function getParameterByName(name) {
   $("#jobname").ready(function(){
    $("#jobname").text(jobName)
    var convertedJobName = replaceAllString(jobName, ".", "_")
+   convertedJobName = replaceAllString(convertedJobName, "@", "_")
    $("#IstIid" + convertedJobName).ready(function(){
      $("#IstIid" + convertedJobName).css("display","block")
      $("#select_" + convertedJobName).ready(function(){
@@ -2374,6 +2375,7 @@ function getParameterByName(name) {
  // Get data with ajax
  function ajax_getData(jobName,fromDate,toDate,limit ){
        var convertedJobName = replaceAllString(jobName, ".", "_")
+       convertedJobName = replaceAllString(convertedJobName, "@", "_")
        var istIid = $("#select_" + convertedJobName).val()
        window.location="/xwiki/bin/view/WiperDog/MonitoringData?job="+jobName+"&amp;limit="+limit+"&amp;fromDate="+fromDate+"&amp;toDate="+toDate+"&amp;IstIid="+istIid;
 
@@ -2385,6 +2387,7 @@ function getParameterByName(name) {
 		 jobName= $(this).text()
                  $("#jobname").html(jobName)
                  var convertedJobName = replaceAllString(jobName, ".", "_")
+                 convertedJobName = replaceAllString(convertedJobName, "@", "_")
                  $("#listIstIid &gt; div").css("display","none")
                  $("#IstIid" + convertedJobName).css("display","block")
 		 //ajax_getData(jobName,fromDate,toDate,limit )
@@ -3265,6 +3268,7 @@ println '&lt;th&gt;IstIid&lt;/th&gt;'
 println '&lt;td colspan=3&gt;'
 mapJobIstIid.each{jobEntry-&gt;
   def convertedJobKey = jobEntry.key.replaceAll("\\.","_")
+  convertedJobKey = convertedJobKey.replaceAll("\\@","_")
   println "&lt;div id='listIstIid'&gt;"
   println "&lt;div id=IstIid${convertedJobKey} style='display:none'&gt;"
   println "&lt;select id=select_${convertedJobKey}&gt;"
