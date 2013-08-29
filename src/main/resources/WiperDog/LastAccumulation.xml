@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377485232000</creationDate>
-<date>1377679765000</date>
-<contentUpdateDate>1377654444000</contentUpdateDate>
-<version>244.1</version>
+<date>1377741640000</date>
+<contentUpdateDate>1377738581000</contentUpdateDate>
+<version>257.1</version>
 <title>LastAccumulation</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -42,6 +42,50 @@ zGb/zJn/zMz/zP//zAAAADMA/2YA/5kA/8wA//8AAQAz/zMz/2Yz/5kz/8wz//8z/wBm/zNm/2Zm
 AAAAAAAAAAAAAP/78KCgpICAgP8AAAD/AP//AAAA//8A/wD//////yH5BAEAAAEALAAAAAAQABAA
 AAg8AAMIHEiwYAABCBMqRFiQ4UEBAh02hMhQosGFEA0SVKjxYsaOGz+CjChypEWTJUGeVJmy40qX
 LTW+FBgQADs7
+</content></attachment><attachment>
+<filename>antena1.gif</filename>
+<filesize>866</filesize>
+<author>XWiki.Admin</author>
+<date>1377738566000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEAAQAPcAAAAAAP///yMjIwAAAAAAgIAAgACAgMDAwMDcwKbK8AAAADMAAGYAAJkAAMwA
+AP8AAQAzADMzAGYzAJkzAMwzAP8zAABmADNmAGZmAJlmAMxmAP9mAACZADOZAGaZAJmZAMyZAP+Z
+AADMADPMAGbMAJnMAMzMAP/MAAD/ATP/AGb/AJn/AMz/AP//AQAAMzMAM2YAM5kAM8wAM/8AMwAz
+MzMzM2YzM5kzM8wzM/8zMwBmMzNmM2ZmM5lmM8xmM/9mMwCZMzOZM2aZM5mZM8yZM/+ZMwDMMzPM
+M2bMM5nMM8zMM//MMwD/MzP/M2b/M5n/M8z/M///MwAAZjMAZmYAZpkAZswAZv8AZgAzZjMzZmYz
+ZpkzZswzZv8zZgBmZjNmZmZmZplmZsxmZv9mZgCZZjOZZmaZZpmZZsyZZv+ZZgDMZjPMZmbMZpnM
+ZszMZv/MZgD/ZjP/Zmb/Zpn/Zsz/Zv//ZgAAmTMAmWYAmZkAmcwAmf8AmQAzmTMzmWYzmZkzmcwz
+mf8zmQBmmTNmmWZmmZlmmcxmmf9mmQCZmTOZmWaZmZmZmcyZmf+ZmQDMmTPMmWbMmZnMmczMmf/M
+mQD/mTP/mWb/mZn/mcz/mf//mQAAzDMAzGYAzJkAzMwAzP8AzAAzzDMzzGYzzJkzzMwzzP8zzABm
+zDNmzGZmzJlmzMxmzP9mzACZzDOZzGaZzJmZzMyZzP+ZzADMzDPMzGbMzJnMzMzMzP/MzAD/zDP/
+zGb/zJn/zMz/zP//zAAAADMA/2YA/5kA/8wA//8AAQAz/zMz/2Yz/5kz/8wz//8z/wBm/zNm/2Zm
+/5lm/8xm//9m/wCZ/zOZ/2aZ/5mZ/8yZ//+Z/wDM/zPM/2bM/5nM/8zM///M/wD/ATP//2b//5n/
+/8z/////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAP/78KCgpICAgP8AAAD/AP//AAAA//8A/wD//////yH5BAEAAAEALAAAAAAQABAA
+AAg+AAMIHEiwYAABCBMqRFiQ4UEBAh02hMhQosGFEA0SVKjxYsaOGz+CjChypEWTFEt6fDiS5cmV
+LyeyRDmTYEAAOzs=
+</content></attachment><attachment>
+<filename>antena2.gif</filename>
+<filesize>872</filesize>
+<author>XWiki.Admin</author>
+<date>1377738581000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEAAQAPcAAAAAAP///yMjIwAAAAAAgIAAgACAgMDAwMDcwKbK8AAAADMAAGYAAJkAAMwA
+AP8AAQAzADMzAGYzAJkzAMwzAP8zAABmADNmAGZmAJlmAMxmAP9mAACZADOZAGaZAJmZAMyZAP+Z
+AADMADPMAGbMAJnMAMzMAP/MAAD/ATP/AGb/AJn/AMz/AP//AQAAMzMAM2YAM5kAM8wAM/8AMwAz
+MzMzM2YzM5kzM8wzM/8zMwBmMzNmM2ZmM5lmM8xmM/9mMwCZMzOZM2aZM5mZM8yZM/+ZMwDMMzPM
+M2bMM5nMM8zMM//MMwD/MzP/M2b/M5n/M8z/M///MwAAZjMAZmYAZpkAZswAZv8AZgAzZjMzZmYz
+ZpkzZswzZv8zZgBmZjNmZmZmZplmZsxmZv9mZgCZZjOZZmaZZpmZZsyZZv+ZZgDMZjPMZmbMZpnM
+ZszMZv/MZgD/ZjP/Zmb/Zpn/Zsz/Zv//ZgAAmTMAmWYAmZkAmcwAmf8AmQAzmTMzmWYzmZkzmcwz
+mf8zmQBmmTNmmWZmmZlmmcxmmf9mmQCZmTOZmWaZmZmZmcyZmf+ZmQDMmTPMmWbMmZnMmczMmf/M
+mQD/mTP/mWb/mZn/mcz/mf//mQAAzDMAzGYAzJkAzMwAzP8AzAAzzDMzzGYzzJkzzMwzzP8zzABm
+zDNmzGZmzJlmzMxmzP9mzACZzDOZzGaZzJmZzMyZzP+ZzADMzDPMzGbMzJnMzMzMzP/MzAD/zDP/
+zGb/zJn/zMz/zP//zAAAADMA/2YA/5kA/8wA//8AAQAz/zMz/2Yz/5kz/8wz//8z/wBm/zNm/2Zm
+/5lm/8xm//9m/wCZ/zOZ/2aZ/5mZ/8yZ//+Z/wDM/zPM/2bM/5nM/8zM///M/wD/ATP//2b//5n/
+/8z/////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAP/78KCgpICAgP8AAAD/AP//AAAA//8A/wD//////yH5BAEAAAEALAAAAAAQABAA
+AAhEAAMIHEiwYAABCBMqRFiQ4UEBAh02hMhQosGFEA0SVKjxYsaIHyduDDmypEaLFktWJDlw5cOO
+LlO2pEgTZk2ZIF9KDAgAOzs=
 </content></attachment><attachment>
 <filename>antena3.gif</filename>
 <filesize>875</filesize>
@@ -200,10 +244,6 @@ RU5ErkJggg==
 <code>require(['jquery'],function($){
 	$(window).ready(function(){
 		
-//		$('#first_pager, #prev_pager, #next_pager, #last_pager, #gridList_jobName, #gridList_UnixToDate, #gridList_getStorageSize, #gridList_getCumCount').on('click', function(){
-//			viewStatus();
-//		});
-		
 		var pbTimer = false;
 		$(window).bind('resize', function(){
 			if (pbTimer !== false) {
@@ -307,6 +347,13 @@ RU5ErkJggg==
 	function createLqgred(psWidth){
 		
 		var paData = getJsonData();
+		paData.sort(function(a,b){
+			var a = a.getStorageSize;
+			var b = b.getStorageSize;
+			if(a &lt; b) return 1;
+			if(a &gt; b) return -1;
+			return 0;
+		});
 		var poGridOption = {
 			data: paData,
 			height : 'auto',
@@ -315,7 +362,7 @@ RU5ErkJggg==
 			datatype: 'local',
 			colNames:['', 'CollectionName', 'Update', 'StorageSize(Byte)', 'AccumulationCount'],
 			colModel:[
-				{name:'cumStatus', sortable:false, width:20},
+				{name:'cumStatus', width:20},
 				{name:'jobName', width:250},
 				{name:'UnixToDate', width:150},
 				{name:'getStorageSize', sorttype:'int', align:"right", width:150},
@@ -326,21 +373,22 @@ RU5ErkJggg==
 			pager : 'pager'
 		}
 		$("#gridList").jqGrid(poGridOption);
-		$('#first_pager, #prev_pager, #next_pager, #last_pager, #gridList_jobName, #gridList_UnixToDate, #gridList_getStorageSize, #gridList_getCumCount').bind('click', function(){
+		$('#first_pager, #prev_pager, #next_pager, #last_pager, #gridList_cumStatus, #gridList_jobName, #gridList_UnixToDate, #gridList_getStorageSize, #gridList_getCumCount').bind('click', function(){
 			viewStatus();
 		});
 		viewStatus();
 	}
 	
 	function viewStatus(){
-		var pjTds = $('tr &gt; td:contains(\'severity\')', '#gbox_gridList');
-		for(var i=0;i&lt;pjTds.length;i++){
-			if($(pjTds[i]).attr('title') === 'severity0'){
-				$(pjTds[i]).text('')
-					.addClass('severity0');
-			}else{
-				$(pjTds[i]).text('')
-					.addClass('severity1');
+		var pjTds = $('tr &gt; td:contains(\'antena\')', '#gbox_gridList');
+		var paClassTexts = ['antena0', 'antena1', 'antena2', 'antena3'];
+		for(var i=0, len=pjTds.length;i&lt;len;i++){
+			var psTdTitle = $(pjTds[i]).attr('title');
+			for(var j=0,lenJ=paClassTexts.length;j&lt;lenJ;j++){
+				if(psTdTitle === paClassTexts[j]){
+					$(pjTds[i]).text('')
+					.addClass(paClassTexts[j]);
+				}
 			}
 		}
 	}
@@ -437,14 +485,26 @@ jQuery.noConflict()
 <cache>default</cache>
 </property>
 <property>
-<code>.severity0{
-	background-image : url($doc.getAttachmentURL("tick.png"));
+<code>.antena0{
+	background-image : url($doc.getAttachmentURL("antena0.gif"));
 	background-repeat : no-repeat;
 	background-position : center;
 	width : 16px;
 }
-.severity1{
-	background-image : url($doc.getAttachmentURL("exclamation.png"));
+.antena1{
+	background-image : url($doc.getAttachmentURL("antena1.gif"));
+	background-repeat : no-repeat;
+	background-position : center;
+	width : 16px;
+}
+.antena2{
+	background-image : url($doc.getAttachmentURL("antena2.gif"));
+	background-repeat : no-repeat;
+	background-position : center;
+	width : 16px;
+}
+.antena3{
+	background-image : url($doc.getAttachmentURL("antena3.gif"));
 	background-repeat : no-repeat;
 	background-position : center;
 	width : 16px;
@@ -497,24 +557,25 @@ jQuery.noConflict()
 		def col = db[jobName]
 		def getStorageSize = col.getStats().size
 		def getCumCount = col.getStats().count
-//		def cumStatus = '0 days ago'
-		def cumStatus = 'severity0'
+		def cumStatus = 'antena3'
 
 		def nowDate = System.currentTimeMillis()
 		col.find().sort(_id:-1).limit(1).each { document -&gt;
 			def unixTime = document['fetchedAt_bin'].toLong()*1000
 			def diffTime = nowDate - unixTime
 			def UnixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
-			if(diffTime &gt;= 86400000){
-				cumStatus = 'severity1'
+			if(diffTime &gt;= 28800000){
+				cumStatus = 'antena2'
 			}
-
-		//	cumStatus = (diffTime / (24 * 3600 * 1000)).toLong() + ' days ago'
-		//	cumStatus = new Date(unixTime).format("yyyy-MM-dd")
+			if(diffTime &gt;= 57600000){
+				cumStatus = 'antena1'
+			}
+			if(diffTime &gt;= 86400000){
+				cumStatus = 'antena0'
+			}
 
 			def gridData = [:]
 
-			gridData['empty'] = ''
 			gridData['cumStatus'] = cumStatus
 			gridData['jobName'] = jobName
 			gridData['UnixToDate'] = UnixToDate

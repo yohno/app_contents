@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377510180000</creationDate>
-<date>1377686308000</date>
-<contentUpdateDate>1377686308000</contentUpdateDate>
-<version>4.9</version>
+<date>1377741565000</date>
+<contentUpdateDate>1377741565000</contentUpdateDate>
+<version>4.10</version>
 <title>WiperdogServletConfig</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -436,7 +436,8 @@ File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
     defaultParams.each{ key,value -&gt;
 		def paramsKeys = params.keySet()
 		if(!paramsKeys.contains(key)){
-			params[key] = value
+			params[key]['servlet'] = value.servlet
+			params[key]['desc'] = value.desc
 		}
 	}
  }
