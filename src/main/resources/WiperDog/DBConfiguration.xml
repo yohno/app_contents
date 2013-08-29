@@ -9,16 +9,16 @@
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.XWikiGuest</contentAuthor>
+<contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376621434000</creationDate>
-<date>1377685582000</date>
-<contentUpdateDate>1377225738000</contentUpdateDate>
-<version>4.56</version>
+<date>1377697218000</date>
+<contentUpdateDate>1377697218000</contentUpdateDate>
+<version>5.1</version>
 <title></title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment></comment>
-<minorEdit>true</minorEdit>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>

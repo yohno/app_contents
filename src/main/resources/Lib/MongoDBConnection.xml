@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376364375000</creationDate>
-<date>1376367157000</date>
-<contentUpdateDate>1376367157000</contentUpdateDate>
-<version>3.9</version>
+<date>1377706963000</date>
+<contentUpdateDate>1377706963000</contentUpdateDate>
+<version>4.4</version>
 <title>MongoDBConnection</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat
 
 class MongoDBConnection{
  def static final dbName = 'wiperdog'
- def static final host= '153.122.22.111'
+ def static final host= '127.0.0.1'
  def static final port = 27017
  def static db
  def static gmongo
