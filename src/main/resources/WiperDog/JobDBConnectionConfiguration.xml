@@ -7,18 +7,18 @@
 <translation>0</translation>
 <parent>Main.AllDocs</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.leminhquan</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.leminhquan</contentAuthor>
 <creationDate>1376566693000</creationDate>
-<date>1377697219000</date>
-<contentUpdateDate>1377697219000</contentUpdateDate>
-<version>5.1</version>
+<date>1377858210000</date>
+<contentUpdateDate>1377858057000</contentUpdateDate>
+<version>5.9</version>
 <title>JobDBConnectionConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment></comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -165,6 +165,7 @@ require(['jquery'],function($){
           $("#listJob option:gt(0)").remove()
           resetControl()
           if(selectedDBType != null &amp;&amp; selectedDBType != ""){
+             $("#waiting").show()
              $.ajax({
                  type: "GET",
                  crossDomain: true,
@@ -174,9 +175,11 @@ require(['jquery'],function($){
                        for(var i = 0; i&lt;result.length;i++){
                             $("#listJob").append("&lt;option id=" + result[i] + " value=" + result[i] + "&gt;" + result[i] + "&lt;/option&gt;")
                        }
+                       $("#waiting").hide()
                  },
                  error : function(xhr,status,error){
                        alert("There is an error! Wiperdog agent is on yettttttttttttt?")
+                       $("#waiting").hide()
                        console.log(status)
                        console.log(error)
                        console.log(xhr)
@@ -204,7 +207,7 @@ require(['jquery'],function($){
          resetControl()
          if($("#listJob option:selected").val() != ''){
             var jobName = $("#listJob option:selected").val()
-            $("#jobName").text(jobName)
+            $("#waiting").show()
             $.ajax({
                  type: "GET",
                  crossDomain: true,
@@ -212,6 +215,7 @@ require(['jquery'],function($){
                  dataType: 'json',
                  success : function(result){
                        paramsResult = result
+                       $("#jobName").text(paramsResult.jobName)
                        $("#paramContent").text(JSON.stringify(paramsResult.params))
                        var mapInstance = paramsResult.instances
                        if(!(mapInstance instanceof Array)){
@@ -222,12 +226,14 @@ require(['jquery'],function($){
                              $("#instanceParamTable").append("&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + instanceKey + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + strParam + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + strSchedule + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;input type=\"submit\" value=\"delete\" class=\"commonBtn\" id=" + instanceKey + " onClick='deleteInstanceRecord(this)'&gt;&lt;/td&gt;&lt;/tr&gt;")
                           }
                        }
+                       $("#waiting").hide()
                  },
                  error : function(xhr,status,error){
                        alert("There is an error! Wiperdog agent is on yet?")
                        console.log(status)
                        console.log(error)
                        console.log(xhr)
+                       $("#waiting").hide()
                  },
                  "Access-Control-Allow-Origin":domainURL
             });
@@ -713,6 +719,7 @@ println "{{/html}}"
   &lt;/tr&gt;
  &lt;/table&gt;
 &lt;div id="display_err"&gt;
+   &lt;img id="waiting" style="display:none" src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;
    &lt;span id = "message"&gt;&lt;/&gt;
 &lt;/div&gt;
  &lt;div id="button"&gt;&lt;input type="submit" class="commonBtn" id="UpdateConfigBtn" value="Update config" tabindex="11"/&gt;

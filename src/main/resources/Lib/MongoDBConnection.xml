@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376364375000</creationDate>
-<date>1377706963000</date>
-<contentUpdateDate>1377706963000</contentUpdateDate>
-<version>4.4</version>
+<date>1378203589000</date>
+<contentUpdateDate>1378203584000</contentUpdateDate>
+<version>4.8</version>
 <title>MongoDBConnection</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -24,6 +24,7 @@
 <content>{{groovy}}@Grab(group='com.gmongo', module='gmongo', version='1.0')
 import com.gmongo.GMongo
 import java.text.SimpleDateFormat
+import groovy.json.*
 
 class MongoDBConnection{
  def static final dbName = 'wiperdog'
@@ -32,13 +33,37 @@ class MongoDBConnection{
  def static db
  def static gmongo
  def static getConnection(){
-  
   if( gmongo == null &amp;&amp; db == null){
+   Properties props = System.getProperties();
+   def xwiki_dir = props.getProperty('user.dir');
+   def params
+   def decidedHost
+   def decidedPort
+   def decidedDbName
+   File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
+   if(f.exists()){
+	   def shell = new GroovyShell()
+	   params = shell.evaluate(f)
+	   def declaredMongoDB = params['mongoDB']
+	   if(declaredMongoDB != null){
+	   	   	decidedDbName = (declaredMongoDB['dbName'] != null)?declaredMongoDB['dbName'] : dbName
+	   	   	decidedHost = (declaredMongoDB['host'] != null)?declaredMongoDB['host'] : host
+	   	   	decidedPort = (declaredMongoDB['port'] != null)?declaredMongoDB['port'] : port
+	   }else{
+	   	   decidedHost = host
+	   	   decidedPort = port
+	   	   decidedDbName = dbName
+	   }
+   }else{
+           decidedHost = host
+           decidedPort= port 
+           decidedDbName= dbName
+   }
    // Remote connect to host:port
-   gmongo = new GMongo(host, port)
+   gmongo = new GMongo(decidedHost, decidedPort)
    // Local connect
    //def gmongo = new GMongo()
-   db = gmongo.getDB(dbName)
+   db = gmongo.getDB(decidedDbName)
   }
   return gmongo 
  }
