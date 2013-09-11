@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377826823000</creationDate>
-<date>1378464181000</date>
-<contentUpdateDate>1378375832000</contentUpdateDate>
-<version>8.406</version>
+<date>1378898862000</date>
+<contentUpdateDate>1378898780000</contentUpdateDate>
+<version>10.18</version>
 <title>JobConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -110,6 +110,7 @@ var chart = {}
 var jobInstance = {}
 var jobInstanceValue = {}
 var paramInstance = {}
+var fileSaved = false
 
 require(['jquery'], function($) {
 
@@ -160,9 +161,9 @@ require(['jquery'], function($) {
 		$('#instanceNameText').prop('disabled', false);
 		$('#nameInstanceText').prop('disabled', false);
 		$("#statusSend").empty()
-                $('#messageParams').text("")
-                $('#messageInstancesParams').text("")
-                $('#messageListInstances').text("")
+		$('#messageParams').text("")
+		$('#messageInstancesParams').text("")
+		$('#messageListInstances').text("")
 		groupChart = null
 		charts = {}
 		jobParams = {}
@@ -338,21 +339,21 @@ require(['jquery'], function($) {
 			if (valSendType == "Store") { // DATA IS STORE
 				// Root
 				var keyExpr = result.Job.KEYEXPR
-                                var rootStr = ""
-                                
+				var rootStr = ""
+
 				if (keyExpr != null) {
 					if (!(keyExpr instanceof Array)) {
-                                             keyExpr = keyExpr._root
+						keyExpr = keyExpr._root
 					}
-                                        if (keyExpr != null) {
-                                            for (var i = 0; i &lt; keyExpr.length; i++) {
-                                                rootStr += keyExpr[i] + ","
-                                            }
-                                        }
-                                        if (rootStr != "") {
-                                            rootStr = rootStr.substring(0, rootStr.length - 1)
-                                        }
-                                        $("#rootText").val(rootStr)
+					if (keyExpr != null) {
+						for (var i = 0; i &lt; keyExpr.length; i++) {
+							rootStr += keyExpr[i] + ","
+						}
+					}
+					if (rootStr != "") {
+						rootStr = rootStr.substring(0, rootStr.length - 1)
+					}
+					$("#rootText").val(rootStr)
 
 					// Sequence
 					$("#sequenceText").text(result.Job.KEYEXPR._sequence)
@@ -374,23 +375,23 @@ require(['jquery'], function($) {
 							}
 							groupChart = ""
 							var keyForChart = groupChart + "_" + type + "_" + name
-                                                        var inputMaps  = {}
-                                                        if(hintCol == "") {
-                                                                inputMaps = {
-								'group': groupChart,
-								'type': type,
-								'name': name,
-								'chart_columns': chartCol
-							   }
-                                                        } else {
-							  inputMaps = {
-								'group': groupChart,
-								'type': type,
-								'name': name,
-								'chart_columns': chartCol,
-								'hint_columns': hintCol
-							    }
-                                                        }
+							var inputMaps = {}
+							if (hintCol == "") {
+								inputMaps = {
+									'group': groupChart,
+									'type': type,
+									'name': name,
+									'chart_columns': chartCol
+								}
+							} else {
+								inputMaps = {
+									'group': groupChart,
+									'type': type,
+									'name': name,
+									'chart_columns': chartCol,
+									'hint_columns': hintCol
+								}
+							}
 							charts[keyForChart] = inputMaps
 
 							htmlChartSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + type + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + name + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + chartCol + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + hintCol + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
@@ -399,23 +400,23 @@ require(['jquery'], function($) {
 				}
 
 				$("#groupChart").hide();
-			} else if(valSendType == "Subtyped") { // DATA IS SUBTYPED
+			} else if (valSendType == "Subtyped") { // DATA IS SUBTYPED
 				// Sequence
 				var mapSequence = result.Job.KEYEXPR._sequence
 				var resultSeq = ""
-                                if ( mapSequence instanceof Array) {
-                                     for (var i = 0; i &lt; mapSequence.length; i++) {
-                                        resultSeq += mapSequence[i] + ","
-                                     }
-                                     resultSeq = resultSeq.substring(0, resultSeq.length - 1)
-                                } else {
-				     for (var key in mapSequence) {
-                                        if (resultSeq != "") {
-                                                resultSeq += ",\n"
-                                        }
-					resultSeq += key + ": [" + mapSequence[key] + "]"
-				     }
-                                }
+				if (mapSequence instanceof Array) {
+					for (var i = 0; i &lt; mapSequence.length; i++) {
+						resultSeq += mapSequence[i] + ","
+					}
+					resultSeq = resultSeq.substring(0, resultSeq.length - 1)
+				} else {
+					for (var key in mapSequence) {
+						if (resultSeq != "") {
+							resultSeq += ",\n"
+						}
+						resultSeq += key + ": [" + mapSequence[key] + "]"
+					}
+				}
 				$("#sequenceText").text(resultSeq)
 
 				// Chart
@@ -436,22 +437,22 @@ require(['jquery'], function($) {
 						htmlChartSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + key + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + type + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + name + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + chartCol + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + hintCol + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
 						groupChart = key
 						var keyForChart = groupChart + "_" + type + "_" + name
-                                                        if(hintCol == "") {
-                                                                inputMaps = {
+						if (hintCol == "") {
+							inputMaps = {
 								'group': groupChart,
 								'type': type,
 								'name': name,
 								'chart_columns': chartCol
-							   }
-                                                        } else {
-							  inputMaps = {
+							}
+						} else {
+							inputMaps = {
 								'group': groupChart,
 								'type': type,
 								'name': name,
 								'chart_columns': chartCol,
 								'hint_columns': hintCol
-							    }
-                                                        }
+							}
+						}
 						charts[keyForChart] = inputMaps
 
 					}
@@ -467,33 +468,33 @@ require(['jquery'], function($) {
 				$("#unitText").css('min-height', '100px')
 			}
 			var mapUnit = result.Job["KEYEXPR._unit"]
-                        if(mapUnit != null) {
-			    var unitText = ""
-			    for (var key in mapUnit) {
-				unitText += "\n\t" + key + ":" + mapUnit[key] + ","
-			    }
-			    unitText = "{" + unitText.substring(0, unitText.length - 1) + "\n}"
-			    $("#unitText").text(unitText)
-                        }
+			if (mapUnit != null) {
+				var unitText = ""
+				for (var key in mapUnit) {
+					unitText += "\n\t" + key + ":" + mapUnit[key] + ","
+				}
+				unitText = "{" + unitText.substring(0, unitText.length - 1) + "\n}"
+				$("#unitText").text(unitText)
+			}
 
-                        if(valSendType == "Subtyped") {
-			    // Root
-			    var mapKeyexpr = result.Job.KEYEXPR
-			    var resultRoot = ""
-		            for (var key in mapKeyexpr) {
-			    	if (key == "_sequence" || key == "_unit" || key == "_chart") {
-		    	            delete mapKeyexpr[key]
-			        }
-			    }
-			    for (var key in mapKeyexpr) {
-			        resultRoot += key + ":[ " + mapKeyexpr[key] + "],"
-			    }
-			    resultRoot = resultRoot.substring(0, resultRoot.length - 1)
-                            if(resultRoot != null &amp;&amp; resultRoot != "") {
-	                        resultRoot = "[" + resultRoot + "]"
-                            }
-			    $("#rootText").val(resultRoot )
-                        }
+			if (valSendType == "Subtyped") {
+				// Root
+				var mapKeyexpr = result.Job.KEYEXPR
+				var resultRoot = ""
+				for (var key in mapKeyexpr) {
+					if (key == "_sequence" || key == "_unit" || key == "_chart") {
+						delete mapKeyexpr[key]
+					}
+				}
+				for (var key in mapKeyexpr) {
+					resultRoot += key + ":[ " + mapKeyexpr[key] + "],"
+				}
+				resultRoot = resultRoot.substring(0, resultRoot.length - 1)
+				if (resultRoot != null &amp;&amp; resultRoot != "") {
+					resultRoot = "[" + resultRoot + "]"
+				}
+				$("#rootText").val(resultRoot)
+			}
 			// PARAMS
 			var htmlParamsSource = "&lt;tr&gt;&lt;th&gt;&lt;p&gt;name&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;value&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;"
 			var mapParams = result.params
@@ -538,6 +539,12 @@ require(['jquery'], function($) {
 		$("#showHideJobInstance").click(function() {
 			$(".showhideInstance").slideToggle("slow");
 		});
+                // View sample data
+                $('.sample div').each(function(event){
+                       $(this).click(function(){
+                                $(this).parent('.sample').children('textarea').toggle()
+                    })
+                }); 
 
 		$("#listActionJob").change(function() {
 			$("#showHideQueryForm").show();
@@ -912,15 +919,15 @@ require(['jquery'], function($) {
 			} else {
 				$('#messageInstances').text("");
 			}
-                    
-                        if (instanceSchedule != "") { 
-				jobInstanceValue['schedule']= instanceSchedule
-                        } 
-                        if(!$.isEmptyObject(paramInstance)){
-				jobInstanceValue['params'] = paramInstance 
-                                 
-                         } 
-                    
+
+			if (instanceSchedule != "") {
+				jobInstanceValue['schedule'] = instanceSchedule
+			}
+			if (!$.isEmptyObject(paramInstance)) {
+				jobInstanceValue['params'] = paramInstance
+
+			}
+
 			if (checkKeyDupl(instanceName, jobInstance)) {
 				var conf_update = confirm(" Instance existed ! Update it ?")
 				if (conf_update) {
@@ -952,7 +959,7 @@ require(['jquery'], function($) {
 			}
 			jobInstance[instanceName] = jobInstanceValue
 			paramInstance = {}
-                        jobInstanceValue = {}
+			jobInstanceValue = {}
 			$('#instanceNameText').val("");
 			$('#scheduleText').val("");
 			$("#paramInstanceTable").find("tr:gt(0)").remove();
@@ -983,7 +990,7 @@ require(['jquery'], function($) {
 			var paramsObject = $.parseJSON(instanceParamTmp);
 			$("#paramInstanceTable").find("tr:gt(0)").remove();
 			var table = document.getElementById('paramInstanceTable')
-			     for (paramsKey in paramsObject) {
+			for (paramsKey in paramsObject) {
 
 				var inputMaps = {}
 				inputMaps['name'] = paramsKey
@@ -991,7 +998,7 @@ require(['jquery'], function($) {
 				var tr = createTrAppend(inputMaps, 'paramInstanceTable')
 				tr.appendChild(createTdAction())
 				table.appendChild(tr)
-			    }
+			}
 			paramInstance = jobInstance[instaneNameTmp]['params']
 
 		});
@@ -1000,7 +1007,8 @@ require(['jquery'], function($) {
 
 
 	// CLICK SUBMIT TO SEND REQUEST ----------------------------04092013---------------------------
-	$("#updateJobInfo").click(function() {
+
+	function doSend(action) {
 		var finalMapData = {}
 		var jobMap = {}
 		var paramsMap = {}
@@ -1013,7 +1021,7 @@ require(['jquery'], function($) {
 
 		// DB TYPE
 		var dbType
-		if (document.getElementById('dbTypeCbb').value != "") {
+		if ((document.getElementById('dbTypeCbb').value != "") || (jobMap['monitoringType'] != "@DB")) {
 			dbType = document.getElementById('dbTypeCbb').value
 			jobMap['dbType'] = dbType
 		} else {
@@ -1163,25 +1171,25 @@ require(['jquery'], function($) {
 		// KEYEXPR
 		var KEYEXPR = {}
 		var _rootStr = ""
-                var _root
+		var _root
 		if (document.getElementById('rootText').value != "") {
-			_rootStr= standardRoot(document.getElementById('rootText').value)
-                        if(_rootStr.indexOf(":") &gt; -1) {
-                           if (_rootStr.indexOf("[") == 0) {
-			       _rootStr = "{" + _rootStr.substring(1)
-                               _rootStr = _rootStr.substring(0, _rootStr.length - 1) + "}"
-                           } else {
-                                _rootStr = "{" + rootText + "}"
-                           }
-                        }
+			_rootStr = standardRoot(document.getElementById('rootText').value)
+			if (_rootStr.indexOf(":") &gt; -1) {
+				if (_rootStr.indexOf("[") == 0) {
+					_rootStr = "{" + _rootStr.substring(1)
+					_rootStr = _rootStr.substring(0, _rootStr.length - 1) + "}"
+				} else {
+					_rootStr = "{" + rootText + "}"
+				}
+			}
 
-                        try {
-                           _root = $.parseJSON(_rootStr)
-                        } catch(ex) {
-                           checkValid = false
-                           htmlSourceValid += "&lt;p&gt;* \"_root\" must be map or list type.&lt;/p&gt;"
-                        }
-                        KEYEXPR['_root'] = _root
+			try {
+				_root = $.parseJSON(_rootStr)
+			} catch (ex) {
+				checkValid = false
+				htmlSourceValid += "&lt;p&gt;* \"_root\" must be map or list type.&lt;/p&gt;"
+			}
+			KEYEXPR['_root'] = _root
 		}
 
 		var _sequence = ""
@@ -1194,8 +1202,8 @@ require(['jquery'], function($) {
 		if (document.getElementById('unitText').value != "") {
 			_unit = standardRoot(document.getElementById('unitText').value)
 			if (_unit.indexOf(":") != -1) {
-                                _unit = replaceAllString(_unit, "\n", "")
-                                _unit = replaceAllString(_unit, "\t", "")
+				_unit = replaceAllString(_unit, "\n", "")
+				_unit = replaceAllString(_unit, "\t", "")
 				KEYEXPR['_unit'] = _unit
 			} else {
 				htmlSourceValid += "&lt;p&gt;* \"_unit\" must be map type.&lt;/p&gt;"
@@ -1214,18 +1222,24 @@ require(['jquery'], function($) {
 		finalMapData['PARAMS'] = jobParams
 		finalMapData['INSTANCES'] = jobInstance
 		if (checkValid) {
-		    send_ajax_post_data(JobDeclared, function(result) {}, finalMapData)
+			send_ajax_post_data(JobDeclared, function(result) {}, finalMapData,action)
 		} else {
-		    $("#messageValid").html(htmlSourceValid)
+			$("#messageValid").html(htmlSourceValid)
 		}
 		$('html, body').animate({
 			scrollTop: 0
 		}, 'slow');
-	});
 
+	}
+	$("#updateJobInfo").click(function() {
+		doSend('save')
+	});
+	$('#saveAndRunTest').click(function(event) {
+		doSend('saveNRun')
+	});
 	// SEND DATA TO SERVLET
 
-	function send_ajax_post_data(domainURL, callback, data) {
+	function send_ajax_post_data(domainURL, callback, data,action) {
 		$.ajax({
 			type: "POST",
 			crossDomain: true,
@@ -1233,13 +1247,16 @@ require(['jquery'], function($) {
 			dataType: 'json',
 			data: JSON.stringify(data),
 			success: function(result) {
-                                var statusExecute = result.status
-                                var messageExecute = result.message
-                                if(statusExecute == "OK") {
-                                    $("#messageValid").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
-                                } else if(statusExecute == "failed"){
-                                    $("#messageValid").html("&lt;p&gt;Can not create !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
-                                }
+				var statusExecute = result.status
+				var messageExecute = result.message
+				if (statusExecute == "OK") {
+					$("#messageValid").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
+					if(action == 'saveNRun') {
+						window.location = "/xwiki/bin/view/WiperDog/TestJob?jobFileName=" + data.JOB.jobFileName +".job"
+					}
+				} else if (statusExecute == "failed") {
+					$("#messageValid").html("&lt;p&gt;Can not create !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
+				}
 				callback(result)
 			},
 			error: function(xhr, status, error) {
@@ -1293,7 +1310,8 @@ require(['jquery'], function($) {
 	// GET STANDARD ROOT
 
 	function standardRoot(rootText) {
-                rootText = replaceAllString(rootText, "\"", "")
+		rootText = replaceAllString(rootText, "\"", "")
+		rootText = replaceAllString(rootText, "'", "")
 		rootText = replaceAllString(rootText, "{", "\"")
 		rootText = replaceAllString(rootText, "}", "\"\"")
 		rootText = replaceAllString(rootText, "[", "\"")
@@ -1313,13 +1331,13 @@ require(['jquery'], function($) {
 				ouputRoot += ","
 			}
 			ouputRoot = ouputRoot.substring(0, ouputRoot.length - 1)
-                        ouputRoot = replaceAllString(ouputRoot, "\"\"\"\"\"", "\"]]")
-                        ouputRoot = replaceAllString(ouputRoot, "\"\"\"", "\"]")
-                        ouputRoot = replaceAllString(ouputRoot, "\"\"", "[\"")
-                        
-                        if (ouputRoot.indexOf("[") != 0) {
-			     ouputRoot = "[" + ouputRoot + "]"
-                        }
+			ouputRoot = replaceAllString(ouputRoot, "\"\"\"\"\"", "\"]]")
+			ouputRoot = replaceAllString(ouputRoot, "\"\"\"", "\"]")
+			ouputRoot = replaceAllString(ouputRoot, "\"\"", "[\"")
+
+			if (ouputRoot.indexOf("[") != 0) {
+				ouputRoot = "[" + ouputRoot + "]"
+			}
 		}
 		return ouputRoot
 	}
@@ -1513,7 +1531,7 @@ require(['jquery'], function($) {
 }
 
 #formInstances{
-  width:60%;
+  width:75%;
   margin-left:50px;
 }
 
@@ -1670,6 +1688,18 @@ overflow: auto;
 					&lt;th style="width:30px;"&gt;&lt;p&gt;GROUPKEY:&lt;/p&gt;&lt;/th&gt;
 					&lt;td&gt;&lt;input type="text" style="width:50%" id="groupkeyText" tabindex="7"/&gt;&lt;/td&gt;
 				&lt;/tr&gt;
+                                &lt;tr&gt;
+                                    &lt;td&gt;&lt;/td&gt;
+                                    &lt;td&gt;
+                                        &lt;div class='sample'&gt;
+                                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                             &lt;textarea readonly style="display:none; width:50%" rows=4&gt;
+ &amp;#47;&amp;#47;GROUPKEY
+ ["database","table"]   
+&lt;/textarea&gt;                       
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;  
+			        &lt;/tr&gt;
 		&lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/table&gt;
@@ -1696,6 +1726,20 @@ overflow: auto;
 				&lt;th style="width:15%"&gt;&lt;p&gt;QUERY_VARIABLE:&lt;/p&gt;&lt;/th&gt;
 				&lt;th&gt;&lt;textarea id="queryVariableText" style="width:100%" rows=5 cols=10&gt;&lt;/textarea&gt;&lt;/th&gt;
 			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+ &amp;#47;&amp;#47;QUERY
+ select * from user_catalog where rownum &lt;= :rowcnt
+ &amp;#47;&amp;#47;QUERY_VARIABLE
+ [rowcnt: 2]
+&lt;/textarea&gt;                          
+                           &lt;/div&gt;
+                          &lt;/td&gt;  
+			&lt;/tr&gt;
 		&lt;/table&gt;
 		&lt;table id="showHideDbexecForm" style="display:none;" class="classAction"&gt;
 			&lt;tr id="dbexecForm"&gt;
@@ -1705,6 +1749,20 @@ overflow: auto;
 			&lt;tr id="dbexecVariableForm"&gt;
 				&lt;th style="width:15%"&gt;&lt;p&gt;DBEXEC_VARIABLE:&lt;/p&gt;&lt;/th&gt;
 				&lt;th&gt;&lt;textarea id="dbexecVariableText" style="width:100%" rows=5&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+ &amp;#47;&amp;#47;DBEXEC
+ Update table_name set column_name1 = :abc where column_name2 = :def
+ &amp;#47;&amp;#47;DBEXEC_VARIABLE
+ [abc:123, def:"data"]
+&lt;/textarea&gt;                          
+                           &lt;/div&gt;
+                          &lt;/td&gt;  
 			&lt;/tr&gt;
 		&lt;/table&gt;
 		&lt;table id="showHideCommandForm" style="display:none;" class="classAction"&gt;
@@ -1716,14 +1774,41 @@ overflow: auto;
 				&lt;th style="width:15%"&gt;&lt;p&gt;FORMAT:&lt;/p&gt;&lt;/th&gt;
 				&lt;th&gt;&lt;textarea id="formatText" style="width:100%" rows=5&gt;&lt;/textarea&gt;&lt;/th&gt;
 			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+ &amp;#47;&amp;#47;COMMAND
+ ["/bin/sh", "-c", "echo 123  abc  def"]
+ &amp;#47;&amp;#47;FORMAT
+ [ match: /([0-9]+)[ \t]+([^ ]+)[ \t]+(.+)/, 1: "id", 2: "name", 3: "desc" ]
+&lt;/textarea&gt;                          
+                           &lt;/div&gt;
+                          &lt;/td&gt;  
+			&lt;/tr&gt;
 		&lt;/table&gt;
 		&lt;table id="showHideFetchactionForm" style="display:none;" class="classAction"&gt;
 			&lt;tr id="fetchactionForm"&gt;
 				&lt;th style="width:15%"&gt;&lt;p&gt;FETCHACTION:&lt;/p&gt;&lt;/th&gt;
 				&lt;th&gt;&lt;textarea id="fetchactionText" style="width:100%" rows=5&gt;&lt;/textarea&gt;&lt;/th&gt;
 			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+{
+ &amp;#47;&amp;#47;closure code here
+ def data = "abc"
+ return data
+}&lt;/textarea&gt;                          
+                           &lt;/div&gt;
+                          &lt;/td&gt;  
+			&lt;/tr&gt;
 		&lt;/table&gt;
-
 &lt;/div&gt;
 &lt;table style="width:80%"&gt;
 				&lt;tr id="accumulateForm"&gt;
@@ -1734,6 +1819,22 @@ overflow: auto;
 					&lt;th style="width:15%"&gt;&lt;p&gt;FINALLY:&lt;/p&gt;&lt;/th&gt;
 					&lt;th&gt;&lt;textarea id="finallyText" style="width:100%" rows=5&gt;&lt;/textarea&gt;&lt;/th&gt;
 				&lt;/tr&gt;
+                                &lt;tr&gt;
+                                    &lt;td&gt;&lt;/td&gt;
+                                    &lt;td&gt;
+                                        &lt;div class='sample'&gt;
+                                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                             &lt;textarea readonly style="display:none" rows=7&gt;
+{
+ &amp;#47;&amp;#47;closure code here
+ OUTPUT.each { rec -&gt;
+	rec['ReadsCnt'] = rec['ReadsCumCnt']
+	rec['BytesReadsCnt'] = rec['BytesReadCumCnt']
+ }
+}&lt;/textarea&gt;                          
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;  
+			        &lt;/tr&gt;
 &lt;/table&gt;
 &lt;table style="width:80%"&gt;
 				&lt;tr id="sendtypeForm"&gt;
@@ -1753,7 +1854,22 @@ overflow: auto;
 				&lt;/tr&gt;
 				&lt;tr id="destForm" &gt;
 					&lt;th&gt;&lt;p&gt;DEST:&lt;/p&gt;&lt;/th&gt;
-					&lt;td &gt;&lt;input type="text" style="width:50%" id="destText"&gt;&lt;/td&gt;
+					&lt;td &gt;&lt;input type="text" style="width:50%" id="destText"&gt;
+                                        &lt;/td&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;&lt;/td&gt;
+                                              &lt;td&gt;
+                                                 &lt;div class='sample'&gt;
+                                                     &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                                        &lt;textarea readonly style="display:none; width:50%" rows=6&gt;
+ &amp;#47;&amp;#47;DEST
+ parameters.dest
+ &amp;#47;&amp;#47;or
+ &amp;#91;&amp;#91;"file":"stdout"&amp;#93;&amp;#93;
+&lt;/textarea&gt;                       
+                                                    &lt;/div&gt;
+                                             &lt;/td&gt;  
+			                &lt;/tr&gt;
 				&lt;/tr&gt;
 				&lt;tr id="keyexprForm"&gt;
 					&lt;th&gt;&lt;p&gt;KEYEXPR:&lt;/p&gt;&lt;/th&gt;
@@ -1770,7 +1886,29 @@ overflow: auto;
 							&lt;tr id="unitForm"&gt;
 								&lt;th&gt;&lt;p&gt;_unit:&lt;/p&gt;&lt;/th&gt;
 								&lt;td&gt;&lt;textarea style="width:100%" id="unitText"&gt;&lt;/textarea&gt;&lt;/td&gt;
-							&lt;/tr&gt;
+						  	&lt;/tr&gt;
+                                      			&lt;tr&gt;
+                                        		    &lt;td&gt;&lt;/td&gt;
+                                        		      &lt;td&gt;
+                                         		        &lt;div class='sample'&gt;
+                                               		           &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                           		             &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;_root 
+     &amp;#91;"DatabaseName","FileId"&amp;#93;
+     &amp;#47;&amp;#47;or
+     &amp;#91;"M":&amp;#91;"DatabaseNm", "UsedPct"&amp;#93;, "D":&amp;#91;"DatabaseNm"&amp;#93;&amp;#93;
+ &amp;#47;&amp;#47;_sequence
+     &amp;#91;"AverageIOTimeDbl","AverageIOTimeCumDbl"&amp;#93;
+     &amp;#47;&amp;#47;or
+     &amp;#91;"M":&amp;#91;"UsedPct", "UsedSize", "UsedDataSize"&amp;#93;, "D":&amp;#91;"UsedPct", "UsedSize", "UsedDataSize"&amp;#93;&amp;#93;
+ &amp;#47;&amp;#47;_unit
+     &amp;#91;"UsedDataSize" : "byte" , "UsedSize":"byte"&amp;#93;
+     &amp;#47;&amp;#47;or
+     &amp;#91;"M":&amp;#91;"UsedPct", "UsedSize"&amp;#93;, "D":&amp;#91;"UsedSize", "UsedDataSize"&amp;#93;&amp;#93;
+&lt;/textarea&gt;                       
+                                           		        &lt;/div&gt;
+                                         		    &lt;/td&gt;  
+			              		 	&lt;/tr&gt;
 							&lt;table id="chartForm" &gt;
 								&lt;tr&gt;
 									&lt;th colspan=2&gt;&lt;p&gt;_chart:&lt;/p&gt;&lt;/th&gt;
@@ -1813,6 +1951,31 @@ overflow: auto;
 										&lt;div style="text-align:center;padding-top:5px;"&gt;
 											&lt;input type="button" style='width:50px' value="Add" class="button" id="updateChartInfo" tabindex="10"/&gt;
 										&lt;/div&gt;
+                                         		        		&lt;div class='sample'&gt;
+                                               		           		&lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                           		             		&lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;Key of Subtype
+     key_name
+     &amp;#47;&amp;#47;or
+     "key_name"
+ &amp;#47;&amp;#47;Name
+     chart_name
+     &amp;#47;&amp;#47;or
+     "chart_name"
+ &amp;#47;&amp;#47;Chart Columns
+     &amp;#91;"UsedDataSize", "UsedSize"&amp;#93;
+     &amp;#47;&amp;#47;or
+     "chart_columns_name"
+     &amp;#47;&amp;#47;or
+     chart_columns_name
+ &amp;#47;&amp;#47;Hint Columns
+     &amp;#91;"UsedCount", "UsedSize"&amp;#93;
+     &amp;#47;&amp;#47;or
+     "hint_columns_name"
+     &amp;#47;&amp;#47;or
+     hint_columns_name
+&lt;/textarea&gt;                       
+                                           		        		&lt;/div&gt;
 									&lt;/td&gt;
 									&lt;td style='width:40%'&gt;
 										&lt;table id="chartInfoForm"&gt;
@@ -1864,7 +2027,19 @@ overflow: auto;
 			&lt;div style="text-align:center;padding-top:5px;"&gt;
 				&lt;input type="button" style='width:50px' value="Add" class="button" id="updateParamOfJob" tabindex="10"/&gt;
 			&lt;/div&gt;
-		&lt;/td&gt;
+                        &lt;div class='sample'&gt;
+                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                   &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;name
+     job_params_name
+     &amp;#47;&amp;#47;or
+     "job_params_name"
+ &amp;#47;&amp;#47;value
+     "params_values"
+     &amp;#47;&amp;#47;or
+     &amp;#91;param1:'value1', param2:'value2'&amp;#93;
+                                   &lt;/textarea&gt;                       
+                         &lt;/div&gt;
 
 		&lt;td style='width:60%'&gt;
 			&lt;table id="paramJobForm"&gt;
@@ -1909,6 +2084,20 @@ overflow: auto;
 					&lt;th&gt;&lt;p&gt;schedule:&lt;/p&gt;&lt;/th&gt;
 					&lt;td&gt;&lt;input type="text" id="scheduleText" tabindex="7"/&gt;&lt;/td&gt;
 				&lt;/tr&gt;
+                                &lt;tr&gt;
+                                      &lt;td&gt;&lt;/td&gt;
+                                      &lt;td&gt; 
+                                      &lt;div class='sample'&gt;
+                                           &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                           &lt;textarea readonly style="display:none; width:100%" rows=5&gt;
+     10   &amp;#47;&amp;#47;or
+     10i  &amp;#47;&amp;#47;or
+     now  &amp;#47;&amp;#47;or
+     0****
+                                           &lt;/textarea&gt;                       
+                                      &lt;/div&gt;
+                                      &lt;/td&gt;
+                                &lt;/tr&gt; 
 				&lt;tr&gt;&lt;td&gt;&lt;p id="messageInstances"&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 
 				&lt;table id="formInstanceParams" style="width:100%;height:100%"&gt;
@@ -1930,6 +2119,24 @@ overflow: auto;
 									&lt;th&gt;&lt;p&gt;value:&lt;/p&gt;&lt;/th&gt;
 									&lt;td&gt;&lt;input type="text" style="width:100%;" id="valueInstanceText" tabindex="7"/&gt;&lt;/td&gt;
 								&lt;/tr&gt;
+                                                                &lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;div class='sample'&gt;
+                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                   &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;name
+     params_instance_name
+     &amp;#47;&amp;#47;or
+     "params_instance_name"
+ &amp;#47;&amp;#47;value
+     "params_values"
+     &amp;#47;&amp;#47;or
+     &amp;#91;param1:'value1', param2:'value2'&amp;#93;
+                                   &lt;/textarea&gt;                       
+                         &lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
 								&lt;tr&gt;
 									&lt;td&gt;&lt;p id="messageInstancesParams" &gt;&lt;/p&gt;&lt;/td&gt;
 								&lt;/tr&gt;
@@ -1997,7 +2204,8 @@ overflow: auto;
 {{/html}}
 {{html wiki="true" clean="false"}}
 &lt;div id="buttonUpdateJobInfo"&gt;
-		&lt;input type="button" style='width:150px; height:30px' value="Submit" class="button" id="updateJobInfo"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Save" class="button" id="updateJobInfo"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Save &amp; Run Test" class="button" id="saveAndRunTest"/&gt;
 		&lt;input type="button" style='width:150px; height:30px' value="Clear Data" class="button" id="clearData"/&gt;
 		&lt;input type="button" style='width:150px; height:30px' value="Back To Menu" class="button" id="backToMain"/&gt;
 &lt;/div&gt;

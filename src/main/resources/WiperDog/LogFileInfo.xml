@@ -7,18 +7,18 @@
 <translation>0</translation>
 <parent>Main.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.XWikiGuest</author>
+<author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.XWikiGuest</contentAuthor>
+<contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377697219000</creationDate>
-<date>1377707412000</date>
-<contentUpdateDate>1377705220000</contentUpdateDate>
-<version>3.14</version>
+<date>1378883077000</date>
+<contentUpdateDate>1378883032000</contentUpdateDate>
+<version>5.1</version>
 <title>LogFileInfo</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<minorEdit>true</minorEdit>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -466,157 +466,171 @@ jQuery.noConflict();
 var deleteFileName
 var lstAID = new Array()
 
-require(['jquery'],function($){
+require(['jquery'], function($) {
 
-    // Set width for area content
-    var widthMenu = document.getElementById('xwikicontent').offsetWidth * 0.2
-    var widthContent = document.getElementById('xwikicontent').offsetWidth * 0.7
-    $("#lstLog").css('width', widthMenu)
-    $("#contentLog").css('width', widthContent)
+	// Set width for area content
+	var widthMenu = document.getElementById('xwikicontent').offsetWidth * 0.2
+	var widthContent = document.getElementById('xwikicontent').offsetWidth * 0.7
+	$("#lstLog").css('width', widthMenu)
+	$("#contentLog").css('width', widthContent)
 
-    // Get servlet
-    var param = 'logfileinfo'
-    var servlet = ''
-    $.ajax({
-        type: "GET",
-        url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + param,
-        success : function(result){
-            processData(result)
-        },
-        error: function(xhr,status,error){
-            $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
-        }
-    });
-
-    // Draw list log and get anchor text
-    function drawListLog(domainURL,result){
-        // Draw
-        var htmlSource = "&lt;ul&gt;"
-        for(var i = 0; i &lt; result.length; i ++) {
-            var aID = "logfile" + i
-            lstAID[i] = aID
-            htmlSource += "&lt;li class=\"" + aID + "\"&gt;&lt;a id=\"" + aID + "\"&gt;" + result[i] + "&lt;/a&gt;&lt;/li&gt;"
-        }
-        htmlSource += "&lt;/ul&gt;"
-        $("#lstLog").html(htmlSource)
-
-        // Get anchor text
-         $("#lstLog a").click(function(){
-             logFileName = $(this).text()
-             var aID = $(this).attr('id')
-             for(var e = 0; e &lt; lstAID.length; e ++) {
-                 if(lstAID[e] == aID) {
-                     $("#" + lstAID[e]).css('color', '#1E90FF')
-                 } else {
-                     $("#" + lstAID[e]).css('color', '#636B75')
-                 }
-             }
-	     ajax_post_data(logFileName, domainURL, function(result){})
-         });
-
-         // Delete log file
-         var menuRightClick = [
-             {'Delete':{
-                 onclick:function(menuItem,menu) {
-                     if(confirm('Are you sure?')) {
-                         $(this).remove();
-                         deleteFileName = $(this).text()
-	                 ajax_post_data_delete(domainURL,function(result){})
-                     } 
-                 },
-	             icon:'/xwiki/resources/contextmenu/delete.png',
-	             disabled:false
-                 }
-             },
-             {"You can't edit me!":{disabled:true} }
-         ];
-
-         $(function() {
-             for(var e = 0; e &lt; lstAID.length; e ++) {         
-                 $("." + lstAID[e]).contextMenu(menuRightClick,{theme:'vista'});
-             }         
-         });
-    }
-
-    // Set data response to textarea
-    function setDataForTextArea(result){
-        var htmlSource = ""
-        for(var i = 0; i &lt; result.length; i ++) {
-            htmlSource += result[i] + "&lt;br/&gt;"
-        }
-        $("#contentLog").html(htmlSource)
-    }
-
-    // Set message to textarea
-    function setMessageToArea(result) {
-        console.log(result.status)
-        var htmlSource = "&lt;i&gt;" + result.status + "&lt;/i&gt;"
-        $("#contentLog").html(htmlSource)
-    }
-
-    // Get list log
-    function processData(domainURL) {
-        ajax_get_data(domainURL,function(result){});
-    }
-
-    function ajax_get_data(domainURL,callback){
+	// Get servlet
+	var param = 'logfileinfo'
+	var servlet = ''
 	$.ajax({
-	    type: "GET",
-	    crossDomain: true,
-	    url: domainURL,
-	    dataType: 'json',
-	    success : function(result){
-	        drawListLog(domainURL,result)
-	        callback(result)
-	    },
-	    error : function(xhr,status,error){
-                $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
-	    }
-    	});
-    }
+		type: "GET",
+		url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + param,
+		success: function(result) {
+			processData(result)
+		},
+		error: function(xhr, status, error) {
+			$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+		}
+	});
 
-    // Get content of log
-    function ajax_post_data(logFileName, domainURL, callback){
-        var logNameMap = {}
-        logNameMap['log'] = logFileName
-        $.ajax({
-	    type: "POST",
-	    crossDomain: true,
-	    url: domainURL,
-	    dataType: 'json',
-            data: JSON.stringify(logNameMap),
-	    success : function(result){
-	        setDataForTextArea(result)
-	        callback(result)
-            },
-	    error : function(xhr,status,error){
-                $("#message_add").text("Can not get content of " + logFileName + " : size of this file is too large or wiperdog does not run!")
-	    }
-        });
-    }
+	// Draw list log and get anchor text
 
-    // Delete log file
-    function ajax_post_data_delete(domainURL,callback){
-        var logNameMap = {}
-        logNameMap['delete'] = deleteFileName
-        $.ajax({
-	    type: "POST",
-	    crossDomain: true,
-	    url: domainURL,
-	    dataType: 'json',
-            data: JSON.stringify(logNameMap),
-	    success : function(result){
-                console.log(result)
-                setMessageToArea(result)
-	        callback(result)
-            },
-	    error : function(xhr,status,error){
-                $("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
-	    }
-        });
-    }
+	function drawListLog(domainURL, result) {
+		// Draw
+		var htmlSource = "&lt;ul&gt;"
+		for (var i = 0; i &lt; result.length; i++) {
+			var aID = "logfile" + i
+			lstAID[i] = aID
+			htmlSource += "&lt;li class=\"" + aID + "\"&gt;&lt;a id=\"" + aID + "\"&gt;" + result[i] + "&lt;/a&gt;&lt;/li&gt;"
+		}
+		htmlSource += "&lt;/ul&gt;"
+		$("#lstLog").html(htmlSource)
 
-jQuery.noConflict();
+		// Get anchor text
+		$("#lstLog a").click(function() {
+			logFileName = $(this).text()
+			var aID = $(this).attr('id')
+			for (var e = 0; e &lt; lstAID.length; e++) {
+				if (lstAID[e] == aID) {
+					$("#" + lstAID[e]).css('color', '#1E90FF')
+				} else {
+					$("#" + lstAID[e]).css('color', '#636B75')
+				}
+			}
+                        $('#contentLog').text('')
+			ajax_post_data(logFileName, domainURL, "getLimitLog",null)
+		});
+
+		// Delete log file
+		var menuRightClick = [{
+			'Delete': {
+				onclick: function(menuItem, menu) {
+					if (confirm('Are you sure?')) {
+						$(this).remove();
+						deleteFileName = $(this).text()
+						ajax_post_data_delete(domainURL, function(result) {})
+					}
+				},
+				icon: '/xwiki/resources/contextmenu/delete.png',
+				disabled: false
+			}
+		}, {
+			"You can't edit me!": {
+				disabled: true
+			}
+		}];
+
+		$(function() {
+			for (var e = 0; e &lt; lstAID.length; e++) {
+				$("." + lstAID[e]).contextMenu(menuRightClick, {
+					theme: 'vista'
+				});
+			}
+		});
+	}
+
+	// Set data response to textarea
+
+	function setDataForTextArea(result) {
+		var text = result.logContent
+		$("#contentLog").val(text)
+	}
+
+	// Set message to textarea
+
+	function setMessageToArea(result) {
+		var htmlSource = "&lt;i&gt;" + result.status + "&lt;/i&gt;"
+		$("#contentLog").html(htmlSource)
+		$('#moreLogsBtn').prop('disabled',false);
+	}
+
+	// Get list log
+
+	function processData(domainURL) {
+		ajax_get_data(domainURL, function(result) {});
+	}
+
+	function ajax_get_data(domainURL, callback) {
+		$.ajax({
+			type: "GET",
+			crossDomain: true,
+			url: domainURL,
+			dataType: 'json',
+			success: function(result) {
+				drawListLog(domainURL, result)
+				callback(result)
+			},
+			error: function(xhr, status, error) {
+				$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+			}
+		});
+	}
+
+	// Get content of log
+
+	function ajax_post_data(logFileName, domainURL,action,lines) {
+		var logNameMap = {}
+
+		logNameMap['log'] = logFileName
+		logNameMap['action'] = action
+		logNameMap['lines'] = lines
+
+		$.ajax({
+			type: "POST",
+			crossDomain: true,
+			url: domainURL,
+			dataType: 'json',
+			data: JSON.stringify(logNameMap),
+			success: function(result) {
+				setDataForTextArea(result)
+				$('#moreLogsBtn').unbind('click')
+				$('#moreLogsBtn').click(function(event) {
+					ajax_post_data(logFileName,domainURL,'moreLogs',result.lines)
+				});
+			},
+			error: function(xhr, status, error) {
+				$("#message_add").text("Can not get content of " + logFileName + " : size of this file is too large or wiperdog does not run!")
+			}
+		});
+	}
+
+	// Delete log file
+
+	function ajax_post_data_delete(domainURL, callback) {
+		var logNameMap = {}
+		logNameMap['delete'] = deleteFileName
+		$.ajax({
+			type: "POST",
+			crossDomain: true,
+			url: domainURL,
+			dataType: 'json',
+			data: JSON.stringify(logNameMap),
+			success: function(result) {
+				setMessageToArea(result)
+				callback(result)
+			},
+			error: function(xhr, status, error) {
+				$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+			}
+		});
+	}
+
+	jQuery.noConflict();
 });</code>
 </property>
 <property>
@@ -740,6 +754,10 @@ ul li {
     float: left;
     color: red;
     font-size: 1.5em;
+}
+#moreLogs{
+margin-left: 400px;
+disabled: disabled
 }</code>
 </property>
 <property>
@@ -1100,7 +1118,7 @@ ul li {
             &lt;b&gt;LIST LOG FILES&lt;/b&gt;
         &lt;/th&gt;
         &lt;th&gt;
-            &lt;b&gt;CONTENT OF LOG FILES&lt;/b&gt;
+            &lt;b&gt;CONTENT OF LOG FILES&lt;/b&gt;&lt;span id='moreLogs'&gt;&lt;input type='button' id='moreLogsBtn' class = 'button' value = "More previous logs"&gt;&lt;/span&gt;
         &lt;/th&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
@@ -1108,7 +1126,7 @@ ul li {
             &lt;div id="lstLog"&gt;&lt;/div&gt;
         &lt;/td&gt;
         &lt;td&gt;
-            &lt;div id="contentLog"&gt;&lt;/div&gt;
+            &lt;textarea id="contentLog" wrap='off' &gt;&lt;/textarea&gt;
         &lt;/td&gt;
     &lt;/tr&gt;
 &lt;/table&gt;

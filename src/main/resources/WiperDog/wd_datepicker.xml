@@ -1,0 +1,1270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>WiperDog</web>
+<name>wd_datepicker</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>WiperDog.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1378885548000</creationDate>
+<date>1378885755000</date>
+<contentUpdateDate>1378885709000</contentUpdateDate>
+<version>5.1</version>
+<title>wd_datepicker</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.wd_datepicker</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>140cdecb-b532-4bd0-8a21-5da927cf4ad4</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>require(['jquery'],function($){
+	var rangePickerObject = function(poOptions){
+		this.syntax = 'range-picker';
+		this.dateSeparateString = '/';
+		this.timeSeparateString = ':';
+		this.rangeSeparateString = '~';
+		this.dateToTimeSeparateString = ' ';
+		this.rangePlaceHoldertring  = 'YYYY' + this.dateSeparateString + 'MM' + this.dateSeparateString + 'DD' + this.dateToTimeSeparateString + 'HH' + this.timeSeparateString + 'MI';
+		this.rangePlaceHoldertring +=  this.dateToTimeSeparateString + this.rangeSeparateString + this.dateToTimeSeparateString;
+		this.rangePlaceHoldertring +=  'YYYY' + this.dateSeparateString + 'MM' + this.dateSeparateString + 'DD' + this.dateToTimeSeparateString + 'HH' + this.timeSeparateString + 'MI';
+		this.pickerRangeInputId    = (typeof(poOptions.rangeId) != 'undefined') ? poOptions.rangeId : this.syntax + '-range';
+		this.pickerFromDateInputId = this.syntax + '-fromDate';
+		this.pickerFromTimeInputId = this.syntax + '-fromTime';
+		this.pickerToDateInputId   = this.syntax + '-toDate';
+		this.pickerToTimeInputId   = this.syntax + '-toTime';
+		this.pickerTimeSelectorId  = this.syntax + '-timeSelector';
+		this.pickerErrorMsg        = this.syntax + '-errorMsg';
+		this.isIE = false;
+		
+		this.appendId    = (typeof(poOptions.appendId) != 'undefined') ? poOptions.appendId : 'body';
+		this.pickerIndex = (typeof(poOptions.index) != 'undefined') ? poOptions.index : 0;
+		this.fromDate    = (typeof(poOptions.fromDate) != 'undefined') ? poOptions.fromDate : null;
+		this.toDate      = (typeof(poOptions.toDate) != 'undefined') ? poOptions.toDate : null;
+		this.timeSelectorZindex = 2;
+		
+		this.changeRangeCallBack = (typeof(poOptions.changeRangeCallBack) != 'undefined') ? poOptions.changeRangeCallBack : null;
+		this.callBack = (typeof(poOptions.callBack) != 'undefined') ? poOptions.callBack : null;
+		
+		this.init = function(){
+			this.checkBrowser();
+			this.createPicker();
+			if(this.callBack){
+				var poThis = this;
+				setTimeout(function(){
+					poThis.callBack(poThis);
+				}, 500);
+			}
+		}
+		this.createPicker = function(){
+			var pnPickerIndex     = this.pickerIndex;
+			var psFromDateInputId = this.pickerFromDateInputId + pnPickerIndex;
+			var psFromTimeInputId = this.pickerFromTimeInputId + pnPickerIndex;
+			var psToDateInputId   = this.pickerToDateInputId + pnPickerIndex;
+			var psToTimeInputId   = this.pickerToTimeInputId + pnPickerIndex;
+			var psRangeInputId    = this.pickerRangeInputId + pnPickerIndex;
+			var psTimeSelectorId  = this.pickerTimeSelectorId + pnPickerIndex;
+			var psErrorMsgId      = this.pickerErrorMsg + pnPickerIndex;
+			var poRange   = this.getY4M2D2H2Mi2(this.fromDate, this.toDate);
+			var psDateSp  = this.dateSeparateString;
+			var psTimeSp  = this.timeSeparateString;
+			var psD2TSp   = this.dateToTimeSeparateString;
+			var psRangeSP = this.rangeSeparateString;
+			var psFromDate = poRange.from.year + psDateSp + poRange.from.month + psDateSp + poRange.from.date;
+			var psFromTime = poRange.from.hour + psTimeSp + poRange.from.min;
+			var psToDate = poRange.to.year + psDateSp + poRange.to.month + psDateSp + poRange.to.date;
+			var psToTime = poRange.to.hour + psTimeSp + poRange.to.min;
+			var psRange  = psFromDate + psD2TSp + psFromTime + psD2TSp + psRangeSP + psD2TSp + psToDate + psD2TSp + psToTime;
+			var poThis   = this;
+
+			var psFormsHTML = '&lt;div id="' + psErrorMsgId + '" class="rangePicker-error-box"&gt;&lt;/div&gt;&lt;input type="text" class="apps-icon-container-input ui-icon-calendar-plus apps-normal-chart-tools-range-input" id="' + psRangeInputId + '" size="40" value="" placeholder="' + this.rangePlaceHoldertring + '"&gt;';
+			psFormsHTML += '&lt;input type="text" id="' + psFromDateInputId + '" readonly="readonly" size="20" value="" class="rangePicker-date-hidden"&gt;';
+			psFormsHTML += '&lt;input type="hidden" id="' + psFromTimeInputId + '" size="10" value=""&gt;';
+			psFormsHTML += '&lt;input type="text" id="' + psToDateInputId + '" size="20" value="" class="rangePicker-date-hidden"&gt;';
+			psFormsHTML += '&lt;input type="hidden" id="' + psToTimeInputId + '" size="10" value=""&gt;';
+			
+			$('#' + this.appendId)
+				.bind('setrange', function(event, paRange){
+					poThis.setRange(paRange, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId);
+				})
+				.bind('setZindex', function(event, psZindex){
+					var pnZindex = psZindex*1;
+					poThis.timeSelectorZindex = pnZindex;
+				})
+				.bind('hideSelector', function(){
+					poThis.getUiControl(null, pnPickerIndex);
+				})
+				.html(psFormsHTML)
+
+			var pjRangeInput = $('#' + psRangeInputId);
+			var pnRangeWidth = (pjRangeInput.width() + 10) * -1;
+			var pnRangeHeight = pjRangeInput.height();
+
+			var fromDatePickerCtlCall = function(dateText, inst){
+				poThis.fromDatePickerCtl(dateText, inst, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex)
+			}
+			var toDatePickerCtlCall = function(dateText, inst){
+				poThis.toDatePickerCtl(dateText, inst, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex)
+			}
+			$('#' + psFromDateInputId)
+				.datepicker({
+					  dateFormat : 'yy/mm/dd'
+					 ,onSelect : fromDatePickerCtlCall
+					 ,top:0
+					 ,left:0
+				})
+				.val(psFromDate)
+				.css({
+					 'top' : 10
+					,'left': pnRangeWidth
+				});
+			$('#' + psToDateInputId)
+				.datepicker({
+					  dateFormat : 'yy/mm/dd'
+					 ,onSelect : toDatePickerCtlCall
+				})
+				.val(psToDate)
+				.css({
+					 'top' : 10
+					,'left': pnRangeWidth+120
+				});
+			$('#' + psFromTimeInputId).val(psFromTime);
+			$('#' + psToTimeInputId).val(psToTime);
+
+
+			var rangeEventCtlCall = function(event){
+				poThis.rangeEventCtl(event, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex, psErrorMsgId);
+			}
+			var rangeValUpdateCall = function(event){
+				poThis.rangeValUpdate(event, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex, psErrorMsgId);
+			}
+			pjRangeInput
+				.attr('data-isfocus', 'false')
+				.bind('focus blur', function(event){
+					var psEventType = event.type;
+					var pjRangeInput = $(this);
+					var psFlag = (psEventType==='focus') ? 'true' : 'false';
+					pjRangeInput.attr('data-isfocus', psFlag)
+					if(psEventType === 'blur' &amp;&amp; $('div.ui-datepicker:visible').length === 0){
+						setTimeout(function(){
+							poThis.getUiControl(null, pnPickerIndex);
+						}, 500)
+						
+						pjRangeInput.trigger('update');
+					}
+				})
+				.bind('click keyup paste select', rangeEventCtlCall)
+				.bind('setrange', function(event, paRange){
+					poThis.setRange(paRange, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId);
+				})
+				.bind('update', rangeValUpdateCall)
+				.val(psRange)
+				.prop('defaultValue', psRange)
+
+			$('#' + psFromDateInputId + ', #' + psToDateInputId).bind('toggleDisplay', function(event, psType){
+				$(this).datepicker(psType);
+			});
+
+			this.createTimeSelector(psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+		}
+
+		this.setRange = function(paRange, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId){
+			var poDate = this.getY4M2D2H2Mi2(this.formatDateString(this.getBin2Date(paRange[0])), this.formatDateString(this.getBin2Date(paRange[1])));
+			var psFromY4m2d2 = poDate.from.year + this.dateSeparateString + poDate.from.month + this.dateSeparateString + poDate.from.date;
+			var psFromH2mi2  = poDate.from.hour + this.timeSeparateString + poDate.from.min;
+			var psToY4m2d2   = poDate.to.year + this.dateSeparateString + poDate.to.month + this.dateSeparateString + poDate.to.date;
+			var psToH2mi2  = poDate.to.hour + this.timeSeparateString + poDate.to.min;
+			
+			var pjRangeDate = $('#' + psRangeInputId);
+			var pjFromDate  = $('#' + psFromDateInputId);
+			var pjFromTime  = $('#' + psFromTimeInputId);
+			var pjToDate    = $('#' + psToDateInputId);
+			var pjToTime    = $('#' + psToTimeInputId);
+			
+			pjRangeDate
+				.val(psFromY4m2d2 + this.dateToTimeSeparateString + psFromH2mi2 + this.dateToTimeSeparateString + this.rangeSeparateString+ this.dateToTimeSeparateString + psToY4m2d2 + this.dateToTimeSeparateString + psToH2mi2)
+				.trigger('update');
+			pjFromDate.val(psFromY4m2d2);
+			pjFromTime.val(psFromH2mi2);
+			pjToDate.val(psToY4m2d2);
+			pjToTime.val(psToH2mi2);
+		}
+		this.formatDateString = function(poOptions){
+			var psYear  = poOptions.year;
+			var psMonth = poOptions.month;
+			var psDay   = poOptions.date;
+			var psHour  = poOptions.hour;
+			var psMin   = poOptions.min;
+			var psDateString = '';
+			var pbIsY4m2d2 = false;
+			if(psYear &amp;&amp; psMonth &amp;&amp; psDay){
+				psDateString += psYear + this.dateSeparateString + psMonth + this.dateSeparateString + psDay;
+				pbIsY4m2d2 = true;
+			}
+			if(pbIsY4m2d2 &amp;&amp; psHour &amp;&amp; psMin){
+				psDateString += this.dateToTimeSeparateString;
+			}
+			if(psHour &amp;&amp; psMin){
+				psDateString += psHour + this.timeSeparateString + psMin;
+			}
+			return psDateString;
+		}
+
+		this.getFairingDate = function(psDate, psSplitSeparator){
+			if(psDate === null) return null;
+			var paSplitDate = psDate.split(psSplitSeparator);
+			switch(psSplitSeparator){
+				case '/' :
+					if(paSplitDate[1].length &lt; 2){
+						paSplitDate[1] = '0' + paSplitDate[1];
+					}
+					if(paSplitDate[2].length &lt; 2){
+						paSplitDate[2] = '0' + paSplitDate[2];
+					}
+					break;
+				case ':' :
+					if(paSplitDate[0].length &lt; 2){
+						paSplitDate[0] = '0' + paSplitDate[0];
+					}
+					if(paSplitDate[1].length &lt; 2){
+						paSplitDate[1] = '0' + paSplitDate[1];
+					}
+					break;
+			}
+			return paSplitDate.join(psSplitSeparator);
+		}
+		this.checkBrowser = function(){
+			var psUserAgent = window.navigator.userAgent.toLowerCase();
+			if (psUserAgent.indexOf('msie') != -1) this.isIE = true;
+		}
+		this.rangeEventCtl = function(event, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var pjRangeInput = $('#' + psRangeInputId);
+			if(pjRangeInput.attr('data-isfocus') === 'false') return false;
+
+			var pbIsIE          = this.isIE;
+			var psRangeVal      = pjRangeInput.val();
+			var pnTextLength    = psRangeVal.length;
+			var psRangeString   = '';
+			var pnClickPosition = 0;
+			var pnTime          = '00:00';
+
+			if(event.keyCode === 32){
+				var poDate = this.getSplitDate(psRangeVal, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, pnPickerIndex);
+				var psDateVal = '';
+				var pbIsValid = true;
+				if(poDate.from.date != null &amp;&amp; poDate.from.date != 'invalid'){
+					psDateVal += poDate.from.date + this.dateToTimeSeparateString;
+				}
+				if(poDate.from.time != null &amp;&amp; poDate.from.time != 'invalid'){
+					psDateVal += poDate.from.time + this.dateToTimeSeparateString + this.rangeSeparateString + this.dateToTimeSeparateString;
+				}
+				if(poDate.to.date != null &amp;&amp; poDate.to.date != 'invalid'){
+					psDateVal += poDate.to.date + this.dateToTimeSeparateString;
+				}
+				pjRangeInput.val(psDateVal);
+			}
+			
+			if(pbIsIE){
+				var range = document.selection.createRange();
+				psRangeString = range.htmlText;
+				range.moveStart( "character", - pjRangeInput.get(0).value.length);
+				pnClickPosition = range.text.length;
+			}else{
+				psRangeString = window.getSelection().toString();
+				pnClickPosition = pjRangeInput.get(0).selectionStart;
+			}
+
+			var poEventCheckDate = this.getSplitDate(psRangeVal, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, pnPickerIndex);
+			
+			var poToday          = this.getTodayY4M2D2H2Mi2();
+			var psTodayY4M2D2    = poToday.year + this.dateSeparateString + poToday.month + this.dateSeparateString + poToday.date;
+			var psTodayHour      = poToday.hour + this.timeSeparateString + poToday.min;
+			if(poEventCheckDate.from.date === psTodayY4M2D2){
+				pnTime = psTodayHour;
+			}
+			
+			if(event.type === 'paste'){
+				var poThis = this;
+				var getInputValCall = function(){
+					poThis.getInputVal(psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+				}
+				var pnSetTimer = setTimeout(getInputValCall, 100);
+			}else if(event.type ===  'select'){
+				this.getUiControl(null, pnPickerIndex);
+			}else{
+				var poInputOffset = pjRangeInput.offset();
+				var pnInputHeight = pjRangeInput.outerHeight();
+				var pnSetInputTop = poInputOffset.top + pnInputHeight;
+				var pnSetInputLeft = poInputOffset.left;
+
+				var pbFromDateCheck = (poEventCheckDate['from']['date'] != null &amp;&amp; poEventCheckDate['from']['date'] != 'invalid') ? true : false;
+				var pbFromTimeCheck = (poEventCheckDate['from']['time'] != null &amp;&amp; poEventCheckDate['from']['time'] != 'invalid') ? true : false;
+				
+				if(pnClickPosition &gt;= 0 &amp;&amp; pnClickPosition &lt;= 10){
+					this.getUiControl(psFromDateInputId, pnPickerIndex);
+					// from???????????????
+					if(poEventCheckDate['from']['date'] != null &amp;&amp; poEventCheckDate['from']['date'] != 'invalid'){
+						$('#' + psFromDateInputId).datepicker('setDate', poEventCheckDate['from']['date']);
+					}
+				}else if(pnClickPosition &gt;= 11 &amp;&amp; pnClickPosition &lt;= 17){				
+					var psFromTime = (poEventCheckDate['from']['time'] === null) ? pnTime : poEventCheckDate['from']['time'];
+					$('#' + psTimeSelectorId).css({
+						 top : pnSetInputTop
+						,left : pnSetInputLeft + 70
+					});
+					this.setTimeSelector(psFromTime, 'form', psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+					// from???????????????
+					$('#' + psFromTimeInputId).val(poEventCheckDate['from']['time']);
+					// from???????????????????????????????
+					if(event.keyCode === 32 &amp;&amp; poEventCheckDate['separator'] === null &amp;&amp; pbFromDateCheck &amp;&amp; pbFromTimeCheck){
+						var psDatePicValue = pjRangeInput.val();
+						psDatePicValue += '~ ';
+						pjRangeInput
+							.val(psDatePicValue)
+							.trigger('click');
+					}
+				}else if(pnClickPosition &gt;= 19 &amp;&amp; pnClickPosition &lt;= 29){
+					this.getUiControl(psToDateInputId, pnPickerIndex);
+					// to???????????????
+					if(poEventCheckDate['to']['date'] != null &amp;&amp; poEventCheckDate['to']['date'] != 'invalid'){
+						$('#' + psToDateInputId).datepicker('setDate', poEventCheckDate['to']['date']);
+					}
+				}else if(pnClickPosition &gt;= 30 &amp;&amp; pnClickPosition &lt;= 35){
+					var psFromTime = (poEventCheckDate['to']['time'] === null) ? pnTime : poEventCheckDate['to']['time'];
+					$('#' + psTimeSelectorId).css({
+						 top : pnSetInputTop
+						,left : pnSetInputLeft + 190
+					});
+					this.setTimeSelector(psFromTime, 'to', psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+					// to???????????????
+					$('#' + psToTimeInputId).val(poEventCheckDate['to']['time']);
+				}else{
+					this.getUiControl(null, pnPickerIndex);
+				}
+			}
+			if(event.keyCode === 13){
+				this.getUiControl(null, pnPickerIndex);
+			}
+		}
+		this.checkValidRangeVal = function(paVal, psText, psType){
+			var poIsValid = 'valid';
+			var psCheckType = (typeof(psType) != 'undefined') ? psType : 'date';
+			if((paVal === null || paVal.length === 0) &amp;&amp; psText === null){
+				poIsValid = null;
+			}else{
+				var psDateString = null;
+				if(paVal != null &amp;&amp; paVal.length){
+					psDateString = paVal[0];
+				}else if(psText != null){
+					var paTextSplit = psText.split(this.dateToTimeSeparateString);
+					var psY4m2d2 = null;
+					var psH2mi2  = null;
+					if(paTextSplit.length &gt; 0){
+						psY4m2d2 = paTextSplit[0];
+						if(paTextSplit.length &gt; 1){
+							psH2mi2 = paTextSplit[1];
+						}
+					}
+					if(psType === 'date'){
+						psDateString = psY4m2d2;
+					}else{
+						psDateString = psH2mi2;
+					}
+				}
+				if(psType === 'date'){
+					if(!new Date(psDateString)) poIsValid = 'invalid';
+				}else{
+					if(!new Date('2013/01/01 ' + psDateString)) poIsValid = 'invalid';
+				}
+			}
+			return poIsValid;
+		}
+		this.getSplitDate = function(psText, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			// ???????????????????
+			var paJoinString = psText.match(new RegExp(this.rangeSeparateString));
+			var paFromDate = null;
+			var paFromTime = null;
+			var psFromDate = null;
+			var psFromTime = null;
+			var paToDate = null;
+			var paToTime = null;
+			var psToDate = null;
+			var psToTime = null;
+			var pnFromTimeCheck = null;
+			var pnToTimeCheck = null;
+
+			var poDateExp = new RegExp('(\\d{4}' + this.dateSeparateString + '\\d{1,2}' + this.dateSeparateString + '\\d{1,2}' + this.dateToTimeSeparateString +')');
+			var poTimeExp = new RegExp('(' + this.dateToTimeSeparateString + '\\d{1,2}' + this.timeSeparateString + '\\d{1,2})');
+
+			var psFromDateString = null;
+			var psFromTimeString = null;
+			
+
+			if(paJoinString === null){
+				psFromDateString = psText;
+			}else{
+				var paSplit = psText.split(this.rangeSeparateString);
+				psFromDateString = paSplit[0];
+				psToDateString   = paSplit[1];
+
+				paFromDate = paSplit[0].match(poDateExp);
+				paFromTime = paSplit[0].match(poTimeExp);
+		
+				paToDate = paSplit[1].match(poDateExp);
+				paToTime = paSplit[1].match(poTimeExp);
+			}
+			
+			if(paJoinString === null){
+				paFromDate = psText.match(poDateExp)
+				paFromTime = psText.match(poTimeExp);
+			}else{
+				var paSplit = psText.split('~');
+				
+				paFromDate = paSplit[0].match(poDateExp);
+				paFromTime = paSplit[0].match(poTimeExp);
+
+				paToDate = paSplit[1].match(poDateExp);
+				paToTime = paSplit[1].match(poTimeExp);
+			}
+
+			if(paFromTime != null){
+				pnFromTimeCheck = this.getValidateTime(paFromTime[0]);
+				if(pnFromTimeCheck != null){
+					paFromTime[0] = pnFromTimeCheck;
+				}else{
+					paFromTime = null;
+				}
+			}
+		
+			if(paToTime != null){
+				var pnToTimeCheck = this.getValidateTime(paToTime[0]);
+				if(pnToTimeCheck != null){
+					paToTime[0] = pnToTimeCheck;
+				}else{
+					paToTime = null;
+				}
+			}
+			psFromDate = (paFromDate === null || paFromDate[0] === undefined || paFromDate.length &gt; 2 || isNaN(new Date(paFromDate[0]))) ? null : this.getFairingDate(paFromDate[0].replace(/\s| /g,""), '/');
+			psFromTime = (paFromTime === null || paFromTime[0] === undefined || paFromTime.length &gt; 2) ? null : this.getFairingDate(paFromTime[0].replace(/\s| /g,""), ':');
+			psSeparator = (paJoinString === null || paJoinString[0] === undefined || paJoinString.length != 1) ? null : paJoinString[0];
+			psToDate = (paToDate === null || paToDate[0] === undefined || paToDate.length &gt; 2 || isNaN(new Date(paToDate[0]))) ? null : this.getFairingDate(paToDate[0].replace(/\s| /g,""), '/');
+			psToTime = (paToTime === null || paToTime[0] === undefined || paToTime.length &gt; 2) ? null : this.getFairingDate(paToTime[0].replace(/\s| /g,""), ':');
+			
+			var paSplitString = psText.split(' ');
+			var pnArrayIndex = $.inArray('~', paSplitString);
+		
+			if(pnArrayIndex === -1){
+				if(psFromDate === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[1] != undefined &amp;&amp; paSplitString[0].length) psFromDate = 'invalid';
+				if(psFromTime === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[1] != undefined &amp;&amp; paSplitString[1].length) psFromTime = 'invalid';
+			}else if(pnArrayIndex === 1){
+				var paFromDateMatchCheck = paSplitString[0].match(/\//);
+				if(paFromDateMatchCheck != null){
+					if(psFromDate === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[0] != undefined  &amp;&amp; paSplitString[0].length) psFromDate = 'invalid';
+				}else{
+					if(psFromTime === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[0] != undefined  &amp;&amp; paSplitString[0].length) psFromTime = 'invalid';
+				}
+				if(psToDate === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[2] != undefined &amp;&amp; paSplitString[3].length) psToDate = 'invalid';
+				if(psToTime === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[3] != undefined &amp;&amp; paSplitString[3].length) psToTime = 'invalid';
+			}else if(pnArrayIndex === 2){
+				if(psFromDate === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[0] != undefined  &amp;&amp; paSplitString[0].length) psFromDate = 'invalid';
+				if(psFromTime === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[1] != undefined  &amp;&amp; paSplitString[1].length) psFromTime = 'invalid';
+				if(psToDate === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[3] != undefined &amp;&amp; paSplitString[3].length) psToDate = 'invalid';
+				if(psToTime === null &amp;&amp; paSplitString != null &amp;&amp; paSplitString[4] != undefined &amp;&amp; paSplitString[4].length) psToTime = 'invalid';
+			}
+		
+			var poSplitDate = {
+				 from : {
+				 	 date : psFromDate
+				 	,time : psFromTime
+				 }
+				,separator : psSeparator
+				,to : {
+				 	 date : psToDate
+				 	,time : psToTime
+				}
+			}
+			
+			if(psFromDate === null) $('#' + psFromDateInputId).val('');
+			if(psFromTime === null) $('#' + psFromTimeInputId).val('');
+			if(psToDate === null)   $('#' + psToDateInputId).val('');
+			if(psToTime === null)   $('#' + psToTimeInputId).val('');
+			
+			return poSplitDate;
+		}
+		this.getValidateTime = function(psTime){
+			var psReplaceText = psTime.replace(/\s| /g,"");
+			var paSplitTime = psReplaceText.split(':');
+		
+			if(paSplitTime[0].length &gt; 2 || paSplitTime[1].length &gt; 2) return null;
+			if(paSplitTime[0] &gt; 23 || paSplitTime[1] &gt; 60) return null;
+			
+			return psTime;
+		}
+		this.getUiControl = function(psId, pnPickerIndex){
+			var paIds = [
+				 this.pickerTimeSelectorId + pnPickerIndex
+				,this.pickerFromDateInputId + pnPickerIndex
+				,this.pickerToDateInputId + pnPickerIndex
+			];
+			for(var i=0, len=paIds.length; i&lt;len; i++){
+				var psDisp = (psId === paIds[i]) ? 'show' : 'hide';
+				if($('#' + paIds[i]).css('display') === 'block') psDisp = 'hide';
+				$('#' + paIds[i])
+					.css('zIndex', this.timeSelectorZindex)
+					.trigger('toggleDisplay', [psDisp]);
+			}
+		}
+		this.fromDatePickerCtl = function(dateText, inst, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var pjRangeInput = $('#' + psRangeInputId);
+			var pjFromDateInput = $('#' + psFromDateInputId);
+			var pjToDateInput   = $('#' + psToDateInputId);
+		 	if(pjRangeInput.val() === ''){
+		 		var psDateText = dateText + ' ';
+				pjRangeInput
+					.val(psDateText)
+					.focus()
+					.trigger('click');
+		 	}else{
+		 		var poSplitDate = this.getSplitDate(pjRangeInput.val(), psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+				var paFromSeparatorSplit = pjRangeInput.val().split('~');
+				if(paFromSeparatorSplit[1] === undefined) paFromSeparatorSplit.push('');
+
+				var pnFromTime = new Date(poSplitDate['from']['date']).getTime();
+				var pnToTime   = new Date(poSplitDate['to']['date']).getTime();
+
+				var pnDiffTime = pnToTime - pnFromTime;
+
+				var psFromText = paFromSeparatorSplit[0].replace(poSplitDate['from']['date'], dateText);
+		 		var psToText   =  paFromSeparatorSplit[1].replace(poSplitDate['to']['date'], dateText);
+		 		var psDate     = '';
+				if(!pjRangeInput.hasClass('input-fromtoRnage-error')){
+					if(pnDiffTime === 0){
+						psDate = psFromText + '~' + psToText;
+						pjToDateInput.datepicker('setDate', dateText);
+					}else{
+						var pnCalcDate = new Date(dateText).getTime();
+						var pnToUnixDate = pnCalcDate*1 + pnDiffTime;
+						var pnNewDate = new Date(pnToUnixDate);
+		
+						var pnYear  = pnNewDate.getFullYear();
+						var pnMonth = this.doubleDigits(pnNewDate.getMonth()+1);
+						var pnDay   = this.doubleDigits(pnNewDate.getDate());
+		
+						var pnFullDate = pnYear + '/' + pnMonth + '/' + pnDay;
+						var psFromSep = paFromSeparatorSplit[1].replace(poSplitDate['to']['date'], pnFullDate);
+						
+						psDate = psFromText + '~' + psFromSep;
+						pjToDateInput.datepicker('setDate', pnFullDate);
+					}
+				}else{
+					var psRangeText = $('#' + psFromDateInputId).val() + this.dateToTimeSeparateString + $('#' + psFromTimeInputId).val() + this.dateToTimeSeparateString + this.rangeSeparateString + this.dateToTimeSeparateString;
+					psRangeText += $('#' + psToDateInputId).val() + this.dateToTimeSeparateString + $('#' + psToTimeInputId).val();
+					poDate = this.getSplitDate(psRangeText, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex)
+					psDate = psRangeText;
+				}
+		 		pjRangeInput
+		 			.val(psDate)
+		 			.trigger('update');
+		 	}
+		 }
+		 this.toDatePickerCtl = function(dateText, inst, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var pjRangeInput = $('#' + psRangeInputId);
+			var pjFromDateInput = $('#' + psFromDateInputId);
+			var pjToDateInput   = $('#' + psToDateInputId);
+	 		var poSplitDate = this.getSplitDate(pjRangeInput.val(), psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+			var paToSeparatorSplit = pjRangeInput.val().split('~');
+			var psToText = '';
+			if(poSplitDate['to']['date'] === null){
+				psToText = dateText;
+				var psDate = paToSeparatorSplit[0] + '~ ' + psToText + ' ';
+				pjRangeInput
+					.val(psDate)
+	 				.focus()
+					.trigger('click');
+			}else{
+				var pnToTime       = new Date(poSplitDate['to']['date']).getTime();
+				var pnChangeToTime = new Date(dateText).getTime();
+				var pnDiffToTime   = pnChangeToTime - pnToTime;
+				var psDate = '';
+				pnDiffToTime = Math.abs(pnDiffToTime);
+				psToText     = paToSeparatorSplit[1].replace(poSplitDate['to']['date'], dateText);
+	 			psDate       = paToSeparatorSplit[0] + '~' + psToText;
+	 			pjRangeInput
+	 				.val(psDate)
+	 				.trigger('update');
+			}
+		}
+		this.createTimeSelector = function(psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var psSelectedClass = '';
+			var paMins = ['00', '15', '30', '45'];
+			var pnMinsLength = paMins.length;
+			var paListHTML = [];
+			paListHTML.push('&lt;ul id="' + psTimeSelectorId + '" class="rangePicker-timeSelector ui-widget ui-state-default"&gt;');
+			for(var i=0; i&lt;24; i++){
+				var pnHour = i;
+				if(pnHour &lt; 10) pnHour = '0' + pnHour;
+				for(var j=0; j&lt;pnMinsLength; j++){
+					var psTime = pnHour  +':' +  paMins[j];
+					paListHTML.push('&lt;li data-time="' + psTime + '"&gt;&lt;a href="javascript:void(0)" class="rangePicker-timeSelector-item"&gt;' + psTime + '&lt;/a&gt;&lt;/li&gt;');
+				}
+			}
+			paListHTML.push('&lt;li data-time="23:59"&gt;&lt;a href="javascript:void(0)" class="timeSelectorList rangePicker-timeSelector-item"&gt;23:59&lt;/a&gt;&lt;/li&gt;');
+			paListHTML.push('&lt;/ul&gt;');
+		
+			var poThis = this;
+			var timeSelectrCtlCall = function(event){
+				poThis.timeSelectrCtl(event, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+			}
+			$(paListHTML.join(''))
+				.appendTo('body')
+				.hide()
+				.bind('click', timeSelectrCtlCall)
+				.bind('toggleDisplay', function(event, psType){
+					if(psType === 'show'){
+						$(this).show();
+					}else{
+						$(this).hide();
+					}
+				})
+		}
+		this.timeSelectrCtl = function(event, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var pjRangeInput = $('#' + psRangeInputId);
+			var pjFromTimeInput = $('#' + psFromTimeInputId);
+			var pjToTimeInput   = $('#' + psToTimeInputId);
+			var pjTarget = $(event.target).closest('a');
+			if(pjTarget.length){
+				var psUlCustomElem = $('#' + psTimeSelectorId).attr('data-periodid');
+				var pjParentLi = pjTarget.closest('li');
+				var poSplitDate = this.getSplitDate(pjRangeInput.val(), psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+				var psToText = '';
+				var paSeparatorSplit = pjRangeInput.val().split('~');
+				if(psUlCustomElem === 'form'){
+					var psSeparator = '';
+					var psLastSeparator = '';
+					if(poSplitDate['separator'] === null){
+						psLastSeparator = ' ~ '
+					}else{
+						psSeparator = '~'
+					}
+					pjFromTimeInput.val(pjTarget.text());
+					psToText = paSeparatorSplit[0].replace(poSplitDate['from']['time'], pjFromTimeInput.val());
+					if(paSeparatorSplit[1] === undefined) paSeparatorSplit.push(pjFromTimeInput.val());
+					var psDate = psToText + psSeparator + paSeparatorSplit[1] + psLastSeparator;
+					pjRangeInput.val(psDate);
+					this.getUiControl(null, pnPickerIndex);
+					
+					if(poSplitDate['separator'] === null){
+						pjRangeInput
+							.focus()
+							.trigger('click');
+					}
+				}else if(psUlCustomElem === 'to'){
+					pjToTimeInput.val(pjTarget.text());
+					if(pjToTimeInput.val() != poSplitDate['to']['time']){
+						psToText = paSeparatorSplit[1].replace(poSplitDate['to']['time'], pjToTimeInput.val());
+						if(paSeparatorSplit[1] === undefined) paSeparatorSplit.push(pjToTimeInput.val());
+						var psDate = (psToText === paSeparatorSplit[1]) ? pjRangeInput.val() + pjToTimeInput.val() : paSeparatorSplit[0] + '~' + psToText;
+						pjRangeInput.val(psDate);
+					}
+					this.getUiControl(null, pnPickerIndex);
+				}
+				pjRangeInput.trigger('update');
+			}
+		}
+		this.setTimeSelector = function(psFromTime, psPeriodType, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var pjList = $('#' + psTimeSelectorId);
+			
+			this.getUiControl(psTimeSelectorId, pnPickerIndex);
+			var paBufHour;
+			if(psFromTime.length &lt; 5){
+				paBufHour = psFromTime.split(':');
+				if(paBufHour[0].length &lt; 2) paBufHour[0] = '0' + paBufHour[0];
+				if(paBufHour[1].length &lt; 2) paBufHour[1] = '0' + paBufHour[1];
+				psFromTime = paBufHour.join(':');
+			}
+			paBufHour = psFromTime.split(':');
+			var pnMin = paBufHour[1];
+			if(pnMin &gt;= 45){
+				pnMin = '45';
+			}else if(pnMin &gt;= 30){
+				pnMin = '30';
+			}else if(pnMin &gt;= 15){
+				pnMin = '15';
+			}else{
+				pnMin = '00';
+			}
+			paBufHour[1] = pnMin;
+			
+			var psFromTimeSelected = paBufHour.join(':');
+		
+			var pnLiSelectedTop = 0;
+			var pnSelectboxHeight = 0;
+			
+			var pjSelectedList = pjList
+				.attr('data-periodid', psPeriodType)
+				.find('li')
+				.removeClass('liSelected')
+				.end()
+				.find('li[data-time="' + psFromTime + '"]')
+				.addClass('liSelected');
+			if(pjSelectedList.length === 0){
+				var paInvalidCheck = psFromTimeSelected.match('invalid');
+				if(paInvalidCheck === null){
+					pjSelectedList = pjList.find('li[data-time="' + psFromTimeSelected + '"]');
+				}
+			}
+			pnLiSelectedTop = (paInvalidCheck != null) ? 0 : pjSelectedList.offset().top + pjList.scrollTop();
+			pnSelectboxHeight = pjList.height()/2;
+			pjList.scrollTop(pnLiSelectedTop - pnSelectboxHeight);
+		}
+		this.getInputVal = function(psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex){
+			var poEventCheckDate = getSplitDate($('#datePicker').val(), psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+			
+			if(poEventCheckDate['from']['date'] != null) $('#' + psFromDateInputId).val(poEventCheckDate['from']['date']);
+			if(poEventCheckDate['from']['time'] != null) $('#' + psFromTimeInputId).val(poEventCheckDate['from']['time']);
+			if(poEventCheckDate['to']['date'] != null) $('#' + psToDateInputId).val(poEventCheckDate['to']['date']);
+			if(poEventCheckDate['to']['time'] != null) $('#' + psToTimeInputId).val(poEventCheckDate['to']['time']);
+		
+			$('#' + psRangeInputId).blur();
+			this.getUiControl(null, pnPickerIndex);
+		}
+		this.rangeValUpdate = function(event, psRangeInputId, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex, psErrorMsgId){
+			var pjRangeInput = $('#' + psRangeInputId);
+			var psRangeVal = pjRangeInput.val();
+			var poDate          = this.getSplitDate(psRangeVal, psFromDateInputId, psFromTimeInputId, psToDateInputId, psToTimeInputId, psTimeSelectorId, pnPickerIndex);
+			var pbIsValid       = this.validateDateTime(poDate);
+			var pbIsFromToValid = this.validateFromToRange(poDate);
+			var pjErrorMsgBox   = $('#' + psErrorMsgId);
+			var psErrorMsgText  = '';
+			pjRangeInput.removeClass('input-fromtoRnage-error');
+			if(pbIsValid &amp;&amp; pbIsFromToValid){
+				pjRangeInput.prop('defaultValue', psRangeVal);
+				pjErrorMsgBox.removeClass('rangePicker-error-box-visible');
+			}else{
+				if(!pbIsValid &amp;&amp; !pbIsFromToValid){
+					var pbIsNull = this.nullDateCheck(poDate);
+					if(!pbIsNull){
+						psErrorMsgText = '???????????????(' + this.rangePlaceHoldertring + ')';
+						pjRangeInput.val(pjRangeInput.prop('defaultValue'));
+						pbIsValid = true;
+						pbIsFromToValid = true;
+						setTimeout(function(){
+							pjErrorMsgBox.fadeOut('fast', function(){
+								$(this).removeClass('rangePicker-error-box-visible');
+							})
+						}, 1000)
+					}
+				}else if(!pbIsFromToValid){
+					pjRangeInput.addClass('input-fromtoRnage-error');
+					psErrorMsgText = '????????????';
+				}
+				pjErrorMsgBox
+					.css('top', pjRangeInput.position().top-40)
+					.addClass('rangePicker-error-box-visible')
+					.text(psErrorMsgText)
+			}
+			if(this.changeRangeCallBack){
+				this.changeRangeCallBack(psRangeVal, pbIsValid, pbIsFromToValid);
+			}
+		}
+		this.nullDateCheck = function(poDate){
+			var pbIsNull = false;
+			if(poDate.from.date === null || poDate.from.time === null || poDate.to.date === null || poDate.to.time === null){
+				pbIsNull = true;
+			}
+			return pbIsNull;
+		}
+		this.validateDateTime = function(poDate){
+			var pbValidate = false;
+			if(
+				poDate.from.date != null &amp;&amp; poDate.from.time != null &amp;&amp; poDate.to.date != null &amp;&amp; poDate.to.time != null
+				&amp;&amp; poDate.from.date != 'invalid' &amp;&amp; poDate.from.time != 'invalid' &amp;&amp; poDate.to.date != 'invalid' &amp;&amp; poDate.to.time != 'invalid'
+			){
+				pbValidate = true;
+			}
+			return pbValidate;
+		}
+		this.validateFromToRange = function(poDate){
+			var pbValidate = false;
+			var pnFromDateTime = new Date(poDate.from.date + this.dateToTimeSeparateString + poDate.from.time).getTime();
+			var pnToDateTime   = new Date(poDate.to.date + this.dateToTimeSeparateString + poDate.to.time).getTime();
+			if(pnFromDateTime &lt; pnToDateTime){
+				pbValidate = true;
+			}
+			return pbValidate;
+		}
+		
+		this.getDateVal = function(psDate, pbToFlag){
+			var poDate    = (psDate === null) ? new Date() : new Date(psDate);
+			var psYear    = poDate.getFullYear() + '';
+			var psMonth   = this.doubleDigits(poDate.getMonth()+1);
+			var psDay     = this.doubleDigits(poDate.getDate());
+			var psHour    = (psDate === null) ? '00' : this.doubleDigits(poDate.getHours());
+			var psMin     = (psDate === null) ? '00' : this.doubleDigits(poDate.getMinutes());
+			if(psDate === null &amp;&amp; pbToFlag){
+				psHour = '23';
+				psMin  = '59';
+			}
+			return {
+				 year : psYear
+				,month: psMonth
+				,date : psDay
+				,hour : psHour
+				,min  : psMin
+			};
+		}
+		this.getY4M2D2H2Mi2 = function(psFrom, psTo){
+			var poFromDate = this.getDateVal(psFrom, false)
+			var poToDate   = this.getDateVal(psTo, true)
+
+			return {
+				 from : poFromDate
+				,to   : poToDate
+			};
+		}
+		this.doubleDigits = function(pnDateString){
+			pnDateString += "";
+			if(pnDateString.length === 1){
+				pnDateString = "0" + pnDateString;
+			}
+			return pnDateString;
+		};
+		this.getTodayY4M2D2H2Mi2 = function(){
+			var poDate    = new Date();
+			var psYear    = poDate.getFullYear() + '';
+			var psMonth   = this.doubleDigits(poDate.getMonth()+1);
+			var psDay     = this.doubleDigits(poDate.getDate());
+			var psHour    = this.doubleDigits(poDate.getHours());
+			var psMin     = this.doubleDigits(poDate.getMinutes());
+			return {
+				 year : psYear
+				,month: psMonth
+				,date : psDay
+				,hour : psHour
+				,min  : psMin
+			}
+		}
+		this.getBin2Date = function(pnBin){
+			var poDate    = new Date(pnBin);
+			var psYear    = poDate.getFullYear();
+			var psMonth   = this.doubleDigits(poDate.getMonth()+1);
+			var psDay     = this.doubleDigits(poDate.getDate());
+			var psHour    = this.doubleDigits(poDate.getHours());
+			var psMin     = this.doubleDigits(poDate.getMinutes());
+			return {
+				 year : psYear
+				,month: psMonth
+				,date : psDay
+				,hour : psHour
+				,min  : psMin
+			}
+		}
+		this.init();
+	}
+	new rangePickerObject({appendId:'datePicker'});
+	jQuery.noConflict()
+});</code>
+</property>
+<property>
+<name>rangeSelector</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.wd_datepicker</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>6793d491-ecfd-429f-94b6-3e83c0069005</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>.rangePicker-date-hidden{
+	display: inline-block !important;
+	height: 1px !important;
+	width: 0 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border: none !important;
+	position: relative;
+}
+.rangePicker-timeSelector{
+	position : absolute;
+	display : inline-block;
+	text-align : center;
+	height : 320px;
+	overflow-x : hidden;
+	overflow-y : scroll;
+	list-style : none;
+	margin : 0;
+	padding:0;
+	position:absolute;
+	z-index:2;
+}
+.rangePicker-timeSelector-item{
+	text-decoration:none;
+	display:block;
+	padding:1px 12px;
+	color:#000 !important;
+}
+.rangePicker-timeSelector-item:hover{
+	background-color : rgba(51, 158, 255, 0.8);
+	color:#eee !important;
+}
+.liSelected .rangePicker-timeSelector-item{
+	background-color : rgba(51, 158, 255, 0.8);
+	color:#fff !important;
+}
+
+.input-fromtoRnage-error{
+	background-color:#f08080 !important;
+	border-color:#f08080 !important;
+}
+.rangePicker-error-box{
+	display: none;
+	position: absolute;
+	top: 20px;
+	background-color: #f08080;
+	padding: 8px;
+	border-radius: 4px;
+	box-shadow: 0 0 2px #000;
+	white-space: nowrap;
+	overflow: visible;
+}
+.rangePicker-error-box-visible{
+	display: inline-block !important;
+}
+.rangePicker-error-box-visible::after {
+	border-color: #f08080 transparent transparent;
+	border-style: solid;
+	border-width: 6px 6px 0;
+	bottom: -6px;
+	content: "";
+	display: block;
+	left: 6px;
+	position: absolute;
+	width: 0;
+}</code>
+</property>
+<property>
+<name>rangeSelector_css</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.WikiMacroClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>9</number>
+<prettyName>Macro code</prettyName>
+<rows>20</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<contentDescription>
+<disabled>0</disabled>
+<name>contentDescription</name>
+<number>8</number>
+<prettyName>Content description (Not applicable for "No content" type)</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</contentDescription>
+<contentType>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>contentType</name>
+<number>7</number>
+<prettyName>Macro content type</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator>|</separator>
+<separators>|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>Optional|Mandatory|No content</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</contentType>
+<defaultCategory>
+<disabled>0</disabled>
+<name>defaultCategory</name>
+<number>4</number>
+<prettyName>Default category</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</defaultCategory>
+<description>
+<disabled>0</disabled>
+<name>description</name>
+<number>3</number>
+<prettyName>Macro description</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</description>
+<id>
+<disabled>0</disabled>
+<name>id</name>
+<number>1</number>
+<prettyName>Macro id</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</id>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>2</number>
+<prettyName>Macro name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<supportsInlineMode>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>supportsInlineMode</name>
+<number>5</number>
+<prettyName>Supports inline mode</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</supportsInlineMode>
+<visibility>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>visibility</name>
+<number>6</number>
+<prettyName>Macro visibility</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator>|</separator>
+<separators>|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>Current User|Current Wiki|Global</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</visibility>
+</class>
+<name>WiperDog.wd_datepicker</name>
+<number>0</number>
+<className>XWiki.WikiMacroClass</className>
+<guid>fd689768-604c-4ad3-9492-315ed89facc1</guid>
+<property>
+<code>{{groovy}}
+	xwiki.jsx.use('Lib.JQueryUILib')
+	xwiki.ssx.use('Lib.JQueryUILib')
+	xwiki.jsx.use("wd_datepicker")
+	xwiki.ssx.use("wd_datepicker")
+
+	println '{{html}}'
+	println '&lt;span id="datePicker"&gt;&lt;/span&gt;'
+	println '{{/html}}'
+
+{{/groovy}}</code>
+</property>
+<property>
+<contentDescription></contentDescription>
+</property>
+<property>
+<contentType>Optional</contentType>
+</property>
+<property>
+<defaultCategory></defaultCategory>
+</property>
+<property>
+<description></description>
+</property>
+<property>
+<id>wd_datepicker</id>
+</property>
+<property>
+<name>wd_datepicker</name>
+</property>
+<property>
+<supportsInlineMode>1</supportsInlineMode>
+</property>
+<property>
+<visibility>Global</visibility>
+</property>
+</object>
+<content>{{wd_datepicker}}</content></xwikidoc>
