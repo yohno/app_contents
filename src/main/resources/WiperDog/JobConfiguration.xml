@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377826823000</creationDate>
-<date>1378898862000</date>
-<contentUpdateDate>1378898780000</contentUpdateDate>
-<version>10.18</version>
+<date>1379064570000</date>
+<contentUpdateDate>1379063066000</contentUpdateDate>
+<version>38.50</version>
 <title>JobConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -117,53 +117,29 @@ require(['jquery'], function($) {
 	// RESET TO INITIAL SCREEN
 
 	function resetControl() {
-		// Job
-		$("#commentForJobText").empty()
-		$("#jobNameText").val("")
-		$("#jobFileNameText").val("")
-		$("#groupkeyText").val("")
-		$("#queryText").empty()
-		$("#queryVariableText").empty()
-		$("#dbexecText").empty()
-		$("#dbexecVariableText").empty()
-		$("#commandText").empty()
-		$("#formatText").empty()
-		$("#fetchactionText").empty()
-		$("#accumulateText").empty()
-		$("#finallyText").empty()
-		$("#listSendType").val("")
-		$("#resourceIdText").val("")
-		$("#destText").val("")
-		$("#rootText").val("")
-		$("#sequenceText").empty()
-		$("#unitText").empty()
-		$("#typeChartText").val("")
-		$("#nameChartText").val("")
-		$("#chartColumnsText").val("")
-		$("#hintColumnsText").val("")
-		// Params
-		$("#nameJobText").val("")
-		$("#valueJobText").val("")
-		// Instances
-		$("#instanceNameText").val("")
-		$("#scheduleText").val("")
-		$("#nameInstanceText").val("")
-		$("#valueInstanceText").val("")
+                //Reset form
+                $("#form1")[0].reset();
+                //Reset table data
 		$("#chartTable").find("tr:gt(0)").remove();
 		$("#paramJobTable").find("tr:gt(0)").remove();
 		$("#updateJobInstanceTable").find("tr:gt(0)").remove();
 		$("#paramInstanceTable").find("tr:gt(0)").remove();
 		$('#listChartType').prop('disabled', false);
 		$('#nameChartText').prop('disabled', false);
-		$('#groupChartText').val('');
 		$('#groupChartText').prop('disabled', false);
 		$('#nameJobText').prop('disabled', false);
 		$('#instanceNameText').prop('disabled', false);
 		$('#nameInstanceText').prop('disabled', false);
-		$("#statusSend").empty()
-		$('#messageParams').text("")
-		$('#messageInstancesParams').text("")
-		$('#messageListInstances').text("")
+                
+                //Reset message
+		$("#messageChart").text("")
+		$("#messageParams").text('')
+		$('#messageInstances').text("");
+		$('#messageInstancesParams').text("");
+		$('#messageListInstances').text('')
+		$("#messageValid").html("")
+		$("#message_add").text("")
+                
 		groupChart = null
 		charts = {}
 		jobParams = {}
@@ -184,25 +160,75 @@ require(['jquery'], function($) {
 		error: function(xhr, status, error) {}
 	});
 	$(document).ready(function() {
-		$("#statusSend").empty()
 		// CHANGE MONITORING TYPE
 		var listDBType = ['SQL_Server', 'MySQL', 'Postgres']
 		var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+                var actionOfJob = ''
 		for (var i = 0; i &lt; listDBType.length; i++) {
 			dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
 		}
 		$("#dbTypeCbb").html(dbTypeSource)
 		$("#listMonitoring").change(function() {
+                        $("#listJob").empty()
 			var type = $("#listMonitoring option:selected").val()
-			if (type == "DB") {
+			if (type == "@DB") {
+				$("#dbTypeCbb").prop('disabled',false)
 				dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
 				for (var i = 0; i &lt; listDBType.length; i++) {
 					dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
 				}
 				$("#dbTypeCbb").html(dbTypeSource)
-			} else if (type == "SYS" || type == "NET") {
-				$("#dbTypeCbb").empty()
+                                
+                                actionOfJob = '&lt;option id=\"showHideQuery\" value=\"runQuery\"&gt;Run Select Query&lt;/option&gt;'
+				actionOfJob += '&lt;option id=\"showHideOther\" value=\"runOther\"&gt;Run Others Query&lt;/option&gt;'
+                                actionOfJob += '&lt;option id=\"showHideCommand\" value=\"runCommand\"&gt;Run Command&lt;/option&gt;'
+		                actionOfJob += '&lt;option id=\"showHideFetchAction\" value=\"runFetchAction\"&gt;Run FetchAction&lt;/option&gt;'
+                                $("#listActionJob").html(actionOfJob)
+                                $("#showHideQueryForm").show();
+				$("#showHideDbexecForm").hide();
+				$("#showHideCommandForm").hide();
+				$("#showHideFetchactionForm").hide();
+                                
+			} else if (type == "@SYS" || type == "@NET" || type == "Others") {
+                                dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+				$("#dbTypeCbb").html(dbTypeSource)
 				$("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
+				//process get list job for @SYS,@NET or Others
+				$.ajax({
+					type: "GET",
+					crossDomain: true,
+					url: JobDeclared + "?morType=" + type,
+					dataType: 'json',
+					success: function(result) {
+						for (var i = 0; i &lt; result.listJob.length; i++) {
+							$("#listJob").append("&lt;option id=" + result.listJob[i] + " value=" + result.listJob[i] + "&gt;" + result.listJob[i] + "&lt;/option&gt;")
+						}
+					},
+					error: function(xhr, status, error) {
+						alert("There is an error! Wiperdog agent is on yet?")
+					}
+				});
+                                actionOfJob = ""
+				if (type == "Others") {
+				     $("#dbTypeCbb").prop('disabled',false)
+                                     actionOfJob += '&lt;option id=\"showHideQuery\" value=\"runQuery\"&gt;Run Select Query&lt;/option&gt;'
+				     actionOfJob += '&lt;option id=\"showHideOther\" value=\"runOther\"&gt;Run Others Query&lt;/option&gt;'
+                                }
+                                
+                                actionOfJob += '&lt;option id=\"showHideCommand\" value=\"runCommand\"&gt;Run Command&lt;/option&gt;'
+		                actionOfJob += '&lt;option id=\"showHideFetchAction\" value=\"runFetchAction\"&gt;Run FetchAction&lt;/option&gt;'
+                                $("#listActionJob").html(actionOfJob)
+                                if (type == "Others") {
+                                    $("#showHideQueryForm").show();
+				    $("#showHideDbexecForm").hide();
+				    $("#showHideCommandForm").hide();
+				    $("#showHideFetchactionForm").hide();
+                                } else {
+                                    $("#showHideQueryForm").hide();
+				    $("#showHideDbexecForm").hide();
+				    $("#showHideCommandForm").show();
+				    $("#showHideFetchactionForm").hide();
+                                }
 			}
 		});
 
@@ -210,7 +236,6 @@ require(['jquery'], function($) {
 		$("#dbTypeCbb").change(function() {
 			var selectedDBType = $("#dbTypeCbb option:selected").val()
 			$("#listJob option:gt(0)").remove()
-			resetControl()
 			if (selectedDBType != null &amp;&amp; selectedDBType != "") {
 				$.ajax({
 					type: "GET",
@@ -232,8 +257,7 @@ require(['jquery'], function($) {
 		// FILL INFORMATION OF JOB INTO BELOW ELEMENTS
 		$("#listJob").change(function() {
 			selectedJob = $("#listJob option:selected").val()
-			var noChoice = $("#" + selectedJob).val()
-			if (noChoice != "noChoice") {
+			if (selectedJob == "noChoice") {
 				resetControl()
 			}
 			if ((selectedJob != null) &amp;&amp; (selectedJob != "") &amp;&amp; (selectedJob != "noChoice")) {
@@ -255,7 +279,14 @@ require(['jquery'], function($) {
 				dataType: 'json',
 				data: JSON.stringify(data),
 				success: function(result) {
-					bindingData(result)
+                                        resetControl()
+                                        var statusExecute = result.status
+                                        if (statusExecute == "failed") {
+                                            $("#messageValid").html("&lt;b&gt;Error when get data. Maybe data format is wrong!!! (JOB, PARAMS, INSTANCE)!!&lt;/b&gt;")
+                                        } else {
+                                            $("#messageValid").html("")
+					    bindingData(result)
+                                        }
 					callback(result)
 				},
 				error: function(xhr, status, error) {
@@ -273,7 +304,7 @@ require(['jquery'], function($) {
 			$("#jobClassNameText").val(result.Job.jobclass)
 			if (result.Job.comment != null) {
 				$("#commentForJobText").css('min-height', '200px')
-				$("#commentForJobText").text(result.Job.comment)
+				$("#commentForJobText").val(result.Job.comment)
 			}
 			$("#groupkeyText").val(result.Job.GROUPKEY)
 
@@ -284,25 +315,25 @@ require(['jquery'], function($) {
 				$("#showHideDbexecForm").hide();
 				$("#showHideCommandForm").hide();
 				$("#showHideFetchactionForm").hide();
-				$("#queryText").text(result.Job.QUERY)
-				$("#queryVariableText").text(result.Job.QUERY_VARIABLE)
+				$("#queryText").val(result.Job.QUERY)
+				$("#queryVariableText").val(result.Job.QUERY_VARIABLE)
 			} else if (result.Job.DBEXEC != null) {
 				$("#listActionJob").val("runOther")
 				$("#showHideQueryForm").hide();
 				$("#showHideDbexecForm").show();
 				$("#showHideCommandForm").hide();
 				$("#showHideFetchactionForm").hide();
-				$("#dbexecText").text(result.Job.DBEXEC)
-				$("#dbexecVariableText").text(result.Job.DBEXEC_VARIABLE)
+				$("#dbexecText").val(result.Job.DBEXEC)
+				$("#dbexecVariableText").val(result.Job.DBEXEC_VARIABLE)
 			} else if (result.Job.COMMAND != null) {
 				$("#listActionJob").val("runCommand")
 				$("#showHideQueryForm").hide();
 				$("#showHideDbexecForm").hide();
 				$("#showHideCommandForm").show();
 				$("#showHideFetchactionForm").hide();
-				$("#dbexecText").text(result.Job.DBEXEC)
-				$("#commandText").text(result.Job.COMMAND)
-				$("#formatText").text(result.Job.FORMAT)
+				$("#dbexecText").val(result.Job.DBEXEC)
+				$("#commandText").val(result.Job.COMMAND)
+				$("#formatText").val(result.Job.FORMAT)
 			} else if (result.Job.FETCHACTION != null) {
 				$("#fetchactionText").css('height', '250px')
 				$("#listActionJob").val("runFetchAction")
@@ -310,15 +341,15 @@ require(['jquery'], function($) {
 				$("#showHideDbexecForm").hide();
 				$("#showHideCommandForm").hide();
 				$("#showHideFetchactionForm").show();
-				$("#fetchactionText").text(result.Job.FETCHACTION)
+				$("#fetchactionText").val(result.Job.FETCHACTION)
 			}
 
 			// ACCUMULATE, FINALLY
 			if (result.Job.ACCUMULATE != null) {
 				$("#accumulateText").css('height', '250px')
 			}
-			$("#accumulateText").text(result.Job.ACCUMULATE)
-			$("#finallyText").text(result.Job.FINALLY)
+			$("#accumulateText").val(result.Job.ACCUMULATE)
+			$("#finallyText").val(result.Job.FINALLY)
 
 			// SENDTYPE
 			var valSendType
@@ -336,6 +367,36 @@ require(['jquery'], function($) {
 
 			// KEYEXPR
 			var htmlChartSource = "&lt;tr&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Group&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Type&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Chart Columns&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Hint_columns&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;"
+
+                        //Check if valSendType has no data
+                        if ((valSendType == "") || (valSendType == null)) {
+                            valSendType = ""
+                            var keyExprChk = result.Job.KEYEXPR
+                            if (keyExprChk != null) {
+                                if (keyExprChk instanceof Array) {
+                                    valSendType = "Store"
+                                } else {
+                                    var mapSequenceChk = result.Job.KEYEXPR._sequence
+                                    var mapUnitChk = result.Job.KEYEXPR._unit
+                                    var mapChartChk = result.Job.KEYEXPR._chart
+                                    if (((mapSequenceChk != null) &amp;&amp; (! mapSequenceChk instanceof Array))||
+                                        ((mapUnitChk != null) &amp;&amp; (! mapUnitChk instanceof Array))||
+                                        ((mapChartChk != null) &amp;&amp; (! mapChartChk instanceof Array))){
+                                       valSendType = "Subtyped"
+                                    } else {
+				        for (var key in mapKeyexpr) {
+					    if ((key != "_sequence") &amp;&amp;  (key != "_unit") &amp;&amp; (key != "_description") &amp;&amp; (key != "_chart")){
+					        valSendType = "Subtyped"
+                                            }
+				        }  
+                                        if (valSendType == ""){
+                                            valSendType = "Store"
+                                        }       
+                                    }
+                                }
+                            }
+                        }
+
 			if (valSendType == "Store") { // DATA IS STORE
 				// Root
 				var keyExpr = result.Job.KEYEXPR
@@ -356,7 +417,7 @@ require(['jquery'], function($) {
 					$("#rootText").val(rootStr)
 
 					// Sequence
-					$("#sequenceText").text(result.Job.KEYEXPR._sequence)
+					$("#sequenceText").val(result.Job.KEYEXPR._sequence)
 
 					// Chart
 					var lstChart = result.Job["KEYEXPR._chart"]
@@ -417,7 +478,7 @@ require(['jquery'], function($) {
 						resultSeq += key + ": [" + mapSequence[key] + "]"
 					}
 				}
-				$("#sequenceText").text(resultSeq)
+				$("#sequenceText").val(resultSeq)
 
 				// Chart
 				var mapChart = result.Job["KEYEXPR._chart"]
@@ -469,12 +530,7 @@ require(['jquery'], function($) {
 			}
 			var mapUnit = result.Job["KEYEXPR._unit"]
 			if (mapUnit != null) {
-				var unitText = ""
-				for (var key in mapUnit) {
-					unitText += "\n\t" + key + ":" + mapUnit[key] + ","
-				}
-				unitText = "{" + unitText.substring(0, unitText.length - 1) + "\n}"
-				$("#unitText").text(unitText)
+				$("#unitText").val(JSON.stringify(mapUnit))
 			}
 
 			if (valSendType == "Subtyped") {
@@ -501,8 +557,8 @@ require(['jquery'], function($) {
 			if (mapParams != null) {
 				var lstKeyParams = Object.keys(mapParams)
 				for (var i = 0; i &lt; lstKeyParams.length; i++) {
-					jobParams[lstKeyParams[i]] = mapParams[lstKeyParams[i]]
-					htmlParamsSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + lstKeyParams[i] + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + JSON.stringify(mapParams[lstKeyParams[i]]) + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
+					jobParams[lstKeyParams[i]] = standardParams(mapParams[lstKeyParams[i]])
+					htmlParamsSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + lstKeyParams[i] + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + mapParams[lstKeyParams[i]] + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
 				}
 			}
 			$("#paramJobTable").html(htmlParamsSource)
@@ -519,7 +575,7 @@ require(['jquery'], function($) {
 					var schedule = ""
 					if (mapInstances[lstKeyInst[i]]['params'] != null) {
 						params = JSON.stringify(mapInstances[lstKeyInst[i]]['params'])
-						jobInstanceValue['params'] = mapInstances[lstKeyInst[i]]['params']
+						jobInstanceValue['params'] = standardParams(params)
 					}
 					if (mapInstances[lstKeyInst[i]]['schedule'] != null) {
 						schedule = mapInstances[lstKeyInst[i]]['schedule']
@@ -655,7 +711,7 @@ require(['jquery'], function($) {
 				}
 			}
 			var chartType = $.trim($('#listChartType').val());
-			var chartName = $.trim($('#nameChartText').val());
+			var chartName = replaceAllString($.trim($('#nameChartText').val()), "'", "");
 			var chartColumns = $('#chartColumnsText').val();
 			var hintColumns = $('#hintColumnsText').val();
 			if (chartType == "") {
@@ -768,7 +824,8 @@ require(['jquery'], function($) {
 
 		//Job param process
 		$('#updateParamOfJob').click(function() {
-			var jobParamName = $('#nameJobText').val();
+			var jobParamName = replaceAllString($('#nameJobText').val(), "'", "");
+                        jobParamName = replaceAllString(jobParamName, "\"", "");
 			var jobParamVal = $('#valueJobText').val();
 			if (jobParamName == "") {
 				$("#messageParams").text('Job param name is require !').addClass('error').removeClass('message')
@@ -813,7 +870,8 @@ require(['jquery'], function($) {
 			$('#nameJobText').prop('disabled', false)
 			$("#nameJobText").val('')
 			$('#valueJobText').val('');
-			jobParams[jobParamName] = jobParamVal
+                        var jobParamValAft = standardParams(jobParamVal)
+			jobParams[jobParamName] = jobParamValAft
 		});
 		$(document).on('click', '#paramJobTable  .delete_btn', function(event) {
 			event.preventDefault();
@@ -834,9 +892,11 @@ require(['jquery'], function($) {
 
 		//param instance process
 		$('#updateParamInstance').click(function(event) {
-			var instParamName = $('#nameInstanceText').val();
+			var instParamName = replaceAllString($('#nameInstanceText').val(), "'", "");
+                        instParamName = replaceAllString(instParamName, "\"", "");
 			var instParamVal = $('#valueInstanceText').val();
-			var instanceName = $('#instanceNameText').val();
+			var instanceName = replaceAllString($('#instanceNameText').val(), "'", "");
+                        instanceName = replaceAllString(instanceName, "\"", "");
 			if (instanceName == "") {
 				$('#messageInstances').text("No instance specificed for param  !").addClass('error').removeClass('message');
 				$('#nameInstanceText').focus();
@@ -879,7 +939,8 @@ require(['jquery'], function($) {
 			$('#nameInstanceText').prop('disabled', false)
 			$("#nameInstanceText").val('')
 			$('#valueInstanceText').val('');
-			paramInstance[instParamName] = instParamVal
+                        var jobParamValAft = standardParams(instParamVal)
+			paramInstance[instParamName] = jobParamValAft
 		});
 		$(document).off('click', '#paramInstanceTable  .delete_btn')
 		$(document).on('click', '#paramInstanceTable  .delete_btn', function(event) {
@@ -908,8 +969,10 @@ require(['jquery'], function($) {
 
 
 			//Job Instance process
-			$('#messageInstancesParams').val("")
-			var instanceName = $('#instanceNameText').val();
+			$('#messageInstancesParams').text("")
+			var instanceName = replaceAllString($('#instanceNameText').val(), "'", "");
+                        instanceName = replaceAllString(instanceName, "\"", "");
+
 			var instanceSchedule = $('#scheduleText').val();
 
 			if (instanceName == "") {
@@ -987,18 +1050,21 @@ require(['jquery'], function($) {
 
 			$("#instanceNameText").prop('disabled', true)
 			var instanceParamTmp = $.trim(row.cells[1].innerText)
-			var paramsObject = $.parseJSON(instanceParamTmp);
+                        var paramsObject = {}
+                        if (instanceParamTmp != "") {
+                            paramsObject = $.parseJSON(instanceParamTmp);
+                        }
 			$("#paramInstanceTable").find("tr:gt(0)").remove();
 			var table = document.getElementById('paramInstanceTable')
 			for (paramsKey in paramsObject) {
-
 				var inputMaps = {}
 				inputMaps['name'] = paramsKey
-				inputMaps['value'] = paramsObject[paramsKey]
+				inputMaps['value'] = JSON.stringify(paramsObject[paramsKey])
 				var tr = createTrAppend(inputMaps, 'paramInstanceTable')
 				tr.appendChild(createTdAction())
 				table.appendChild(tr)
 			}
+                        
 			paramInstance = jobInstance[instaneNameTmp]['params']
 
 		});
@@ -1252,7 +1318,11 @@ require(['jquery'], function($) {
 				if (statusExecute == "OK") {
 					$("#messageValid").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
 					if(action == 'saveNRun') {
-						window.location = "/xwiki/bin/view/WiperDog/TestJob?jobFileName=" + data.JOB.jobFileName +".job"
+                                                if(data.JOB.jobFileName != null &amp;&amp; data.JOB.jobFileName != "") {
+						   window.location = "/xwiki/bin/view/WiperDog/TestJob?jobFileName=" + data.JOB.jobFileName +".job"
+                                                } else {
+                                                   window.location = "/xwiki/bin/view/WiperDog/TestJob?jobFileName=" + data.JOB.jobName +".job"
+                                                }
 					}
 				} else if (statusExecute == "failed") {
 					$("#messageValid").html("&lt;p&gt;Can not create !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
@@ -1340,6 +1410,47 @@ require(['jquery'], function($) {
 			}
 		}
 		return ouputRoot
+	}
+
+	// GET STANDARD PARAMS
+
+	function standardParams(paramsText) {
+		paramsText = replaceAllString(paramsText, "\"", "")
+		paramsText = replaceAllString(paramsText, "'", "")
+
+		var ouputParams = ""
+                var lstRoot = paramsText.split(",")
+                if ((lstRoot.length == 1) &amp;&amp; (paramsText.indexOf("{") == -1)&amp;&amp; (paramsText.indexOf("}") == -1)&amp;&amp; (paramsText.indexOf("[") == -1)&amp;&amp; (paramsText.indexOf("]") == -1)) {
+                    ouputParams = "\"" + paramsText + "\""
+                } else {
+                    paramsText = replaceAllString(paramsText, "{", "\"")
+		    paramsText = replaceAllString(paramsText, "}", "\"\"")
+		    paramsText = replaceAllString(paramsText, "[", "\"")
+		    paramsText = replaceAllString(paramsText, "]", "\"\"")
+
+		    if (paramsText.indexOf(":") == -1) {
+			ouputParams = standardGroupKey(paramsText)
+		    } else {
+			lstRoot = paramsText.split(",")
+			for (var i = 0; i &lt; lstRoot.length; i++) {
+				var lstColon = lstRoot[i].split(":")
+				for (var j = 0; j &lt; lstColon.length; j++) {
+					ouputParams += "\"" + lstColon[j].trim() + "\"" + ":"
+				}
+				ouputParams = ouputParams.substring(0, ouputParams.length - 1)
+				ouputParams += ","
+			}
+			ouputParams = ouputParams.substring(0, ouputParams.length - 1)
+			ouputParams = replaceAllString(ouputParams, "\"\"\"\"\"", "\"]]")
+			ouputParams = replaceAllString(ouputParams, "\"\"\"", "\"]")
+			ouputParams = replaceAllString(ouputParams, "\"\"", "[\"")
+
+			if (ouputParams.indexOf("[") != 0) {
+				ouputParams = "[" + ouputParams + "]"
+			}
+		    }
+                }
+		return ouputParams
 	}
 
 	// GET STANDARD DEST
@@ -1631,7 +1742,6 @@ overflow: auto;
 
 {{html clean="false"}}
 &lt;div id="messageValid"&gt;&lt;/div&gt;
-&lt;form action="#" method='POST'&gt;
 	&lt;table id="configJobInfo" style="width:65%"&gt;
 		&lt;tr&gt;
 			&lt;th style="width:20%"&gt;MONITORINGTYPE&lt;span&gt;(*)&lt;/span&gt;&lt;/th&gt;
@@ -1640,6 +1750,7 @@ overflow: auto;
 					&lt;option id="none" value="@DB"&gt;@DB&lt;/option&gt;
 					&lt;option id="none" value="@SYS"&gt;@SYS&lt;/option&gt;
 					&lt;option id="none" value="@NET"&gt;@NET&lt;/option&gt;
+                                        &lt;option id="none" value="Others"&gt;Others&lt;/option&gt;
 				&lt;/select&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
@@ -1663,6 +1774,7 @@ overflow: auto;
 &lt;/table&gt;
 {{/html}}
 
+&lt;form action="#" method='POST' id="form1"&gt;
 &lt;table id="formJobInfo"&gt;
 	&lt;tr&gt;
 		&lt;th colspan=2 style="color:Green"&gt;&lt;p&gt;JOB INFORMATION&lt;/p&gt;&lt;/th&gt;
@@ -1695,10 +1807,10 @@ overflow: auto;
                                              &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
                                              &lt;textarea readonly style="display:none; width:50%" rows=4&gt;
  &amp;#47;&amp;#47;GROUPKEY
- ["database","table"]   
-&lt;/textarea&gt;                       
+ ["database","table"]
+&lt;/textarea&gt;
                                         &lt;/div&gt;
-                                    &lt;/td&gt;  
+                                    &lt;/td&gt;
 			        &lt;/tr&gt;
 		&lt;/td&gt;
 	&lt;/tr&gt;
@@ -1736,9 +1848,9 @@ overflow: auto;
  select * from user_catalog where rownum &lt;= :rowcnt
  &amp;#47;&amp;#47;QUERY_VARIABLE
  [rowcnt: 2]
-&lt;/textarea&gt;                          
+&lt;/textarea&gt;
                            &lt;/div&gt;
-                          &lt;/td&gt;  
+                          &lt;/td&gt;
 			&lt;/tr&gt;
 		&lt;/table&gt;
 		&lt;table id="showHideDbexecForm" style="display:none;" class="classAction"&gt;
@@ -1760,9 +1872,9 @@ overflow: auto;
  Update table_name set column_name1 = :abc where column_name2 = :def
  &amp;#47;&amp;#47;DBEXEC_VARIABLE
  [abc:123, def:"data"]
-&lt;/textarea&gt;                          
+&lt;/textarea&gt;
                            &lt;/div&gt;
-                          &lt;/td&gt;  
+                          &lt;/td&gt;
 			&lt;/tr&gt;
 		&lt;/table&gt;
 		&lt;table id="showHideCommandForm" style="display:none;" class="classAction"&gt;
@@ -1784,9 +1896,9 @@ overflow: auto;
  ["/bin/sh", "-c", "echo 123  abc  def"]
  &amp;#47;&amp;#47;FORMAT
  [ match: /([0-9]+)[ \t]+([^ ]+)[ \t]+(.+)/, 1: "id", 2: "name", 3: "desc" ]
-&lt;/textarea&gt;                          
+&lt;/textarea&gt;
                            &lt;/div&gt;
-                          &lt;/td&gt;  
+                          &lt;/td&gt;
 			&lt;/tr&gt;
 		&lt;/table&gt;
 		&lt;table id="showHideFetchactionForm" style="display:none;" class="classAction"&gt;
@@ -1804,9 +1916,9 @@ overflow: auto;
  &amp;#47;&amp;#47;closure code here
  def data = "abc"
  return data
-}&lt;/textarea&gt;                          
+}&lt;/textarea&gt;
                            &lt;/div&gt;
-                          &lt;/td&gt;  
+                          &lt;/td&gt;
 			&lt;/tr&gt;
 		&lt;/table&gt;
 &lt;/div&gt;
@@ -1831,9 +1943,9 @@ overflow: auto;
 	rec['ReadsCnt'] = rec['ReadsCumCnt']
 	rec['BytesReadsCnt'] = rec['BytesReadCumCnt']
  }
-}&lt;/textarea&gt;                          
+}&lt;/textarea&gt;
                                         &lt;/div&gt;
-                                    &lt;/td&gt;  
+                                    &lt;/td&gt;
 			        &lt;/tr&gt;
 &lt;/table&gt;
 &lt;table style="width:80%"&gt;
@@ -1866,9 +1978,9 @@ overflow: auto;
  parameters.dest
  &amp;#47;&amp;#47;or
  &amp;#91;&amp;#91;"file":"stdout"&amp;#93;&amp;#93;
-&lt;/textarea&gt;                       
+&lt;/textarea&gt;
                                                     &lt;/div&gt;
-                                             &lt;/td&gt;  
+                                             &lt;/td&gt;
 			                &lt;/tr&gt;
 				&lt;/tr&gt;
 				&lt;tr id="keyexprForm"&gt;
@@ -1893,7 +2005,7 @@ overflow: auto;
                                          		        &lt;div class='sample'&gt;
                                                		           &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
                                            		             &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
- &amp;#47;&amp;#47;_root 
+ &amp;#47;&amp;#47;_root
      &amp;#91;"DatabaseName","FileId"&amp;#93;
      &amp;#47;&amp;#47;or
      &amp;#91;"M":&amp;#91;"DatabaseNm", "UsedPct"&amp;#93;, "D":&amp;#91;"DatabaseNm"&amp;#93;&amp;#93;
@@ -1905,9 +2017,9 @@ overflow: auto;
      &amp;#91;"UsedDataSize" : "byte" , "UsedSize":"byte"&amp;#93;
      &amp;#47;&amp;#47;or
      &amp;#91;"M":&amp;#91;"UsedPct", "UsedSize"&amp;#93;, "D":&amp;#91;"UsedSize", "UsedDataSize"&amp;#93;&amp;#93;
-&lt;/textarea&gt;                       
+&lt;/textarea&gt;
                                            		        &lt;/div&gt;
-                                         		    &lt;/td&gt;  
+                                         		    &lt;/td&gt;
 			              		 	&lt;/tr&gt;
 							&lt;table id="chartForm" &gt;
 								&lt;tr&gt;
@@ -1974,7 +2086,7 @@ overflow: auto;
      "hint_columns_name"
      &amp;#47;&amp;#47;or
      hint_columns_name
-&lt;/textarea&gt;                       
+&lt;/textarea&gt;
                                            		        		&lt;/div&gt;
 									&lt;/td&gt;
 									&lt;td style='width:40%'&gt;
@@ -2038,7 +2150,7 @@ overflow: auto;
      "params_values"
      &amp;#47;&amp;#47;or
      &amp;#91;param1:'value1', param2:'value2'&amp;#93;
-                                   &lt;/textarea&gt;                       
+                                   &lt;/textarea&gt;
                          &lt;/div&gt;
 
 		&lt;td style='width:60%'&gt;
@@ -2086,7 +2198,7 @@ overflow: auto;
 				&lt;/tr&gt;
                                 &lt;tr&gt;
                                       &lt;td&gt;&lt;/td&gt;
-                                      &lt;td&gt; 
+                                      &lt;td&gt;
                                       &lt;div class='sample'&gt;
                                            &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
                                            &lt;textarea readonly style="display:none; width:100%" rows=5&gt;
@@ -2094,10 +2206,10 @@ overflow: auto;
      10i  &amp;#47;&amp;#47;or
      now  &amp;#47;&amp;#47;or
      0****
-                                           &lt;/textarea&gt;                       
+                                           &lt;/textarea&gt;
                                       &lt;/div&gt;
                                       &lt;/td&gt;
-                                &lt;/tr&gt; 
+                                &lt;/tr&gt;
 				&lt;tr&gt;&lt;td&gt;&lt;p id="messageInstances"&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 
 				&lt;table id="formInstanceParams" style="width:100%;height:100%"&gt;
@@ -2119,26 +2231,25 @@ overflow: auto;
 									&lt;th&gt;&lt;p&gt;value:&lt;/p&gt;&lt;/th&gt;
 									&lt;td&gt;&lt;input type="text" style="width:100%;" id="valueInstanceText" tabindex="7"/&gt;&lt;/td&gt;
 								&lt;/tr&gt;
-                                                                &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;
-&lt;div class='sample'&gt;
-                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
-                                   &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
- &amp;#47;&amp;#47;name
-     params_instance_name
-     &amp;#47;&amp;#47;or
-     "params_instance_name"
- &amp;#47;&amp;#47;value
-     "params_values"
-     &amp;#47;&amp;#47;or
-     &amp;#91;param1:'value1', param2:'value2'&amp;#93;
-                                   &lt;/textarea&gt;                       
-                         &lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
+                                &lt;tr&gt;
+									&lt;td&gt;
+									&lt;div class='sample'&gt;
+									   &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+									    &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+											 &amp;#47;&amp;#47;name
+											     params_instance_name
+											     &amp;#47;&amp;#47;or
+											     "params_instance_name"
+											 &amp;#47;&amp;#47;value
+											     "params_values"
+											     &amp;#47;&amp;#47;or
+											     &amp;#91;param1:'value1', param2:'value2'&amp;#93;
+									     &lt;/textarea&gt;
+									    &lt;/div&gt;
+									&lt;/td&gt;
+								&lt;/tr&gt;
 								&lt;tr&gt;
-									&lt;td&gt;&lt;p id="messageInstancesParams" &gt;&lt;/p&gt;&lt;/td&gt;
+									&lt;td&gt;&lt;p id="messageInstancesParams" &gt;aaaaaaaaaa&lt;/p&gt;&lt;/td&gt;
 								&lt;/tr&gt;
 
 							&lt;/table&gt;
@@ -2206,7 +2317,7 @@ overflow: auto;
 &lt;div id="buttonUpdateJobInfo"&gt;
 		&lt;input type="button" style='width:150px; height:30px' value="Save" class="button" id="updateJobInfo"/&gt;
 		&lt;input type="button" style='width:150px; height:30px' value="Save &amp; Run Test" class="button" id="saveAndRunTest"/&gt;
-		&lt;input type="button" style='width:150px; height:30px' value="Clear Data" class="button" id="clearData"/&gt;
+		&lt;input type="reset" style='width:150px; height:30px' value="Clear Data" class="button" id="clearData"/&gt;
 		&lt;input type="button" style='width:150px; height:30px' value="Back To Menu" class="button" id="backToMain"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;

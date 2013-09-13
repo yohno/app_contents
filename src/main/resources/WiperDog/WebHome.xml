@@ -7,13 +7,13 @@
 <translation>0</translation>
 <parent>WiperDog.MonitoringData</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.XWikiGuest</author>
+<author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.XWikiGuest</contentAuthor>
+<contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377223171000</creationDate>
-<date>1378885241000</date>
-<contentUpdateDate>1378885241000</contentUpdateDate>
-<version>33.1</version>
+<date>1378949717000</date>
+<contentUpdateDate>1378949717000</contentUpdateDate>
+<version>34.1</version>
 <title>WiperDog Functions</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -1140,9 +1140,6 @@ sisAAAAAAGRXAAAAAADIrgAAAACAqvL/BwB+A7367exQBwAAAABJRU5ErkJggg==
 
 === Wiperdog Control===
 * [[**Start, Stop... wiperdog server (the same machine)**&gt;&gt;ConsoleManagement]]
-
-=== Wiperdog Macro===
-* [[**wd_datepicker**&gt;&gt;wd_datepicker]]
 
 &lt;/div&gt;
 &lt;div id="image"  style="width:50%;float:left;"&gt;

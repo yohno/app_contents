@@ -11,13 +11,13 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377223088000</creationDate>
-<date>1378445243000</date>
-<contentUpdateDate>1378445243000</contentUpdateDate>
-<version>85.3</version>
+<date>1379074141000</date>
+<contentUpdateDate>1379073961000</contentUpdateDate>
+<version>89.17</version>
 <title>WiperDog</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Deleted object</comment>
+<comment></comment>
 <minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
@@ -2755,7 +2755,7 @@ jQuery.noConflict()
 						text: chartName
 					},
 					tooltip: {
-						pointFormat: '&lt;b&gt;{point.y} ( ' + unit + ' )&lt;/b&gt;'
+						pointFormat: '&lt;b&gt;{point.y} ' + unit + ' &lt;/b&gt;'
 					},
 					plotOptions: {
 						pie: {
@@ -2919,7 +2919,10 @@ jQuery.noConflict()
 						         data_all[j].series[0].name = lstContainer[j]
 						       }
                                                        chartName = data_all[j].chart_name
-                                                       var unit = "(" + data_all[j].unit + ")"
+                                                       var unit = ""
+                                                       if (data_all[j].unit != null){
+                                                            unit = "(" + data_all[j].unit + ")"
+                                                       }
 						       drawAreaChart(data_all[j].xAxis, data_all[j].series, finalKey + "_" + i + "_" + lstContainer[j], unit, chartName)
 						   }
 					      }
@@ -2944,7 +2947,10 @@ jQuery.noConflict()
 						data_all[j].series[0].name = lstContainer[j]
 					    }
                                             chartName = data_all[j].chart_name
-                                            var unit = "(" + data_all[j].unit + ")"
+                                            var unit = ""
+                                            if (data_all[j].unit != null){
+                                                 unit = "(" + data_all[j].unit + ")"
+                                            }
 					    drawAreaChart(data_all[j].xAxis, data_all[j].series, i + "_" + lstContainer[j], unit, chartName)
 					}
                                     }
@@ -3374,10 +3380,10 @@ if(result[0].type == "Subtyped") {
             if(DataToDrawChart.getDataToDrawPie(value) != []) {
                 dataPie = DataToDrawChart.getDataToDrawPie(value)
             }
+
             if(DataToDrawChart.getDataToDrawArea(value) != []) {
                 dataArea = DataToDrawChart.getDataToDrawArea(value)
             }
-
 		def chartColumnsLine = []
 		def chartColumnsBar = []
 		def chartColumnsArea = []
@@ -3403,22 +3409,24 @@ if(result[0].type == "Subtyped") {
 
 		if(dataPie.size() &gt; 0 ){
 			lstName = dataPie['name']
+
 		}
-		def tmpListNameContainer = []
                 
+		def tmpListNameContainer = [] 
 		if(lstName != null) {
                         def chartNumPie = 0
                         def tmpLst
                         for(def nameContainer in lstName){
                            tmpLst = []
 			   for(def nameContainerItem in nameContainer ){
-				nameContainerItem = chartNumPie + "_" + nameContainerItem.replaceAll("\\.", "_")
+                                nameContainerItem = chartNumPie + "_" + nameContainerItem.replaceAll("\\.", "_")
 				tmpLst.add(nameContainerItem )
 		            }
                             tmpListNameContainer.add(tmpLst)
                             chartNumPie++
                          }
 		}
+
 		def jsonPie
 		def jsonLine
 		def jsonBar
@@ -3482,7 +3490,7 @@ if(result[0].type == "Subtyped") {
 	            def tmp = chartNumPie + "_" + it.replaceAll("\\.", "_")
 		    println " &lt;div class=\"displaypie\" id=\"container${key}_${tmp}\" &gt;&lt;/div&gt;"
           	}
-		chartNumPie++
+                chartNumPie++		
 	  }	
           println "&lt;/div&gt;"
             }
@@ -3582,7 +3590,7 @@ if(result[0].type == "Subtyped") {
 
     println '{{html clean="false" wiki="true"}}'
     println '&lt;body&gt;'
-  
+
     def tmpListNameContainer = []
     def chartNumPie = 0
     for(def nameContainer in lstName){

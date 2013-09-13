@@ -11,14 +11,14 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1376364375000</creationDate>
-<date>1377697217000</date>
-<contentUpdateDate>1377697217000</contentUpdateDate>
-<version>4.1</version>
+<date>1379074086000</date>
+<contentUpdateDate>1379074086000</contentUpdateDate>
+<version>5.8</version>
 <title>DataToDrawChart</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment></comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <content>{{groovy}}class DataToDrawChart {
@@ -36,6 +36,9 @@
 		def resultData
                 def finalResultData = []
 		def  unit = result[0].KEYEXPR._unit
+                if (unit == null) {
+                    unit = [:]
+                }
 		dataChart.each {
 			type = it.type
 			if(type == "bar") {
@@ -200,6 +203,12 @@
              def key_chart = collection[0].KEYEXPR._chart
              def key_root = collection[0].KEYEXPR._root
              def key_unit = collection[0].KEYEXPR._unit
+             if (key_unit == null) {
+                key_unit = [:]
+             }
+             if (key_root == null) {
+                key_root = [:]
+             }
              def categories = []
              def listNameKey = []
 
@@ -215,14 +224,15 @@
              			if(datName == null){
 		             		datName = dat[keyRoot]
              			}else{
-				             datName += "." + dat[keyRoot]
+				        datName += "." + dat[keyRoot]
 		             	}
              		}
 		        if(!listNameKey.contains(datName)){
              		    listNameKey.add(datName)
 		        }
              	   }
-             }             
+             }   
+
              key_chart.each{chart-&gt;
              	if(chart.type == "line"){
              		def result = [:]
@@ -319,16 +329,22 @@
 		def type
 		def resultData
                 def finalResultData = []
-
+                def numOfChart
 		dataChart.each {elementChart -&gt;
 			type = elementChart.type
 			if(type == "pie") {
+                                numOfChart = 0
                                 resultData = []
 				result.data.each {elementData -&gt;
 					def dataPie = [:]
 					dataPie['type'] = "pie"
                                         dataPie['chart_name'] = elementChart.name
-                                        dataPie['unit'] = result.KEYEXPR._unit[elementChart.chart_columns[0]]
+                                        if (result.KEYEXPR._unit != null) {
+                                                dataPie['unit'] = '( ' + result.KEYEXPR._unit[elementChart.chart_columns[0]] + ' )'
+                                        } else {
+                                                dataPie['unit'] = ""
+                                        }
+
 					dataPie['data'] = []
 					elementChart.chart_columns.each {
 						def tmp = []
@@ -348,7 +364,8 @@
 						}
 						dataPie['name'] = dataPie['name'].substring(0, dataPie['name'].length()-1)
 					} else {
-						dataPie['name'] = elementChart.name
+						dataPie['name'] = elementChart.name.replace(" ", "") + numOfChart
+                                                numOfChart++
 					}
 					resultData.add(dataPie)
 				}
@@ -367,6 +384,10 @@
 		def finalResultData = []
 		def lstKey
 		def  unit = result[0].KEYEXPR._unit
+                if (unit == null) {
+                    unit = [:]
+                }
+
 		dataChart.each {itemDataChart -&gt;
 			type = itemDataChart.type
 			if(type == "area") {
@@ -505,7 +526,18 @@
 							mapKeyexpr['_chart'] = eachRunJob.KEYEXPR._chart
 					  }
 					  // unit of keyexpr
-					  mapKeyexpr['_unit'] = eachRunJob.KEYEXPR._unit
+                                          //Check if unit by key of subtype
+                                          if (eachRunJob.KEYEXPR._unit != null){
+                                              eachRunJob.KEYEXPR._unit.keySet().each {
+						  if(keySubtype == it) {
+							mapKeyexpr['_unit'] = eachRunJob['KEYEXPR']['_unit'][it]
+				                  }
+					      } 
+                                              if (mapKeyexpr['_unit'] == null) {
+					          mapKeyexpr['_unit'] = eachRunJob.KEYEXPR._unit
+                                              }
+                                          }
+
                                           // description of keyexpr
 					  mapKeyexpr['_description'] = eachRunJob.KEYEXPR._description
 
