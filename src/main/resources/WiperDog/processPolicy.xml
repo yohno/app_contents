@@ -1,0 +1,1796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>WiperDog</web>
+<name>processPolicy</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>Main.AllDocs</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1379328907000</creationDate>
+<date>1379672589000</date>
+<contentUpdateDate>1379661796000</contentUpdateDate>
+<version>5.139</version>
+<title>processPolicy</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>true</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.processPolicy</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>e911010e-0f66-41d6-96af-5a5012bf790f</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/*
+--------------------------------------------------------
+suggest.js - Input Suggest
+Version 2.3.1 (Update 2013/02/11)
+
+Copyright (c) 2006-2013 onozaty (http://www.enjoyxstudy.com)
+
+Released under an MIT-style license.
+
+For details, see the web site:
+ http://www.enjoyxstudy.com/javascript/suggest/
+
+--------------------------------------------------------
+*/
+
+if (!Suggest) {
+  var Suggest = {};
+}
+/*-- KeyCodes -----------------------------------------*/
+Suggest.Key = {
+  TAB:     9,
+  RETURN: 13,
+  ESC:    27,
+  UP:     38,
+  DOWN:   40
+};
+
+/*-- Utils --------------------------------------------*/
+Suggest.copyProperties = function(dest, src) {
+  for (var property in src) {
+    dest[property] = src[property];
+  }
+  return dest;
+};
+
+/*-- Suggest.Local ------------------------------------*/
+Suggest.Local = function() {
+  this.initialize.apply(this, arguments);
+};
+Suggest.Local.prototype = {
+  initialize: function(input, suggestArea, candidateList) {
+
+    this.input = this._getElement(input);
+    this.suggestArea = this._getElement(suggestArea);
+    this.candidateList = candidateList;
+    this.oldText = this.getInputText();
+
+    if (arguments[3]) this.setOptions(arguments[3]);
+
+    // reg event
+    this._addEvent(this.input, 'focus', this._bind(this.checkLoop));
+    this._addEvent(this.input, 'blur', this._bind(this.inputBlur));
+    this._addEvent(this.suggestArea, 'blur', this._bind(this.inputBlur));
+
+    this._addEvent(this.input, 'keydown', this._bindEvent(this.keyEvent));
+
+    // init
+    this.clearSuggestArea();
+  },
+
+  // options
+  interval: 500,
+  dispMax: 20,
+  listTagName: 'div',
+  prefix: false,
+  ignoreCase: true,
+  highlight: false,
+  dispAllKey: false,
+  classMouseOver: 'over',
+  classSelect: 'select',
+  hookBeforeSearch: function(){},
+
+  setOptions: function(options) {
+    Suggest.copyProperties(this, options);
+  },
+
+  inputBlur: function() {
+
+    setTimeout(this._bind(function(){
+
+      if (document.activeElement == this.suggestArea
+          || document.activeElement == this.input) {
+        // keep suggestion
+        return;
+      }
+
+      this.changeUnactive();
+      this.oldText = this.getInputText();
+
+      if (this.timerId) clearTimeout(this.timerId);
+      this.timerId = null;
+
+      setTimeout(this._bind(this.clearSuggestArea), 500);
+    }, 500));
+  },
+
+  checkLoop: function() {
+    var text = this.getInputText();
+    if (text != this.oldText) {
+      this.oldText = text;
+      this.search();
+    }
+    if (this.timerId) clearTimeout(this.timerId);
+    this.timerId = setTimeout(this._bind(this.checkLoop), this.interval);
+  },
+
+  search: function() {
+
+    // init
+    this.clearSuggestArea();
+
+    var text = this.getInputText();
+
+    if (text == '' || text == null) return;
+
+    this.hookBeforeSearch(text);
+    var resultList = this._search(text);
+    if (resultList.length != 0) this.createSuggestArea(resultList);
+  },
+
+  _search: function(text) {
+
+    var resultList = [];
+    var temp; 
+    this.suggestIndexList = [];
+
+    for (var i = 0, length = this.candidateList.length; i &lt; length; i++) {
+      if ((temp = this.isMatch(this.candidateList[i], text)) != null) {
+        resultList.push(temp);
+        this.suggestIndexList.push(i);
+
+        if (this.dispMax != 0 &amp;&amp; resultList.length &gt;= this.dispMax) break;
+      }
+    }
+    return resultList;
+  },
+
+  isMatch: function(value, pattern) {
+
+    if (value == null) return null;
+
+    var pos = (this.ignoreCase) ?
+      value.toLowerCase().indexOf(pattern.toLowerCase())
+      : value.indexOf(pattern);
+
+    if ((pos == -1) || (this.prefix &amp;&amp; pos != 0)) return null;
+
+    if (this.highlight) {
+      return (this._escapeHTML(value.substr(0, pos)) + '&lt;strong&gt;' 
+             + this._escapeHTML(value.substr(pos, pattern.length)) 
+               + '&lt;/strong&gt;' + this._escapeHTML(value.substr(pos + pattern.length)));
+    } else {
+      return this._escapeHTML(value);
+    }
+  },
+
+  clearSuggestArea: function() {
+    this.suggestArea.innerHTML = '';
+    this.suggestArea.style.display = 'none';
+    this.suggestList = null;
+    this.suggestIndexList = null;
+    this.activePosition = null;
+  },
+
+  createSuggestArea: function(resultList) {
+
+    this.suggestList = [];
+    this.inputValueBackup = this.input.value;
+
+    for (var i = 0, length = resultList.length; i &lt; length; i++) {
+      var element = document.createElement(this.listTagName);
+      element.innerHTML = resultList[i];
+      this.suggestArea.appendChild(element);
+
+      this._addEvent(element, 'click', this._bindEvent(this.listClick, i));
+      this._addEvent(element, 'mouseover', this._bindEvent(this.listMouseOver, i));
+      this._addEvent(element, 'mouseout', this._bindEvent(this.listMouseOut, i));
+
+      this.suggestList.push(element);
+    }
+
+    this.suggestArea.style.display = '';
+    this.suggestArea.scrollTop = 0;
+  },
+
+  getInputText: function() {
+    return this.input.value;
+  },
+
+  setInputText: function(text) {
+    this.input.value = text;
+  },
+
+  // key event
+  keyEvent: function(event) {
+    if (!this.timerId) {
+      this.timerId = setTimeout(this._bind(this.checkLoop), this.interval);
+    }
+
+    if (this.dispAllKey &amp;&amp; event.ctrlKey 
+        &amp;&amp; this.getInputText() == ''
+        &amp;&amp; !this.suggestList
+        &amp;&amp; event.keyCode == Suggest.Key.DOWN) {
+      // dispAll
+      this._stopEvent(event);
+      this.keyEventDispAll();
+    } else if (event.keyCode == Suggest.Key.UP ||
+               event.keyCode == Suggest.Key.DOWN) {
+      // key move
+      if (this.suggestList &amp;&amp; this.suggestList.length != 0) {
+        this._stopEvent(event);
+        this.keyEventMove(event.keyCode);
+      }
+    } else if (event.keyCode == Suggest.Key.RETURN) {
+      // fix
+      if (this.suggestList &amp;&amp; this.suggestList.length != 0) {
+        console.log(event)
+        this._stopEvent(event);
+        this.keyEventReturn();
+      }
+    } else if (event.keyCode == Suggest.Key.ESC) {
+      // cancel
+      if (this.suggestList &amp;&amp; this.suggestList.length != 0) {
+        this._stopEvent(event);
+        this.keyEventEsc();
+      }
+    } else {
+      this.keyEventOther(event);
+    }
+  },
+
+  keyEventDispAll: function() {
+
+    // init
+    this.clearSuggestArea();
+
+    this.oldText = this.getInputText();
+
+    this.suggestIndexList = [];
+    for (var i = 0, length = this.candidateList.length; i &lt; length; i++) {
+      this.suggestIndexList.push(i);
+    }
+
+    this.createSuggestArea(this.candidateList);
+  },
+
+  keyEventMove: function(keyCode) {
+
+    this.changeUnactive();
+
+    if (keyCode == Suggest.Key.UP) {
+      // up
+      if (this.activePosition == null) {
+        this.activePosition = this.suggestList.length -1;
+      }else{
+        this.activePosition--;
+        if (this.activePosition &lt; 0) {
+          this.activePosition = null;
+          this.input.value = this.inputValueBackup;
+          this.suggestArea.scrollTop = 0;
+          return;
+        }
+      }
+    }else{
+      // down
+      if (this.activePosition == null) {
+        this.activePosition = 0;
+      }else{
+        this.activePosition++;
+      }
+
+      if (this.activePosition &gt;= this.suggestList.length) {
+        this.activePosition = null;
+        this.input.value = this.inputValueBackup;
+        this.suggestArea.scrollTop = 0;
+        return;
+      }
+    }
+
+    this.changeActive(this.activePosition);
+  },
+
+  keyEventReturn: function() {
+
+    this.clearSuggestArea();
+    this.moveEnd();
+  },
+
+  keyEventEsc: function() {
+
+    this.clearSuggestArea();
+    this.input.value = this.inputValueBackup;
+    this.oldText = this.getInputText();
+
+    if (window.opera) setTimeout(this._bind(this.moveEnd), 5);
+  },
+
+  keyEventOther: function(event) {},
+
+  changeActive: function(index) {
+
+    this.setStyleActive(this.suggestList[index]);
+
+    this.setInputText(this.candidateList[this.suggestIndexList[index]]);
+
+    this.oldText = this.getInputText();
+    this.input.focus();
+  },
+
+  changeUnactive: function() {
+
+    if (this.suggestList != null 
+        &amp;&amp; this.suggestList.length &gt; 0
+        &amp;&amp; this.activePosition != null) {
+      this.setStyleUnactive(this.suggestList[this.activePosition]);
+    }
+  },
+
+  listClick: function(event, index) {
+
+    this.changeUnactive();
+    this.activePosition = index;
+    this.changeActive(index);
+
+    this.clearSuggestArea();
+    this.moveEnd();
+  },
+
+  listMouseOver: function(event, index) {
+    this.setStyleMouseOver(this._getEventElement(event));
+  },
+
+  listMouseOut: function(event, index) {
+
+    if (!this.suggestList) return;
+
+    var element = this._getEventElement(event);
+
+    if (index == this.activePosition) {
+      this.setStyleActive(element);
+    }else{
+      this.setStyleUnactive(element);
+    }
+  },
+
+  setStyleActive: function(element) {
+    element.className = this.classSelect;
+
+    // auto scroll
+    var offset = element.offsetTop;
+    var offsetWithHeight = offset + element.clientHeight;
+
+    if (this.suggestArea.scrollTop &gt; offset) {
+      this.suggestArea.scrollTop = offset
+    } else if (this.suggestArea.scrollTop + this.suggestArea.clientHeight &lt; offsetWithHeight) {
+      this.suggestArea.scrollTop = offsetWithHeight - this.suggestArea.clientHeight;
+    }
+  },
+
+  setStyleUnactive: function(element) {
+    element.className = '';
+  },
+
+  setStyleMouseOver: function(element) {
+    element.className = this.classMouseOver;
+  },
+
+  moveEnd: function() {
+    if (this.input.createTextRange) {
+      this.input.focus(); // Opera
+      var range = this.input.createTextRange();
+      range.move('character', this.input.value.length);
+      range.select();
+    } else if (this.input.setSelectionRange) {
+      this.input.setSelectionRange(this.input.value.length, this.input.value.length);
+    }
+  },
+
+  // Utils
+  _getElement: function(element) {
+    return (typeof element == 'string') ? document.getElementById(element) : element;
+  },
+  _addEvent: (window.addEventListener ?
+    function(element, type, func) {
+      element.addEventListener(type, func, false);
+    } :
+    function(element, type, func) {
+      element.attachEvent('on' + type, func);
+    }),
+  _stopEvent: function(event) {
+    if (event.preventDefault) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      event.returnValue = false;
+      event.cancelBubble = true;
+    }
+  },
+  _getEventElement: function(event) {
+    return event.target || event.srcElement;
+  },
+  _bind: function(func) {
+    var self = this;
+    var args = Array.prototype.slice.call(arguments, 1);
+    return function(){ func.apply(self, args); };
+  },
+  _bindEvent: function(func) {
+    var self = this;
+    var args = Array.prototype.slice.call(arguments, 1);
+    return function(event){ event = event || window.event; func.apply(self, [event].concat(args)); };
+  },
+  _escapeHTML: function(value) {
+    return value.replace(/\&amp;/g, '&amp;amp;').replace( /&lt;/g, '&amp;lt;').replace(/&gt;/g, '&amp;gt;')
+             .replace(/\"/g, '&amp;quot;').replace(/\'/g, '&amp;#39;');
+  }
+};
+
+/*-- Suggest.LocalMulti ---------------------------------*/
+Suggest.LocalMulti = function() {
+  this.initialize.apply(this, arguments);
+};
+Suggest.copyProperties(Suggest.LocalMulti.prototype, Suggest.Local.prototype);
+
+Suggest.LocalMulti.prototype.delim = ' '; // delimiter
+
+Suggest.LocalMulti.prototype.keyEventReturn = function() {
+
+  this.clearSuggestArea();
+  this.input.value += this.delim;
+  this.moveEnd();
+};
+
+Suggest.LocalMulti.prototype.keyEventOther = function(event) {
+
+  if (event.keyCode == Suggest.Key.TAB) {
+    // fix
+    if (this.suggestList &amp;&amp; this.suggestList.length != 0) {
+      this._stopEvent(event);
+
+      if (!this.activePosition) {
+        this.activePosition = 0;
+        this.changeActive(this.activePosition);
+      }
+
+      this.clearSuggestArea();
+      this.input.value += this.delim;
+      if (window.opera) {
+        setTimeout(this._bind(this.moveEnd), 5);
+      } else {
+        this.moveEnd();
+      }
+    }
+  }
+};
+
+Suggest.LocalMulti.prototype.listClick = function(event, index) {
+
+  this.changeUnactive();
+  this.activePosition = index;
+  this.changeActive(index);
+
+  this.input.value += this.delim;
+
+  this.clearSuggestArea();
+  this.moveEnd();
+};
+
+Suggest.LocalMulti.prototype.getInputText = function() {
+
+  var pos = this.getLastTokenPos();
+
+  if (pos == -1) {
+    return this.input.value;
+  } else {
+    return this.input.value.substr(pos + 1);
+  }
+};
+
+Suggest.LocalMulti.prototype.setInputText = function(text) {
+
+  var pos = this.getLastTokenPos();
+
+  if (pos == -1) {
+    this.input.value = text;
+  } else {
+    this.input.value = this.input.value.substr(0 , pos + 1) + text;
+  }
+};
+
+Suggest.LocalMulti.prototype.getLastTokenPos = function() {
+  return this.input.value.lastIndexOf(this.delim);
+};</code>
+</property>
+<property>
+<name>suggest-js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.processPolicy</name>
+<number>1</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>a923ff66-39bd-4b78-9654-b81e34dfc1e8</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>require(['jquery'], function($) {
+  'use strict';
+
+  var caretClass   = 'textarea-helper-caret'
+    , dataKey      = 'textarea-helper'
+
+    // Styles that could influence size of the mirrored element.
+    , mirrorStyles = [ 
+                       // Box Styles.
+                       'box-sizing', 'height', 'width', 'padding-bottom'
+                     , 'padding-left', 'padding-right', 'padding-top'
+  
+                       // Font stuff.
+                     , 'font-family', 'font-size', 'font-style' 
+                     , 'font-variant', 'font-weight'
+  
+                       // Spacing etc.
+                     , 'word-spacing', 'letter-spacing', 'line-height'
+                     , 'text-decoration', 'text-indent', 'text-transform' 
+                     
+                      // The direction.
+                     , 'direction'
+                     ];
+
+  var TextareaHelper = function (elem) {
+    if (elem.nodeName.toLowerCase() !== 'textarea') return;
+    this.$text = $(elem);
+    this.$mirror = $('&lt;div/&gt;').css({ 'position'    : 'absolute'
+                                   , 'overflow'    : 'auto'
+                                   , 'white-space' : 'pre-wrap'
+                                   , 'word-wrap'   : 'break-word'
+                                   , 'top'         : 0
+                                   , 'left'        : -9999
+                                   }).insertAfter(this.$text);
+  };
+
+  (function () {
+    this.update = function () {
+
+      // Copy styles.
+      var styles = {};
+      for (var i = 0, style; style = mirrorStyles[i]; i++) {
+        styles[style] = this.$text.css(style);
+      }
+      this.$mirror.css(styles).empty();
+      var anchorPos= $("#anchor").position()
+      // Update content and insert caret.
+      var caretPos = this.getOriginalCaretPos()
+        , str      = this.$text.val()
+        , pre      = document.createTextNode(str.substring(0, caretPos))
+        , post     = document.createTextNode(str.substring(caretPos))
+        , $car     = $('&lt;span/&gt;').addClass(caretClass).css('position', 'absolute').html('&amp;nbsp;');
+      this.$mirror.append(pre, $car, post)
+                  .scrollTop(this.$text.scrollTop())
+
+    };
+
+    this.destroy = function () {
+      this.$mirror.remove();
+      this.$text.removeData(dataKey);
+      return null;
+    };
+
+    this.caretPos = function () {
+      this.update();
+      var $caret = this.$mirror.find('.' + caretClass)
+        , pos    = $caret.position();
+      if (this.$text.css('direction') === 'rtl') {
+        pos.right = this.$mirror.innerWidth() - pos.left - $caret.width();
+        pos.left = 'auto';
+      }
+      var anchorPos= $("#anchor").position()
+      pos['margin-left'] = anchorPos.left
+      pos['top'] = anchorPos.top
+      return pos;
+    };
+
+    this.height = function () {
+      this.update();
+      this.$mirror.css('height', '');
+      return this.$mirror.height();
+    };
+
+    // XBrowser caret position
+    // Adapted from http://stackoverflow.com/questions/263743/how-to-get-caret-position-in-textarea
+    this.getOriginalCaretPos = function () {
+      var text = this.$text[0];
+      if (text.selectionStart) {
+        return text.selectionStart;
+      } else if (document.selection) {
+        text.focus();
+        var r = document.selection.createRange();
+        if (r == null) {
+          return 0;
+        }
+        var re = text.createTextRange()
+          , rc = re.duplicate();
+        re.moveToBookmark(r.getBookmark());
+        rc.setEndPoint('EndToStart', re);
+        return rc.text.length;
+      } 
+      return 0;
+    };
+
+  }).call(TextareaHelper.prototype);
+  
+  $.fn.textareaHelper = function (method) {
+    this.each(function () {
+      var $this    = $(this)
+        , instance = $this.data(dataKey);
+      if (!instance) {
+        instance = new TextareaHelper(this);
+        $this.data(dataKey, instance);
+      }
+    });
+    if (method) {
+      var instance = this.first().data(dataKey);
+      return instance[method]();
+    } else {
+      return this;
+    }
+  };
+
+
+    jQuery.noConflict()
+});</code>
+</property>
+<property>
+<name>textareahelper</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.processPolicy</name>
+<number>2</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>981e20c5-8dd5-4d5f-a746-3780303926b5</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>var servletName
+var listPolicy = new Array()
+var mapPolicy = {}
+var currentIstIidSelector
+var listKey
+var maxRow = 0
+// SUGGEST FUNCTION
+function startSuggest(list) {
+    new Suggest.LocalMulti(
+        "inputText",    // input element id.
+        "suggest", // suggestion area id.
+        list,      // suggest candidates list
+        {dispMax: 10, interval: 500}
+    ); // options
+}
+
+// STRING REPLACE
+function replaceAllString(oriStr, strTarget, strSubString ){
+   var strText = oriStr;
+   var intIndexOfMatch = strText.indexOf( strTarget );
+   while (intIndexOfMatch != -1){
+      strText = strText.replace( strTarget, strSubString )
+      intIndexOfMatch = strText.indexOf( strTarget );
+   }
+   return( strText );
+}
+
+// RESET TO INITIAL SCREEN
+function resetControl() {
+    require(['jquery'], function($) {
+        $("#inputText").val("")
+        $("#messageText").val("")
+        $("#msgValidate").empty()
+        $("#sampleData").find("tr:gt(0)").remove();
+        $("#policyInfo").find("tr:gt(0)").remove();
+        $("#previewText").val("")
+        $("#runTestText").val("")
+        $("#inputText").prop('disabled', false)
+        $("#policyIdText").val("")
+        mapPolicy = {}
+        maxRow = 0
+    jQuery.noConflict()
+    });
+}
+
+// DRAW SAMPLE DATA TABLE AND POLICY DATA TABLE
+function drawTable(istIid){
+    require(['jquery'], function($) {
+        var selectedIstIid = istIid.options[istIid.selectedIndex].value
+        currentIstIidSelector = selectedIstIid
+        resetControl()
+        var jobName = $("#listJob option:selected").val()
+        if(selectedIstIid != "noChoice") {
+            jobName += "." + selectedIstIid
+        }
+        processChooseJob(jobName)
+        var responseData
+        $.ajax({
+            type: "GET",
+            crossDomain: true,
+            url: servletName + "?job_name=" + jobName,
+            dataType: 'json',
+            success: function(result) {
+                responseData = result
+                var policyData = responseData.POLICY.listpolicy
+
+                // FILL POLICY INFORMATIO INTO TABLE POLICY
+                var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+                if (policyData != null) {
+                    for (var i = 0; i &lt; policyData.length; i++) {
+                        var mapElement = policyData[i]
+                        mapPolicy[mapElement.condition] = mapElement.message
+                        maxRow = i + 1
+                        htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+                    };
+                };
+                $("#policyInfo").html(htmlPolicyInfoSource)
+            },
+            error: function(xhr, status, error) {
+                alert("There is an error! Wiperdog agent is on yet?")
+                console.log(error)
+                console.log(status)
+                console.log(xhr)
+            }
+        });
+    jQuery.noConflict()
+    });
+}
+
+// GET LIST JOB, DATA SAMPLE OF JOB IN MONGODB FROM PAGE CHOOSEJOBPROCESS
+function processChooseJob(jobName) {
+    require(['jquery'], function($) {
+        var data2send
+        if(jobName == null || jobName == "") {
+            data2send = {'jobName': ''}
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: "/xwiki/bin/get/Lib/chooseJobProcess?outputSyntax=plain",
+                dataType: 'text',
+                data: data2send,
+                success: function(result) {
+                    result = $.parseJSON(result)
+                    generateIstIidAndJobList(result)
+                },
+                error: function(xhr, status, error) {
+                    alert("There is an error! Wiperdog agent is on yet?")
+                    console.log(error)
+                    console.log(status)
+                    console.log(xhr)
+                }
+            });
+        } else {
+            data2send = {'jobName': jobName}
+            $("#loadingImg").css("display","block")
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: "/xwiki/bin/get/Lib/chooseJobProcess?outputSyntax=plain",
+                dataType: 'text',
+                data: data2send,
+                success: function(result) {
+                    result = JSON.parse(result)
+                    responseData = result
+                    var sampleData = responseData.SAMPLE
+                    var mapUnit = responseData.UNIT
+
+                    // CREATE CONDITION BY SUGGEST
+                    listKey = new Array()
+                    for(var key in sampleData) {
+                        if(key != "RECORD_SEQ") {
+                            listKey.push(key)
+                        }
+                    }
+                    startSuggest(listKey)
+
+                    // FILL MAPUNIT INTO JOB'S DATA
+                    var htmlJobDataSource = "&lt;tr&gt;&lt;th&gt;Field&lt;/th&gt;&lt;th&gt;Unit&lt;/th&gt;&lt;th&gt;Data Sample&lt;/th&gt;&lt;/tr&gt;"
+                    if(sampleData != null) {
+                        for(var key in sampleData) {
+                            if(key != "RECORD_SEQ") {
+                                htmlJobDataSource += "&lt;tr&gt;&lt;td&gt;" + key + "&lt;/td&gt;&lt;td&gt;" + mapUnit[key] +"&lt;/td&gt;&lt;td&gt;" + sampleData[key] +"&lt;/td&gt;&lt;/tr&gt;"
+                            }
+                        }
+                    };
+                    $("#sampleData").html(htmlJobDataSource)
+                    $("#loadingImg").css("display","none")
+                },
+                error: function(xhr, status, error) {
+                    alert("There is an error! Wiperdog agent is on yet?")
+                    console.log(error)
+                    console.log(status)
+                    console.log(xhr)
+                    $("#loadingImg").css("display","none")
+                }
+            });
+            
+        }
+    });
+    jQuery.noConflict()
+}
+
+// GENERATE JOB AND INSTANCES INTO SELECT BOX
+function generateIstIidAndJobList(result){
+    require(['jquery'], function($) {
+        var mapIstIid = {}
+        for(var i = 0; i&lt;= result.length - 1; i++){
+            var collectionName =  result[i]
+            var jobName = collectionName.substr(0, collectionName.lastIndexOf("."))
+            if(mapIstIid[jobName] == null){
+                mapIstIid[jobName] = []
+            }
+            var istIid = collectionName.substr(collectionName.lastIndexOf(".") + 1, collectionName.length)
+            mapIstIid[jobName].push(istIid)
+        }
+        for(key in mapIstIid){
+            $("#listJob").append("&lt;option id=" + key + " value=" + key  + "&gt;" + key + "&lt;/option&gt;")
+            var istIidSelector = "istIid_" + replaceAllString(key,".","_")
+            $("#istIidArea").append("&lt;select style=\"width:500px;display:none\" id=\"" + istIidSelector + "\" onchange=\"drawTable(" + istIidSelector + ")\"&gt;\n&lt;/select&gt;")
+            $("#" + istIidSelector).append("&lt;option id=\"noChoice\" value=\"noChoice\"&gt;-select a istIid-&lt;/option&gt;")
+            var listIstIid = mapIstIid[key]
+            for(var i = 0; i &lt;= listIstIid.length - 1; i++){
+                var istiid = listIstIid[i]
+                $("#" + istIidSelector).append("&lt;option id=\"" + istiid + "\" value=\"" + istiid + "\"&gt;" + istiid + "&lt;/option&gt;")
+            }
+        }
+    });
+    jQuery.noConflict()
+}
+
+require(['jquery'], function($) {
+
+    // GET SERVLET AND FILL LIST JOB INTO SELECT BOX
+    function ajaxGetServlet() {
+        params = 'ProcessPolicy'
+        $.ajax({
+            type: "GET",
+            url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + params,
+            success: function(result) {
+                servletName = result
+            },
+            error: function(xhr, status, error) {
+                console.log(error)
+                console.log(status)
+                console.log(xhr)
+            }
+        });
+    }
+
+    // DOCUMENT READY
+    $(document).ready(function() {
+        ajaxGetServlet();
+        // CREATE SELECT BOX
+        processChooseJob("")
+
+        // CREATE SUGGEST SEARCH
+        $('textarea').on('keyup paste cut mouseup', function () {
+            // Get the textarea's content height.
+            var contentHeight = $(this).textareaHelper('height')
+            // Set the textarea to the content height. i.e. expand as we type.
+            $(this).height(contentHeight);
+      
+            // Follow the caret arounbd.
+            $('.tail').css(
+                $(this).textareaHelper('caretPos')
+            );
+        });
+
+        // WHEN CHOICE A JOB IN SELECT BOX =&gt; FILL DATA SAMPLE AND POLICY FILE FOR ORIGINAL JOB
+        $("#listJob").change(function() {
+            var jobName = $("#listJob option:selected").val()
+            processChooseJob(jobName)
+            if (jobName != "noChoice") {
+                resetControl()
+                $("#istIidArea &gt; select").val("noChoice")
+                $("#istIidArea &gt; select").css("display","none")
+                $("#istIid_" + replaceAllString(jobName,".","_")).css("display", "block")
+            }
+
+            $.ajax({
+                type: "GET",
+                crossDomain: true,
+                url: servletName + "?job_name=" + jobName,
+                dataType: 'json',
+                success: function(result) {
+                    responseData = result
+                    var policyData = responseData.POLICY.listpolicy
+
+                    // FILL POLICY INFORMATIO INTO TABLE POLICY
+                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+                    if (policyData != null) {
+                        for (var i = 0; i &lt; policyData.length; i++) {
+                            var mapElement = policyData[i]
+                            mapPolicy[mapElement.condition] = mapElement.message
+                            maxRow = i + 1
+                            htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+                        };
+                    };
+                    $("#policyInfo").html(htmlPolicyInfoSource)
+                },
+                error: function(xhr, status, error) {
+                    alert("There is an error! Wiperdog agent is on yet?")
+                    console.log(error)
+                    console.log(status)
+                    console.log(xhr)
+                }
+            });
+        });
+
+        // CLICK ADD BUTTON
+        $("#addButton").click(function() {
+            var jobText = $("#listJob option:selected").val()
+            var conditionText = $("#inputText").val().trim()
+            var messageText = $("#messageText").val().trim()
+
+            // Validate job
+            if(jobText == "noChoice") {
+                $("#msgValidate").html("&lt;p&gt;Please choose a job !!!&lt;/p&gt;")
+                return
+            } else {
+                $("#msgValidate").text('')
+            }
+
+            // Validate condition
+            if (conditionText == "") {
+                $("#msgValidate").html("&lt;p&gt;\"Condition\" can not be empty !!!&lt;/p&gt;")
+                return
+            } else {
+                var data2send = {'action': 'STANDARDCONDITION','data':conditionText, 'listKey': JSON.stringify(listKey)}
+                conditionText = getPolicyString(data2send)
+                if(conditionText[0] != "(") {
+                    conditionText = "(" + conditionText
+                }
+                if(conditionText[conditionText.length - 1] != ")") {
+                    conditionText = conditionText + ")"
+                }
+                $("#msgValidate").text('')
+            }
+
+            // Validate message
+            if (messageText == "") {
+                $("#msgValidate").html("&lt;p&gt;\"Message\" can not be empty !!!&lt;/p&gt;")
+                return
+            } else {
+                var data2send = {'action': 'STANDARDMESSAGE','data':messageText, 'listKey': JSON.stringify(listKey)}
+                messageText = getPolicyString(data2send)
+                $("#msgValidate").text('')
+            }
+            var booleanUpdate = false
+            var policyID = $("#policyIdText").val()
+            var table = document.getElementById('policyInfo')
+            var lstRow = table.rows
+            for(var i = 0; i &lt; lstRow.length; i++) {
+                if(policyID == lstRow[i].cells[0].innerText) {
+                    var checkAddNew = true
+                    for(var key in mapPolicy) {
+                        if(key == conditionText) {
+                            checkAddNew = false
+                            var confirm_update = confirm("Conditon is exits, update message ?")
+                            if(confirm_update) {
+                                mapPolicy[key] = messageText
+                                var idUpdate
+                                for(var i = 0; i &lt; lstRow.length; i++) {
+                                    if(lstRow[i].cells[1].innerText == conditionText) {
+                                        idUpdate = lstRow[i].cells[0].innerText
+                                    }
+                                }
+                                lstRow[idUpdate].cells[2].innerText = messageText
+                            }
+                        }
+                    }
+                    if(checkAddNew) {
+                        var confirm_update = confirm("Update policy ?")
+                        if(confirm_update){
+                            delete mapPolicy[lstRow[i].cells[1].innerText]
+                            lstRow[i].cells[1].innerText = conditionText
+                            lstRow[i].cells[2].innerText = messageText
+                            mapPolicy[conditionText] = messageText
+                        }
+                    }
+                    booleanUpdate = true
+                }
+            }
+            if(!booleanUpdate) {
+                var checkAddNew = true
+                for(var key in mapPolicy) {
+                    if(key == conditionText) {
+                        checkAddNew = false
+                        var confirm_update = confirm("Conditon is exits, update message ?")
+                        if(confirm_update) {
+                            mapPolicy[key] = messageText
+                            var idUpdate
+                            for(var i = 0; i &lt; lstRow.length; i++) {
+                                if(lstRow[i].cells[1].innerText == conditionText) {
+                                    idUpdate = lstRow[i].cells[0].innerText
+                                }
+                            }
+                            lstRow[idUpdate].cells[2].innerText = messageText
+                        }
+                    }
+                }
+                if(checkAddNew) {
+                    maxRow = maxRow + 1
+                    var inputMaps = {
+                        'policyId': maxRow,
+                        'condition': conditionText,
+                        'message': messageText
+                    }
+                    var tr = createTrAppend(inputMaps, 'policyInfo')
+                    tr.appendChild(createTdAction())
+                    table.appendChild(tr)
+                    $("#msgValidate").html("&lt;b&gt;Policy was added !!!&lt;/b&gt;")
+                    mapPolicy[conditionText] = messageText
+                }
+            }
+            $("#inputText").val("")
+            $("#messageText").val("")
+            $("#policyIdText").val("")
+        });
+
+        // CLICK "PREVIEW" =&gt; SEND DATA TO SERVLET
+        $("#previewFileButton").click(function() {
+            $("#msgValidate").empty()
+            // Get data from form
+            if(JSON.stringify(mapPolicy) != '{}') {
+                var mapFinal = {}
+                var jobName = $("#listJob option:selected").val()
+                mapFinal['jobName'] = jobName
+                var instText = currentIstIidSelector
+                if(instText != "noChoice" &amp;&amp; instText != null) {
+                    mapFinal['instanceName'] = instText
+                }
+                mapFinal['mappolicy'] = mapPolicy
+                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey)}
+                var result = getPolicyString(data2send)
+                $("#previewText").val(result)
+            } else {
+                $("#previewText").val("Please create a policy !!!")
+                $("#msgValidate").text("")
+                $("#runTestText").val("")
+            }
+        });
+
+        // CLICK "RUNTEST" =&gt; EVALUATE DATA OF NEAREST MONITORING
+        $("#runTestButton").click(function(){
+            $("#msgValidate").empty()
+            // Get data from form
+            if(JSON.stringify(mapPolicy) != '{}') {
+                var mapFinal = {}
+                var jobName = $("#listJob option:selected").val()
+                mapFinal['jobname'] = jobName
+                var instText = currentIstIidSelector
+                if(instText != "noChoice" &amp;&amp; instText != null) {
+                    mapFinal['instanceName'] = instText
+                }
+                mapFinal['mappolicy'] = mapPolicy
+                var mapSampleData = responseData.SAMPLE
+                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(mapSampleData)}
+                var result = getPolicyString(data2send)
+                result = $.parseJSON(result)
+                if(result.status == "failed") {
+                    $("#runTestText").val("Policy has syntax errors! Check again...\n\nREASON:\n\n" + result.message)
+                } else {
+                    if(result.message.length == 0) {
+                        $("#runTestText").val("System is running normally")
+                    } else {
+                        var warningMsg = ""
+                        for(var i = 0; i &lt; result.message.length; i++) {
+                            warningMsg += "*** " + result.message[i] + "\n"
+                        }
+                        $("#runTestText").val(warningMsg)
+                    }
+                }
+            } else {
+                $("#previewText").val("")
+                $("#runTestText").val("Please create a policy !!!")
+                $("#msgValidate").text("")
+            }
+        });
+
+        // CLICK "SAVE TO FILE" =&gt; SEND DATA TO SERVLET
+        $("#saveFileButton").click(function() {
+            $("#msgValidate").empty()
+            $("#loadingImgSaveToFile").css("display","block")
+            // Get data from form
+            var mapFinal = {}
+            var jobName = $("#listJob option:selected").val()
+            if(jobName == "noChoice") {
+                $("#msgValidate").html("&lt;p&gt;Please choose a job !!!&lt;/p&gt;")
+                return
+            } else {
+                $("#msgValidate").text('')
+                mapFinal['jobName'] = jobName
+            }
+            var instText
+            if(currentIstIidSelector != "noChoice" &amp;&amp; currentIstIidSelector != null) {
+                mapFinal['instanceName'] = currentIstIidSelector
+                instText = currentIstIidSelector
+            }
+            mapFinal['mappolicy'] = mapPolicy
+            var data2send = {'action': 'WRITE2FILE','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey)}
+            var result = getPolicyString(data2send)
+            var resquestData = {'action': 'WRITE2FILE', 'jobName' : jobName, 'instanceName' : instText, 'policyStr' : result}
+            send_ajax_post_data(servletName, function(result) {}, resquestData)
+            
+        });
+
+        // Get policyString from page PolicyStringLib
+        function getPolicyString(data)  {
+            var ret
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: "/xwiki/bin/get/Lib/PolicyStringLib?outputSyntax=plain",
+                dataType: 'text',
+                data: data,
+                async: false,
+                //context: JSON.stringify(mapFinal),
+                success: function(result) {
+                    ret = result
+                },
+                error: function(xhr, status, error) {
+                    alert("There is an error! Wiperdog agent is on yet?")
+                    console.log(error)
+                    console.log(status)
+                    console.log(xhr)
+                }
+            });
+            return ret
+        }
+        
+
+        // SEND DATA TO SERVLET
+        function send_ajax_post_data(domainURL, callback, data) {
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: domainURL,
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function(result) {
+                    var statusExecute = result.status
+                    var messageExecute = result.message
+                    if(statusExecute == "OK") {
+                        $("#msgValidate").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
+                    } else if(statusExecute == "failed"){
+                        $("#msgValidate").html("&lt;p&gt;Can not create POLICY file !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
+                    }
+                    callback(result)
+                    $("#loadingImgSaveToFile").css("display","none")
+                },
+                error: function(xhr, status, error) {
+                    $("#msgValidate").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+                    console.log(xhr)
+                    console.log(status)
+                    console.log(error)
+                    $("#loadingImgSaveToFile").css("display","none")
+                }
+            });
+        }
+
+    });
+
+    // DELETE A ROW OF TABLE POLICY
+    $(document).off('click', '#policyInfo  .delete_btn')
+    $(document).on('click', '#policyInfo  .delete_btn', function(event) {
+        event.preventDefault();
+        var conf = confirm('Delete this instance , are you sure ?')
+        if (conf) {
+            var rowDeleted = deleteRow(this, 'policyInfo')
+            var keyDeleted = rowDeleted.cells[1].innerText
+            delete mapPolicy[keyDeleted]
+            maxRow = maxRow - 1
+        }
+    });
+
+    // UPDATE A ROW OF TABLE POLICY
+    $(document).on('click', '#policyInfo  .edit_btn', function(event) {
+        event.preventDefault();
+        var row = this.parentNode.parentNode
+        $("#policyIdText").val(row.cells[0].innerText.trim())
+        $("#inputText").val(row.cells[1].innerText.trim())
+        $("#messageText").val(row.cells[2].innerText.trim())
+    });
+
+    // REMOVE A ROW OF TABLE
+    function deleteRow(row, tableId) {
+        var idx = row.parentNode.parentNode.rowIndex
+        var rowDeleted = row.parentNode.parentNode
+        $(row).closest('tr').remove();
+
+        return rowDeleted
+    }
+
+    // CHECK THE EXISTENCE OF KEY IN MAP
+    function checkKeyDupl(keyCheck, obj) {
+        for (key in obj) {
+            if (key == keyCheck) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // CREATE TR BY JSON DATA OBJECT
+    function createTrAppend(jsonObj) {
+        var tr = document.createElement('tr')
+        for (key in jsonObj) {
+            var td = document.createElement('td')
+            var td_text = document.createTextNode(jsonObj[key])
+            td.appendChild(td_text)
+            tr.appendChild(td)
+        }
+        return tr
+    }
+
+    // CREATE TD ELEMENT
+    function createTdAction() {
+        var td_action = document.createElement('td')
+        td_action.setAttribute('class', 'td_button')
+        var del_btn = document.createElement('input')
+        var edit_btn = document.createElement('input')
+        // Click delete button
+        del_btn.setAttribute('type', 'input')
+        del_btn.setAttribute('class', 'delete_btn button')
+        del_btn.setAttribute('value', 'Delete')
+        del_btn.setAttribute('style', 'width:50px')
+        // Click update button
+        edit_btn.setAttribute('type', 'input')
+        edit_btn.setAttribute('class', 'edit_btn button')
+        edit_btn.setAttribute('value', 'Edit')
+        edit_btn.setAttribute('style', 'width:50px')
+        td_action.appendChild(del_btn)
+        td_action.appendChild(edit_btn)
+        return td_action
+    }
+    jQuery.noConflict()
+});</code>
+</property>
+<property>
+<name>processPolicy-js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.processPolicy</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>d07e9eed-cb81-40af-af10-6787123f4e17</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>table{
+    min-width:350px;
+}
+.button{
+    min-width:60px;
+    text-align: center;
+}
+.textareacls{
+    min-width: 500px;
+    width: 500px;
+    min-height: 100px;
+    height: 100%;
+    resize: none;
+    //overflow-y: scroll;
+}
+#inputText{
+    min-height: 60px;
+    height: 60px;
+    width: 500px;
+    resize: none;
+}
+#suggest {
+    position: absolute;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCFF;
+    //out-line:none;
+    font-size: 90%;
+    width: 200px;
+}
+
+#policyForm{
+height:400px; 
+width:940px;
+overflow: scroll;
+}
+
+#sampleDataForm{
+height:300px;
+width:430px;
+overflow:scroll;
+}
+
+#suggest div {
+    display: block;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+#suggest div.select{ /* keydown, keyup */
+    color: #FFFFFF;
+    background-color: #3366FF;
+}
+#suggest div.over{ /* mouse over */
+    background-color: #99CCFF;
+}
+.tail {
+  width: 50px;
+  min-height: 50px;
+  position: absolute;
+  top : 100px;
+}
+
+#msgValidate b {
+  color: blue;
+  font-size: 1.3em;
+}
+
+#msgValidate p {
+  color: red;
+  font-size: 1.3em;
+}
+
+#previewText, #runTestText {
+  min-height: 300px;
+  width: 100%;
+}</code>
+</property>
+<property>
+<name>processPolicy-css</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<content>{{html wiki="true" clean="false"}}
+&lt;table border=1&gt;
+    &lt;tr&gt;
+        &lt;th style="width:100px;min-width:100px"&gt;
+            Job:
+        &lt;/th&gt;
+        &lt;td&gt;
+            &lt;select style="width:500px" id="listJob"&gt;
+                &lt;option id="noChoice" value="noChoice"&gt;-select a job-&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/td&gt;
+        &lt;td rowspan=5&gt;
+            &lt;div id="loadingImg" style="display:none"&gt;&lt;img src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;&lt;/div&gt;
+            &lt;table border=1 width="100%"&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Job's data&lt;/th&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                        &lt;div id="sampleDataForm"&gt;
+                          &lt;table style="width:400px" id="sampleData"&gt;
+                            &lt;tr&gt;
+                                &lt;th style="width:35%"&gt;Field&lt;/th&gt;
+                                &lt;th style="width:35%"&gt;Unit&lt;/th&gt;
+                                &lt;th style="width:35%"&gt;Data Sample&lt;/th&gt;
+                            &lt;/tr&gt;
+                          &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr style="height:10px"&gt;&lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;
+            IstIid:
+        &lt;/th&gt;
+        &lt;td&gt;
+            &lt;div id="istIidArea"&gt;
+                &lt;select style="width:500px" id="default"&gt;
+                    &lt;option id="noChoice" value="noChoice"&gt;-select a istIid-&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th style="width:100px;min-width:100px"&gt;
+            Condition:
+        &lt;/th&gt;
+        &lt;td&gt;
+            &lt;textarea id="inputText" class="textareacls" type="text" name="pattern" value="" autocomplete="off"&gt;&lt;/textarea&gt;
+            &lt;div id="suggest" style="display:none;" class="tail"&gt;&lt;/div&gt;
+            &lt;div id="anchor"&gt;&lt;/div&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th style="width:100px;min-width:100px"&gt;
+            Message:
+        &lt;/th&gt;
+        &lt;td&gt;
+            &lt;textarea id="messageText" class="textareacls" &gt;&lt;/textarea&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td colspan=2&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;&lt;td colspan="4"&gt;
+        &lt;p id='msgValidate'&gt;&lt;/p&gt;&lt;center&gt;&lt;input type="submit" value="Add / Update" id="addButton" class="button" style="height:30px;"/&gt;&lt;/center&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Policy Info&lt;/th&gt;
+        &lt;td colspan="4"&gt;
+            &lt;div id="policyForm"&gt;
+            &lt;table id="policyInfo" style="width:920px"&gt;
+                  &lt;tr&gt;
+                     &lt;th style="width:35%"&gt;PolicyID&lt;/th&gt;
+                     &lt;th style="width:35%"&gt;Condition&lt;/th&gt;
+                     &lt;th style="width:35%"&gt;Message&lt;/th&gt;
+                     &lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;
+                  &lt;/tr&gt;
+             &lt;/table&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td colspan="4"&gt;
+            &lt;table width="100%"&gt;
+                  &lt;tr&gt;
+                    &lt;td colspan="2"&gt;
+                        &lt;input type="button" class="button" value="Preview" id="previewFileButton" style="height:30px;"/&gt;
+                        &lt;input type="button" class="button" value="Run test" id="runTestButton" style="height:30px;"/&gt;
+                    &lt;/td&gt;
+                 &lt;/tr&gt;
+                  &lt;tr&gt;
+                     &lt;th&gt;Preview&lt;/th&gt;
+                     &lt;th&gt;Result Test&lt;/th&gt;
+                  &lt;/tr&gt;
+                  &lt;tr&gt;
+                     &lt;td&gt;&lt;textarea id="previewText" class="textareacls" readonly&gt;&lt;/textarea&gt;&lt;/td&gt;
+                     &lt;td&gt;&lt;textarea id="runTestText" class="textareacls" readonly&gt;&lt;/textarea&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+             &lt;/table&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td colspan=4&gt;
+            &lt;center&gt;
+            &lt;input type="button" class="button" value="Save to file" id="saveFileButton" style="height:30px;"/&gt;
+            &lt;div id="loadingImgSaveToFile" style="display:none"&gt;&lt;img src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;&lt;/div&gt;
+            &lt;/center&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;div style="display:none"&gt;&lt;textarea id="policyIdText" class="textareacls" &gt;&lt;/textarea&gt;&lt;/div&gt;
+
+{{/html}}</content></xwikidoc>

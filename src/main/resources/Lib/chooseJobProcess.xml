@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>Lib</web>
+<name>chooseJobProcess</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>WiperDog.processPolicy</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1379578908000</creationDate>
+<date>1379589232000</date>
+<contentUpdateDate>1379589232000</contentUpdateDate>
+<version>1.17</version>
+<title>chooseJobProcess</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>true</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<content>{{include document="Lib.MongoDBConnection"/}}
+{{groovy}}
+import com.gmongo.GMongo
+import java.text.SimpleDateFormat
+import groovy.json.*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import groovy.lang.GroovyShell
+
+def gmongoObject = MongoDBConnection.getConnection()
+def dbConn = gmongoObject.getDB('wiperdog')
+def lstJobMongo = dbConn.getCollectionNames()
+def slurper = new JsonSlurper()
+def builder
+	
+response.setContentType('text')
+
+def jobName = request.getParameter("jobName")
+if(jobName == null || jobName == "") {
+    builder = new JsonBuilder(lstJobMongo)
+    lstJobMongo = builder.toString()
+    println lstJobMongo
+} else {
+   	def mapFinalPolicy = [:]
+	lstJobMongo.find {eCollection -&gt;
+		if(eCollection == jobName || eCollection.contains(jobName)) {
+			// Sample Data
+			def mapSampleData
+                        def cloneSampleData = [:]
+			def resultJob = MongoDBConnection.getDataAllFields(eCollection)[0]
+			if(resultJob.type == "Subtyped") {
+				mapSampleData = resultJob.data[resultJob.data.keySet()[0]][0]
+			} else if(resultJob.type == "Store") {
+				mapSampleData = resultJob.data[0]
+			}
+			def mapUnit = resultJob.KEYEXPR._unit
+			def mapSampleUnit = [:]
+			mapSampleData.each {key,value -&gt;
+                                if(value.toString().contains("\\")){
+                                        value = value.replaceAll("\\\\","/")
+                                }
+                                cloneSampleData[key] = value
+				def checkExits = false
+				mapUnit.each {keyUnit, valueUnit -&gt;
+					if(key == keyUnit) {
+						checkExits = true
+						def keyResp = key + " (" + valueUnit + ")"
+						mapSampleUnit[key] = valueUnit
+					}
+				}
+				if(!checkExits) {
+					mapSampleUnit[key] = ""
+				}
+			}
+			mapFinalPolicy["SAMPLE"] = cloneSampleData
+			mapFinalPolicy["UNIT"] = mapSampleUnit
+		}
+	}
+        builder = new JsonBuilder(mapFinalPolicy)
+        println builder.toString()
+}
+
+
+{{/groovy}}</content></xwikidoc>
