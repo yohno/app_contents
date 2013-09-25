@@ -7,18 +7,18 @@
 <translation>0</translation>
 <parent>WiperDog.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.HiroyoshiKurohara</author>
+<author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.HiroyoshiKurohara</contentAuthor>
+<contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1377223088000</creationDate>
-<date>1379379803000</date>
-<contentUpdateDate>1379379803000</contentUpdateDate>
-<version>90.1</version>
-<title>WiperDog</title>
+<date>1380105889000</date>
+<contentUpdateDate>1380105889000</contentUpdateDate>
+<version>2.2</version>
+<title>MonitoringData</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<minorEdit>false</minorEdit>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -3404,15 +3404,547 @@ margin-bottom: 8px;
 <levels>view,comment,edit,delete</levels>
 </property>
 </object>
-<content>{{include document="Lib.DataToDrawChart"/}}
-{{include document="Lib.MongoDBConnection"/}}
+<content>{{include document="WiperDogLib.DataToDrawChart"/}}
+{{include document="WiperDogLib.MongoDBConnection"/}}
+{{velocity}}
+$xwiki.jsx.use('WiperDogLib.JQueryUILib')
+$xwiki.ssx.use('WiperDogLib.MenuGenerator')
+$xwiki.jsx.use('WiperDogLib.MenuGenerator')
+$xwiki.ssx.use('WiperDogLib.JQueryUILib')
+$xwiki.jsx.use('WiperDogLib.JqGridLib')
+$xwiki.ssx.use('WiperDogLib.JqGridLib') 
+{{/velocity}}
+{{include document="WiperDogLib.MenuGenerator"/}}
+{{html wiki="true" clean="false"}}
+&lt;div id="viewer"&gt;
+&lt;table style="text-align:left"  &gt;
+ &lt;tr&gt;
+  &lt;th &gt;Job name&lt;/th&gt;
+  &lt;td colspan=3&gt;&lt;div id="jobname"&gt;&lt;/div&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+{{groovy}}
+import org.xwiki.context.*
 
-(((
+def ec = services.component.getInstance(Execution.class).getContext()
+def mapJobIstIid = ec.getProperty("mapJobIstIid")
 
-{{velocity}}$xwiki.jsx.use('Lib.JQueryUILib')
-$xwiki.ssx.use('Lib.MenuGenerator')
-$xwiki.jsx.use('Lib.MenuGenerator')
-$xwiki.ssx.use('Lib.JQueryUILib')
-$xwiki.jsx.use('Lib.JqGridLib')
-$xwiki.ssx.use('Lib.JqGridLib') {{/velocity}}
-{{include document="Lib.MenuGenerator"/}}</content></xwikidoc>
+println '{{html clean="false" wiki="false"}}'
+println '&lt;tr&gt;'
+println '&lt;th&gt;IstIid&lt;/th&gt;'
+println '&lt;td colspan=3&gt;'
+mapJobIstIid.each{jobEntry-&gt;
+  def convertedJobKey = jobEntry.key.replaceAll("\\.","_")
+  convertedJobKey = convertedJobKey.replaceAll("\\@","_")
+  println "&lt;div id='listIstIid'&gt;"
+  println "&lt;div id=IstIid${convertedJobKey} style='display:none'&gt;"
+  println "&lt;select id=select_${convertedJobKey}&gt;"
+  jobEntry.value.each{
+     println "&lt;option value=\"$it\"&gt;$it&lt;/option&gt;"
+  }
+  println "&lt;/select&gt;"
+  println "&lt;/div&gt;"
+  println "&lt;/div&gt;"
+}
+println '&lt;/td&gt;'
+println '&lt;/tr&gt;'
+println '{{/html}}'
+{{/groovy}}
+ &lt;tr&gt;
+  &lt;th&gt;Data monitor from&lt;/th&gt;
+  &lt;td&gt;&lt;input type="text" name="from-date" id="from-date"/&gt;&lt;/td&gt;
+  &lt;th&gt;Data monitor to&lt;/th&gt;
+  &lt;td&gt;&lt;input type="text" name="to-date" id="to-date"/&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;th&gt;Data records limit &lt;/th&gt;
+  &lt;td &gt;
+     &lt;select id="limit"&gt;
+       &lt;option value=10&gt;10&lt;/option&gt;
+       &lt;option value=20&gt;20&lt;/option&gt;
+       &lt;option value=50&gt;50&lt;/option&gt;
+       &lt;option value=70&gt;70&lt;/option&gt;
+       &lt;option value=100&gt;100&lt;/option&gt;
+     &lt;/select&gt;
+  &lt;/td&gt;
+  &lt;td colspan=3 &gt;&lt;input type="button" value="View Data" id="get-data" class="button"/&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ 
+ &lt;tr style="display:none"&gt;&lt;td colspan=3&gt;&lt;div id="display"&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/div&gt; 
+   
+ &lt;/body&gt;
+
+{{/html}}
+{{groovy}}
+import groovy.json.*
+xwiki.jsx.use("WiperDogLib.Highcharts")
+
+if(request.xpage == "plain") {
+	response.setContentType('text/plain')
+}
+
+def listData = []
+def job = request.get("job")
+def fromDate = request.get("fromDate")
+def toDate = request.get("toDate")
+def limit= (request.get("limit")!=null)?request.get("limit").toInteger():10
+def istIid = request.get("IstIid")
+
+def str= "No data to retrieved !"
+def result = null
+if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid != ""){
+	MongoDBConnection.getConnection()
+	if(fromDate != "" || toDate != ""){
+		result = MongoDBConnection.getDataInPeriod(job,fromDate,toDate,limit,istIid)
+	} else {
+		result = MongoDBConnection.getDataAllFields(job,limit,istIid)
+        }
+MongoDBConnection.closeConnection()
+} else {
+   println "{{warning}}There are no selected job or IstIid{{/warning}}"
+}
+def listKey = []
+if( (result != null) &amp;&amp; (result.size() &gt; 0) &amp;&amp; (result[0].KEYEXPR != null)&amp;&amp;!(result[0].KEYEXPR instanceof List )){
+
+//Format data fetchAt
+result.each {item -&gt;
+    def newdate = new Date().parse("yyyyMMddHHmmssz", item['fetchAt'])
+    item['fetchAt'] = newdate.format('yyyy/MM/dd HH:mm:ss z')
+}
+
+//Draw chart
+if(result[0].type == "Subtyped") {
+    println '{{html clean="false" wiki="true"}}'
+    //println '&lt;body&gt;'
+    def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result)
+    dataSubtype.each {key,value -&gt;
+        listKey.add(key)
+    }
+    def jsonkey = com.mongodb.util.JSON.serialize(listKey)
+    println "&lt;textarea style=\"display:none\" id='lstkey' &gt;$jsonkey&lt;/textarea&gt;"
+
+    dataSubtype.each {key,value -&gt;
+            def dataLine = []
+            def dataBar = []
+            def dataPie = []
+            def dataArea = []
+            if(DataToDrawChart.getDataToDrawLine(value) != []) {
+                dataLine = DataToDrawChart.getDataToDrawLine(value)
+            }
+            if(DataToDrawChart.getDataToDrawBar(value) != []) {
+                dataBar = DataToDrawChart.getDataToDrawBar(value)
+            }
+            if(DataToDrawChart.getDataToDrawPie(value) != []) {
+                dataPie = DataToDrawChart.getDataToDrawPie(value)
+            }
+
+            if(DataToDrawChart.getDataToDrawArea(value) != []) {
+                dataArea = DataToDrawChart.getDataToDrawArea(value)
+            }
+		def chartColumnsLine = []
+		def chartColumnsBar = []
+		def chartColumnsArea = []
+		def lstName
+
+                dataLine.each {itemDataLine -&gt;
+                    if(itemDataLine.size() &gt; 0 ){
+                       itemDataLine.each{item-&gt;
+                       chartColumnsLine.add(item.chart_name)
+                       }
+	            }
+                }
+                dataBar.each {itemDataBar -&gt;
+                    if(itemDataBar.size() &gt; 0 ){
+		        chartColumnsBar.add(itemDataBar[0].chart_columns)
+	            }
+                }
+                dataArea.each {itemDataArea -&gt;
+                    if(itemDataArea.size() &gt; 0 ){
+		        chartColumnsArea.add(itemDataArea[0].chartItemName)
+	            }
+                }
+
+		if(dataPie.size() &gt; 0 ){
+			lstName = dataPie['name']
+
+		}
+                
+		def tmpListNameContainer = [] 
+		if(lstName != null) {
+                        def chartNumPie = 0
+                        def tmpLst
+                        for(def nameContainer in lstName){
+                           tmpLst = []
+			   for(def nameContainerItem in nameContainer ){
+                                nameContainerItem = chartNumPie + "_" + nameContainerItem.replaceAll("\\.", "_")
+				tmpLst.add(nameContainerItem )
+		            }
+                            tmpListNameContainer.add(tmpLst)
+                            chartNumPie++
+                         }
+		}
+
+		def jsonPie
+		def jsonLine
+		def jsonBar
+		def jsonArea
+		if(dataPie != []) {
+		    jsonPie = com.mongodb.util.JSON.serialize(dataPie)
+		}
+
+		if(dataLine != []) {
+		    jsonLine = com.mongodb.util.JSON.serialize(dataLine)
+		}
+		if(dataBar != []) {
+		    jsonBar = com.mongodb.util.JSON.serialize(dataBar)
+		}
+		if(dataArea != []) {
+		    jsonArea = com.mongodb.util.JSON.serialize(dataArea)
+		}
+		def jsonContainerPie
+		if(tmpListNameContainer != []) {
+			jsonContainerPie = com.mongodb.util.JSON.serialize(tmpListNameContainer)
+		}
+		def jsonContainerLine = com.mongodb.util.JSON.serialize(chartColumnsLine)
+		def jsonContainerBar = com.mongodb.util.JSON.serialize(chartColumnsBar)
+		def jsonContainerArea = com.mongodb.util.JSON.serialize(chartColumnsArea)
+
+		println "&lt;div id='jsons' style = \"display:none\"&gt;"
+		if(jsonLine != null) {
+			println "&lt;textarea id=\"jsonline_$key\" &gt;$jsonLine &lt;/textarea&gt;"
+			println "&lt;textarea class=\"lstcontainerline_$key\" &gt;$jsonContainerLine &lt;/textarea&gt;"
+		}
+		if(jsonBar != null) {
+			println "&lt;textarea id=\"jsonbar_$key\"&gt;$jsonBar &lt;/textarea&gt;"
+			println "&lt;textarea class='lstcontainerbar_$key' &gt;$jsonContainerBar &lt;/textarea&gt;"
+		}
+		if(jsonPie != null &amp;&amp; jsonContainerPie != null) {
+			println "&lt;textarea id=\"jsonpie_$key\" &gt;$jsonPie &lt;/textarea&gt;"
+			println "&lt;textarea class='lstcontainerpie_$key' &gt;$jsonContainerPie &lt;/textarea&gt;"
+		}
+		if(jsonArea != null) {
+			println "&lt;textarea id=\"jsonarea_$key\" &gt;$jsonArea &lt;/textarea&gt;"
+			println "&lt;textarea class='lstcontainerarea_$key' &gt;$jsonContainerArea &lt;/textarea&gt;"
+		}
+
+        println "&lt;/div&gt;"
+        def fromDateFinal = (!"".equals(fromDate))? ("from: " + fromDate) : ""
+        def toDateFinal = (!"".equals(toDate))? (" to: " + toDate) : " to system time."
+          
+        println "&lt;div style='clear:both'&gt;"
+            def description = value.KEYEXPR._description[0][key]
+            if(description != null) {
+                println '&lt;div class=\"subtype\"&gt;Chart Of '+ key +': ' + description +'&lt;/div&gt;'
+            } else {
+                println '&lt;div class=\"subtype\"&gt;Chart Of '+ key +'&lt;/div&gt;'
+            }
+            println "-----"
+            if(jsonPie != null) {
+          println "&lt;div id=\"wrapperPieChart\" style=\"clear:both\"&gt;&lt;h1&gt;This chart is lastest monitoring data&lt;/h1&gt;"
+	  chartNumPie = 0
+          lstName.each{chartPieLst -&gt;
+		chartPieLst.each {
+	            def tmp = chartNumPie + "_" + it.replaceAll("\\.", "_")
+		    println " &lt;div class=\"displaypie\" id=\"container${key}_${tmp}\" &gt;&lt;/div&gt;"
+          	}
+                chartNumPie++		
+	  }	
+          println "&lt;/div&gt;"
+            }
+            if(jsonLine != null) {
+          	def chartLineComment = false
+		def chartNumLine = 0
+          	chartColumnsLine.each{chartColumnsLineItem -&gt;
+            		if(!chartLineComment){
+               			println "&lt;div id=\"wrapperLineChart\" style=\" clear:both\"&gt;&amp;nbsp;&lt;h1&gt;This chart is monitoring data " + fromDateFinal + toDateFinal + "&lt;/h1&gt;"
+               			chartLineComment = true  
+            		}
+              		println " &lt;div class=\"displayblock\" id=\"containerline${key}_${chartColumnsLineItem}\"&gt;&lt;/div&gt;"
+		//chartNumLine ++
+	    }
+          println "&lt;/div&gt;"
+            }
+            println "&amp;nbsp;"
+
+            if(jsonBar != null) {
+          	def chartBarComment = false
+  		def chartNumBar = 0
+          	chartColumnsBar.each{chartColumnsBarItem -&gt;
+             		if(!chartBarComment){
+                		println "&lt;div id=\"wrapperBarChart\" style=\"clear:both\"&gt;&lt;h1&gt;This chart is monitoring data " + fromDateFinal + toDateFinal + "&lt;/h1&gt;"
+                		chartBarComment = true
+              		}  
+			chartColumnsBarItem.each{
+             			println " &lt;div class=\"displayblock\" id=\"containerbar${key}_${chartNumBar}_${it}\"&gt;&lt;/div&gt;"
+          		}
+			chartNumBar++
+		}
+          	println "&lt;/div&gt;"
+            }
+            println "&amp;nbsp;"
+
+            if(jsonArea != null) {
+          	def chartAreaComment = false
+		def chartNumArea = 0
+          	chartColumnsArea.each{chartColumnsAreaItem -&gt;
+          		if(!chartAreaComment){
+            			println "&lt;div id=\"wrapperAreaChart\" style=\"clear:both\"&gt;&lt;h1&gt;This chart is monitoring data " + fromDateFinal + toDateFinal + "&lt;/h1&gt;"
+            			chartAreaComment = true
+          		}
+			chartColumnsAreaItem.each{
+            			println " &lt;div class=\"displayblock\" id=\"containerarea${key}_${chartNumArea}_${it}\"&gt;&lt;/div&gt;"
+          		}
+          		chartNumArea++
+            	}
+        	println "&lt;/div&gt;"
+	    }
+        /** Statistic data table **/
+        println "&lt;center&gt;"        
+        println "&lt;div class=\"livetblContentClass\" id='livetblContent_"+key+"' style='width:98%;clear:both;align:middle;margin-top:10px'&gt;"   
+        println "Statistics data for "+key
+        println "&lt;table id='livetableList_"+key+"' style='width:100%;align:center'&gt;&lt;/table&gt;"
+        println "&lt;div id='livetablePager_"+key+"' style='position:relative;width:100%'&gt;&lt;/div&gt;"
+        println "&lt;/div&gt;"
+        println "&lt;/center&gt;"
+        println "&lt;script language='javascript'&gt;console.log('Create live table for "+key+"');&lt;/script&gt;"
+    }
+    //println '&lt;/body&gt;'
+    println '{{/html}}'
+} else if(result[0].type == "Store") {
+	// data store
+	def dataLine = DataToDrawChart.getDataToDrawLine(result)
+	def dataBar = DataToDrawChart.getDataToDrawBar(result)
+	def dataPie = DataToDrawChart.getDataToDrawPie(result)
+	def dataArea = DataToDrawChart.getDataToDrawArea(result)
+	def chartColumnsLine = []
+	def chartColumnsBar = []
+	def chartColumnsArea = []
+	def lstName
+
+        dataLine.each {itemDataLine -&gt;
+            if(itemDataLine.size() &gt; 0 ){
+                itemDataLine.each{item-&gt;
+                    chartColumnsLine.add(item.chart_name)
+                }
+	    }
+        }
+
+        dataBar.each {itemDataBar -&gt;
+            if(itemDataBar.size() &gt; 0 ){
+		chartColumnsBar.add(itemDataBar[0].chart_columns)
+	    }
+        }
+
+        dataArea.each {itemDataArea -&gt;
+            if(itemDataArea.size() &gt; 0 ){
+		chartColumnsArea.add(itemDataArea[0].chartItemName)
+	    }
+        }
+
+	if(dataPie.size() &gt; 0 ){
+		lstName = dataPie['name']
+	}
+
+    println '{{html clean="false" wiki="true"}}'
+    println '&lt;body&gt;'
+
+    def tmpListNameContainer = []
+    def chartNumPie = 0
+    for(def nameContainer in lstName){
+       for(def nameContainerItem in nameContainer ){
+           nameContainerItem = chartNumPie + "_" + nameContainerItem.replaceAll("\\.", "_")
+           tmpListNameContainer .add(nameContainerItem )
+       }
+    }
+
+    def jsonPie = com.mongodb.util.JSON.serialize(dataPie)
+    def jsonLine = com.mongodb.util.JSON.serialize(dataLine)
+    def jsonBar = com.mongodb.util.JSON.serialize(dataBar)
+    def jsonArea = com.mongodb.util.JSON.serialize(dataArea)
+
+    def jsonContainerPie = com.mongodb.util.JSON.serialize(tmpListNameContainer)
+    def jsonContainerLine = com.mongodb.util.JSON.serialize(chartColumnsLine)
+    def jsonContainerBar = com.mongodb.util.JSON.serialize(chartColumnsBar)
+    def jsonContainerArea = com.mongodb.util.JSON.serialize(chartColumnsArea)
+
+    def listEmpty = com.mongodb.util.JSON.serialize([])
+    println "&lt;textarea style=\"display:none\" id='lstkey' &gt;$listEmpty&lt;/textarea&gt;" 
+
+    println "&lt;div id='jsons' style = \"display:none\"&gt;"
+    println "&lt;textarea class='jsonline' &gt;$jsonLine &lt;/textarea&gt;"
+    println "&lt;textarea class='jsonbar' &gt;$jsonBar &lt;/textarea&gt;"
+    println "&lt;textarea class='jsonpie' &gt;$jsonPie &lt;/textarea&gt;"
+    println "&lt;textarea class='jsonarea' &gt;$jsonArea &lt;/textarea&gt;"
+
+    println "&lt;textarea class='lstcontainerpie' &gt;$jsonContainerPie &lt;/textarea&gt;"
+    println "&lt;textarea class='lstcontainerline' &gt;$jsonContainerLine &lt;/textarea&gt;"
+    println "&lt;textarea class='lstcontainerbar' &gt;$jsonContainerBar &lt;/textarea&gt;"
+    println "&lt;textarea class='lstcontainerarea' &gt;$jsonContainerArea &lt;/textarea&gt;"
+    println "&lt;/div&gt;"
+
+    def fromDateFinal = (!"".equals(fromDate))? ("from: " + fromDate) : ""
+    def toDateFinal = (!"".equals(toDate))? (" to: " + toDate) : " to system time."
+  
+    println "&lt;div style='clear:both'&gt;"
+  
+    def chartPieComment = false
+    chartNumPie = 0
+    lstName.each{chartPieLst-&gt;
+        if(!chartPieComment) {
+            println "&lt;div id=\"wrapperPieChart\" style=\"clear:both\"&gt;&lt;h1&gt;This chart is lastest monitoring data&lt;/h1&gt;"
+            chartPieComment = true
+        }
+        chartPieLst.each {
+            def tmp = chartNumPie + "_pie"
+            println " &lt;div class=\"displaypie\" id=\"container$tmp\" &gt;&lt;/div&gt;"
+            chartNumPie++
+        }
+    }
+    println "&lt;/div&gt;"
+    	def chartLineComment = false
+	def chartNum = 0
+    	chartColumnsLine.each{chartColumnsLineItem -&gt;
+	    	if(!chartLineComment){
+	        	println "&lt;div id=\"wrapperLineChart\" style=\" clear:both\"&gt;&amp;nbsp;&lt;h1&gt;This chart is monitoring data " + fromDateFinal + toDateFinal + "&lt;/h1&gt;"
+	        	chartLineComment = true  
+	    	}
+	        println " &lt;div class=\"displayblock\" id=\"containerline_${chartColumnsLineItem}\"&gt;&lt;/div&gt;"
+		//chartNum++
+	}	
+    	println "&lt;/div&gt;"
+    	println "&amp;nbsp;"
+    	def chartBarComment = false
+	//chartNum = 0
+    	chartColumnsBar.each{chartColumnsBarItem -&gt;
+	        if(!chartBarComment){
+	            println "&lt;div id=\"wrapperBarChart\" style=\"clear:both\"&gt;&lt;h1&gt;This chart is monitoring data " + fromDateFinal + toDateFinal + "&lt;/h1&gt;"
+	            chartBarComment = true
+	        }  
+		chartColumnsBarItem.each{
+	    		println " &lt;div class=\"displayblock\" id=\"containerbar${chartNum}_${it}\"&gt;&lt;/div&gt;"
+	  	}
+		chartNum++
+	}
+  println "&lt;/div&gt;"
+  println "&amp;nbsp;"
+  	def chartAreaComment = false
+	chartNum = 0
+  	chartColumnsArea.each{chartColumnsAreaItem -&gt;
+	  	if(!chartAreaComment){
+	    		println "&lt;div id=\"wrapperAreaChart\" style=\"clear:both\"&gt;&lt;h1&gt;This chart is monitoring data " + fromDateFinal + toDateFinal + "&lt;/h1&gt;"
+	    		chartAreaComment = true
+	  	}
+		chartColumnsAreaItem.each{
+    			println " &lt;div class=\"displayblock\" id=\"containerarea${chartNum}_${it}\"&gt;&lt;/div&gt;"
+		}
+		chartNum++
+  	}
+  println "&lt;/div&gt;"
+println "&lt;/div&gt;"
+
+//println '&lt;/body&gt;'
+println '{{/html}}'
+}
+}else{
+    println 'There is no data for this job with criterias'
+}
+//--=============== Start build for livetable
+def subTypeURLMap = [:]
+def dataModel = []
+def dataUrl = ""
+result.find{rec-&gt;				
+    def subtractData = []
+    
+    //-- Parsing data and assign data to subtract list
+    if(rec.type == "Store"){ //-- Store data type
+        subtractData = rec['data']        
+        subtractData.each{r2-&gt;					
+            if(dataModel != null &amp;&amp; dataModel.size() &lt;=0){ 
+                dataModel.add("Fetch At")
+                dataModel.addAll(r2.keySet());					
+            } 
+        }        
+        dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid        
+        //-- Building data model				
+        def model = []
+        def colSpec
+        dataModel.each{name-&gt;
+            colSpec = [:]
+            colSpec['name'] = name
+            colSpec['index'] = name
+            colSpec['width'] = "100"
+            model.add(colSpec)
+        }
+        def dataModelStr = (new JsonBuilder(dataModel)).toPrettyString()
+        def modelStr = (new JsonBuilder(model)).toPrettyString() 
+        str = 
+        "{\"url\":\""+dataUrl+"\",\"datatype\":\"json\","+
+            "\"colNames\":"+ dataModelStr +
+            ",\"colModel\":"+ modelStr +" ,\"rowList\":[10,20,30],"+
+            "\"pager\":\"#livetablePager\", \"viewrecords\": true, \"sortname\": \"RECORD_SEQ\","+
+            "\"sortorder\": \"asc\", \"caption\":\""+job+"\"}"
+        println "{{html clean=\"false\" wiki=\"true\"}}"
+        println "&lt;div id='livetableJson' style = \"display:none\"&gt;"
+        //println "&lt;div id='livetableJson'&gt;"
+        println str;
+        println "&lt;/div&gt;"
+        println "{{/html}}"
+    }else{ //-- Subtype			
+        def subData = rec['data']
+        subData.each{key,value-&gt;
+            dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid+"&amp;subType="+key
+            subtractData = value
+            subtractData.each{r2-&gt;					
+                if(dataModel != null &amp;&amp; dataModel.size() &lt;=0){ 
+                    dataModel.add("Fetch At")
+                    dataModel.addAll(r2.keySet());					
+                } 			
+            }
+            //-- Building data model				
+            def model = []
+            def colSpec
+            dataModel.each{name-&gt;
+                colSpec = [:]
+                colSpec['name'] = name
+                colSpec['index'] = name
+                colSpec['width'] = "100"
+                model.add(colSpec)
+            }
+            def dataModelStr = (new JsonBuilder(dataModel)).toPrettyString()
+            def modelStr = (new JsonBuilder(model)).toPrettyString() 
+            str = 
+            "{\"url\":\""+dataUrl+"\",\"datatype\":\"json\","+
+                "\"colNames\":"+ dataModelStr +
+                ",\"colModel\":"+ modelStr +" ,\"rowList\":[10,20,30],"+
+                "\"pager\":\"#livetablePager\", \"viewrecords\": true, \"sortname\": \"RECORD_SEQ\","+
+                "\"sortorder\": \"asc\", \"caption\":\""+job+"\"}"
+            subTypeURLMap[key] = str
+        }
+        def finalStr = (new JsonBuilder(subTypeURLMap)).toPrettyString()
+        println "{{html clean=\"false\" wiki=\"true\"}}"
+        println "&lt;div id='livetableJson' style = \"display:none\"&gt;"
+        println finalStr;
+        println "&lt;/div&gt;"
+        println "{{/html}}"
+    }
+    return true
+}
+ //--=============== END
+
+if(listKey.size() &lt;= 0){   
+    println "{{html clean=\"false\" wiki=\"true\"}}"
+    println "&lt;center&gt;"
+    println "&lt;div class=\"livetblContentClass\" id=\"livetblContent\" style=\"width:98%;clear:both;align:middle;margin-top:10px;\"&gt;"   
+    println "Statistics Data"
+    println "&lt;table id=\"livetableList\" style=\"width:100%;align:center\"&gt;&lt;/table&gt;"    
+    println "&lt;div id=\"livetablePager\" style=\"width:100%;align:center\"&gt;&lt;/div&gt;"
+    println "&lt;/div&gt;"
+    println "&lt;/center&gt;"
+    
+    //println "&lt;div id=\"testDiv\"&gt;&amp;nbsp;&lt;/div&gt;"
+    println "{{/html}}"
+}
+{{/groovy}}</content></xwikidoc>

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
-<web>Lib</web>
+<web>WiperDogLib</web>
 <name>MongoDBConnection</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent>Lib.WebHome</parent>
+<parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1376364375000</creationDate>
+<creationDate>1380101110000</creationDate>
 <date>1379672291000</date>
 <contentUpdateDate>1379672291000</contentUpdateDate>
-<version>4.10</version>
+<version>1.1</version>
 <title>MongoDBConnection</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment></comment>
-<minorEdit>true</minorEdit>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <content>{{groovy}}@Grab(group='com.gmongo', module='gmongo', version='1.0')

@@ -5,15 +5,15 @@
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent>WiperDog.MonitoringData</parent>
+<parent>Main.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1377223171000</creationDate>
-<date>1379673374000</date>
-<contentUpdateDate>1379673362000</contentUpdateDate>
-<version>35.6</version>
+<creationDate>1380101108000</creationDate>
+<date>1380102986000</date>
+<contentUpdateDate>1380102986000</contentUpdateDate>
+<version>1.2</version>
 <title>WiperDog Functions</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
