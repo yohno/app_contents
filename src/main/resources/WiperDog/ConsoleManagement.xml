@@ -633,7 +633,7 @@ $xwiki.ssx.use('WiperDogLib.JQueryUILib')
 {{/html}}
 {{groovy}}
 	println "{{html wiki=\"true\" clean=\"false\"}}"
-	println "&lt;img src=\"/xwiki/resources/consolemgmt/wp-u.png\" title=\"Wiperdog Server Status\"/&gt;"
+	println "&lt;img src=\""+doc.getAttachmentURL('wp-u.png')+"\" title=\"Wiperdog Server Status\"/&gt;"
 	println "{{/html}}"
 {{/groovy}}
 {{html wiki="true" clean="false"}}
