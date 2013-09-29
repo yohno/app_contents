@@ -10,17 +10,106 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380101109000</creationDate>
-<date>1377697217000</date>
-<contentUpdateDate>1377697217000</contentUpdateDate>
-<version>1.1</version>
+<creationDate>1380449959000</creationDate>
+<date>1380465204000</date>
+<contentUpdateDate>1380465023000</contentUpdateDate>
+<version>6.1</version>
 <title>MenuGenerator</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
+<comment></comment>
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
-<hidden>false</hidden>
+<hidden>false</hidden><attachment>
+<filename>ajax-loader.gif</filename>
+<filesize>2608</filesize>
+<author>XWiki.Admin</author>
+<date>1380465013000</date>
+<version>1.1</version>
+<comment></comment><content>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
+</content></attachment><attachment>
+<filename>closed.gif</filename>
+<filesize>365</filesize>
+<author>XWiki.Admin</author>
+<date>1380465018000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEQAMAPUAACAQECAgEDAoIEA4MFBAQFBQQGBQUGBgUHBgUHBwYJBwIKB4IIBwYIB4cLCA
+EL2UELCAIJCIcMCIENCQEMCYINCYINCgIOCYIOCgIOCgMOCoMOCwMPCoMOC4UPCwQPC4QPC4UPDA
+UPDAYPDIYPDIcPDQYPDQcP/QcP/YcJCIgJmZmaCQgLCgkLCokNfTv//YgP/ggPDgkP/gkP/okPDg
+oP/ooPDosP/woPDwsP/wsNXSyf/wwOvp4/bx5P///wAAACH5BAAAAAAALAAAAAARAAwAAAaKQF+v
+RSTyfMiksmXL5XAxlktJZVmv1pV2q0OyduCdszaTvU4kEQOpEj9vZdipFAJV1r6VmyyDoUojIBoP
+CEh6ODc1fX+BHhoSBoZjiyYjIR4cGA4EhjZkfpUhHxwZFw4DSCk2M6CWoxoXEwsCSBE0Jh0bGhYU
+FBAQDgsKAbUNCQcFAwIBAM3OAD5BADs=
+</content></attachment><attachment>
+<filename>list.gif</filename>
+<filesize>63</filesize>
+<author>XWiki.Admin</author>
+<date>1380465021000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhDgAOAPAAAFRWVPz+/CH5BAAAAAAALAAAAAAOAA4AAAIWjI+py20AXYBAUnmu040nv4CK
+iJVHAQA7
+</content></attachment><attachment>
+<filename>open.gif</filename>
+<filesize>570</filesize>
+<author>XWiki.Admin</author>
+<date>1380465023000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEQAMAPYAABAQECAQECAYEDAgIDAwIEA4MGBIIFBIQF5ZWWBYQHZnSXBgUIBoIJBwIKB4
+IIBwUIB4YLCAEJCAYJKEa5CIcMCIEMCQAMyZANCQEOCgIOCgMPCoMPCwMNCoUNCwcPC4QPDAQP/A
+UP/IUP/QUP/MZv/YYP/QcP/YcJCIgJqQipmZmaCQgLCggLCgkLCokLm4w8CwkMC4kNDAgNDAkMfD
+usrGt+DIgPDQgPDYgP/YgODQoP/ggPDgkP/gkPDooP/ooPDwoP/woPDwsMbDyv///wAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5
+BAAAAAAALAAAAAARAAwAAAeXgERELoSENIKIiYM6QkJBPy01ioktQI4/PycqK5wrFJQ+jz85JaWm
+n4gqPpgwMIQsLJ0rKJ8rPD82Lju7vDsnJx0pRLY9LjEnpiUjIh8aCkPDOLk7JqYiIB8cDBOCKzcu
+MyckJCIh2RsYBi+CKDK65NccGxkYDAiIFC0eF/wWFRERHDQwMAOfBAgPFiQ4UIDAAAEAAiAKBAA7
+</content></attachment>
 <object>
 <class>
 <name>XWiki.JavaScriptExtension</name>
@@ -104,8 +193,8 @@
 <code>var persisteduls=new Object()
 var ddtreemenu=new Object()
 
-ddtreemenu.closefolder="/xwiki/resources/SimpleTreeMenu/closed.gif" //set image path to "closed" folder image
-ddtreemenu.openfolder="/xwiki/resources/SimpleTreeMenu/open.gif" //set image path to "open" folder image
+ddtreemenu.closefolder="/xwiki/bin/download/WiperDogLib/MenuGenerator/closed.gif" //set image path to "closed" folder image
+ddtreemenu.openfolder="/xwiki/bin/download/WiperDogLib/MenuGenerator/open.gif" //set image path to "open" folder image
 
 //////////No need to edit beyond here///////////////////////////
 
@@ -433,7 +522,7 @@ display:inline-block;
 
 }
 .treeview li{ /*Style for LI elements in general (excludes an LI that contains sub lists)*/
-background: white url("/xwiki/resources/SimpleTreeMenu/list.gif") no-repeat left center;
+background: white url("/xwiki/bin/download/WiperDogLib/MenuGenerator/list.gif") no-repeat left center;
 list-style-type: none;
 padding-left: 22px;
 margin-bottom: 3px;
@@ -442,13 +531,13 @@ font-weight:bold
 }
 
 .treeview li.submenu{ /* Style for LI that contains sub lists (other ULs). */
-background: white url("/xwiki/resources/SimpleTreeMenu/closed.gif") no-repeat left 1px;
+background: white url("/xwiki/bin/download/WiperDogLib/MenuGenerator/closed.gif") no-repeat left 1px;
 cursor: hand !important;
 cursor: pointer !important;
 
 }
 .treeview .ui-state-disabled {
-background: white url("/xwiki/resources/SimpleTreeMenu/closed.gif") no-repeat left 1px;
+background: white url("/xwiki/bin/download/WiperDogLib/MenuGenerator/closed.gif") no-repeat left 1px;
 color:#DBD9DA
 }
 
