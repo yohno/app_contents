@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>WiperDogLib</web>
+<name>MsgPolicyFromMongo</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>WiperDogLib.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1380528328000</creationDate>
+<date>1380528328000</date>
+<contentUpdateDate>1380528328000</contentUpdateDate>
+<version>1.1</version>
+<title>MsgPolicyFromMongo</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<content>{{groovy}}
+import com.gmongo.GMongo
+import java.text.SimpleDateFormat
+import groovy.json.*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import groovy.lang.GroovyShell
+
+def gmongoObject = getConnection()
+def dbConn = gmongoObject.getDB('wiperdog')
+def slurper = new JsonSlurper()
+def builder
+try {
+    response.setContentType('text')
+
+    def action = request.getParameter("action")
+    if(action == "INITSCREEN") {
+        def lstJobMongo = dbConn.getCollectionNames()
+        def mapFinal = [:]
+        def lstJobName = []
+        def lstIntIid = []
+        lstJobMongo.each {eCollection -&gt;
+            if(eCollection.contains("SQL_Server") || eCollection.contains("Postgres") || eCollection.contains("MySQL")) {
+                def jobName = eCollection.substring(0, eCollection.lastIndexOf("."))
+                if(jobName != null &amp;&amp; jobName != "") {
+                    if(!lstJobName.contains(jobName)){
+                        lstJobName.add(jobName)
+                    }
+                }
+                def istIid = eCollection.substring(eCollection.lastIndexOf(".") + 1, eCollection.size())
+                if(istIid != null &amp;&amp; istIid != "") {
+                    if(!lstIntIid.contains(istIid)){
+                        lstIntIid.add(istIid)
+                    }
+                }
+            }
+        }
+        mapFinal['lstJobName'] = lstJobName
+        mapFinal['lstIntIid'] = lstIntIid
+        mapFinal['status'] = 'success'
+
+        builder = new JsonBuilder(mapFinal)
+        println builder.toString()
+        
+        mapFinal = null
+        lstJobMongo = null
+    } else if(action == "GETDATA") {
+        // Data response
+        def mapFinal = [:]
+        def dataMongo = dbConn['policy_message'].find().limit(100)
+        mapFinal['status'] = 'success'
+        mapFinal['lstCollections'] = dataMongo
+
+        builder = new JsonBuilder(mapFinal)
+        println builder.toString()
+
+        mapFinal = null
+        dataMongo = null
+    }
+    gmongoObject.close()
+} catch(Exception ex) {
+    def mapErrorMsg = ['status': 'fail', 'message': ex.message]
+    builder = new JsonBuilder(mapErrorMsg)
+    println builder.toString()
+
+    mapErrorMsg = null
+}
+
+// For better garbage collector
+slurper = null
+builder = null
+
+def getConnection(){
+  def istGmongo
+  if( istGmongo == null){
+   Properties props = System.getProperties();
+   def xwiki_dir = props.getProperty('user.dir');
+   def params
+   def decidedHost
+   def decidedPort
+   def decidedDbName
+   File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
+   if(f.exists()){
+	   def shell = new GroovyShell()
+	   params = shell.evaluate(f)
+           
+	   def declaredMongoDB = params['mongoDB']
+	   if(declaredMongoDB != null){
+	   	   	decidedDbName = (declaredMongoDB['dbName'] != null)?declaredMongoDB['dbName'] : dbName
+	   	   	decidedHost = (declaredMongoDB['host'] != null)?declaredMongoDB['host'] : host
+	   	   	decidedPort = (declaredMongoDB['port'] != null)?declaredMongoDB['port'] : port
+	   }else{
+	   	   decidedHost = host
+	   	   decidedPort = port
+	   	   decidedDbName = dbName
+	   }
+   }else{
+           decidedHost = host
+           decidedPort= port 
+           decidedDbName= dbName
+   }
+   // Remote connect to host:port
+   istGmongo = new GMongo(decidedHost, decidedPort)
+   // Local connect
+   //def gmongo = new GMongo()
+   //db = istGmongo.getDB(decidedDbName)
+   
+   // For better garbage collector
+   declaredMongoDB = null
+   f = null
+   params = null
+  }
+  return istGmongo 
+ }
+{{/groovy}}</content></xwikidoc>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
-<web>Lib</web>
+<web>WiperDogLib</web>
 <name>LivetableDataAdapter</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent>Main.SpaceIndex</parent>
+<parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1376364375000</creationDate>
-<date>1377697217000</date>
-<contentUpdateDate>1377697217000</contentUpdateDate>
-<version>17.1</version>
+<creationDate>1380528328000</creationDate>
+<date>1380528328000</date>
+<contentUpdateDate>1380528328000</contentUpdateDate>
+<version>1.1</version>
 <title>LivetableDataAdapter</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -21,7 +21,7 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
-<content>{{include document="Lib.MongoDBConnection"/}}
+<content>{{include document="WiperDogLib.MongoDBConnection"/}}
 {{groovy}}
     import groovy.json.*
     if(request.xpage == "plain") {
@@ -150,9 +150,9 @@
 				   str = "Must specify parameter pager incase you want to build data model (with genp parameter)"				
 				def dataUrl =  ""
 				if(subType == null || subType == "")
-					dataUrl = "/xwiki/bin/get/Lib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid
+					dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid
 				else
-					dataUrl = "/xwiki/bin/get/Lib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid+"&amp;subType="+subType
+					dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid+"&amp;subType="+subType
 				
 				//-- Building data model				
 				def model = []

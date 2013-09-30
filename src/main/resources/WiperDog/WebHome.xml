@@ -5,20 +5,20 @@
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent>WiperDog.MonitoringData</parent>
+<parent>Main.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1377223171000</creationDate>
-<date>1379672488000</date>
-<contentUpdateDate>1379672488000</contentUpdateDate>
-<version>35.4</version>
+<creationDate>1380528326000</creationDate>
+<date>1380528326000</date>
+<contentUpdateDate>1380528326000</contentUpdateDate>
+<version>1.1</version>
 <title>WiperDog Functions</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment></comment>
-<minorEdit>true</minorEdit>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
 <filename>wp-u.png</filename>
@@ -1214,6 +1214,12 @@ sisAAAAAAGRXAAAAAADIrgAAAACAqvL/BwB+A7367exQBwAAAABJRU5ErkJggg==
 
 === Process Policy ===
 * [[**Create, update policy for job and run test them**&gt;&gt;processPolicy]]
+* [[**Policy evaluation information**&gt;&gt;DisplayPolicy]]
+
+
+=== Import , Export Instances ===
+* [[**Import, Export instances of job from csv file**&gt;&gt;ImportInstance]]
+
 
 &lt;/div&gt;
 &lt;div id="image"  style="width:50%;float:left;"&gt;

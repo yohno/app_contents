@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
-<web>Lib</web>
+<web>WiperDogLib</web>
 <name>Highcharts</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent></parent>
+<parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1376364376000</creationDate>
-<date>1377697218000</date>
-<contentUpdateDate>1377697218000</contentUpdateDate>
-<version>2.1</version>
+<creationDate>1380528327000</creationDate>
+<date>1380528327000</date>
+<contentUpdateDate>1380528327000</contentUpdateDate>
+<version>1.1</version>
 <title></title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -93,7 +93,7 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Lib.Highcharts</name>
+<name>WiperDogLib.Highcharts</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
 <guid>cd35efed-7a5f-40d1-8c74-fda35d431191</guid>
@@ -460,7 +460,7 @@ jQuery.noConflict();
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Lib.Highcharts</name>
+<name>WiperDogLib.Highcharts</name>
 <number>1</number>
 <className>XWiki.JavaScriptExtension</className>
 <guid>af5c3379-c29d-4a4a-8a6b-5997f14651a2</guid>

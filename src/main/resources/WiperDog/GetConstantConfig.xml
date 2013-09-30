@@ -7,13 +7,13 @@
 <translation>0</translation>
 <parent>WiperDog.WiperdogServletConfig</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.XWikiGuest</author>
+<author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.XWikiGuest</contentAuthor>
-<creationDate>1378178434000</creationDate>
-<date>1378949627000</date>
-<contentUpdateDate>1378949627000</contentUpdateDate>
-<version>2.2</version>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1380528322000</creationDate>
+<date>1380528561000</date>
+<contentUpdateDate>1380528561000</contentUpdateDate>
+<version>1.2</version>
 <title>GetConstantConfig</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -31,7 +31,9 @@
 		     console:[servlet:"http://localhost:13111/wiperdog/echo",desc:"Using for WiperDog/ConsoleManager page"],
                      logfileinfo:[servlet:"http://localhost:13111/LogFileInfoServlet",desc:"Using for WiperDog/LogFileInfo page"],
                      JobDeclared:[servlet:"http://localhost:13111/JobDeclared",desc:"Using for WiperDog/JobConfiguration page"],
-                     testjob:[servlet:"http://localhost:13111/TestJobServlet",desc:"Using for Using for WiperDog/TestJob  page"]
+                     testjob:[servlet:"http://localhost:13111/TestJobServlet",desc:"Using for Using for WiperDog/TestJob page"],
+                     ProcessPolicy:[servlet:"http://localhost:13111/policyServlet",desc:"Using for WiperDog/processPolicy page"],
+                     importinstances:[servlet:"http://localhost:13111/ImportInstanceServlet",desc:"Using for Using for WiperDog/Import Instance Info page"]
 		  ]
                 ]
      public static Object getDefaultConfigByKey(key){

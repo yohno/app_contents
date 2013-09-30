@@ -10,15 +10,15 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1377826823000</creationDate>
-<date>1379663937000</date>
-<contentUpdateDate>1379663899000</contentUpdateDate>
-<version>38.73</version>
+<creationDate>1380528323000</creationDate>
+<date>1380528323000</date>
+<contentUpdateDate>1380528323000</contentUpdateDate>
+<version>1.1</version>
 <title>JobConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment></comment>
-<minorEdit>true</minorEdit>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -102,6 +102,7 @@
 </property>
 <property>
 <code>var JobDeclared
+var ImportInstanceServlet
 var selectedJob
 var groupChart = null
 var charts = {}
@@ -159,6 +160,17 @@ require(['jquery'], function($) {
 		},
 		error: function(xhr, status, error) {}
 	});
+	// GET ImportInstanceServlet
+	paramCSV = 'importinstances'
+	$.ajax({
+		type: "POST",
+		url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + paramCSV,
+		success: function(result) {
+			ImportInstanceServlet = result
+		},
+		error: function(xhr, status, error) {}
+	});        
+        
 	$(document).ready(function() {
 		// CHANGE MONITORING TYPE
 		var listDBType = ['SQL_Server', 'MySQL', 'Postgres']
@@ -1288,15 +1300,18 @@ require(['jquery'], function($) {
 		finalMapData['JOB'] = jobMap
 		finalMapData['PARAMS'] = jobParams
 		finalMapData['INSTANCES'] = jobInstance
-		if (checkValid) {
-			send_ajax_post_data(JobDeclared, function(result) {}, finalMapData,action)
-		} else {
+                if(action != "exportFromJobConfig") {
+		    if (checkValid) {
+			send_ajax_post_data(JobDeclared, function(result) {}, finalMapData, action)
+		    } else {
 			$("#messageValid").html(htmlSourceValid)
-		}
+		    }
+                } else {
+                    send_ajax_post_data(ImportInstanceServlet, function(result) {}, finalMapData, action)
+                }
 		$('html, body').animate({
 			scrollTop: 0
 		}, 'slow');
-
 	}
 	$("#updateJobInfo").click(function() {
 		doSend('save')
@@ -1304,9 +1319,23 @@ require(['jquery'], function($) {
 	$('#saveAndRunTest').click(function(event) {
 		doSend('saveNRun')
 	});
-	// SEND DATA TO SERVLET
 
-	function send_ajax_post_data(domainURL, callback, data,action) {
+	// SEND DATA TO SERVLET
+	function send_ajax_post_data(domainURL, callback, data, action) {
+                if(action == "exportFromJobConfig") {
+                   if($.isEmptyObject(data.INSTANCES)){
+                      var confir = confirm("Data of List Instance is empty. Are you want to write file .csv?")
+                      if(!confir){
+                          resetControl()
+		          $('html, body').animate({
+			     scrollTop: 0
+		          }, 'slow');
+                          return
+                      }
+                   }
+                   domainURL = domainURL + "?action=exportFromJobConfig&amp;jobFileName=" + data.JOB.jobFileName
+                   data = data.INSTANCES
+                }
 		$.ajax({
 			type: "POST",
 			crossDomain: true,
@@ -1331,13 +1360,18 @@ require(['jquery'], function($) {
 				callback(result)
 			},
 			error: function(xhr, status, error) {
+                                console.log(error)
 				$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
 			}
 		});
 	}
 
-	// GET STANDARD COMMENT
+        // CLICK Export To CSV
+	$("#exportCSV").click(function() {
+		doSend('exportFromJobConfig')
+	});
 
+	// GET STANDARD COMMENT
 	function standardComment(comment) {
 		if (comment.indexOf("/*") == -1) {
 			comment = "/*\n" + comment
@@ -1667,7 +1701,14 @@ require(['jquery'], function($) {
 }
 
 #updateJobInstanceTable{
+  width:680px;
   border:1px solid red !important;
+}
+
+#jobInstance{
+  width:700px;
+  overflow:auto;
+  max-height: 500px;
 }
 
 #buttonUpdateJobInfo{
@@ -1820,6 +1861,246 @@ overflow: auto;
 </property>
 <property>
 <users>xwiki:XWiki.Admin</users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.JobConfiguration</name>
+<number>1</number>
+<className>XWiki.XWikiRights</className>
+<guid>01021579-4982-4942-8b82-cbedaf834f4c</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<levels>view,comment</levels>
+</property>
+<property>
+<users>XWiki.XWikiGuest</users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.JobConfiguration</name>
+<number>2</number>
+<className>XWiki.XWikiRights</className>
+<guid>b736df4f-f73d-407d-ba31-1a8d21101e0b</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>XWiki.XWikiAdminGroup</groups>
+</property>
+<property>
+<levels>view,comment,edit,delete</levels>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.JobConfiguration</name>
+<number>3</number>
+<className>XWiki.XWikiRights</className>
+<guid>e3de5d1d-8fe4-4129-9eb3-814efbe4ae90</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>XWiki.XWikiAllGroup</groups>
+</property>
+<property>
+<levels>view,comment</levels>
 </property>
 </object>
 <content>{{html wiki="true" clean="false"}}
@@ -2373,14 +2654,14 @@ overflow: auto;
 	&lt;tr&gt;
 		&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Update Job Instance Info&lt;/p&gt;&lt;/th&gt;
 	&lt;/tr&gt;
-    &lt;tr&gt;
+        &lt;tr&gt;
 		&lt;td&gt;&lt;p id="messageListInstances"&gt;&lt;/p&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 
 	&lt;tr &gt;
 		&lt;td &gt;
 			&lt;div id="jobInstance"&gt;
-				&lt;table id="updateJobInstanceTable" style="width:100%;height:100%" border="1px"&gt;
+				&lt;table id="updateJobInstanceTable"&gt;
 					&lt;tr&gt;
 						&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Instance's name&lt;/p&gt;&lt;/th&gt;
 						&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Params&lt;/p&gt;&lt;/th&gt;
@@ -2392,14 +2673,17 @@ overflow: auto;
 		&lt;/td&gt;
 	&lt;/tr&gt;
 &lt;/table&gt;
+        &lt;div style="padding-left:35%;padding-bottom:25px;"&gt;
+           &lt;tr&gt;&lt;td&gt;&lt;input type="button" style='width:120px; height:25px;' value="Export To CSV" class="button" id="exportCSV" tabindex="34"/&gt;&lt;/td&gt;&lt;/tr&gt;
+        &lt;/div&gt;
 &lt;/div&gt;
 {{/html}}
 {{html wiki="true" clean="false"}}
 &lt;div id="buttonUpdateJobInfo"&gt;
-		&lt;input type="button" style='width:150px; height:30px' value="Save" class="button" id="updateJobInfo" tabindex="34"/&gt;
-		&lt;input type="button" style='width:150px; height:30px' value="Save &amp; Run Test" class="button" id="saveAndRunTest" tabindex="35"/&gt;
-		&lt;input type="reset" style='width:150px; height:30px' value="Clear Data" class="button" id="clearData" tabindex="36"/&gt;
-		&lt;input type="button" style='width:150px; height:30px' value="Back To Menu" class="button" id="backToMain" tabindex="37"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Save" class="button" id="updateJobInfo" tabindex="35"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Save &amp; Run Test" class="button" id="saveAndRunTest" tabindex="36"/&gt;
+		&lt;input type="reset" style='width:150px; height:30px' value="Clear Data" class="button" id="clearData" tabindex="37"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Back To Menu" class="button" id="backToMain" tabindex="38"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;
 {{/html}}</content></xwikidoc>

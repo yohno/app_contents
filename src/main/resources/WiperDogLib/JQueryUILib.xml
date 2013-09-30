@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
-<web>Lib</web>
+<web>WiperDogLib</web>
 <name>JQueryUILib</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent></parent>
+<parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1376364376000</creationDate>
-<date>1377697218000</date>
-<contentUpdateDate>1377697218000</contentUpdateDate>
-<version>4.1</version>
+<creationDate>1380528327000</creationDate>
+<date>1380528327000</date>
+<contentUpdateDate>1380528327000</contentUpdateDate>
+<version>1.1</version>
 <title></title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -93,7 +93,7 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Lib.JQueryUILib</name>
+<name>WiperDogLib.JQueryUILib</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
 <guid>dc1ab979-6a9d-492a-9f30-b42f3610d92d</guid>
@@ -15117,7 +15117,7 @@ jQuery.noConflict();
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Lib.JQueryUILib</name>
+<name>WiperDogLib.JQueryUILib</name>
 <number>0</number>
 <className>XWiki.StyleSheetExtension</className>
 <guid>2b41d89d-998e-4a46-b310-e47faeb0b5ed</guid>
