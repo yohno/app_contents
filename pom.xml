@@ -37,12 +37,12 @@
         <artifactId>xwiki-xar-plugin</artifactId>
         <version>1.14</version>
       </plugin>
-      <!--
+      <!-- JENKINS_REMOVES_THIS_LINE
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <phase>install</phase>
+            <phase>package</phase>
             <id>rename</id>
             <configuration>
               <tasks>
@@ -55,7 +55,7 @@
           </execution>
         </executions>
       </plugin>
-      -->
+      JENKINS_REMOVES_THIS_LINE -->
     </plugins>
     <pluginManagement>
       <plugins>
