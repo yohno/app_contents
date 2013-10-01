@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.wiperdog</groupId>
   <artifactId>wiperdog-ui</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.0</version>
   <packaging>xar</packaging>
   <name>XWiki Application - Wiperdog</name>
   <description>XWiki Application - Wiperdog</description>
@@ -45,7 +45,7 @@
             <id>rename</id>
             <configuration>
               <tasks>
-                <move file="target/${artifactId}.xar" tofile="target/${artifactId}-${version}.${packaging}"/>
+                <move file="target/${artifactId}.xar" tofile="target/${artifactId}-${version}.${packaging}" />
               </tasks>
             </configuration>
             <goals>
@@ -78,4 +78,8 @@
       <url>http://maven.xwiki.org/releases</url>
     </pluginRepository>
   </pluginRepositories>
+
+  <scm>
+    <tag>v0.2.0</tag>
+  </scm>
 </project>
