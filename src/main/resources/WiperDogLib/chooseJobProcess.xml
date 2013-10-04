@@ -10,10 +10,10 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380528326000</creationDate>
-<date>1380528326000</date>
-<contentUpdateDate>1380528326000</contentUpdateDate>
-<version>1.1</version>
+<creationDate>1380702672000</creationDate>
+<date>1380853596000</date>
+<contentUpdateDate>1380853596000</contentUpdateDate>
+<version>4.1</version>
 <title>chooseJobProcess</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -43,7 +43,13 @@ response.setContentType('text')
 
 def jobName = request.getParameter("jobName")
 if(jobName == null || jobName == "") {
-    builder = new JsonBuilder(lstJobMongo)
+    def mapNameAndType = [:]
+    lstJobMongo.each {eCollec -&gt;
+        def resultJob = MongoDBConnection.getDataAllFields(eCollec)[0]
+        def type = resultJob.type
+        mapNameAndType[eCollec] = type
+    }
+    builder = new JsonBuilder(mapNameAndType)
     println builder.toString()
 } else {
     def mapFinalPolicy = [:]
@@ -101,12 +107,10 @@ if(jobName == null || jobName == "") {
                 mapFinalPolicy["UNIT"] = mapSampleUnit
                 mapFinalPolicy["TYPE"] = resultJob.type
                 //mapSampleData = resultJob.data[resultJob.data.keySet()[0]][0]
-
             }
         }
     }
     builder = new JsonBuilder(mapFinalPolicy)
-    println builder.toString()
+    println builder.toString()    
 }
-
-{{/groovy}}</content></xwikidoc>
+gmongoObject.close(){{/groovy}}</content></xwikidoc>

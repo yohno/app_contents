@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1380528322000</creationDate>
-<date>1380528322000</date>
-<contentUpdateDate>1380528322000</contentUpdateDate>
-<version>1.1</version>
+<date>1380853593000</date>
+<contentUpdateDate>1380853593000</contentUpdateDate>
+<version>6.1</version>
 <title>Policy Evaluation Message</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -2326,7 +2326,7 @@ jQuery.noConflict();
 <code>var timer;
 var jobName;
 var istIidName;
-var timeInterval = 1000
+var timeInterval = 600000
 var istIidSelector
 
 require(['jquery'], function($) {
@@ -2843,6 +2843,9 @@ margin-bottom: 8px;
 <allow>1</allow>
 </property>
 <property>
+<groups></groups>
+</property>
+<property>
 <levels>view,comment</levels>
 </property>
 <property>
@@ -2923,10 +2926,13 @@ margin-bottom: 8px;
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAdminGroup</groups>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -3003,10 +3009,13 @@ margin-bottom: 8px;
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
 <levels>view,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <content>{{html wiki="true" clean="false"}}

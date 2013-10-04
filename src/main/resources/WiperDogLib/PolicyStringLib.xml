@@ -10,10 +10,10 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380528328000</creationDate>
-<date>1380528328000</date>
-<contentUpdateDate>1380528328000</contentUpdateDate>
-<version>1.1</version>
+<creationDate>1380702671000</creationDate>
+<date>1380853597000</date>
+<contentUpdateDate>1380853597000</contentUpdateDate>
+<version>4.1</version>
 <title>PolicyStringLib</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -39,27 +39,27 @@ def listKeyJson = request.getParameter("listKey")
 def listKey = slurper.parseText(listKeyJson)
 def action = request.getParameter("action")
 def sampleData = request.getParameter("sampleData")
-def groupKey = request.getParameter("groupKey")
+def type = request.getParameter("type")
 
 def data
 def closureStr = ""
 if(datajson != null &amp;&amp; datajson != ""){
     if(action == "STANDARDCONDITION") {
-        def standardData = getDataConditionsAfterEdit(datajson, listKey, groupKey)
+        def standardData = getDataConditionsAfterEdit(datajson, listKey)
         println standardData
     } else if(action == "STANDARDMESSAGE") {
-        def standardData = getDataMessageAfterEdit(datajson, listKey, groupKey)
+        def standardData = getDataMessageAfterEdit(datajson, listKey)
         println standardData
     } else {
         data = slurper.parseText(datajson)
         def resp = [:]
-        closureStr = generatePolicyString(data, listKey, groupKey)
+        closureStr = generatePolicyString(data, listKey, type)
     }
 
     if(action == "PREVIEW") {
         println closureStr
     } else if(action == "RUNTEST") {
-    	try {
+     try {
             // Data policy
             def mapSampleData = slurper.parseText(sampleData)
             // Closure
@@ -78,48 +78,73 @@ if(datajson != null &amp;&amp; datajson != ""){
             println builder.toString()
         }
     } else if(action == "WRITE2FILE") {
-       def respData = generatePolicyString(data,listKey, groupKey)
+       def respData = generatePolicyString(data,listKey, type)
        println respData
     }
 }
 
 // GENERATE DATA TO POLICY STRING
-def generatePolicyString(data, listKey, groupKey){
-	def policyStr = ""
-   //return data
-	try {
-		 if(data.mappolicy != null &amp;&amp; data.mappolicy.size() &gt; 0){
-		   policyStr += "POLICY = {resultData-&gt;\n"
-		   policyStr += "\tdef listMess = []\n"
-			policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
-		   def mapPolicy = data.mappolicy
-		   policyStr += "\tresultData.each{data-&gt;\n"
-		   mapPolicy.each {key,value -&gt;
-			   key = key.trim()
-			   if(key[0] != "("){
-				   key = "(" + key
-			   }
-			   if(key[key.size() - 1] != ")"){
-				   key = key + ")"
-			   }
-			   
-			   // if statement
-			   policyStr += "\t\tif(" + getDataConditionsAfterEdit(key, listKey, groupKey) + "){\n"
-			   // message print statement
-			   policyStr += "\t\t\tlistMess.add(\"\"\""+ getDataMessageAfterEdit(value, listKey, groupKey) +"\"\"\")\n\t\t}\n"
-			   
-		   }
-		   policyStr += "\t}\n"
-		   policyStr += "\tret['message'] = listMess\n"
-		   policyStr += "\treturn ret\n}"
-		 }
-		 return policyStr
-	} catch(Exception ex) {
-		 return "ex:" + ex
-	}
+def generatePolicyString(data, listKey, type){
+    def policyStr = ""
+    //return data
+    try {
+        if(type == "store") {
+     if(data.mappolicy != null &amp;&amp; data.mappolicy.size() &gt; 0){
+     policyStr += "POLICY = {resultData-&gt;\n"
+     policyStr += "\tdef listMess = []\n"
+  policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
+     def mapPolicy = data.mappolicy
+     policyStr += "\tresultData.each{data-&gt;\n"
+     mapPolicy.each {key,value -&gt;
+      key = key.trim()
+      if(key[0] != "("){
+           key = "(" + key
+      }
+      if(key[key.size() - 1] != ")"){
+          key = key + ")"
+      }
+       
+      // if statement
+      policyStr += "\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
+      // message print statement
+      policyStr += "\t\t\tlistMess.add(\"\"\""+ value +"\"\"\")\n\t\t}\n"
+         }
+  policyStr += "\t}\n"
+  policyStr += "\tret['message'] = listMess\n"
+  policyStr += "\treturn ret\n}"
+     }
+        } else if(type == "subtyped") {
+            policyStr += "POLICY = {resultData-&gt;\n"
+            policyStr += "\tdef listMess = []\n"
+            policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
+            policyStr += "\tresultData.each {key,value -&gt;\n"
+            data.mappolicy.each {keyData,valueData -&gt;
+                if(valueData != [:]) {
+                    policyStr += "\t\tif(key == \"" + keyData + "\") {\n"
+                    policyStr += "\t\t\tvalue.each {data -&gt;\n"
+                    valueData.each {key,value -&gt;
+                        // If
+                        policyStr += "\t\t\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
+                        // Message
+                        policyStr += "\t\t\t\t\tlistMess.add(\"\"\""+ value +"\"\"\")\n"
+                        policyStr += "\t\t\t\t}\n"
+                    }
+                    policyStr += "\t\t\t}\n"
+                    policyStr += "\t\t}\n"
+                }
+            }
+            policyStr += "\t}\n"
+            policyStr += "\tret['message'] = listMess\n"
+            policyStr += "\treturn ret\n"
+            policyStr += "}"
+        }
+        return policyStr
+    } catch(Exception ex) {
+ return "ex:" + ex
+    }
 }
 
-def getDataConditionsAfterEdit(String stringOfPolicy, dataKey, groupKey){
+def getDataConditionsAfterEdit(String stringOfPolicy, dataKey){
     List OperatorList = [" ", "\\(", "\\)", "=", "\\+|\\-|\\*|\\/|%", "&gt;|&lt;|=|!", "\\|\\||&amp;&amp;|\\?\\:", "\\~|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\\^|\\|"]
 
     //Replace all unnecessary space
@@ -129,7 +154,7 @@ def getDataConditionsAfterEdit(String stringOfPolicy, dataKey, groupKey){
 
     String strKeyPattern = convertListToString(dataKey, "|")
     String strOperator = convertListToString(OperatorList, "|")
-	
+ 
     //Create macher
     macherPattern = "(" + strOperator + ")(" + strKeyPattern + ")(" + strOperator + "|\\.)"
     pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
@@ -137,54 +162,54 @@ def getDataConditionsAfterEdit(String stringOfPolicy, dataKey, groupKey){
     def oldData
     def newData
     while(matcher.find()){
-    	oldData = matcher.group()
-	newData = matcher.group(1) + "data." + matcher.group(2) + matcher.group(3)
-        if(groupKey != null) {
-            newData = matcher.group(1) + "data." + groupKey + "." + matcher.group(2) + matcher.group(3)
-        }
-	stringOfPolicy = stringOfPolicy.replace(oldData, newData)
+     oldData = matcher.group()
+ newData = matcher.group(1) + "data." + matcher.group(2) + matcher.group(3)
+ stringOfPolicy = stringOfPolicy.replace(oldData, newData)
     }
     stringOfPolicy = stringOfPolicy.substring(1, stringOfPolicy.length() -1)
     return stringOfPolicy
 }
 
-def getDataMessageAfterEdit(String stringOfMessage, dataKey, groupKey){
+def getDataMessageAfterEdit(String stringOfMessage, dataKey){
 	//Replace all unnecessary space
 	String macherPattern = "([ ]{2,})"
 	Pattern pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
 	stringOfMessage = stringOfMessage.replaceAll(pattern, " ").trim()
-	stringOfMessage = "+" + stringOfMessage + "+"
-  	stringOfMessage = stringOfMessage.replaceAll('"""', '\'\'\'')
- 	String strKeyPattern = convertListToString(dataKey, "|")
-
-	//Create macher
-	macherPattern = "([ ]*[\\+]{1,}[ ]*)(" + strKeyPattern + ")([ ]*[\\+]{1,}[ ]*)"
+	stringOfMessage = " " + stringOfMessage + " "
+	stringOfMessage = stringOfMessage.replaceAll('"""', '\'\'\'')
+	String strKeyPattern = convertListToString(dataKey, "|")
+	
+	//Remove unneed data
+	macherPattern = "(\\\$\\{data\\.)(" + strKeyPattern + ")(\\})"
 	pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
 	Matcher matcher = pattern.matcher(stringOfMessage);
+	while(matcher.find()){
+		stringOfMessage = stringOfMessage.replace(matcher.group(), matcher.group(2))
+	}
+	
+	//Create macher
+	macherPattern = "((?:(?!(\\d|[a-zA-Z]|\'|\")).)+)(" + strKeyPattern + ")((?:(?!(\\d|[a-zA-Z]|\'|\")).)+)"
+	pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+	matcher = pattern.matcher(stringOfMessage);
 	def oldData
 	def newData
 	while(matcher.find()){
 		oldData = matcher.group()
-		newData = matcher.group(1) + '${data.' + matcher.group(2) + '}' + matcher.group(3)
-                if(groupKey != null) {
-                    newData = matcher.group(1) + '${data.' + groupKey + "." + matcher.group(2) + '}' + matcher.group(3)
-                }
-	  	stringOfMessage = stringOfMessage.replace(oldData, newData)
+		newData = matcher.group(1) + '${data.' + matcher.group(3) + '}' + matcher.group(4)
+		stringOfMessage = stringOfMessage.replace(oldData, newData)
 	}
 	stringOfMessage = stringOfMessage.substring(1, stringOfMessage.length() -1)
-	stringOfMessage = stringOfMessage.replaceAll('[ ]*[\\+]{1,}[ ]*', ' ')
 	stringOfMessage = stringOfMessage.replace('"', '') 
 	stringOfMessage = stringOfMessage.replace('\'\'\'', '')
 	return stringOfMessage
 }
-
 def convertListToString (List listData, String concatStr = "|"){
-	def strRet = ""
- 	listData.each {key-&gt;
-  		strRet += key + concatStr
- 	}
- 	if (strRet != "") {
-  		strRet = strRet.subSequence(0, strRet.length() - concatStr.length())
- 	}
+ def strRet = ""
+  listData.each {key-&gt;
+    strRet += key + concatStr
+  }
+  if (strRet != "") {
+    strRet = strRet.subSequence(0, strRet.length() - concatStr.length())
+  }
 }
 {{/groovy}}</content></xwikidoc>
