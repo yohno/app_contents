@@ -10,15 +10,15 @@
 <author>XWiki.maixuanthanh</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380528324000</creationDate>
+<creationDate>1380879463000</creationDate>
 <date>1380860819000</date>
 <contentUpdateDate>1380853594000</contentUpdateDate>
-<version>7.3</version>
+<version>1.1</version>
 <title>JobDoc</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment></comment>
-<minorEdit>true</minorEdit>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>

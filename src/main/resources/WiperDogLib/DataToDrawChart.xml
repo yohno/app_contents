@@ -7,12 +7,12 @@
 <translation>0</translation>
 <parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.nguyenxuanluong</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380528326000</creationDate>
-<date>1380853596000</date>
-<contentUpdateDate>1380853596000</contentUpdateDate>
+<contentAuthor>XWiki.nguyenxuanluong</contentAuthor>
+<creationDate>1380879466000</creationDate>
+<date>1381140884000</date>
+<contentUpdateDate>1381140884000</contentUpdateDate>
 <version>2.1</version>
 <title>DataToDrawChart</title>
 <defaultTemplate></defaultTemplate>
@@ -318,7 +318,9 @@
              		finalResult.add(result)
              	   }
              }
-             returnResult.add(finalResult)
+             if(finalResult != []) {
+               returnResult.add(finalResult)
+             }
              return returnResult
 	}
 

@@ -7,13 +7,13 @@
 <translation>0</translation>
 <parent>WiperDog.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.phamtienthanh</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.maixuanthanh</contentAuthor>
 <creationDate>1380528325000</creationDate>
-<date>1380855840000</date>
-<contentUpdateDate>1380853595000</contentUpdateDate>
-<version>6.2</version>
+<date>1381287219000</date>
+<contentUpdateDate>1381136978000</contentUpdateDate>
+<version>2.15</version>
 <title>Create policy for Job or Instance </title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -946,6 +946,7 @@ function resetControl() {
         $("#policyIdText").val("")
         $("#groupSubtyped").css('display','none')
         $("#groupSubtyped").html("")
+        $('input:radio[name="level"][value="Low"]').prop('checked', true);
         mapPolicy = {}
         tmpPolicyForKey = {}
         mapPolicySubtyped = {}
@@ -983,19 +984,19 @@ function drawTable(istIid){
                     var policyData = responseData.POLICY.listpolicy
 
                     // FILL POLICY INFORMATIO INTO TABLE POLICY
-                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
                     if (policyData != null) {
                         for (var i = 0; i &lt; policyData.length; i++) {
                             var mapElement = policyData[i]
                             mapPolicy[mapElement.condition] = mapElement.message
                             maxRow = i + 1
-                            htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+                            htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="' + getLevelStr(mapElement.level) + '"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
                         };
                     };
                     $("#policyInfo").html(htmlPolicyInfoSource)
                 } else if(typeOfData == "Subtyped") {
                     maxRow = 0
-                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
                     for(var key in responseData.POLICY.listpolicy) {
                         var policyData = responseData.POLICY.listpolicy[key]
                         if (policyData != null) {
@@ -1003,7 +1004,7 @@ function drawTable(istIid){
                                 var mapElement = policyData[i]
                                 tmpPolicyForKey[mapElement.condition] = mapElement.message
                                 maxRow = maxRow + 1
-                                htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+                                htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="' + getLevelStr(mapElement.level) + '"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
                             };
                         };
                         mapPolicySubtyped[key] = tmpPolicyForKey
@@ -1066,37 +1067,6 @@ function processChooseJob(jobName) {
                     var sampleData = responseData.SAMPLE
                     var mapUnit = responseData.UNIT
                     var type = responseData.TYPE
-                    var isUnit = false
-                    if(type == "Store") {
-                        for(var keyU in mapUnit) {
-                            if(mapUnit[keyU] != "") {
-                                isUnit = true
-                            }
-                        }
-                    } else if(type == "Subtyped") {
-                        for(var keySub in mapUnit) {
-                            for(var key in mapUnit[keySub]) {
-                                if(mapUnit[keyU] != "") {
-                                    isUnit = true
-                                }
-                            }
-                        }
-                    }
-                    if(!isUnit) {
-                        var confirm_msg
-                        if(jobName.split(".").length == 3) {
-                            confirm_msg = confirm("This job don't have unit, so can not evaluate policy for it.\nChoose an istIid ???")
-                            if(confirm_msg) {
-                                return
-                            }
-                        }
-                        if(jobName.split(".").length == 4) {
-                            confirm_msg = confirm("This job don't have unit, so can not evaluate policy for it.\nTry to create policy ???")
-                            if(!confirm_msg) {
-                                return
-                            }
-                        }
-                    }
 
                     if(type == "Store") {
                         // CREATE CONDITION BY SUGGEST
@@ -1195,6 +1165,20 @@ function generateIstIidAndJobList(result){
     jQuery.noConflict()
 }
 
+function getLevelStr(levelInt){
+    var levelRet
+    if(levelInt == 1){
+        levelRet = 'Low'
+    }
+    if(levelInt == 2){
+        levelRet = 'Medium'
+    }
+    if(levelInt == 3){
+        levelRet = 'High'
+    }
+    return levelRet
+}
+
 require(['jquery'], function($) {
 
     // GET SERVLET AND FILL LIST JOB INTO SELECT BOX
@@ -1238,6 +1222,7 @@ require(['jquery'], function($) {
             var jobName = $("#listJob option:selected").val()
             processChooseJob(jobName)
             if (jobName != "noChoice") {
+                currentIstIidSelector = null
                 resetControl()
                 $("#istIidArea &gt; select").val("noChoice")
                 $("#istIidArea &gt; select").css("display","none")
@@ -1258,21 +1243,20 @@ require(['jquery'], function($) {
                     responseData = result
                     if(typeOfData == "Store") {
                         var policyData = responseData.POLICY.listpolicy
-
                         // FILL POLICY INFORMATIO INTO TABLE POLICY
-                        var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+                        var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
                         if (policyData != null) {
                             for (var i = 0; i &lt; policyData.length; i++) {
                                 var mapElement = policyData[i]
                                 mapPolicy[mapElement.condition] = mapElement.message
                                 maxRow = i + 1
-                                htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+                                htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="'+ getLevelStr(mapElement.level) +'"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
                             };
                         };
                         $("#policyInfo").html(htmlPolicyInfoSource)
                     } else if(typeOfData == "Subtyped") {
                         maxRow = 0
-                        var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+                        var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
                         for(var key in responseData.POLICY.listpolicy) {
                             var policyData = responseData.POLICY.listpolicy[key]
                             if (policyData != null) {
@@ -1280,7 +1264,7 @@ require(['jquery'], function($) {
                                     var mapElement = policyData[i]
                                     tmpPolicyForKey[mapElement.condition] = mapElement.message
                                     maxRow = maxRow + 1
-                                    htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+                                    htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="'+ getLevelStr(mapElement.level) +'"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
                                 };
                             };
                             mapPolicySubtyped[key] = tmpPolicyForKey
@@ -1304,7 +1288,10 @@ require(['jquery'], function($) {
             var conditionText = $("#inputText").val().trim()
             var messageText = $("#messageText").val().trim()
             var groupKey = $("#groupSubtyped option:selected").val()
-
+            var level
+            if($("input[type='radio'].radioBtnClass").is(':checked')) {
+               level = $("input[type='radio'].radioBtnClass:checked").val();
+            }
             // Validate job
             if(jobText == "noChoice") {
                 $("#msgValidate").html("&lt;p&gt;Please choose a job !!!&lt;/p&gt;")
@@ -1328,6 +1315,7 @@ require(['jquery'], function($) {
             } else {
                 var data2send = {'action': 'STANDARDCONDITION','data':conditionText, 'listKey': JSON.stringify(listKey)}
                 conditionText = getPolicyString(data2send)
+
                 if(conditionText[0] != "(") {
                     conditionText = "(" + conditionText
                 }
@@ -1352,97 +1340,110 @@ require(['jquery'], function($) {
             var groupText = $("#groupSubtyped option:selected").val()
             var table = document.getElementById('policyInfo')
             var lstRow = table.rows
-            	
+                
             if(groupText == null || groupText == "") { // STORE
-	            for(var i = 0; i &lt; lstRow.length; i++) {
-	                if(policyID == lstRow[i].cells[0].innerText) {
-	                    var checkAddNew = true
-	                    for(var key in mapPolicy) {
-	                        if(key == conditionText) {
-	                            checkAddNew = false
-	                            var confirm_update = confirm("Conditon is exits, update message ?")
-	                            if(confirm_update) {
-	                                mapPolicy[key] = messageText
-	                                var idUpdate
-	                                for(var i = 0; i &lt; lstRow.length; i++) {
-	                                    if(lstRow[i].cells[1].innerText == conditionText) {
-	                                        idUpdate = i
-	                                    }
-	                                }
-	                                lstRow[idUpdate].cells[2].innerText = messageText
-	                            }
-	                        }
-	                    }
-	                    if(checkAddNew) {
-	                        var confirm_update = confirm("Update policy ?")
-	                        if(confirm_update){
-	                            delete mapPolicy[lstRow[i].cells[1].innerText]
-	                            lstRow[i].cells[1].innerText = conditionText
-	                            lstRow[i].cells[2].innerText = messageText
-	                            mapPolicy[conditionText] = messageText
-	                        }
-	                    }
-	                    booleanUpdate = true
-	                }
-	            }
-	            if(!booleanUpdate) {
-	                var checkAddNew = true
-	                for(var key in mapPolicy) {
-	                    if(key == conditionText) {
-	                        checkAddNew = false
-	                        var confirm_update = confirm("Conditon is exits, update message ?")
-	                        if(confirm_update) {
-	                            mapPolicy[key] = messageText
-	                            var idUpdate
-	                            for(var i = 0; i &lt; lstRow.length; i++) {
-	                                if(lstRow[i].cells[1].innerText == conditionText) {
-	                                    idUpdate = i
-	                                }
-	                            }
-	                            lstRow[idUpdate].cells[2].innerText = messageText
-	                        }
-	                    }
-	                }
-	                if(checkAddNew) {
-	                    maxRow = maxRow + 1
-	                    var inputMaps = {
-	                        'policyId': maxRow,
-	                        'condition': conditionText,
-	                        'message': messageText
-	                    }
-	                    var tr = createTrAppend(inputMaps, 'policyInfo')
-	                    tr.appendChild(createTdAction())
-	                    table.appendChild(tr)
-	                    $("#msgValidate").html("&lt;b&gt;Policy was added !!!&lt;/b&gt;")
-	                    mapPolicy[conditionText] = messageText
-	                }
-	            }
-	            $("#inputText").val("")
-	            $("#messageText").val("")
-	            $("#policyIdText").val("")
+                for(var i = 0; i &lt; lstRow.length; i++) {
+                    if(policyID == lstRow[i].cells[0].innerText) {
+                        var checkAddNew = true
+                        for(var key in mapPolicy) {
+                            if(key == conditionText) {
+                                checkAddNew = false
+                                var confirm_update = confirm("Conditon is exits, update message ?")
+                                if(confirm_update) {
+                                    mapPolicy[key] = messageText
+                                    var idUpdate
+                                    for(var i = 0; i &lt; lstRow.length; i++) {
+                                        if(lstRow[i].cells[1].innerText == conditionText) {
+                                            idUpdate = i
+                                        }
+                                    }
+                                    lstRow[idUpdate].cells[2].innerText = messageText
+                                    lstRow[idUpdate].cells[3].innerText = level
+                                    lstRow[idUpdate].cells[3].className = level
+                                }
+                            }
+                        }
+                        if(checkAddNew) {
+                            var confirm_update = confirm("Update policy ?")
+                            if(confirm_update){
+                                delete mapPolicy[lstRow[i].cells[1].innerText]
+                                lstRow[i].cells[1].innerText = conditionText
+                                lstRow[i].cells[2].innerText = messageText
+                                lstRow[i].cells[3].innerText = level
+                                lstRow[i].cells[3].className = level
+                                mapPolicy[conditionText] = messageText
+                            }
+                        }
+                        booleanUpdate = true
+                    }
+                }
+                if(!booleanUpdate) {
+                    var checkAddNew = true
+                    for(var key in mapPolicy) {
+                        if(key == conditionText) {
+                            checkAddNew = false
+                            var confirm_update = confirm("Conditon is exits, update message ?")
+                            if(confirm_update) {
+                                mapPolicy[key] = messageText
+                                var idUpdate
+                                for(var i = 0; i &lt; lstRow.length; i++) {
+                                    if(lstRow[i].cells[1].innerText == conditionText) {
+                                        idUpdate = i
+                                    }
+                                }
+                                lstRow[idUpdate].cells[2].innerText = messageText
+                                lstRow[idUpdate].cells[3].innerText = level
+                                lstRow[idUpdate].cells[3].className = level
+                            }
+                        }
+                    }
+                    if(checkAddNew) {
+                        maxRow = maxRow + 1
+                        var inputMaps = {
+                            'policyId': maxRow,
+                            'condition': conditionText,
+                            'message': messageText,
+                            'level': level
+                        }
+                        var tr = createTrAppend(inputMaps, 'policyInfo')
+                        tr.appendChild(createTdAction())
+                        table.appendChild(tr)
+                        $("#msgValidate").html("&lt;b&gt;Policy was added !!!&lt;/b&gt;")
+                        mapPolicy[conditionText] = messageText
+                    }
+                }
+                $("#inputText").val("")
+                $("#messageText").val("")
+                $("#policyIdText").val("") 
+                $('input:radio[name="level"][value="Low"]').prop('checked', true);
             } else { // SUBTYPED
-	            for(var i = 0; i &lt; lstRow.length; i++) {
+                for(var i = 0; i &lt; lstRow.length; i++) {
                         if(policyID == lstRow[i].cells[0].innerText) {
                             var checkAddNew = true
                             for(var key in mapPolicySubtyped) {
                                 var mapDataPolicy = getPolicyFromTable()
                                 var mapPolicyForKey = mapDataPolicy.datapolicy
                                 for(var keyPoli in mapPolicyForKey) {
-                                    if(groupText == lstRow[i].cells[1].innerText &amp;&amp; keyPoli == conditionText) {
-                                        checkAddNew = false
-                                        var confirm_update = confirm("Conditon is exits, update message ?")
-                                        if(confirm_update) {
-                                            mapPolicySubtyped[key][keyPoli] = messageText
-                                            var idUpdate
-                                            for(var i = 0; i &lt; lstRow.length; i++) {
-                                                if(lstRow[i].cells[2].innerText == conditionText) {
-                                                    //idUpdate = lstRow[i].cells[0].innerText
+                                    if(groupText == key) {
+                                      for(var k in mapPolicyForKey[keyPoli]) {
+                                        if(k == conditionText) {
+                                           checkAddNew = false
+                                           var confirm_update = confirm("Conditon is exits, update message ?")
+                                           if(confirm_update) {
+                                               mapPolicySubtyped[key][keyPoli] = messageText
+                                               var idUpdate
+                                               for(var i = 0; i &lt; lstRow.length; i++) {
+                                                   if(lstRow[i].cells[2].innerText == conditionText &amp;&amp; lstRow[i].cells[1].innerText == groupText) {
                                                     idUpdate = i
-                                                }
-                                            }
-                                            lstRow[idUpdate].cells[1].innerText = $("#groupSubtyped option:selected").val()
-                                            lstRow[idUpdate].cells[3].innerText = messageText
+                                                   }
+                                               }
+                                               lstRow[idUpdate].cells[1].innerText = $("#groupSubtyped option:selected").val()
+                                               lstRow[idUpdate].cells[3].innerText = messageText
+                                               lstRow[idUpdate].cells[4].innerText = level
+					       lstRow[idUpdate].cells[4].className = level
+                                           }
                                         }
+                                      }
                                     }
                                 }
                                 booleanUpdate = true
@@ -1453,6 +1454,8 @@ require(['jquery'], function($) {
                                     lstRow[i].cells[1].innerText = groupText
                                     lstRow[i].cells[2].innerText = conditionText
                                     lstRow[i].cells[3].innerText = messageText
+                                    lstRow[i].cells[4].innerText = level
+                                    lstRow[i].cells[4].className = level
                                     tmpPolicyForKey[conditionText] = messageText
                                     mapPolicySubtyped[groupText] = tmpPolicyForKey
                                 }
@@ -1473,11 +1476,12 @@ require(['jquery'], function($) {
                                         var idUpdate
                                         for(var i = 0; i &lt; lstRow.length; i++) {
                                             if(lstRow[i].cells[1].innerText == key &amp;&amp; lstRow[i].cells[2].innerText == conditionText) {
-                                                //idUpdate = lstRow[i].cells[0].innerText
                                                 idUpdate = i
                                             }
                                         }
                                         lstRow[idUpdate].cells[3].innerText = messageText
+                                        lstRow[idUpdate].cells[4].innerText = level
+                                        lstRow[idUpdate].cells[4].className = level
                                     }
                                 }
                             }
@@ -1488,7 +1492,8 @@ require(['jquery'], function($) {
                                 'policyId': maxRow,
                                 'group': groupText,
                                 'condition': conditionText,
-                                'message': messageText
+                                'message': messageText,
+                                'level': level
                             }
                             var tr = createTrAppend(inputMaps, 'policyInfo')
                             tr.appendChild(createTdAction())
@@ -1501,6 +1506,7 @@ require(['jquery'], function($) {
                     $("#inputText").val("")
                     $("#messageText").val("")
                     $("#policyIdText").val("")
+                    $('input:radio[name="level"][value="Low"]').prop('checked', true);
             }
         });
 
@@ -1520,7 +1526,8 @@ require(['jquery'], function($) {
                 }
 
                 mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'store'}
+                var mapConditionLevel = mapDataPolicy.mapConditionLevel
+                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'store', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
                 var result = getPolicyString(data2send)
                 $("#previewText").val(result)
             } else if(dataType == "Subtyped" &amp;&amp; JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
@@ -1533,7 +1540,8 @@ require(['jquery'], function($) {
                 }
 
                 mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'subtyped'}
+                var mapConditionLevel = mapDataPolicy.mapConditionLevel
+                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'subtyped', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
                 var result = getPolicyString(data2send)
                 $("#previewText").val(result)
             } else {
@@ -1551,16 +1559,19 @@ require(['jquery'], function($) {
             if(JSON.stringify(mapPolicy) != '{}') {
                 var mapFinal = {}
                 var jobName = $("#listJob option:selected").val()
-                mapFinal['jobname'] = jobName
+                mapFinal['jobName'] = jobName
                 var instText = currentIstIidSelector
                 if(instText != "noChoice" &amp;&amp; instText != null) {
                     mapFinal['instanceName'] = instText
                 }
-                mapFinal['mappolicy'] = mapPolicy
+                //mapFinal['mappolicy'] = mapPolicy
                 var mapSampleData = responseData.SAMPLE
                 var listSampleData = new Array()
                 listSampleData.push(mapSampleData)
-                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(listSampleData), 'type': 'store'}
+                var mapDataPolicy = getPolicyFromTable()
+                mapFinal['mappolicy'] = mapDataPolicy['datapolicy']
+                var mapConditionLevel = mapDataPolicy.mapConditionLevel
+                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(listSampleData), 'type': 'store', 'mapConditionLevel': JSON.stringify(mapConditionLevel) }
                 var result = getPolicyString(data2send)
                 result = $.parseJSON(result)
                 if(result.status == "failed") {
@@ -1571,7 +1582,7 @@ require(['jquery'], function($) {
                     } else {
                         var warningMsg = ""
                         for(var i = 0; i &lt; result.message.length; i++) {
-                            warningMsg += "*** " + result.message[i] + "\n"
+                            warningMsg += "*** " + JSON.stringify(result.message[i]) + "\n"
                         }
                         $("#runTestText").val(warningMsg)
                     }
@@ -1586,6 +1597,7 @@ require(['jquery'], function($) {
                 }
                 var mapDataPolicy = getPolicyFromTable()
                 mapFinal['mappolicy'] = mapDataPolicy.datapolicy
+                var mapConditionLevel = mapDataPolicy.mapConditionLevel
                 var mapSampleData = responseData.SAMPLE
                 var mapDataRequest = {}
                 for(var key in mapSampleData) {
@@ -1593,7 +1605,7 @@ require(['jquery'], function($) {
                     listSampleData.push(mapSampleData[key])
                     mapDataRequest[key] = listSampleData
                 }
-                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(mapDataRequest), 'type': 'subtyped'}
+                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(mapDataRequest), 'type': 'subtyped', 'mapConditionLevel': JSON.stringify(mapConditionLevel)}
                 var result = getPolicyString(data2send)
                 result = $.parseJSON(result)
                 if(result.status == "failed") {
@@ -1604,7 +1616,7 @@ require(['jquery'], function($) {
                     } else {
                         var warningMsg = ""
                         for(var i = 0; i &lt; result.message.length; i++) {
-                            warningMsg += "*** " + result.message[i] + "\n"
+                            warningMsg += "*** " + JSON.stringify(result.message[i]) + "\n"
                         }
                         $("#runTestText").val(warningMsg)
                     }
@@ -1633,7 +1645,9 @@ require(['jquery'], function($) {
                 }
 
                 mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'store'}
+                var mapConditionLevel = mapDataPolicy.mapConditionLevel
+
+                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'store', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
                 var result = getPolicyString(data2send)
                 var resquestData = {'action': 'WRITE2FILE', 'jobName' : jobName, 'instanceName' : instText, 'policyStr' : result}
                 send_ajax_post_data(servletName, function(result) {}, resquestData)
@@ -1647,7 +1661,9 @@ require(['jquery'], function($) {
                 }
 
                 mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'subtyped'}
+                var mapConditionLevel = mapDataPolicy.mapConditionLevel
+
+                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'subtyped', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
                 var result = getPolicyString(data2send)
                 var resquestData = {'action': 'WRITE2FILE', 'jobName' : jobName, 'instanceName' : instText, 'policyStr' : result}
                 send_ajax_post_data(servletName, function(result) {}, resquestData)
@@ -1662,15 +1678,21 @@ require(['jquery'], function($) {
         function getPolicyFromTable() {
             var mapFinalData = {}
             var mapDataPolicy = {}
+            var mapConditionLevel = {}
             var table = document.getElementById('policyInfo')
             var lstRow = table.rows
-            if(lstRow[0].cells.length == 4) { // STORE
+            if(lstRow[0].cells.length == 5) { // STORE
                 for(var i = 1; i &lt; lstRow.length; i++) {
-                    mapDataPolicy[lstRow[i].cells[1].innerText] = lstRow[i].cells[2].innerText
+                    var conditionStr = lstRow[i].cells[1].innerText
+                    var msgStr = lstRow[i].cells[2].innerText
+                    var levelStr = lstRow[i].cells[3].innerText
+                    mapDataPolicy[conditionStr] = msgStr
+                    mapConditionLevel[conditionStr] = levelStr
                 }
                 mapFinalData['type'] = "Store"
                 mapFinalData['datapolicy'] = mapDataPolicy
-            } else if(lstRow[0].cells.length == 5) { // SUBTYPED
+                mapFinalData['mapConditionLevel'] = mapConditionLevel
+            } else if(lstRow[0].cells.length == 6) { // SUBTYPED
                 var lstKey = new Array()
                 for(var i = 1; i &lt; lstRow.length; i++) {
                     if(lstKey.length != 0) {
@@ -1680,18 +1702,28 @@ require(['jquery'], function($) {
                     } else {
                         lstKey.push(lstRow[i].cells[1].innerText)
                     }
+                    mapConditionLevel[lstRow[i].cells[1].innerText] = {}
                 }
                 for(var elist = 0; elist &lt; lstKey.length; elist++) {
                     var tmpDataPolicy = {}
                     for(var i = 1; i &lt; lstRow.length; i++) {
-                        if(lstKey[elist] == lstRow[i].cells[1].innerText) {
-                            tmpDataPolicy[lstRow[i].cells[2].innerText] = lstRow[i].cells[3].innerText
+                        var groupStr = lstRow[i].cells[1].innerText
+                        if(lstKey[elist] == groupStr) {
+                            var conditionStr = lstRow[i].cells[2].innerText
+                            var msgStr = lstRow[i].cells[3].innerText
+                            var levelStr = lstRow[i].cells[4].innerText
+                            tmpDataPolicy[conditionStr] = msgStr
+                            if(mapConditionLevel[groupStr] == null){
+                               mapConditionLevel[groupStr] = {}
+                            }
+                            mapConditionLevel[groupStr][conditionStr] = levelStr
                         }
                     }
                     mapDataPolicy[lstKey[elist]] = tmpDataPolicy
                 }
                 mapFinalData['type'] = "Subtyped"
                 mapFinalData['datapolicy'] = mapDataPolicy
+                mapFinalData['mapConditionLevel'] = mapConditionLevel
             }
             return mapFinalData
         }
@@ -1760,10 +1792,10 @@ require(['jquery'], function($) {
         var conf = confirm('Delete this instance , are you sure ?')
         if (conf) {
             var rowDeleted = deleteRow(this, 'policyInfo')
-            if(rowDeleted.cells.length == 4) { // STORE
+            if(rowDeleted.cells.length == 5) { // STORE
                 var keyDeleted = rowDeleted.cells[1].innerText
                 delete mapPolicy[keyDeleted]
-            } else if(rowDeleted.cells.length == 5) { // SUBTYPED
+            } else if(rowDeleted.cells.length == 6) { // SUBTYPED
                 var groupDel = rowDeleted.cells[1].innerText
                 var keyDel = rowDeleted.cells[2].innerText
                 delete mapPolicySubtyped[groupDel][keyDel]
@@ -1776,16 +1808,20 @@ require(['jquery'], function($) {
         $("#msgValidate").empty();
         event.preventDefault();
         var row = this.parentNode.parentNode
-        if(row.cells.length == 4) {
+        if(row.cells.length == 5) {
             $("#policyIdText").val(row.cells[0].innerText.trim())
             $("#inputText").val(row.cells[1].innerText.trim())
             $("#messageText").val(row.cells[2].innerText.trim())
-        } else if(row.cells.length == 5) {
+            var levelStr = row.cells[3].innerText.trim()
+            $('#radio' + levelStr).prop('checked', true)
+        } else if(row.cells.length == 6) {
             $("#policyIdText").val(row.cells[0].innerText.trim())
             document.getElementById('selectBoxId').value = row.cells[1].innerText.trim();
             $("#inputText").val(row.cells[2].innerText.trim())
             $("#messageText").val(row.cells[3].innerText.trim())
-            delete mapPolicySubtyped[row.cells[1].innerText.trim()][row.cells[2].innerText.trim()]            
+            delete mapPolicySubtyped[row.cells[1].innerText.trim()][row.cells[2].innerText.trim()]  
+            var levelStr = row.cells[4].innerText.trim()
+            $('#radio' + levelStr).prop('checked', true) 
         }
     });
 
@@ -1812,6 +1848,9 @@ require(['jquery'], function($) {
         var tr = document.createElement('tr')
         for (key in jsonObj) {
             var td = document.createElement('td')
+            if(key == 'level'){
+                td.className = jsonObj[key]
+            }
             var td_text = document.createTextNode(jsonObj[key])
             td.appendChild(td_text)
             tr.appendChild(td)
@@ -2006,11 +2045,28 @@ overflow:scroll;
 
 #previewText, #runTestText {
   min-height: 300px;
+  max-height: 700px;
   width: 100%;
-}</code>
-</property>
-<property>
-<name>processPolicy-css</name>
+}
+
+.Low{
+  //background: rgb(55, 179, 55);
+  color: rgb(55, 179, 55);
+  font-weight: bold;
+}
+
+.Medium{
+  //background: rgb(231, 248, 105);
+  color: rgb(248, 145, 105);
+  font-weight: bold;
+}
+
+.High{
+  //background: rgb(248, 145, 105);
+  color: red;
+  font-weight: bold;
+}
+</code></property><property><name>processPolicy-css</name>
 </property>
 <property>
 <parse>0</parse>
@@ -2280,7 +2336,7 @@ overflow:scroll;
                 &lt;option id="noChoice" value="noChoice"&gt;-select a job-&lt;/option&gt;
             &lt;/select&gt;
         &lt;/td&gt;
-        &lt;td rowspan=5&gt;
+        &lt;td rowspan=6&gt;
             &lt;div id="loadingImg" style="display:none"&gt;&lt;img src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;&lt;/div&gt;
             &lt;table border=1 width="100%"&gt;
                 &lt;tr&gt;
@@ -2291,14 +2347,16 @@ overflow:scroll;
                         &lt;div id="sampleDataForm"&gt;
                           &lt;table style="width:400px" id="sampleData"&gt;
                             &lt;tr&gt;
-                                &lt;th style="width:35%"&gt;Field&lt;/th&gt;
-                                &lt;th style="width:35%"&gt;Unit&lt;/th&gt;
-                                &lt;th style="width:35%"&gt;Data Sample&lt;/th&gt;
+                                &lt;th style="width:25%"&gt;Group&lt;/th&gt;
+                                &lt;th style="width:25%"&gt;Field&lt;/th&gt;
+                                &lt;th style="width:25%"&gt;Unit&lt;/th&gt;
+                                &lt;th style="width:25%"&gt;Data Sample&lt;/th&gt;
                             &lt;/tr&gt;
                           &lt;/table&gt;
                         &lt;/div&gt;
                     &lt;/td&gt;
                 &lt;/tr&gt;
+                &lt;tr style="height:10px"&gt;&lt;/tr&gt;
             &lt;/table&gt;
         &lt;/td&gt;
     &lt;/tr&gt;
@@ -2324,6 +2382,16 @@ overflow:scroll;
     &lt;/tr&gt;
     &lt;tr&gt;
         &lt;th style="width:100px;min-width:100px"&gt;
+            Level:
+        &lt;/th&gt;
+        &lt;td&gt;
+            &lt;input type="radio" class="radioBtnClass" id="radioLow" name="level" value="Low" checked="checked"&gt;Low&lt;/input&gt;
+            &lt;input type="radio" class="radioBtnClass" id="radioMedium" name="level" value="Medium"&gt;Medium&lt;/input&gt;
+            &lt;input type="radio" class="radioBtnClass" id="radioHigh" name="level" value="High"&gt;High&lt;/input&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th style="width:100px;min-width:100px;"&gt;
             Condition:
         &lt;/th&gt;
         &lt;td&gt;
@@ -2333,7 +2401,7 @@ overflow:scroll;
         &lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-        &lt;th style="width:100px;min-width:100px"&gt;
+        &lt;th style="width:100px;min-width:100px;"&gt;
             Message:
         &lt;/th&gt;
         &lt;td&gt;
@@ -2344,17 +2412,22 @@ overflow:scroll;
         &lt;td colspan=2&gt;
         &lt;/td&gt;
     &lt;/tr&gt;
-    &lt;tr&gt;&lt;td colspan="4"&gt;
-        &lt;p id='msgValidate'&gt;&lt;/p&gt;&lt;center&gt;&lt;input type="submit" value="Add / Update" id="addButton" class="button" style="height:30px;"/&gt;&lt;/center&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;
+    	&lt;td colspan="4"&gt;
+        	&lt;p id='msgValidate'&gt;&lt;/p&gt;
+        	&lt;center&gt;&lt;input type="submit" value="Add / Update" id="addButton" class="button" style="height:30px;"/&gt;&lt;/center&gt;
+    	&lt;/td&gt;
+	&lt;/tr&gt;
     &lt;tr&gt;
         &lt;th&gt;Policy Info&lt;/th&gt;
         &lt;td colspan="4"&gt;
             &lt;div id="policyForm"&gt;
             &lt;table id="policyInfo" style="width:920px"&gt;
                   &lt;tr&gt;
-                     &lt;th style="width:35%"&gt;PolicyID&lt;/th&gt;
-                     &lt;th style="width:35%"&gt;Condition&lt;/th&gt;
-                     &lt;th style="width:35%"&gt;Message&lt;/th&gt;
+                     &lt;th style="width:20%"&gt;PolicyID&lt;/th&gt;
+                     &lt;th style="width:30%"&gt;Condition&lt;/th&gt;
+                     &lt;th style="width:30%"&gt;Message&lt;/th&gt;
+                     &lt;th style="width:20%"&gt;Level&lt;/th&gt;
                      &lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;
                   &lt;/tr&gt;
              &lt;/table&gt;

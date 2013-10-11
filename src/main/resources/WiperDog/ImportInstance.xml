@@ -7,18 +7,18 @@
 <translation>0</translation>
 <parent>WiperDog.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.nguyenxuanluong</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380014953000</creationDate>
-<date>1380853593000</date>
-<contentUpdateDate>1380853593000</contentUpdateDate>
-<version>34.1</version>
+<contentAuthor>XWiki.nguyenxuanluong</contentAuthor>
+<creationDate>1380879462000</creationDate>
+<date>1381287283000</date>
+<contentUpdateDate>1381287262000</contentUpdateDate>
+<version>4.10</version>
 <title>Import Instance Info</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment></comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
 <filename>Postgres.Proactive_Check.Transactions.csv</filename>
@@ -2371,13 +2371,14 @@ color: black !important
 &lt;/div&gt;
                &lt;/td&gt;&lt;/tr&gt;
  &lt;tr&gt;&lt;td colspan=2&gt;      &lt;a id="showCSVTip"&gt;Tip for csv file&lt;/a&gt;&lt;div id="csvTip" style="display:none"&gt;
-      	&lt;pre&gt;
+      	&lt;pre style='color: #717477;font-size: 0.8em;font-weight: normal'&gt;
        	CSV file format :
-      		INST_NAME,SCHEDULE,params1,params2,params3
-			inst_1,10i,val_param1,val_param2,val_params3
-			inst_2,20i,val_param21,val_param22,val_params23
-			inst_3,30i,val_param31,val_param32,val_param33
+      		INST_NAME,SCHEDULE,HOST_ID,SID,PARAM1,PARAM2,PARAM3
+			inst_1,10i,host_id1,sid1,val_param1,val_param2,val_params3
+			inst_2,20i,host_id2,sid2,val_param21,val_param22,val_params23
+			inst_3,30i,host_id3,sid3,val_param31,val_param32,val_param33
 		+ Header must be include at least following params : INST_NAME,SCHEDULE
+                + For Database Monitoring Instance , HOST_ID and SID params should be available.
 		&lt;/pre&gt;
       &lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;

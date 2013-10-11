@@ -9,15 +9,15 @@
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1380528324000</creationDate>
-<date>1380853594000</date>
-<contentUpdateDate>1380853594000</contentUpdateDate>
-<version>351.1</version>
+<contentAuthor>XWiki.leminhquan</contentAuthor>
+<creationDate>1380879463000</creationDate>
+<date>1381473446000</date>
+<contentUpdateDate>1381216083000</contentUpdateDate>
+<version>9.1</version>
 <title>LastAccumulation</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
+<comment></comment>
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
@@ -331,7 +331,6 @@ RU5ErkJggg==
 	function init(){
 		var pnXwikiContentsWidth = $('#xwikicontent').width() - 20;
 		createLqgred(pnXwikiContentsWidth);
-		debug();
 	}
 	
 	function getJsonData(sortOption){
@@ -410,32 +409,11 @@ RU5ErkJggg==
 					pnTime = Math.ceil(pnTime);
 				}
 
-//				var psUpdateUnixTime = paUpdateUnixTime[0].replace(/\//g, '-');
-//				console.log(jQuery.timeago(psUpdateUnixTime))
-
 				$("#gridList").setCell(rowid, 'cumStatus', '', '' , {title:pnTime + ' ' + psUnit});
 			}
 		}
 		$("#gridList").jqGrid(poGridOption);
 		$("#gridList").jqGrid('filterToolbar',{searchOperators : true});
-	}
-
-	function debug(){
-		console.log('AAA')
-
-		var paRowData = $("#gridList").getRowData();
-		console.log(paRowData)
-		var test = [];
-/*
-		for(var i=0,len=paRowData.length;i&lt;len;i++){
-			if(paRowData[i].unixToDate === '2013/08/29 01:21:27'){
-				test.push(i+1);
-			}
-		}
-		for(var i=0,len=test.length;i&lt;len;i++){
-			$("#gridList").delRowData(test[i]-i);
-		}
-*/
 	}
 
 jQuery.noConflict()
@@ -640,10 +618,13 @@ jQuery.noConflict()
 <allow>1</allow>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<groups></groups>
 </property>
 <property>
-<users>XWiki.Admin</users>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users>xwiki:XWiki.Admin</users>
 </property>
 </object>
 <object>
@@ -718,6 +699,9 @@ jQuery.noConflict()
 <guid>4888ad12-8199-4be7-b7d3-8bbf7e741940</guid>
 <property>
 <allow>1</allow>
+</property>
+<property>
+<groups></groups>
 </property>
 <property>
 <levels>view,comment</levels>
@@ -800,10 +784,13 @@ jQuery.noConflict()
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAdminGroup</groups>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -880,10 +867,13 @@ jQuery.noConflict()
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>comment,view</levels>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <content>{{groovy}}
