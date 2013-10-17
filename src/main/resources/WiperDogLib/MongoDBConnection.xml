@@ -7,13 +7,13 @@
 <translation>0</translation>
 <parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.maixuanthanh</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.maixuanthanh</contentAuthor>
 <creationDate>1380879467000</creationDate>
-<date>1381218844000</date>
-<contentUpdateDate>1381218844000</contentUpdateDate>
-<version>1.10</version>
+<date>1381827510000</date>
+<contentUpdateDate>1381827510000</contentUpdateDate>
+<version>1.11</version>
 <title>MongoDBConnection</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -179,7 +179,7 @@ class MongoDBConnection{
     fromDate = (Long)(format.parse(fromDate).getTime()/1000.intValue())
     result = db[realCollectionName].find( fetchedAt_bin: [ $gt: fromDate ]).sort(fetchAt: -1).limit(limit)
    } else {
-       this.getDataAllFields(collection,limit)
+       return this.getDataAllFields(collection,limit)
    }
   }
   if(result!=null){
