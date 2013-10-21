@@ -11,13 +11,13 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1380879463000</creationDate>
-<date>1382001166000</date>
-<contentUpdateDate>1382001164000</contentUpdateDate>
-<version>9.18</version>
+<date>1382321580000</date>
+<contentUpdateDate>1382321580000</contentUpdateDate>
+<version>9.20</version>
 <title>LastAccumulation</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>deny delete right for XWiki.XWikiGuest</comment>
+<comment></comment>
 <minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
@@ -1196,7 +1196,8 @@ jQuery.noConflict()
 <users>XWiki.XWikiGuest</users>
 </property>
 </object>
-<content>{{groovy}}
+<content>{{include document="WiperDogLib.MongoDBConnection"/}}
+{{groovy}}
 	xwiki.jsx.use('WiperDogLib.JQueryUILib')
 	xwiki.ssx.use('WiperDogLib.JQueryUILib')
 	xwiki.jsx.use('WiperDogLib.JqGridLib')
@@ -1205,18 +1206,15 @@ jQuery.noConflict()
 	xwiki.jsx.use("LastAccumulation")
 	xwiki.ssx.use("LastAccumulation")
 
-	@Grab(group='com.gmongo', module='gmongo', version='1.0')
-	import com.gmongo.GMongo
-
-	def gmongo = new GMongo()
-	def db = gmongo.getDB('wiperdog')
+        MongoDBConnection.getConnection()
+	def db = MongoDBConnection.getMongoDB()
 
 	def jobs = []
 	db.getCollectionNames().findAll({it != "system.indexes"}).each {
 		jobs.add(it)
 	}
 
-	println('{{html}}')
+	println('{{html  clean="false" wiki="false"}}')
 	def dataSet = [:]
 
 	println '&lt;div id="container"&gt;'
@@ -1265,5 +1263,5 @@ jQuery.noConflict()
 		}
 	}
 	println('{{/html}}')
-	gmongo.close()
+	MongoDBConnection.closeConnection()
 {{/groovy}}</content></xwikidoc>
