@@ -7,20 +7,72 @@
 <translation>0</translation>
 <parent>WiperDog.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.leminhquan</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.leminhquan</contentAuthor>
 <creationDate>1382327524000</creationDate>
-<date>1382001396000</date>
-<contentUpdateDate>1382001394000</contentUpdateDate>
-<version>1.1</version>
+<date>1382348740000</date>
+<contentUpdateDate>1382348729000</contentUpdateDate>
+<version>3.3</version>
 <title>Create policy for Job or Instance </title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment></comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
-<hidden>false</hidden>
+<hidden>false</hidden><attachment>
+<filename>ajax-loader.gif</filename>
+<filesize>2608</filesize>
+<author>XWiki.leminhquan</author>
+<date>1382347820000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhHwAfAPUAAP///wAAAOjo6NLS0ry8vK6urqKiotzc3Li4uJqamuTk5NjY2KqqqqCgoLCw
+sMzMzPb29qioqNTU1Obm5jY2NiYmJlBQUMTExHBwcJKSklZWVvr6+mhoaEZGRsbGxvj4+EhISDIy
+MgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH+GkNyZWF0ZWQgd2l0aCBhamF4bG9h
+ZC5pbmZvACH5BAAKAAAAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAHwAfAAAG/0CAcEgUDAgFA4Bi
+wSQexKh0eEAkrldAZbvlOD5TqYKALWu5XIwnPFwwymY0GsRgAxrwuJwbCi8aAHlYZ3sVdwtRCm8J
+gVgODwoQAAIXGRpojQwKRGSDCRESYRsGHYZlBFR5AJt2a3kHQlZlERN2QxMRcAiTeaG2QxJ5RnAO
+v1EOcEdwUMZDD3BIcKzNq3BJcJLUABBwStrNBtjf3GUGBdLfCtadWMzUz6cDxN/IZQMCvdTBcAIA
+sli0jOHSJeSAqmlhNr0awo7RJ19TJORqdAXVEEVZyjyKtE3Bg3oZE2iK8oeiKkFZGiCaggelSTiA
+2LhxiZLBSjZjBL2siNBOFQ84LxHA+mYEiRJzBO7ZCQIAIfkEAAoAAQAsAAAAAB8AHwAABv9AgHBI
+FAwIBQPAUCAMBMSodHhAJK5XAPaKOEynCsIWqx0nCIrvcMEwZ90JxkINaMATZXfju9jf82YAIQxR
+Cm14Ww4PChAAEAoPDlsAFRUgHkRiZAkREmoSEXiVlRgfQgeBaXRpo6MOQlZbERN0Qx4drRUcAAJm
+nrVDBrkVDwNjr8BDGxq5Z2MPyUQZuRgFY6rRABe5FgZjjdm8uRTh2d5b4NkQY0zX5QpjTc/lD2NO
+x+WSW0++2RJmUGJhmZVsQqgtCE6lqpXGjBchmt50+hQKEAEiht5gUcTIESR9GhlgE9IH0BiTkxrM
+mWIHDkose9SwcQlHDsOIk9ygiVbl5JgMLuV4HUmypMkTOkEAACH5BAAKAAIALAAAAAAfAB8AAAb/
+QIBwSBQMCAUDwFAgDATEqHR4QCSuVwD2ijhMpwrCFqsdJwiK73DBMGfdCcZCDWjAE2V347vY3/Nm
+dXNECm14Ww4PChAAEAoPDltlDGlDYmQJERJqEhGHWARUgZVqaWZeAFZbERN0QxOeWwgAAmabrkMS
+ZkZjDrhRkVtHYw+/RA9jSGOkxgpjSWOMxkIQY0rT0wbR2LQV3t4UBcvcF9/eFpdYxdgZ5hUYA73Y
+GxruCbVjt78G7hXFqlhY/fLQwR0HIQdGuUrTz5eQdIc0cfIEwByGD0MKvcGSaFGjR8GyeAPhIUof
+QGNQSgrB4IsdOCqx7FHDBiYcOQshYjKDxliVDpRjunCjdSTJkiZP6AQBACH5BAAKAAMALAAAAAAf
+AB8AAAb/QIBwSBQMCAUDwFAgDATEqHR4QCSuVwD2ijhMpwrCFqsdJwiK73DBMGfdCcZCDWjAE2V3
+47vY3/NmdXNECm14Ww4PChAAEAoPDltlDGlDYmQJERJqEhGHWARUgZVqaWZeAFZbERN0QxOeWwgA
+AmabrkMSZkZjDrhRkVtHYw+/RA9jSGOkxgpjSWOMxkIQY0rT0wbR2I3WBcvczltNxNzIW0693MFY
+T7bTumNQqlisv7BjswAHo64egFdQAbj0RtOXDQY6VAAUakihN1gSLaJ1IYOGChgXXqEUpQ9ASRlD
+YhT0xQ4cACJDhqDD5mRKjCAYuArjBmVKDP9+VRljMyMHDwcfuBlBooSCBQwJiqkJAgAh+QQACgAE
+ACwAAAAAHwAfAAAG/0CAcEgUDAgFA8BQIAwExKh0eEAkrlcA9oo4TKcKwharHScIiu9wwTBn3QnG
+Qg1owBNld+O72N/zZnVzRApteFsODwoQABAKDw5bZQxpQ2JkCRESahIRh1gEVIGVamlmXgBWWxET
+dEMTnlsIAAJmm65DEmZGYw64UZFbR2MPv0QPY0hjpMYKY0ljjMZCEGNK09MG0diN1gXL3M5bTcTc
+yFtOvdzBWE+207pjUKpYrL+wY7MAB4EerqZjUAG4lKVCBwMbvnT6dCXUkEIFK0jUkOECFEeQJF2h
+FKUPAIkgQwIaI+hLiJAoR27Zo4YBCJQgVW4cpMYDBpgVZKL59cEBhw+U+QROQ4bBAoUlTZ7QCQIA
+IfkEAAoABQAsAAAAAB8AHwAABv9AgHBIFAwIBQPAUCAMBMSodHhAJK5XAPaKOEynCsIWqx0nCIrv
+cMEwZ90JxkINaMATZXfju9jf82Z1c0QKbXhbDg8KEAAQCg8OW2UMaUNiZAkREmoSEYdYBFSBlWpp
+Zl4AVlsRE3RDE55bCAACZpuuQxJmRmMOuFGRW0djD79ED2NIY6TGCmNJY4zGQhBjStPTFBXb21DY
+1VsGFtzbF9gAzlsFGOQVGefIW2LtGhvYwVgDD+0V17+6Y6BwaNfBwy9YY2YBcMAPnStTY1B9YMdN
+iyZOngCFGuIBxDZAiRY1eoTvE6UoDEIAGrNSUoNBUuzAaYlljxo2M+HIeXiJpRsRNMaq+JSFCpsR
+JEqYOPH2JQgAIfkEAAoABgAsAAAAAB8AHwAABv9AgHBIFAwIBQPAUCAMBMSodHhAJK5XAPaKOEyn
+CsIWqx0nCIrvcMEwZ90JxkINaMATZXfjywjlzX9jdXNEHiAVFX8ODwoQABAKDw5bZQxpQh8YiIha
+ERJqEhF4WwRDDpubAJdqaWZeAByoFR0edEMTolsIAA+yFUq2QxJmAgmyGhvBRJNbA5qoGcpED2ME
+FrIX0kMKYwUUslDaj2PA4soGY47iEOQFY6vS3FtNYw/m1KQDYw7mzFhPZj5JGzYGipUtESYowzVm
+F4ADgOCBCZTgFQAxZBJ4AiXqT6ltbUZhWdToUSR/Ii1FWbDnDkUyDQhJsQPn5ZU9atjUhCPHVhgT
+Ny/RSKsiqKFFbUaQKGHiJNyXIAAh+QQACgAHACwAAAAAHwAfAAAG/0CAcEh8JDAWCsBQIAwExKhU
++HFwKlgsIMHlIg7TqQeTLW+7XYIiPGSAymY0mrFgA0LwuLzbCC/6eVlnewkADXVECgxcAGUaGRdQ
+EAoPDmhnDGtDBJcVHQYbYRIRhWgEQwd7AB52AGt7YAAIchETrUITpGgIAAJ7ErdDEnsCA3IOwUSW
+aAOcaA/JQ0amBXKa0QpyBQZyENFCEHIG39HcaN7f4WhM1uTZaE1y0N/TacZoyN/LXU+/0cNyoMxC
+UytYLjm8AKSS46rVKzmxADhjlCACMFGkBiU4NUQRxS4OHijwNqnSJS6ZovzRyJAQo0NhGrgs5bIP
+mwWLCLHsQsfhxBWTe9QkOzCwC8sv5Ho127akyRM7QQAAOwAAAAAAAAAAAA==
+</content></attachment>
 <object>
 <class>
 <name>XWiki.JavaScriptExtension</name>
@@ -901,17 +953,832 @@ Suggest.LocalMulti.prototype.getLastTokenPos = function() {
 <cache>default</cache>
 </property>
 <property>
-<code>var servletName
-var listPolicy = new Array()
-var mapPolicy = {}
-var tmpPolicyForKey = {}
-var mapPolicySubtyped = {}
-var currentIstIidSelector
-var listKey
-var maxRow = 0
-var mapNameAndType
+<code>var servletName // Servlet in use
+var listPolicy = new Array() // Policy list
+var mapPolicy = {} // Policy map
+var tmpPolicyForKey = {} // Temporary policy key
+var mapPolicySubtyped = {} // Policy map in subtyped case
+var currentIstIidSelector // Current IstIid selector
+var listKey // Key list used in Subtyped case
+var maxRow = 0 // Use in creating list policy
+var mapNameAndType // Map which job - type
+var mapMessage = {
+	"wiperdog_is_off" : "There is an error! Wiperdog agent is on yet?",
+	"alert_choose_job" : "&lt;p&gt;Please choose a job !!!&lt;/p&gt;",
+	"alert_choose_groupkey" : "&lt;p&gt;Please choose group key of job !!!&lt;/p&gt;",
+	"alert_choose_condition" : "&lt;p&gt;\"Condition\" can not be empty !!!&lt;/p&gt;",
+	"alert_input_message" : "&lt;p&gt;\"Message\" can not be empty !!!&lt;/p&gt;",
+	"alert_condition_existed" : "Policy is exits, update ?",
+	"alert_policy_added" : "&lt;b&gt;Policy was added !!!&lt;/b&gt;",
+	"alert_create_policy" : "Please create a policy !!!",
+	"confirm_delete_instance" : "Delete this instance , are you sure ?",
+	"system_normal" : "System is running normally",
+	"policy_syntax_error" : "Policy has syntax errors! Check again...\n\nREASON:\n\n"
+}
 
-// SUGGEST FUNCTION
+require(['jquery'], function($) {
+	// DOCUMENT READY
+	$(document).ready(function() {
+		ajaxGetServlet();
+		// Generate istIid selectbox for all jobs
+		processChooseJob("")
+
+		// CREATE SUGGEST SEARCH
+		$('textarea').on('keyup paste cut mouseup', function () {
+		    // Get the textarea's content height.
+		    var contentHeight = $(this).textareaHelper('height')
+		    // Set the textarea to the content height. i.e. expand as we type.
+		    $(this).height(contentHeight);
+
+		    // Follow the caret arounbd.
+		    $('.tail').css(
+		        $(this).textareaHelper('caretPos')
+		    );
+		});
+
+		// WHEN CHOOSE A JOB IN SELECT BOX =&gt; FILL DATA SAMPLE AND POLICY FILE FOR ORIGINAL JOB
+		$("#listJob").change(function() {
+			// Get selected job and proceed
+		    var jobName = $("#listJob option:selected").val()
+		    processChooseJob(jobName)
+		    if (jobName != "noChoice") {
+		        currentIstIidSelector = null
+		        resetControl()
+		        $("#istIidArea &gt; select").val("noChoice")
+		        $("#istIidArea &gt; select").css("display","none")
+		        $("#istIid_" + replaceAllString(jobName,".","_")).css("display", "block")
+		    }
+		    
+		    // Get type of job(Store/Subtyped)
+		    var typeOfData
+		    for(var key in mapNameAndType) {
+		        if(key == jobName || key.indexOf(jobName) != -1) {
+		            typeOfData = mapNameAndType[key]
+		        }
+		    }
+		    // Send request to get policy list and bind it to policy table
+		    $.ajax({
+		        type: "GET",
+		        crossDomain: true,
+		        url: servletName + "?job_name=" + jobName + "&amp;type=" + typeOfData,
+		        dataType: 'json',
+		        success: function(result) {
+		            responseData = result
+		            // Bind list data into policy info table
+		            bindPollicyDataIntoTable(responseData, typeOfData)
+		        },
+		        error: function(xhr, status, error) {
+		            logError(xhr, status, error)
+		        }
+		    });
+		});
+		
+		/**
+		* Bind list policy from servlet into displayed table
+		* @param responseData List policy from servlet
+		* @param typeOfData String job's type(Store/Subtyped)
+		*/
+		function bindPollicyDataIntoTable(responseData, typeOfData){
+			maxRow = 0
+			var htmlPolicyInfoSource = getInitHTMLSource(typeOfData)
+			var policyData = responseData.POLICY.listpolicy
+			if (policyData != null) {
+				if(typeOfData == "Store"){
+				    htmlPolicyInfoSource = generateHTMLPolicyInfo(policyData, htmlPolicyInfoSource, typeOfData);
+				}
+				if(typeOfData == "Subtyped"){
+					for(var key in policyData) {
+						var policyDataItem = policyData[key]
+			            htmlPolicyInfoSource = generateHTMLPolicyInfo(policyDataItem, htmlPolicyInfoSource, typeOfData, key)
+					}
+				}
+			}
+			$("#policyInfo").html(htmlPolicyInfoSource)
+		}
+		
+		/**
+		* Generate HTML source for inputed policyData
+		* @param policyData List policy
+		* @param htmlPolicyInfoSource Current HTML's source 
+		* @param maxRow Row's index for indexing the policy
+		* @param typeOfData job's type(Store/Subtyped)
+		*/
+		function generateHTMLPolicyInfo(policyData, htmlPolicyInfoSource, typeOfData, key){
+			for (var i = 0; i &lt; policyData.length; i++) {
+				var mapElement = policyData[i]
+				maxRow = maxRow + 1
+				if(typeOfData == "Store"){
+					// Saving policy
+					mapPolicy[mapElement.condition] = mapElement.message
+					
+					// Generate HTML source
+					htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="'+ getLevelStr(mapElement.level) +'"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+				}
+				if(typeOfData == "Subtyped"){
+					// Saving policy
+					tmpPolicyForKey[mapElement.condition] = mapElement.message
+					mapPolicySubtyped[key] = tmpPolicyForKey
+					
+					// Generate HTML source
+					htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="'+ getLevelStr(mapElement.level) +'"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+				}
+		    }
+			return htmlPolicyInfoSource
+		}
+
+		// CLICK ADD BUTTON
+		$("#addButton").click(function() {
+			$("#previewText").val("")
+			$("#runTestText").val("")
+
+			if(!validateAllNeededFields()){
+				return
+			}
+			
+			// Validating is fine -&gt; process normally
+			$("#msgValidate").text('')
+
+			var jobText = $("#listJob option:selected").val()
+			var conditionText = $("#inputText").val().trim()
+			var messageText = $("#messageText").val().trim()
+			var groupKey = $("#groupSubtyped option:selected").val()
+			var level
+			if($("input[type='radio'].radioBtnClass").is(':checked')) {
+			   level = $("input[type='radio'].radioBtnClass:checked").val();
+			}
+
+			// Get the decorated condition text
+		    var data2send = {'action': 'STANDARDCONDITION','data':conditionText, 'listKey': JSON.stringify(listKey)}
+		    conditionText = getPolicyString(data2send)
+
+		    if(conditionText[0] != "(") {
+		        conditionText = "(" + conditionText
+		    }
+		    if(conditionText[conditionText.length - 1] != ")") {
+		        conditionText = conditionText + ")"
+		    }
+
+			// Get the decorated message text
+		    data2send = {'action': 'STANDARDMESSAGE','data':messageText, 'listKey': JSON.stringify(listKey)}
+		    messageText = getPolicyString(data2send)
+
+			var booleanUpdate = false
+			var policyID = $("#policyIdText").val()
+			var groupText = $("#groupSubtyped option:selected").val()
+			var table = document.getElementById('policyInfo')
+			var lstRow = table.rows
+			    
+			if(groupText == null || groupText == "") { // STORE
+				for(var i = 0; i &lt; lstRow.length; i++) {
+					if(policyID == lstRow[i].cells[0].innerText) {
+						var checkAddNew = true
+						checkAddNew = tryToUpdatePolicyStore(mapPolicy, conditionText, messageText, level, lstRow)
+						if(checkAddNew) {
+							var confirm_update = confirm(mapMessage["alert_condition_existed"])
+							if(confirm_update){
+								// Bind data to row
+								bindDataToRow(lstRow[i], {1:conditionText, 2:messageText, 3:level})
+								// Set class for level td -&gt; change color
+								lstRow[i].cells[3].className = level
+								mapPolicy[conditionText] = messageText
+							}
+						}
+						booleanUpdate = true
+					}
+				}
+				if(!booleanUpdate) {
+					var checkAddNew = true
+					checkAddNew = tryToUpdatePolicyStore(mapPolicy, conditionText, messageText, level, lstRow)
+					if(checkAddNew) {
+						maxRow = maxRow + 1
+						var inputMaps = {
+						    'policyId': maxRow,
+						    'condition': conditionText,
+						    'message': messageText,
+						    'level': level
+						}
+						var tr = createTrAppend(inputMaps, 'policyInfo')
+						tr.appendChild(createTdAction())
+						table.appendChild(tr)
+						$("#msgValidate").html(mapMessage["alert_policy_added"])
+						mapPolicy[conditionText] = messageText
+					}
+				}
+			} else { // SUBTYPED
+				for(var i = 0; i &lt; lstRow.length; i++) {
+				    if(policyID == lstRow[i].cells[0].innerText) {
+						var checkAddNew = true
+						checkAddNew = tryToUpdatePolicySubtyped(mapPolicySubtyped, conditionText, messageText, level, lstRow, groupText)
+						booleanUpdate = true
+						if(checkAddNew) {
+							var confirm_update = confirm(mapMessage["alert_condition_existed"])
+							if(confirm_update){
+								// Bind data to row
+								bindDataToRow(lstRow[i], {1:groupText, 2:conditionText, 3:messageText, 4:level})
+								// Set class for level td -&gt; change level
+								lstRow[i].cells[4].className = level
+								tmpPolicyForKey[conditionText] = messageText
+								mapPolicySubtyped[groupText] = tmpPolicyForKey
+							}
+						}
+					}
+				}
+				if(!booleanUpdate) { // ADD NEW
+					var checkAddNew = true
+					var mapDataPolicy = getPolicyFromTable()
+					mapDataPolicy = mapDataPolicy.datapolicy
+					checkAddNew = tryToUpdatePolicySubtyped(mapPolicySubtyped, conditionText, messageText, level, lstRow, groupText)
+					if(checkAddNew) {
+						maxRow = maxRow + 1
+						var inputMaps = {
+						    'policyId': maxRow,
+						    'group': groupText,
+						    'condition': conditionText,
+						    'message': messageText,
+						    'level': level
+						}
+						var tr = createTrAppend(inputMaps, 'policyInfo')
+						tr.appendChild(createTdAction())
+						table.appendChild(tr)
+						$("#msgValidate").html(mapMessage["alert_policy_added"])
+						tmpPolicyForKey[conditionText] = messageText
+						mapPolicySubtyped[groupText] = tmpPolicyForKey
+					}
+				}
+			}
+			$("#inputText").val("")
+			$("#messageText").val("")
+			$("#policyIdText").val("") 
+			$('input:radio[name="level"][value="Low"]').prop('checked', true);
+		});
+		
+		/*
+		* Find and try to update policy if it's existed
+		* @param mapPolicy map Policy of store job
+		* @param conditionText Inputted condition's text
+		* @param messageText Inputted message's text
+		* @param lstRow list rows of policy's table
+		* @return checkAddNew True if update fail/ False if update successfully
+		*/
+		function tryToUpdatePolicyStore(mapPolicy, conditionText, messageText, level, lstRow){
+			var checkAddNew = true
+			for(var key in mapPolicy) {
+				if(key == conditionText) {
+					checkAddNew = false
+					var confirm_update = confirm(mapMessage["alert_condition_existed"])
+					if(confirm_update) {
+						mapPolicy[key] = messageText
+						var idUpdate
+						for(var i = 0; i &lt; lstRow.length; i++) {
+							if(lstRow[i].cells[1].innerText == conditionText) {
+								idUpdate = i
+							}
+						}
+						// Bind data to row
+						bindDataToRow(lstRow[idUpdate], {2:messageText, 3:level})
+						// Set class for level td -&gt; change color
+						lstRow[idUpdate].cells[3].className = level
+					}
+				}
+			}
+			return checkAddNew
+		}
+
+		/*
+		* Find and try to update policy if it's existed
+		* @param mapPolicySubtyped map Policy of subtyped job
+		* @param conditionText Inputted condition's text
+		* @param messageText Inputted message's text
+		* @param lstRow list rows of policy's table
+		* @return checkAddNew True if update fail/ False if update successfully
+		*/
+		function tryToUpdatePolicySubtyped(mapPolicySubtyped, conditionText, messageText, level, lstRow, groupText){
+			var checkAddNew = true
+			for(var key in mapPolicySubtyped) {
+				var mapDataPolicy = getPolicyFromTable()
+				var mapPolicyForKey = mapDataPolicy.datapolicy
+				for(var keyPoli in mapPolicyForKey) {
+					if(groupText == key) {
+						for(var k in mapPolicyForKey[keyPoli]) {
+							if(k == conditionText) {
+							checkAddNew = false
+							var confirm_update = confirm(mapMessage["alert_condition_existed"])
+							if(confirm_update) {
+								mapPolicySubtyped[key][keyPoli] = messageText
+								var idUpdate
+									for(var i = 0; i &lt; lstRow.length; i++) {
+									if(lstRow[i].cells[2].innerText == conditionText &amp;&amp; lstRow[i].cells[1].innerText == groupText) {
+										idUpdate = i
+									}
+								}
+								// Bind data to row
+								bindDataToRow(lstRow[idUpdate], {1:$("#groupSubtyped option:selected").val(), 3:messageText, 4:level})
+								// Set class for level td -&gt; change color
+								lstRow[idUpdate].cells[4].className = level
+								}
+							}
+						}
+					}
+				}
+			}
+			return checkAddNew
+		}
+		
+		/*
+		* Validate all needed fields for processing
+		* Job's name, groupKey, condition, message,...
+		* @return true if all needed fields is validated/false if not
+		*/
+		function validateAllNeededFields(){
+			var jobText = $("#listJob option:selected").val()
+			var conditionText = $("#inputText").val().trim()
+			var messageText = $("#messageText").val().trim()
+			var groupKey = $("#groupSubtyped option:selected").val()
+			var level
+			if($("input[type='radio'].radioBtnClass").is(':checked')) {
+			   level = $("input[type='radio'].radioBtnClass:checked").val();
+			}
+			
+			// Validate job
+			if(!validateNoChoice(jobText)) {
+			    $("#msgValidate").html(mapMessage["alert_choose_job"])
+			    return false
+			}
+
+			// Validate group key
+			if (!validateNoChoice(groupKey)) {
+			    $("#msgValidate").html(mapMessage["alert_choose_groupkey"])
+			    return false
+			}
+			
+			// Validate condition
+			if (!validateEmpty(conditionText)) {
+			    $("#msgValidate").html(mapMessage["alert_choose_condition"])
+			    return false
+			}
+			
+			// Validate message
+			if (!validateEmpty(messageText)) {
+			    $("#msgValidate").html(mapMessage["alert_input_message"])
+			    return false
+			}
+			return true
+		}
+
+		// CLICK "PREVIEW" =&gt; Generate policy's script
+		$("#previewFileButton").click(function() {
+		    $("#msgValidate").empty()
+		    // Get data from form
+		    var mapDataPolicy = getPolicyFromTable()
+		    var dataType = mapDataPolicy.type
+		    if(JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
+				var result = generatePolicyScript(mapDataPolicy, dataType)
+		        $("#previewText").val(result)
+		    } else {
+		    	// DATA IS EMPTY
+		        $("#previewText").val(mapMessage["alert_create_policy"])
+		        $("#msgValidate").text("")
+		        $("#runTestText").val("")
+		    }
+		});
+		
+		/*
+		* Generate policy's script
+		* @param dataType job's type(Store/Subtyped)
+		* @return result Policy's script
+		*/
+		function generatePolicyScript(mapDataPolicy, dataType){
+			var mapFinal = {}
+	        var jobName = $("#listJob option:selected").val()
+	        mapFinal['jobName'] = jobName
+	        var instText = currentIstIidSelector
+	        if(instText != "noChoice" &amp;&amp; instText != null) {
+	            mapFinal['instanceName'] = instText
+	        }
+
+	        mapFinal['mappolicy'] = mapDataPolicy.datapolicy
+	        var mapConditionLevel = mapDataPolicy.mapConditionLevel
+	    	var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': dataType.toLowerCase(), 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
+	        var result = getPolicyString(data2send)
+	        return result
+		}
+
+		// CLICK "RUNTEST" =&gt; EVALUATE DATA OF NEAREST MONITORING
+		$("#runTestButton").click(function(){
+		    $("#msgValidate").empty()
+		    var groupKey = $("#groupSubtyped option:selected").val()
+			// Generate mapFinal (Used to get policy string)
+		    var mapFinal = {}
+		    var jobName = $("#listJob option:selected").val()
+		    mapFinal['jobName'] = jobName
+		    var instText = currentIstIidSelector
+	        if(instText != null &amp;&amp; instText != "noChoice") {
+	            mapFinal['instanceName'] = instText
+	        }
+	        var mapDataPolicy = getPolicyFromTable()
+	        mapFinal['mappolicy'] = mapDataPolicy.datapolicy
+	        var mapConditionLevel = mapDataPolicy.mapConditionLevel
+	        var mapSampleData = responseData.SAMPLE
+	        var data2send
+		    if(JSON.stringify(mapPolicy) != '{}') {
+		    	// CASE STORE
+		        var listSampleData = new Array()
+		        listSampleData.push(mapSampleData)
+		        data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(listSampleData), 'type': 'store', 'mapConditionLevel': JSON.stringify(mapConditionLevel) }
+		    }
+		    if(JSON.stringify(mapPolicySubtyped) != '{}') {
+		    	// CASE SUBTYPED
+		        var mapDataRequest = {}
+		        for(var key in mapSampleData) {
+		            var listSampleData = new Array()
+		            listSampleData.push(mapSampleData[key])
+		            mapDataRequest[key] = listSampleData
+		        }
+		        data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(mapDataRequest), 'type': 'subtyped', 'mapConditionLevel': JSON.stringify(mapConditionLevel)}
+		    }
+		    if(data2send != null){
+		    	// Get policy's script
+		        var result = getPolicyString(data2send)
+		        // parse to see if there is any error
+		        result = $.parseJSON(result)
+		        if(result.status == "failed") {
+		            $("#runTestText").val(mapMessage["policy_syntax_error"] + result.message)
+		        } else {
+		            if(result.message.length == 0) {
+		                $("#runTestText").val(mapMessage["system_normal"])
+		            } else {
+		                var warningMsg = ""
+		                for(var i = 0; i &lt; result.message.length; i++) {
+		                    warningMsg += "*** " + JSON.stringify(result.message[i]) + "\n"
+		                }
+		                $("#runTestText").val(warningMsg)
+		            }
+		        }
+		    }else {
+		        $("#previewText").val("")
+		        $("#runTestText").val(mapMessage["alert_create_policy"])
+		        $("#msgValidate").text("")
+		    }
+		});
+
+		// CLICK "SAVE TO FILE" =&gt; SEND DATA TO SERVLET
+		$("#saveFileButton").click(function() {
+		    $("#msgValidate").empty()
+		    $("#msgValidateForSaveFile").empty()
+		    $("#loadingImgSaveToFile").css("display","block")
+		    // Get data from form
+		    var mapDataPolicy = getPolicyFromTable()
+		    var dataType = mapDataPolicy.type
+		    if(JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
+		    	// Get policy's script
+		        var result = generatePolicyScript(mapDataPolicy, dataType)
+		        // Write it into file
+		        var jobName = $("#listJob option:selected").val()
+		    	var instText = currentIstIidSelector
+		        var resquestData = {'action': 'WRITE2FILE', 'jobName' : jobName, 'instanceName' : instText, 'policyStr' : result}
+		        send_ajax_post_data(servletName, function(result) {}, resquestData)
+		    } else {
+		    	// LIST POLICY IS EMPTY
+		        $("#previewText").val("")
+		        $("#msgValidateForSaveFile").html("&lt;p&gt;" + mapMessage["alert_create_policy"] + "&lt;/p&gt;")
+		        $("#runTestText").val("")
+		    }            
+		});
+
+		/**
+		* Get policy list from policy table
+		* Read all row of table and convert it into object
+		* Add to list policy
+		* Generate a map contains list policy and meta data
+		* @return mapFinalData contains list policy, type, map policy-level
+		*/
+		function getPolicyFromTable() {
+		    var mapFinalData = {}
+		    var mapDataPolicy = {}
+		    var mapConditionLevel = {}
+		    var table = document.getElementById('policyInfo')
+		    var lstRow = table.rows
+		    if(lstRow[0].cells.length == 5) { // STORE
+		    	// Read all rows to get list policy and map condition - level
+		        for(var i = 1; i &lt; lstRow.length; i++) {
+		            var aPolicy = getPolicyFromRow(lstRow[i], "Store")
+		            mapDataPolicy[aPolicy['condition']] = aPolicy['message']
+		            mapConditionLevel[aPolicy['condition']] = aPolicy['level']
+		        }
+		        mapFinalData['type'] = "Store"
+		        mapFinalData['datapolicy'] = mapDataPolicy
+		        mapFinalData['mapConditionLevel'] = mapConditionLevel
+		    } else if(lstRow[0].cells.length == 6) { // SUBTYPED
+		    	// Prepare to to get list policy from table
+		        var lstKey = new Array()
+		        for(var i = 1; i &lt; lstRow.length; i++) {
+		            if(lstKey.length != 0) {
+		                if(lstKey.indexOf(lstRow[i].cells[1].innerText) == -1) {
+		                    lstKey.push(lstRow[i].cells[1].innerText)
+		                }
+		            } else {
+		                lstKey.push(lstRow[i].cells[1].innerText)
+		            }
+		            mapConditionLevel[lstRow[i].cells[1].innerText] = {}
+		        }
+		        
+		        // Process to get list policy
+		        for(var elist = 0; elist &lt; lstKey.length; elist++) {
+		            var tmpDataPolicy = {}
+		            // Read all rows of table
+		            for(var i = 1; i &lt; lstRow.length; i++) {
+		                var groupStr = lstRow[i].cells[1].innerText
+		                if(lstKey[elist] == groupStr) {
+		                    var aPolicy = getPolicyFromRow(lstRow[i], "Subtyped")
+		                    tmpDataPolicy[aPolicy['condition']] = aPolicy['message']
+		                    if(mapConditionLevel[groupStr] == null){
+		                       mapConditionLevel[groupStr] = {}
+		                    }
+		                    mapConditionLevel[groupStr][aPolicy['condition']] = aPolicy['level']
+		                }
+		            }
+		            mapDataPolicy[lstKey[elist]] = tmpDataPolicy
+		        }
+		        mapFinalData['type'] = "Subtyped"
+		        mapFinalData['datapolicy'] = mapDataPolicy
+		        mapFinalData['mapConditionLevel'] = mapConditionLevel
+		    }
+		    return mapFinalData
+		}
+	    
+		/**
+		* Get object policy from a row
+		* Based on type -&gt; get and convert data from row to object policy
+		* @param row Row contains policy's data
+		* @param type Type of job(Store/Subtyped)
+		* @return ret Object policy
+		*/
+		function getPolicyFromRow(row, type){
+			var ret = {}
+			var conditionIdx
+			var messageIdx
+			var levelIdx
+			if(row != null){
+		    	if(type == "Store"){
+		    		conditionIdx = 1
+		    		messageIdx = 2
+		    		levelIdx = 3
+	        	}else if(type == "Subtyped"){
+		    		conditionIdx = 2
+		    		messageIdx = 3
+		    		levelIdx = 4
+		    	}
+		    	var conditionStr = row.cells[conditionIdx].innerText
+		        var msgStr = row.cells[messageIdx].innerText
+		        var levelStr = row.cells[levelIdx].innerText
+				ret['condition'] = conditionStr
+		        ret['message'] = msgStr
+		        ret['level'] = levelStr
+			}
+			return ret
+		}
+	    
+		/**
+		* Bind data into row
+		* Browse mapValue to get index and value of that index
+		* then bind data into row
+		* @param row Row to be binded
+		* @param mapValue Map of index and value of it
+		*/
+		function bindDataToRow(row, mapValue){
+			if(row != null &amp;&amp; mapValue != null &amp;&amp; mapValue != {}){
+				for(item in mapValue){
+					row.cells[item].innerText = mapValue[item]
+				}
+			}
+		}
+
+		/**
+		* Get policyString from page PolicyStringLib
+		* Send a request to page PolicyStringLib to get policy's script
+		* @param data request's parameters
+		* @return ret policy's script
+		*/
+		function getPolicyString(data)  {
+		    var ret
+		    $.ajax({
+		        type: "POST",
+		        crossDomain: true,
+		        url: "/xwiki/bin/get/WiperDogLib/PolicyStringLib?outputSyntax=plain",
+		        dataType: 'text',
+		        data: data,
+		        async: false,
+		        //context: JSON.stringify(mapFinal),
+		        success: function(result) {
+		            ret = result
+		        },
+		        error: function(xhr, status, error) {
+		            alert(mapMessage["wiperdog_is_off"])
+		            logError(xhr, status, error)
+		        }
+		    });
+		    return ret
+		}
+
+		/**
+		* Send POST request to servlet for writing policy file
+		* @param domainURL URL to servlet
+		* @param callback callback
+		* @param data request's data
+		*/
+		function send_ajax_post_data(domainURL, callback, data) {
+		    $.ajax({
+		        type: "POST",
+		        crossDomain: true,
+		        url: domainURL,
+		        dataType: 'json',
+		        data: JSON.stringify(data),
+		        success: function(result) {
+		            var statusExecute = result.status
+		            var messageExecute = result.message
+		            if(statusExecute == "OK") {
+		                $("#msgValidateForSaveFile").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
+		            } else if(statusExecute == "failed"){
+		                $("#msgValidateForSaveFile").html("&lt;p&gt;Can not create POLICY file !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
+		            }
+		            callback(result)
+		            $("#loadingImgSaveToFile").css("display","none")
+		        },
+		        error: function(xhr, status, error) {
+		            $("#msgValidateForSaveFile").text(mapMessage["wiperdog_is_off"])
+		            logError(xhr, status, error)
+		            $("#loadingImgSaveToFile").css("display","none")
+		        }
+		    });
+		}
+	    
+		/**
+		* Validate empty fields
+		* @param field Field to be validated
+		* @return true if field is pass the test(not empty)/false if field is empty
+		*/
+		function validateEmpty(field){
+			if(field == null || field == ""){
+				return false
+		    }else{
+		    	return true
+		    }
+		}
+	    
+		/**
+		* Validate noChoice select box
+		* @param field Field to be validated
+		* @return true if field is pass the test(not noChoice)/false if field is noChoice
+		*/
+		function validateNoChoice(field){
+			if(field == "noChoice"){
+				return false
+		    }else{
+		    	return true
+		    }
+		}
+
+	});
+
+	// DELETE A ROW OF TABLE POLICY
+	$(document).off('click', '#policyInfo  .delete_btn')
+	$(document).on('click', '#policyInfo  .delete_btn', function(event) {
+	    $("#msgValidate").empty();
+	    event.preventDefault();
+	    var conf = confirm(mapMessage['confirm_delete_instance'])
+	    if (conf) {
+	        var rowDeleted = deleteRow(this, 'policyInfo')
+	        if(rowDeleted.cells.length == 5) { // STORE
+	            var keyDeleted = rowDeleted.cells[1].innerText
+	            delete mapPolicy[keyDeleted]
+	        } else if(rowDeleted.cells.length == 6) { // SUBTYPED
+	            var groupDel = rowDeleted.cells[1].innerText
+	            var keyDel = rowDeleted.cells[2].innerText
+	            delete mapPolicySubtyped[groupDel][keyDel]
+	        }
+	    }
+	});
+
+	// UPDATE A ROW OF TABLE POLICY
+	$(document).on('click', '#policyInfo  .edit_btn', function(event) {
+	    $("#msgValidate").empty();
+	    event.preventDefault();
+	    var row = this.parentNode.parentNode
+	    if(row.cells.length == 5) {
+	        $("#policyIdText").val(row.cells[0].innerText.trim())
+	        $("#inputText").val(row.cells[1].innerText.trim())
+	        $("#messageText").val(row.cells[2].innerText.trim())
+	        var levelStr = row.cells[3].innerText.trim()
+	        $('#radio' + levelStr).prop('checked', true)
+	    } else if(row.cells.length == 6) {
+	        $("#policyIdText").val(row.cells[0].innerText.trim())
+	        document.getElementById('selectBoxId').value = row.cells[1].innerText.trim();
+	        $("#inputText").val(row.cells[2].innerText.trim())
+	        $("#messageText").val(row.cells[3].innerText.trim())
+	        delete mapPolicySubtyped[row.cells[1].innerText.trim()][row.cells[2].innerText.trim()]  
+	        var levelStr = row.cells[4].innerText.trim()
+	        $('#radio' + levelStr).prop('checked', true) 
+	    }
+	});
+
+	/**
+	* REMOVE A ROW OF TABLE
+	* @param row Row need to be deleted
+	* @param tableId Table contains row
+	* @return rowDeleted Deleted row
+	*/
+	function deleteRow(row, tableId) {
+	    var idx = row.parentNode.parentNode.rowIndex
+	    var rowDeleted = row.parentNode.parentNode
+	    $(row).closest('tr').remove();
+	    return rowDeleted
+	}
+
+	/**
+	* CHECK THE EXISTENCE OF KEY IN MAP
+	* @param keyCheck key need to be checked
+	* @param obj Object need to be checked if key is existed within
+	* @return true if existed / false if not
+	*/
+	function checkKeyDupl(keyCheck, obj) {
+	    for (key in obj) {
+	        if (key == keyCheck) {
+	            return true
+	        }
+	    }
+	    return false
+	}
+
+	/**
+	* CREATE TR BY JSON DATA OBJECT
+	* @param jsonObj JSON object to be used to create tr
+	* @return tr
+	*/
+	function createTrAppend(jsonObj) {
+	    var tr = document.createElement('tr')
+	    for (key in jsonObj) {
+	        var td = document.createElement('td')
+	        // Add class for level td -&gt; change color
+	        if(key == 'level'){
+	            td.className = jsonObj[key]
+	        }
+	        var td_text = document.createTextNode(jsonObj[key])
+	        td.appendChild(td_text)
+	        tr.appendChild(td)
+	    }
+	    return tr
+	}
+
+	/**
+	* CREATE TD CONTAINING ACTION BUTTONS
+	* @return td_action td contains action buttons
+	*/
+	function createTdAction() {
+		var td_action = document.createElement('td')
+		td_action.setAttribute('class', 'td_button')
+		var del_btn = document.createElement('input')
+		var edit_btn = document.createElement('input')
+		// Click delete button
+		del_btn.setAttribute('type', 'input')
+		del_btn.setAttribute('class', 'delete_btn button')
+		del_btn.setAttribute('value', 'Delete')
+		del_btn.setAttribute('style', 'width:50px')
+		// Click update button
+		edit_btn.setAttribute('type', 'input')
+		edit_btn.setAttribute('class', 'edit_btn button')
+		edit_btn.setAttribute('value', 'Edit')
+		edit_btn.setAttribute('style', 'width:50px')
+		td_action.appendChild(del_btn)
+		td_action.appendChild(edit_btn)
+		return td_action
+	}
+	
+	/**
+	* Get servlet
+	* Bind servlet to global variable for later using
+	*/
+	function ajaxGetServlet() {
+	    params = 'ProcessPolicy'
+	    $.ajax({
+	        type: "GET",
+	        url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + params,
+	        success: function(result) {
+	            servletName = result
+	        },
+	        error: function(xhr, status, error) {
+	            logError(xhr, status, error)
+	        }
+	    });
+	}
+    jQuery.noConflict()
+});
+
+/**
+* SUGGEST FUNCTION
+* Generate hintbox helping users input condition of policy
+* @param list Candidates list in hintbox
+* @return void
+*/
 function startSuggest(list) {
     new Suggest.LocalMulti(
         "inputText",    // input element id.
@@ -921,108 +1788,160 @@ function startSuggest(list) {
     ); // options
 }
 
-// STRING REPLACE
+/**
+* Replace all character in string
+* @param oriStr Original String
+* @param strTarget String need to be replaced
+* @param strSubString String to replace
+* @return replaced string
+*/
 function replaceAllString(oriStr, strTarget, strSubString ){
-   var strText = oriStr;
-   var intIndexOfMatch = strText.indexOf( strTarget );
-   while (intIndexOfMatch != -1){
-      strText = strText.replace( strTarget, strSubString )
-      intIndexOfMatch = strText.indexOf( strTarget );
-   }
-   return( strText );
+	var strText = oriStr;
+	var intIndexOfMatch = strText.indexOf( strTarget );
+	while (intIndexOfMatch != -1){
+		strText = strText.replace( strTarget, strSubString )
+		intIndexOfMatch = strText.indexOf( strTarget );
+	}
+	return( strText );
 }
 
-// RESET TO INITIAL SCREEN
+/**
+* Log AJAX request if error
+* @param xhr xhr
+* @param status status
+* @param error error
+*/
+function logError(xhr, status, error){
+	console.log(error)
+	console.log(status)
+	console.log(xhr)
+}
+
+/**
+* Reset to initial screen
+* Empty message, error, ...
+* Remove sample data, policy table
+* Disable, hide controls
+* Reset variables
+*/
 function resetControl() {
-    require(['jquery'], function($) {
-        $("#inputText").val("")
-        $("#messageText").val("")
-        $("#msgValidate").empty()
-        $("#sampleData").find("tr:gt(0)").remove();
-        $("#policyInfo").find("tr:gt(0)").remove();
-        $("#previewText").val("")
-        $("#runTestText").val("")
-        $("#inputText").prop('disabled', false)
-        $("#policyIdText").val("")
-        $("#groupSubtyped").css('display','none')
-        $("#groupSubtyped").html("")
-        $('input:radio[name="level"][value="Low"]').prop('checked', true);
-        mapPolicy = {}
-        tmpPolicyForKey = {}
-        mapPolicySubtyped = {}
-        maxRow = 0
-    jQuery.noConflict()
-    });
+	require(['jquery'], function($) {
+		$("#inputText").val("")
+		$("#messageText").val("")
+		$("#msgValidate").empty()
+		$("#sampleData").find("tr:gt(0)").remove();
+		$("#policyInfo").find("tr:gt(0)").remove();
+		$("#previewText").val("")
+		$("#runTestText").val("")
+		$("#inputText").prop('disabled', false)
+		$("#policyIdText").val("")
+		$("#groupSubtyped").css('display','none')
+		$("#groupSubtyped").html("")
+		$('input:radio[name="level"][value="Low"]').prop('checked', true);
+		mapPolicy = {}
+		tmpPolicyForKey = {}
+		mapPolicySubtyped = {}
+		maxRow = 0
+	jQuery.noConflict()
+	});
 }
 
-// DRAW SAMPLE DATA TABLE AND POLICY DATA TABLE
+/**
+* Get initial HTML of policy table
+* @param type Job's type(Store/Subtyped)
+* @return initial html string
+*/
+function getInitHTMLSource(type){
+	if(type == "Store"){
+		return '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+	}
+	if(type == "Subtyped"){
+		return '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
+	}
+}
+
+/**
+* DRAW SAMPLE DATA TABLE AND POLICY DATA TABLE
+* @param istIid Selected istIid
+*/
 function drawTable(istIid){
-    require(['jquery'], function($) {
-        var selectedIstIid = istIid.options[istIid.selectedIndex].value
-        currentIstIidSelector = selectedIstIid
-        resetControl()
-        var jobName = $("#listJob option:selected").val()
-        if(selectedIstIid != "noChoice") {
-            jobName += "." + selectedIstIid
-        }
-        processChooseJob(jobName)
-        var responseData
-        var typeOfData
-        for(var key in mapNameAndType) {
-            if(key == jobName || key.indexOf(jobName) != -1) {
-                typeOfData = mapNameAndType[key]
-            }
-        }
-        $.ajax({
-            type: "GET",
-            crossDomain: true,
-            url: servletName + "?job_name=" + jobName + "&amp;type=" + typeOfData,
-            dataType: 'json',
-            success: function(result) {
-                responseData = result
-                if(typeOfData == "Store") {
-                    var policyData = responseData.POLICY.listpolicy
+	require(['jquery'], function($) {
+		// Bind currentIstIidSelector variable for later use
+	    var selectedIstIid = istIid.options[istIid.selectedIndex].value
+	    currentIstIidSelector = selectedIstIid
+	    
+	    // Reset control to initial state
+	    resetControl()
 
-                    // FILL POLICY INFORMATIO INTO TABLE POLICY
-                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
-                    if (policyData != null) {
-                        for (var i = 0; i &lt; policyData.length; i++) {
-                            var mapElement = policyData[i]
-                            mapPolicy[mapElement.condition] = mapElement.message
-                            maxRow = i + 1
-                            htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="' + getLevelStr(mapElement.level) + '"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
-                        };
-                    };
-                    $("#policyInfo").html(htmlPolicyInfoSource)
-                } else if(typeOfData == "Subtyped") {
-                    maxRow = 0
-                    var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
-                    for(var key in responseData.POLICY.listpolicy) {
-                        var policyData = responseData.POLICY.listpolicy[key]
-                        if (policyData != null) {
-                            for (var i = 0; i &lt; policyData.length; i++) {
-                                var mapElement = policyData[i]
-                                tmpPolicyForKey[mapElement.condition] = mapElement.message
-                                maxRow = maxRow + 1
-                                htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="' + getLevelStr(mapElement.level) + '"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
-                            };
-                        };
-                        mapPolicySubtyped[key] = tmpPolicyForKey
-                    }
-                    $("#policyInfo").html(htmlPolicyInfoSource)
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log(error)
-                console.log(status)
-                console.log(xhr)
-            }
-        });
-    jQuery.noConflict()
-    });
+	    // Get chosen job and proceed
+	    var jobName = $("#listJob option:selected").val()
+	    if(selectedIstIid != "noChoice") {
+	        jobName += "." + selectedIstIid
+	    }
+	    processChooseJob(jobName)
+
+	    // Prepare and send request to servlet to get policy list then fill it to table
+	    var responseData
+	    var typeOfData
+	    for(var key in mapNameAndType) {
+	        if(key == jobName || key.indexOf(jobName) != -1) {
+	            typeOfData = mapNameAndType[key]
+	        }
+	    }
+	    $.ajax({
+	        type: "GET",
+	        crossDomain: true,
+	        url: servletName + "?job_name=" + jobName + "&amp;type=" + typeOfData,
+	        dataType: 'json',
+	        success: function(result) {
+				responseData = result
+				if(typeOfData == "Store") {
+					// Case Store
+					var policyData = responseData.POLICY.listpolicy
+
+					// FILL POLICY INFORMATION INTO TABLE POLICY
+					var htmlPolicyInfoSource = getInitHTMLSource("Store")
+					if (policyData != null) {
+						for (var i = 0; i &lt; policyData.length; i++) {
+							var mapElement = policyData[i]
+							mapPolicy[mapElement.condition] = mapElement.message
+							maxRow = i + 1
+							htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="' + getLevelStr(mapElement.level) + '"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+						};
+					};
+					$("#policyInfo").html(htmlPolicyInfoSource)
+				} else if(typeOfData == "Subtyped") {
+					// Case Subtyped
+					// FILL POLICY INFORMATION INTO TABLE POLICY
+					maxRow = 0
+					var htmlPolicyInfoSource = getInitHTMLSource("Subtyped")
+					for(var key in responseData.POLICY.listpolicy) {
+						var policyData = responseData.POLICY.listpolicy[key]
+						if (policyData != null) {
+							for (var i = 0; i &lt; policyData.length; i++) {
+								var mapElement = policyData[i]
+								tmpPolicyForKey[mapElement.condition] = mapElement.message
+								maxRow = maxRow + 1
+								htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="' + getLevelStr(mapElement.level) + '"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
+							};
+						};
+						mapPolicySubtyped[key] = tmpPolicyForKey
+					}
+					$("#policyInfo").html(htmlPolicyInfoSource)
+				}
+	        },
+	        error: function(xhr, status, error) {
+	            logError(xhr, status, error)
+	        }
+	    });
+	jQuery.noConflict()
+	});
 }
 
-// GET LIST JOB, DATA SAMPLE OF JOB IN MONGODB FROM PAGE CHOOSEJOBPROCESS
+/**
+* GET LIST JOB, DATA SAMPLE OF JOB IN MONGODB FROM PAGE CHOOSEJOBPROCESS
+* @param jobName Selected job's name / null if there is no job selected(All job)
+*/
 function processChooseJob(jobName) {
     require(['jquery'], function($) {
         var data2send
@@ -1045,10 +1964,8 @@ function processChooseJob(jobName) {
                     generateIstIidAndJobList(lstJobName)
                 },
                 error: function(xhr, status, error) {
-                    alert("There is an error! Wiperdog agent is on yet?")
-                    console.log(error)
-                    console.log(status)
-                    console.log(xhr)
+                    alert(mapMessage["wiperdog_is_off"])
+                    logError(xhr, status, error)
                 }
             });
         } else {
@@ -1098,17 +2015,17 @@ function processChooseJob(jobName) {
                         $("#groupSubtyped").html(htmlGroupSource)
                         listKey = new Array()
                         var htmlJobDataSource = "&lt;tr&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Field&lt;/th&gt;&lt;th&gt;Unit&lt;/th&gt;&lt;th&gt;Data Sample&lt;/th&gt;&lt;/tr&gt;"
+                        // CREATE CONDITION BY SUGGEST AND SAMPLE TABLE
                         for(var keyGroup in sampleData) {
                             var mapSampleData = sampleData[keyGroup]
                             var mapUnitData = mapUnit[keyGroup]
-
-                            // CREATE CONDITION BY SUGGEST
+                            // Generate listkey for suggestion
                             for(var key in mapSampleData) {
                                 if(key != "RECORD_SEQ" &amp;&amp; listKey.indexOf(key) == -1) {
                                     listKey.push(key)
                                 }
                             }
-
+							// Generate html for sample data table
                             for(var key in mapSampleData) {
                                 if(key != "RECORD_SEQ") {
                                     htmlJobDataSource += "&lt;tr&gt;&lt;td&gt;" + keyGroup +  "&lt;/td&gt;&lt;td&gt;" + key + "&lt;/td&gt;&lt;td&gt;" + mapUnitData[key] +"&lt;/td&gt;&lt;td&gt;" + mapSampleData[key] +"&lt;/td&gt;&lt;/tr&gt;"
@@ -1125,9 +2042,7 @@ function processChooseJob(jobName) {
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.log(error)
-                    console.log(status)
-                    console.log(xhr)
+                    logError(xhr, status, error)
                     $("#loadingImg").css("display","none")
                 }
             });
@@ -1137,9 +2052,13 @@ function processChooseJob(jobName) {
     jQuery.noConflict()
 }
 
-// GENERATE JOB AND INSTANCES INTO SELECT BOX
+/**
+* GENERATE JOB AND INSTANCES INTO SELECT BOX
+* @param result Contains data for istIid select box
+*/
 function generateIstIidAndJobList(result){
     require(['jquery'], function($) {
+    	// Get data for istIid select box
         var mapIstIid = {}
         for(var i = 0; i&lt;= result.length - 1; i++){
             var collectionName =  result[i]
@@ -1150,6 +2069,7 @@ function generateIstIidAndJobList(result){
             var istIid = collectionName.substr(collectionName.lastIndexOf(".") + 1, collectionName.length)
             mapIstIid[jobName].push(istIid)
         }
+        // Generate select box
         for(key in mapIstIid){
             $("#listJob").append("&lt;option id=" + key + " value=" + key  + "&gt;" + key + "&lt;/option&gt;")
             var istIidSelector = "istIid_" + replaceAllString(key,".","_")
@@ -1165,6 +2085,14 @@ function generateIstIidAndJobList(result){
     jQuery.noConflict()
 }
 
+/**
+* Convert level from int to String
+* 1 - Low
+* 2 - Medium
+* 3 - High
+* @param levelInt Int value of level
+* @return levelRet String value of level
+*/
 function getLevelStr(levelInt){
     var levelRet
     if(levelInt == 1){
@@ -1177,709 +2105,7 @@ function getLevelStr(levelInt){
         levelRet = 'High'
     }
     return levelRet
-}
-
-require(['jquery'], function($) {
-
-    // GET SERVLET AND FILL LIST JOB INTO SELECT BOX
-    function ajaxGetServlet() {
-        params = 'ProcessPolicy'
-        $.ajax({
-            type: "GET",
-            url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + params,
-            success: function(result) {
-                servletName = result
-            },
-            error: function(xhr, status, error) {
-                console.log(error)
-                console.log(status)
-                console.log(xhr)
-            }
-        });
-    }
-
-    // DOCUMENT READY
-    $(document).ready(function() {
-        ajaxGetServlet();
-        // CREATE SELECT BOX
-        processChooseJob("")
-
-        // CREATE SUGGEST SEARCH
-        $('textarea').on('keyup paste cut mouseup', function () {
-            // Get the textarea's content height.
-            var contentHeight = $(this).textareaHelper('height')
-            // Set the textarea to the content height. i.e. expand as we type.
-            $(this).height(contentHeight);
-      
-            // Follow the caret arounbd.
-            $('.tail').css(
-                $(this).textareaHelper('caretPos')
-            );
-        });
-
-        // WHEN CHOICE A JOB IN SELECT BOX =&gt; FILL DATA SAMPLE AND POLICY FILE FOR ORIGINAL JOB
-        $("#listJob").change(function() {
-            var jobName = $("#listJob option:selected").val()
-            processChooseJob(jobName)
-            if (jobName != "noChoice") {
-                currentIstIidSelector = null
-                resetControl()
-                $("#istIidArea &gt; select").val("noChoice")
-                $("#istIidArea &gt; select").css("display","none")
-                $("#istIid_" + replaceAllString(jobName,".","_")).css("display", "block")
-            }
-            var typeOfData
-            for(var key in mapNameAndType) {
-                if(key == jobName || key.indexOf(jobName) != -1) {
-                    typeOfData = mapNameAndType[key]
-                }
-            }
-            $.ajax({
-                type: "GET",
-                crossDomain: true,
-                url: servletName + "?job_name=" + jobName + "&amp;type=" + typeOfData,
-                dataType: 'json',
-                success: function(result) {
-                    responseData = result
-                    if(typeOfData == "Store") {
-                        var policyData = responseData.POLICY.listpolicy
-                        // FILL POLICY INFORMATIO INTO TABLE POLICY
-                        var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
-                        if (policyData != null) {
-                            for (var i = 0; i &lt; policyData.length; i++) {
-                                var mapElement = policyData[i]
-                                mapPolicy[mapElement.condition] = mapElement.message
-                                maxRow = i + 1
-                                htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="'+ getLevelStr(mapElement.level) +'"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
-                            };
-                        };
-                        $("#policyInfo").html(htmlPolicyInfoSource)
-                    } else if(typeOfData == "Subtyped") {
-                        maxRow = 0
-                        var htmlPolicyInfoSource = '&lt;tr&gt;&lt;th&gt;PolicyID&lt;/th&gt;&lt;th&gt;Group&lt;/th&gt;&lt;th&gt;Condition&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th style="width:125px;min-width:125px"&gt;Action&lt;/th&gt;&lt;/tr&gt;'
-                        for(var key in responseData.POLICY.listpolicy) {
-                            var policyData = responseData.POLICY.listpolicy[key]
-                            if (policyData != null) {
-                                for (var i = 0; i &lt; policyData.length; i++) {
-                                    var mapElement = policyData[i]
-                                    tmpPolicyForKey[mapElement.condition] = mapElement.message
-                                    maxRow = maxRow + 1
-                                    htmlPolicyInfoSource += '&lt;tr&gt;&lt;td&gt;' + maxRow + '&lt;/td&gt;&lt;td&gt;' + key + '&lt;/td&gt;&lt;td&gt;' + mapElement.condition + '&lt;/td&gt;&lt;td&gt;'+ mapElement.message +'&lt;/td&gt;&lt;td class="'+ getLevelStr(mapElement.level) +'"&gt;'+ getLevelStr(mapElement.level) +'&lt;/td&gt;&lt;td&gt;&lt;input type="button" class="delete_btn button" value="delete"/&gt;&lt;input type="button" class="edit_btn button" value="edit"/&gt;&lt;/td&gt;&lt;/tr&gt;'
-                                };
-                            };
-                            mapPolicySubtyped[key] = tmpPolicyForKey
-                        }
-                        $("#policyInfo").html(htmlPolicyInfoSource)
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log(error)
-                    console.log(status)
-                    console.log(xhr)
-                }
-            });
-        });
-
-        // CLICK ADD BUTTON
-        $("#addButton").click(function() {
-            $("#previewText").val("")
-            $("#runTestText").val("")
-            var jobText = $("#listJob option:selected").val()
-            var conditionText = $("#inputText").val().trim()
-            var messageText = $("#messageText").val().trim()
-            var groupKey = $("#groupSubtyped option:selected").val()
-            var level
-            if($("input[type='radio'].radioBtnClass").is(':checked')) {
-               level = $("input[type='radio'].radioBtnClass:checked").val();
-            }
-            // Validate job
-            if(jobText == "noChoice") {
-                $("#msgValidate").html("&lt;p&gt;Please choose a job !!!&lt;/p&gt;")
-                return
-            } else {
-                $("#msgValidate").text('')
-            }
-
-            // Validate group key
-            if (groupKey == "noChoice") {
-                $("#msgValidate").html("&lt;p&gt;Please choose group key of job !!!&lt;/p&gt;")
-                return
-            } else {
-                $("#msgValidate").text('')
-            }
-
-            // Validate condition
-            if (conditionText == "") {
-                $("#msgValidate").html("&lt;p&gt;\"Condition\" can not be empty !!!&lt;/p&gt;")
-                return
-            } else {
-                var data2send = {'action': 'STANDARDCONDITION','data':conditionText, 'listKey': JSON.stringify(listKey)}
-                conditionText = getPolicyString(data2send)
-
-                if(conditionText[0] != "(") {
-                    conditionText = "(" + conditionText
-                }
-                if(conditionText[conditionText.length - 1] != ")") {
-                    conditionText = conditionText + ")"
-                }
-                $("#msgValidate").text('')
-            }
-
-            // Validate message
-            if (messageText == "") {
-                $("#msgValidate").html("&lt;p&gt;\"Message\" can not be empty !!!&lt;/p&gt;")
-                return
-            } else {
-                var data2send = {'action': 'STANDARDMESSAGE','data':messageText, 'listKey': JSON.stringify(listKey)}
-                messageText = getPolicyString(data2send)
-                $("#msgValidate").text('')
-            }
-
-            var booleanUpdate = false
-            var policyID = $("#policyIdText").val()
-            var groupText = $("#groupSubtyped option:selected").val()
-            var table = document.getElementById('policyInfo')
-            var lstRow = table.rows
-                
-            if(groupText == null || groupText == "") { // STORE
-                for(var i = 0; i &lt; lstRow.length; i++) {
-                    if(policyID == lstRow[i].cells[0].innerText) {
-                        var checkAddNew = true
-                        for(var key in mapPolicy) {
-                            if(key == conditionText) {
-                                checkAddNew = false
-                                var confirm_update = confirm("Conditon is exits, update message ?")
-                                if(confirm_update) {
-                                    mapPolicy[key] = messageText
-                                    var idUpdate
-                                    for(var i = 0; i &lt; lstRow.length; i++) {
-                                        if(lstRow[i].cells[1].innerText == conditionText) {
-                                            idUpdate = i
-                                        }
-                                    }
-                                    lstRow[idUpdate].cells[2].innerText = messageText
-                                    lstRow[idUpdate].cells[3].innerText = level
-                                    lstRow[idUpdate].cells[3].className = level
-                                }
-                            }
-                        }
-                        if(checkAddNew) {
-                            var confirm_update = confirm("Update policy ?")
-                            if(confirm_update){
-                                delete mapPolicy[lstRow[i].cells[1].innerText]
-                                lstRow[i].cells[1].innerText = conditionText
-                                lstRow[i].cells[2].innerText = messageText
-                                lstRow[i].cells[3].innerText = level
-                                lstRow[i].cells[3].className = level
-                                mapPolicy[conditionText] = messageText
-                            }
-                        }
-                        booleanUpdate = true
-                    }
-                }
-                if(!booleanUpdate) {
-                    var checkAddNew = true
-                    for(var key in mapPolicy) {
-                        if(key == conditionText) {
-                            checkAddNew = false
-                            var confirm_update = confirm("Conditon is exits, update message ?")
-                            if(confirm_update) {
-                                mapPolicy[key] = messageText
-                                var idUpdate
-                                for(var i = 0; i &lt; lstRow.length; i++) {
-                                    if(lstRow[i].cells[1].innerText == conditionText) {
-                                        idUpdate = i
-                                    }
-                                }
-                                lstRow[idUpdate].cells[2].innerText = messageText
-                                lstRow[idUpdate].cells[3].innerText = level
-                                lstRow[idUpdate].cells[3].className = level
-                            }
-                        }
-                    }
-                    if(checkAddNew) {
-                        maxRow = maxRow + 1
-                        var inputMaps = {
-                            'policyId': maxRow,
-                            'condition': conditionText,
-                            'message': messageText,
-                            'level': level
-                        }
-                        var tr = createTrAppend(inputMaps, 'policyInfo')
-                        tr.appendChild(createTdAction())
-                        table.appendChild(tr)
-                        $("#msgValidate").html("&lt;b&gt;Policy was added !!!&lt;/b&gt;")
-                        mapPolicy[conditionText] = messageText
-                    }
-                }
-                $("#inputText").val("")
-                $("#messageText").val("")
-                $("#policyIdText").val("") 
-                $('input:radio[name="level"][value="Low"]').prop('checked', true);
-            } else { // SUBTYPED
-                for(var i = 0; i &lt; lstRow.length; i++) {
-                        if(policyID == lstRow[i].cells[0].innerText) {
-                            var checkAddNew = true
-                            for(var key in mapPolicySubtyped) {
-                                var mapDataPolicy = getPolicyFromTable()
-                                var mapPolicyForKey = mapDataPolicy.datapolicy
-                                for(var keyPoli in mapPolicyForKey) {
-                                    if(groupText == key) {
-                                      for(var k in mapPolicyForKey[keyPoli]) {
-                                        if(k == conditionText) {
-                                           checkAddNew = false
-                                           var confirm_update = confirm("Conditon is exits, update message ?")
-                                           if(confirm_update) {
-                                               mapPolicySubtyped[key][keyPoli] = messageText
-                                               var idUpdate
-                                               for(var i = 0; i &lt; lstRow.length; i++) {
-                                                   if(lstRow[i].cells[2].innerText == conditionText &amp;&amp; lstRow[i].cells[1].innerText == groupText) {
-                                                    idUpdate = i
-                                                   }
-                                               }
-                                               lstRow[idUpdate].cells[1].innerText = $("#groupSubtyped option:selected").val()
-                                               lstRow[idUpdate].cells[3].innerText = messageText
-                                               lstRow[idUpdate].cells[4].innerText = level
-					       lstRow[idUpdate].cells[4].className = level
-                                           }
-                                        }
-                                      }
-                                    }
-                                }
-                                booleanUpdate = true
-                            }
-                            if(checkAddNew) {
-                                var confirm_update = confirm("Update policy ?")
-                                if(confirm_update){
-                                    lstRow[i].cells[1].innerText = groupText
-                                    lstRow[i].cells[2].innerText = conditionText
-                                    lstRow[i].cells[3].innerText = messageText
-                                    lstRow[i].cells[4].innerText = level
-                                    lstRow[i].cells[4].className = level
-                                    tmpPolicyForKey[conditionText] = messageText
-                                    mapPolicySubtyped[groupText] = tmpPolicyForKey
-                                }
-                            }
-                        }
-                    }
-                    if(!booleanUpdate) { // ADD NEW
-                        var checkAddNew = true
-                        var mapDataPolicy = getPolicyFromTable()
-                        mapDataPolicy = mapDataPolicy.datapolicy
-                        for(var key in mapDataPolicy) {
-                            var mapPolicyForKey = mapDataPolicy[key]
-                            for(var keyPoli in mapPolicyForKey) {
-                                if(groupText == key &amp;&amp; keyPoli == conditionText) {
-                                    checkAddNew = false
-                                    var confirm_update = confirm("Conditon is exits, update message ?")
-                                    if(confirm_update) {
-                                        var idUpdate
-                                        for(var i = 0; i &lt; lstRow.length; i++) {
-                                            if(lstRow[i].cells[1].innerText == key &amp;&amp; lstRow[i].cells[2].innerText == conditionText) {
-                                                idUpdate = i
-                                            }
-                                        }
-                                        lstRow[idUpdate].cells[3].innerText = messageText
-                                        lstRow[idUpdate].cells[4].innerText = level
-                                        lstRow[idUpdate].cells[4].className = level
-                                    }
-                                }
-                            }
-                        }
-                        if(checkAddNew) {
-                            maxRow = maxRow + 1
-                            var inputMaps = {
-                                'policyId': maxRow,
-                                'group': groupText,
-                                'condition': conditionText,
-                                'message': messageText,
-                                'level': level
-                            }
-                            var tr = createTrAppend(inputMaps, 'policyInfo')
-                            tr.appendChild(createTdAction())
-                            table.appendChild(tr)
-                            $("#msgValidate").html("&lt;b&gt;Policy was added !!!&lt;/b&gt;")
-                            tmpPolicyForKey[conditionText] = messageText
-                            mapPolicySubtyped[groupText] = tmpPolicyForKey
-                        }
-                    }
-                    $("#inputText").val("")
-                    $("#messageText").val("")
-                    $("#policyIdText").val("")
-                    $('input:radio[name="level"][value="Low"]').prop('checked', true);
-            }
-        });
-
-        // CLICK "PREVIEW" =&gt; SEND DATA TO SERVLET
-        $("#previewFileButton").click(function() {
-            $("#msgValidate").empty()
-            // Get data from form
-            var mapDataPolicy = getPolicyFromTable()
-            var dataType = mapDataPolicy.type
-            if(dataType == "Store" &amp;&amp; JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
-                var mapFinal = {}
-                var jobName = $("#listJob option:selected").val()
-                mapFinal['jobName'] = jobName
-                var instText = currentIstIidSelector
-                if(instText != "noChoice" &amp;&amp; instText != null) {
-                    mapFinal['instanceName'] = instText
-                }
-
-                mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var mapConditionLevel = mapDataPolicy.mapConditionLevel
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'store', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
-                var result = getPolicyString(data2send)
-                $("#previewText").val(result)
-            } else if(dataType == "Subtyped" &amp;&amp; JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
-                var mapFinal = {}
-                var jobName = $("#listJob option:selected").val()
-                mapFinal['jobName'] = jobName
-                var instText = currentIstIidSelector
-                if(instText != "noChoice" &amp;&amp; instText != null) {
-                    mapFinal['instanceName'] = instText
-                }
-
-                mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var mapConditionLevel = mapDataPolicy.mapConditionLevel
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'subtyped', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
-                var result = getPolicyString(data2send)
-                $("#previewText").val(result)
-            } else {
-                $("#previewText").val("Please create a policy !!!")
-                $("#msgValidate").text("")
-                $("#runTestText").val("")
-            }
-        });
-
-        // CLICK "RUNTEST" =&gt; EVALUATE DATA OF NEAREST MONITORING
-        $("#runTestButton").click(function(){
-            $("#msgValidate").empty()
-            var groupKey = $("#groupSubtyped option:selected").val()
-            // Get data from form
-            if(JSON.stringify(mapPolicy) != '{}') {
-                var mapFinal = {}
-                var jobName = $("#listJob option:selected").val()
-                mapFinal['jobName'] = jobName
-                var instText = currentIstIidSelector
-                if(instText != "noChoice" &amp;&amp; instText != null) {
-                    mapFinal['instanceName'] = instText
-                }
-                //mapFinal['mappolicy'] = mapPolicy
-                var mapSampleData = responseData.SAMPLE
-                var listSampleData = new Array()
-                listSampleData.push(mapSampleData)
-                var mapDataPolicy = getPolicyFromTable()
-                mapFinal['mappolicy'] = mapDataPolicy['datapolicy']
-                var mapConditionLevel = mapDataPolicy.mapConditionLevel
-                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(listSampleData), 'type': 'store', 'mapConditionLevel': JSON.stringify(mapConditionLevel) }
-                var result = getPolicyString(data2send)
-                result = $.parseJSON(result)
-                if(result.status == "failed") {
-                    $("#runTestText").val("Policy has syntax errors! Check again...\n\nREASON:\n\n" + result.message)
-                } else {
-                    if(result.message.length == 0) {
-                        $("#runTestText").val("System is running normally")
-                    } else {
-                        var warningMsg = ""
-                        for(var i = 0; i &lt; result.message.length; i++) {
-                            warningMsg += "*** " + JSON.stringify(result.message[i]) + "\n"
-                        }
-                        $("#runTestText").val(warningMsg)
-                    }
-                }
-            } else if(JSON.stringify(mapPolicySubtyped) != '{}') {
-                var mapFinal = {}
-                var jobName = $("#listJob option:selected").val()
-                mapFinal['jobname'] = jobName
-                var instText = currentIstIidSelector
-                if(instText != "noChoice" &amp;&amp; instText != null) {
-                    mapFinal['instanceName'] = instText
-                }
-                var mapDataPolicy = getPolicyFromTable()
-                mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var mapConditionLevel = mapDataPolicy.mapConditionLevel
-                var mapSampleData = responseData.SAMPLE
-                var mapDataRequest = {}
-                for(var key in mapSampleData) {
-                    var listSampleData = new Array()
-                    listSampleData.push(mapSampleData[key])
-                    mapDataRequest[key] = listSampleData
-                }
-                var data2send = {'action': 'RUNTEST','data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'sampleData': JSON.stringify(mapDataRequest), 'type': 'subtyped', 'mapConditionLevel': JSON.stringify(mapConditionLevel)}
-                var result = getPolicyString(data2send)
-                result = $.parseJSON(result)
-                if(result.status == "failed") {
-                    $("#runTestText").val("Policy has syntax errors! Check again...\n\nREASON:\n\n" + result.message)
-                } else {
-                    if(result.message.length == 0) {
-                        $("#runTestText").val("System is running normally")
-                    } else {
-                        var warningMsg = ""
-                        for(var i = 0; i &lt; result.message.length; i++) {
-                            warningMsg += "*** " + JSON.stringify(result.message[i]) + "\n"
-                        }
-                        $("#runTestText").val(warningMsg)
-                    }
-                }
-            } else {
-                $("#previewText").val("")
-                $("#runTestText").val("Please create a policy !!!")
-                $("#msgValidate").text("")
-            }
-        });
-
-        // CLICK "SAVE TO FILE" =&gt; SEND DATA TO SERVLET
-        $("#saveFileButton").click(function() {
-            $("#msgValidate").empty()
-            $("#loadingImgSaveToFile").css("display","block")
-            // Get data from form
-            var mapDataPolicy = getPolicyFromTable()
-            var dataType = mapDataPolicy.type
-            if(dataType == "Store" &amp;&amp; JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
-                var mapFinal = {}
-                var jobName = $("#listJob option:selected").val()
-                mapFinal['jobName'] = jobName
-                var instText = currentIstIidSelector
-                if(instText != "noChoice" &amp;&amp; instText != null) {
-                    mapFinal['instanceName'] = instText
-                }
-
-                mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var mapConditionLevel = mapDataPolicy.mapConditionLevel
-
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'store', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
-                var result = getPolicyString(data2send)
-                var resquestData = {'action': 'WRITE2FILE', 'jobName' : jobName, 'instanceName' : instText, 'policyStr' : result}
-                send_ajax_post_data(servletName, function(result) {}, resquestData)
-            } else if(dataType == "Subtyped" &amp;&amp; JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
-                var mapFinal = {}
-                var jobName = $("#listJob option:selected").val()
-                mapFinal['jobName'] = jobName
-                var instText = currentIstIidSelector
-                if(instText != "noChoice" &amp;&amp; instText != null) {
-                    mapFinal['instanceName'] = instText
-                }
-
-                mapFinal['mappolicy'] = mapDataPolicy.datapolicy
-                var mapConditionLevel = mapDataPolicy.mapConditionLevel
-
-                var data2send = {'action': 'PREVIEW', 'data':JSON.stringify(mapFinal), 'listKey': JSON.stringify(listKey), 'type': 'subtyped', 'mapConditionLevel' : JSON.stringify(mapConditionLevel)}
-                var result = getPolicyString(data2send)
-                var resquestData = {'action': 'WRITE2FILE', 'jobName' : jobName, 'instanceName' : instText, 'policyStr' : result}
-                send_ajax_post_data(servletName, function(result) {}, resquestData)
-            } else {
-                $("#previewText").val("")
-                $("#msgValidate").html("&lt;p&gt;Please create a policy !!!&lt;/p&gt;")
-                $("#runTestText").val("")
-            }            
-        });
-
-        // GET DATA FROM TABLE POLICY
-        function getPolicyFromTable() {
-            var mapFinalData = {}
-            var mapDataPolicy = {}
-            var mapConditionLevel = {}
-            var table = document.getElementById('policyInfo')
-            var lstRow = table.rows
-            if(lstRow[0].cells.length == 5) { // STORE
-                for(var i = 1; i &lt; lstRow.length; i++) {
-                    var conditionStr = lstRow[i].cells[1].innerText
-                    var msgStr = lstRow[i].cells[2].innerText
-                    var levelStr = lstRow[i].cells[3].innerText
-                    mapDataPolicy[conditionStr] = msgStr
-                    mapConditionLevel[conditionStr] = levelStr
-                }
-                mapFinalData['type'] = "Store"
-                mapFinalData['datapolicy'] = mapDataPolicy
-                mapFinalData['mapConditionLevel'] = mapConditionLevel
-            } else if(lstRow[0].cells.length == 6) { // SUBTYPED
-                var lstKey = new Array()
-                for(var i = 1; i &lt; lstRow.length; i++) {
-                    if(lstKey.length != 0) {
-                        if(lstKey.indexOf(lstRow[i].cells[1].innerText) == -1) {
-                            lstKey.push(lstRow[i].cells[1].innerText)
-                        }
-                    } else {
-                        lstKey.push(lstRow[i].cells[1].innerText)
-                    }
-                    mapConditionLevel[lstRow[i].cells[1].innerText] = {}
-                }
-                for(var elist = 0; elist &lt; lstKey.length; elist++) {
-                    var tmpDataPolicy = {}
-                    for(var i = 1; i &lt; lstRow.length; i++) {
-                        var groupStr = lstRow[i].cells[1].innerText
-                        if(lstKey[elist] == groupStr) {
-                            var conditionStr = lstRow[i].cells[2].innerText
-                            var msgStr = lstRow[i].cells[3].innerText
-                            var levelStr = lstRow[i].cells[4].innerText
-                            tmpDataPolicy[conditionStr] = msgStr
-                            if(mapConditionLevel[groupStr] == null){
-                               mapConditionLevel[groupStr] = {}
-                            }
-                            mapConditionLevel[groupStr][conditionStr] = levelStr
-                        }
-                    }
-                    mapDataPolicy[lstKey[elist]] = tmpDataPolicy
-                }
-                mapFinalData['type'] = "Subtyped"
-                mapFinalData['datapolicy'] = mapDataPolicy
-                mapFinalData['mapConditionLevel'] = mapConditionLevel
-            }
-            return mapFinalData
-        }
-
-        // Get policyString from page PolicyStringLib
-        function getPolicyString(data)  {
-            var ret
-            $.ajax({
-                type: "POST",
-                crossDomain: true,
-                url: "/xwiki/bin/get/WiperDogLib/PolicyStringLib?outputSyntax=plain",
-                dataType: 'text',
-                data: data,
-                async: false,
-                //context: JSON.stringify(mapFinal),
-                success: function(result) {
-                    ret = result
-                },
-                error: function(xhr, status, error) {
-                    alert("There is an error! Wiperdog agent is on yet?")
-                    console.log(error)
-                    console.log(status)
-                    console.log(xhr)
-                }
-            });
-            return ret
-        }
-        
-
-        // SEND DATA TO SERVLET
-        function send_ajax_post_data(domainURL, callback, data) {
-            $.ajax({
-                type: "POST",
-                crossDomain: true,
-                url: domainURL,
-                dataType: 'json',
-                data: JSON.stringify(data),
-                success: function(result) {
-                    var statusExecute = result.status
-                    var messageExecute = result.message
-                    if(statusExecute == "OK") {
-                        $("#msgValidate").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
-                    } else if(statusExecute == "failed"){
-                        $("#msgValidate").html("&lt;p&gt;Can not create POLICY file !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
-                    }
-                    callback(result)
-                    $("#loadingImgSaveToFile").css("display","none")
-                },
-                error: function(xhr, status, error) {
-                    $("#msgValidate").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
-                    console.log(xhr)
-                    console.log(status)
-                    console.log(error)
-                    $("#loadingImgSaveToFile").css("display","none")
-                }
-            });
-        }
-
-    });
-
-    // DELETE A ROW OF TABLE POLICY
-    $(document).off('click', '#policyInfo  .delete_btn')
-    $(document).on('click', '#policyInfo  .delete_btn', function(event) {
-        $("#msgValidate").empty();
-        event.preventDefault();
-        var conf = confirm('Delete this instance , are you sure ?')
-        if (conf) {
-            var rowDeleted = deleteRow(this, 'policyInfo')
-            if(rowDeleted.cells.length == 5) { // STORE
-                var keyDeleted = rowDeleted.cells[1].innerText
-                delete mapPolicy[keyDeleted]
-            } else if(rowDeleted.cells.length == 6) { // SUBTYPED
-                var groupDel = rowDeleted.cells[1].innerText
-                var keyDel = rowDeleted.cells[2].innerText
-                delete mapPolicySubtyped[groupDel][keyDel]
-            }
-        }
-    });
-
-    // UPDATE A ROW OF TABLE POLICY
-    $(document).on('click', '#policyInfo  .edit_btn', function(event) {
-        $("#msgValidate").empty();
-        event.preventDefault();
-        var row = this.parentNode.parentNode
-        if(row.cells.length == 5) {
-            $("#policyIdText").val(row.cells[0].innerText.trim())
-            $("#inputText").val(row.cells[1].innerText.trim())
-            $("#messageText").val(row.cells[2].innerText.trim())
-            var levelStr = row.cells[3].innerText.trim()
-            $('#radio' + levelStr).prop('checked', true)
-        } else if(row.cells.length == 6) {
-            $("#policyIdText").val(row.cells[0].innerText.trim())
-            document.getElementById('selectBoxId').value = row.cells[1].innerText.trim();
-            $("#inputText").val(row.cells[2].innerText.trim())
-            $("#messageText").val(row.cells[3].innerText.trim())
-            delete mapPolicySubtyped[row.cells[1].innerText.trim()][row.cells[2].innerText.trim()]  
-            var levelStr = row.cells[4].innerText.trim()
-            $('#radio' + levelStr).prop('checked', true) 
-        }
-    });
-
-    // REMOVE A ROW OF TABLE
-    function deleteRow(row, tableId) {
-        var idx = row.parentNode.parentNode.rowIndex
-        var rowDeleted = row.parentNode.parentNode
-        $(row).closest('tr').remove();
-        return rowDeleted
-    }
-
-    // CHECK THE EXISTENCE OF KEY IN MAP
-    function checkKeyDupl(keyCheck, obj) {
-        for (key in obj) {
-            if (key == keyCheck) {
-                return true
-            }
-        }
-        return false
-    }
-
-    // CREATE TR BY JSON DATA OBJECT
-    function createTrAppend(jsonObj) {
-        var tr = document.createElement('tr')
-        for (key in jsonObj) {
-            var td = document.createElement('td')
-            if(key == 'level'){
-                td.className = jsonObj[key]
-            }
-            var td_text = document.createTextNode(jsonObj[key])
-            td.appendChild(td_text)
-            tr.appendChild(td)
-        }
-        return tr
-    }
-
-    // CREATE TD ELEMENT
-    function createTdAction() {
-        var td_action = document.createElement('td')
-        td_action.setAttribute('class', 'td_button')
-        var del_btn = document.createElement('input')
-        var edit_btn = document.createElement('input')
-        // Click delete button
-        del_btn.setAttribute('type', 'input')
-        del_btn.setAttribute('class', 'delete_btn button')
-        del_btn.setAttribute('value', 'Delete')
-        del_btn.setAttribute('style', 'width:50px')
-        // Click update button
-        edit_btn.setAttribute('type', 'input')
-        edit_btn.setAttribute('class', 'edit_btn button')
-        edit_btn.setAttribute('value', 'Edit')
-        edit_btn.setAttribute('style', 'width:50px')
-        td_action.appendChild(del_btn)
-        td_action.appendChild(edit_btn)
-        return td_action
-    }
-    jQuery.noConflict()
-});</code>
+}</code>
 </property>
 <property>
 <name>processPolicy-js</name>
@@ -2043,6 +2269,16 @@ overflow:scroll;
   font-size: 1.3em;
 }
 
+#msgValidateForSaveFile b {
+  color: blue;
+  font-size: 1.3em;
+}
+
+#msgValidateForSaveFile p {
+  color: red;
+  font-size: 1.3em;
+}
+
 #previewText, #runTestText {
   min-height: 300px;
   max-height: 700px;
@@ -2065,8 +2301,10 @@ overflow:scroll;
   //background: rgb(248, 145, 105);
   color: red;
   font-weight: bold;
-}
-</code></property><property><name>processPolicy-css</name>
+}</code>
+</property>
+<property>
+<name>processPolicy-css</name>
 </property>
 <property>
 <parse>0</parse>
@@ -2398,10 +2636,13 @@ overflow:scroll;
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAdminGroup</groups>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -2478,10 +2719,13 @@ overflow:scroll;
 <allow>0</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>delete,edit</levels>
+<levels>edit,delete</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -2558,10 +2802,13 @@ overflow:scroll;
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>comment,view</levels>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -2638,6 +2885,9 @@ overflow:scroll;
 <allow>0</allow>
 </property>
 <property>
+<groups></groups>
+</property>
+<property>
 <levels>edit,delete</levels>
 </property>
 <property>
@@ -2645,7 +2895,7 @@ overflow:scroll;
 </property>
 </object>
 <content>{{html wiki="true" clean="false"}}
-&lt;div id="initLoading" style="display:block"&gt;&lt;img src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;&lt;/div&gt;
+&lt;div id="initLoading" style="display:block"&gt;&lt;img src="/xwiki/bin/download/WiperDog/processPolicy/ajax-loader.gif"/&gt;&lt;/div&gt;
 &lt;table border=1&gt;
     &lt;tr&gt;
         &lt;th style="width:100px;min-width:100px"&gt;
@@ -2657,7 +2907,7 @@ overflow:scroll;
             &lt;/select&gt;
         &lt;/td&gt;
         &lt;td rowspan=6&gt;
-            &lt;div id="loadingImg" style="display:none"&gt;&lt;img src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;&lt;/div&gt;
+            &lt;div id="loadingImg" style="display:none"&gt;&lt;img src="/xwiki/bin/download/WiperDog/processPolicy/ajax-loader.gif"/&gt;&lt;/div&gt;
             &lt;table border=1 width="100%"&gt;
                 &lt;tr&gt;
                     &lt;th&gt;Job's data&lt;/th&gt;
@@ -2775,9 +3025,10 @@ overflow:scroll;
     &lt;/tr&gt;
     &lt;tr&gt;
         &lt;td colspan=4&gt;
+            &lt;p id='msgValidateForSaveFile'&gt;&lt;/p&gt;
             &lt;center&gt;
             &lt;input type="button" class="button" value="Save to file" id="saveFileButton" style="height:30px;"/&gt;
-            &lt;div id="loadingImgSaveToFile" style="display:none"&gt;&lt;img src="/xwiki/resources/SimpleTreeMenu/ajax-loader.gif"/&gt;&lt;/div&gt;
+            &lt;div id="loadingImgSaveToFile" style="display:none"&gt;&lt;img src="/xwiki/bin/download/WiperDog/processPolicy/ajax-loader.gif"/&gt;&lt;/div&gt;
             &lt;/center&gt;
         &lt;/td&gt;
     &lt;/tr&gt;
