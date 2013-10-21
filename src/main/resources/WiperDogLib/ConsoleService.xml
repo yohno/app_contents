@@ -13,12 +13,12 @@
 <creationDate>1380879465000</creationDate>
 <date>1382323627000</date>
 <contentUpdateDate>1382323624000</contentUpdateDate>
-<version>1.17</version>
+<version>1.1</version>
 <title>ConsoleService</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>deny delete right for XWiki.XWikiGuest</comment>
-<minorEdit>true</minorEdit>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
