@@ -7,17 +7,17 @@
 <translation>0</translation>
 <parent>WiperDog.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.leminhquan</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.leminhquan</contentAuthor>
 <creationDate>1382327524000</creationDate>
-<date>1382328012000</date>
-<contentUpdateDate>1382328012000</contentUpdateDate>
-<version>1.2</version>
+<date>1382598878000</date>
+<contentUpdateDate>1382598708000</contentUpdateDate>
+<version>1.12</version>
 <title>WiperdogConfiguration</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment></comment>
+<comment>Upgrade minor that keep state of checkbox from request or default checked if in initial state</comment>
 <minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
@@ -1520,6 +1520,7 @@ def xwiki_dir = props.getProperty('user.dir');
 def servletData= request.getParameter('result')
 def dataMongo = request.getParameter('resultMongo')
 def wdHome = request.getParameter('wdDir')
+def installSysService = request.getParameter('installSysService')
 
 File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
 def defaultParams= GetConstantConfig.DEFAULT_CONFIG
@@ -1571,100 +1572,104 @@ if(dataMongo != null){
 		messageMongo = "{{error}}Failed to create mongoDB informartion!" + ex +"{{/error}}"
 	}
 }
-if(wdHome != null){
-	File wpPath = new File(wdHome)
-	if(!wpPath.isDirectory() ){
-		messWDPath = "{{error}}Incorrect directory: ' " + wdHome +  " ' , please try again !  {{/error}}"
-	} else {
-		try{
-			def confData = shell.evaluate(f)
-			if(confData == null){
-				confData = [:]
-			}
-			if(confData['wiperdog_path'] == null){
-				confData['wiperdog_path'] = [:]
-			}
-			confData['wiperdog_path'] = wdHome
-			def osName = System.getProperty('os.name')
-			def encoding = "SJIS"
-			def proc = null
-			if(osName != null &amp;&amp; osName.toLowerCase().indexOf('win') ==-1){
-                                // Linux process
-				configFile = new File(wdHome + "/bin/wiperdog")
-				if(!configFile.exists()){
-					errMess = "Directory: " + wdHome + " not be a wiperdog home directory !"
-				} else {
-					fileText = configFile.text
-					def newHome = wdHome.replaceAll(/\\+/, '/')
-					newFileText = ""
-					macherPattern = "(WIPERDOGHOME=)((?:(?!\\n).)*)"
-					pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
-					matcher = pattern.matcher(fileText);
-					while(matcher.find()) {
-						newFileText = fileText.replace(matcher.group(1) + matcher.group(2), matcher.group(1) + newHome)
-					}
-					def crlfFixFileText = newFileText.replaceAll("\r","");
-					configFile.write(crlfFixFileText)
-					/** Replace CRLF to LF to fit Unix file format **/
-
-					/* Install service script */
-					FileOutputStream fos = new FileOutputStream(new File("install_service.sh"))
-					StringBuffer sBuff = new StringBuffer(512)
-					sBuff.append("#!/bin/sh\n#\n#\n#\n")
-					def procCheckStatus = "/sbin/service wiperdog status".execute()
-					if(!procCheckStatus.in.text.contains('stopped...')){
-						sBuff.append("/sbin/service wiperdog stop\n")
-					}
-					sBuff.append("/bin/cp "+wdHome+"/bin/wiperdog /etc/rc.d/init.d/\n")
-					sBuff.append("/bin/chmod 755 /etc/rc.d/init.d/wiperdog\n")
-					sBuff.append("/sbin/chkconfig --del wiperdog\n")
-					sBuff.append("/sbin/chkconfig --add wiperdog\n")
-					sBuff.append("/sbin/chkconfig --level 2 wiperdog on\n")
-					sBuff.append("/sbin/chkconfig --level 3 wiperdog on\n")
-					sBuff.append("/sbin/chkconfig --level 4 wiperdog on\n")
-					sBuff.append("/sbin/chkconfig --level 5 wiperdog on\n")
-					sBuff.append("/sbin/chkconfig --list wiperdog\n")
-					sBuff.append("/bin/chmod 755 "+ wdHome +"/bin/* \n")
-				        sBuff.append("/sbin/service wiperdog start\n")
-					fos.write(sBuff.toString().getBytes());
-					fos.flush();
-					fos.close();
-					proc = "/bin/chmod 755 install_service.sh".execute()
-					proc = "/bin/sh install_service.sh".execute()
-                                        inMess = proc.in.text
-					errMess = proc.err.text	
-					proc.waitFor()
-
-				}
-				if(errMess == ""){
-					def confDataBuilder = new JsonBuilder(confData)
-					f.setText(confDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
-					messWDPath = "Update wiperdog path succesfully !"
-                                        errMess  = inMess 
-				} else {
-					messWDPath = "{{error}}Failed to Update wiperdog path !" + errMess + "{{/error}}"
-				}
-			} else {
-                           def controlService = new ControlService()
-                           controlService.stopServiceWindows()
-                           errMess = controlService.reInstallServiceWindows(wdHome)
-                           // If re-install OK ,update wiperdog_path config to file conf.params
-                           errMess += controlService.startServiceWindows()
-                           if(errMess.contains("The service was successfully installed.")){
-                             def confDataBuilder = new JsonBuilder(confData)
-                             f.setText(confDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
-                             messWDPath = "Update wiperdog path succesfully"
-                             }else {
-                             messWDPath = "{{error}}Failed to Update wiperdog path ! Reason: " + errMess + "{{/error}}"
-                           }
-                         
-
-                	}
-		}catch(Exception ex){
-			messWDPath = "{{error}}Failed to Update wiperdog path !" + ex + "{{/error}}"
+if(wdHome != null &amp;&amp; wdHome != ''){
+	// Update file config no matter what
+	try{
+		def confData = shell.evaluate(f)
+		if(confData == null){
+			confData = [:]
 		}
+		if(confData['wiperdog_path'] == null){
+			confData['wiperdog_path'] = [:]
+		}
+		confData['wiperdog_path'] = wdHome
+		def confDataBuilder = new JsonBuilder(confData)
+		f.setText(confDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
+		messWDPath = "Update wiperdog path succesfully !"
+	}catch(Exception ex){
+		messWDPath = "{{error}}Fail to update wiperdog path!{{/error}}"
 	}
+	if(installSysService != null){
+		File wpPath = new File(wdHome)
+		if(!wpPath.isDirectory() ){
+			messWDPath = "{{error}}Update config successfully !!! But can't not regist the new Wiperdog as system service because privileges problems. \nPlease stop all wiperdog process which are running and start the Wiperdog which you have been set.\n Or $wdHome is simply not a directory{{/error}}"
+		} else {
+			try{
+				
+				def osName = System.getProperty('os.name')
+				def encoding = "SJIS"
+				def proc = null
+				if(osName != null &amp;&amp; osName.toLowerCase().indexOf('win') ==-1){
+	                                // Linux process
+					configFile = new File(wdHome + "/bin/wiperdog")
+					if(!configFile.exists()){
+						errMess = "Directory: " + wdHome + " not be a wiperdog home directory !"
+					} else {
+						fileText = configFile.text
+						def newHome = wdHome.replaceAll(/\\+/, '/')
+						newFileText = ""
+						macherPattern = "(WIPERDOGHOME=)((?:(?!\\n).)*)"
+						pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+						matcher = pattern.matcher(fileText);
+						while(matcher.find()) {
+							newFileText = fileText.replace(matcher.group(1) + matcher.group(2), matcher.group(1) + newHome)
+						}
+						def crlfFixFileText = newFileText.replaceAll("\r","");
+						configFile.write(crlfFixFileText)
+						/** Replace CRLF to LF to fit Unix file format **/
+	
+						/* Install service script */
+						FileOutputStream fos = new FileOutputStream(new File("install_service.sh"))
+						StringBuffer sBuff = new StringBuffer(512)
+						sBuff.append("#!/bin/sh\n#\n#\n#\n")
+						def procCheckStatus = "/sbin/service wiperdog status".execute()
+						if(!procCheckStatus.in.text.contains('stopped...')){
+							sBuff.append("/sbin/service wiperdog stop\n")
+						}
+						sBuff.append("/bin/cp "+wdHome+"/bin/wiperdog /etc/rc.d/init.d/\n")
+						sBuff.append("/bin/chmod 755 /etc/rc.d/init.d/wiperdog\n")
+						sBuff.append("/sbin/chkconfig --del wiperdog\n")
+						sBuff.append("/sbin/chkconfig --add wiperdog\n")
+						sBuff.append("/sbin/chkconfig --level 2 wiperdog on\n")
+						sBuff.append("/sbin/chkconfig --level 3 wiperdog on\n")
+						sBuff.append("/sbin/chkconfig --level 4 wiperdog on\n")
+						sBuff.append("/sbin/chkconfig --level 5 wiperdog on\n")
+						sBuff.append("/sbin/chkconfig --list wiperdog\n")
+						sBuff.append("/bin/chmod 755 "+ wdHome +"/bin/* \n")
+					        sBuff.append("/sbin/service wiperdog start\n")
+						fos.write(sBuff.toString().getBytes());
+						fos.flush();
+						fos.close();
+						proc = "/bin/chmod 755 install_service.sh".execute()
+						proc = "/bin/sh install_service.sh".execute()
+        	                                inMess = proc.in.text
+						errMess = proc.err.text	
+						proc.waitFor()
 
+					}
+					if(errMess == ""){
+						messWDPath = "Update config successfully !!! The new Wiperdog has been started as system service."
+                                	        errMess  = inMess 
+					} else {
+						messWDPath = "{{error}}Update config successfully !!! But can't not regist the new Wiperdog as system service because privileges problems. \nPlease stop all wiperdog process which are running and start the Wiperdog which you have been set.\n" + errMess + "{{/error}}"
+					}
+				} else {
+				   // Windows process
+	                           def controlService = new ControlService()
+        	                   controlService.stopServiceWindows()
+                	           errMess = controlService.reInstallServiceWindows(wdHome)
+                        	   // Re-install
+	                           errMess += controlService.startServiceWindows()
+	                	}
+			}catch(Exception ex){
+				messWDPath = "{{error}}Update config successfully !!! But can't not regist the new Wiperdog as system service!\n" + ex + "{{/error}}"
+			}
+		}
+	}else{
+		messWDPath = "{{warning}}Update configuration file successfully. You have to reset Wiperdog's service manually!{{/warning}}"
+	}
+}else{
+	messWDPath = "{{warning}}Input new valid Wiperdog's path to update!{{/warning}}"
 }
 def params = shell.evaluate(f)
 if(params == null || params == []) {
@@ -1820,8 +1825,18 @@ println "&lt;label for = 'dir'&gt;Current Wiperdog path :&lt;/label&gt;"
 		println "&lt;input type ='text' id = 'dir' name = 'wdDir' /&gt;"
 	}
 println "&lt;input type = 'submit' id = 'updateWDPath' class='button' value = 'UPDATE'/&gt;"
+if(wdHome == null){
+	println "&lt;br&gt;&lt;input type=\"checkbox\" name=\"installSysService\" value=\"installSysService\" id=\"installSysService\" checked&gt;Install the new Wiperdog as system service and Restart service&lt;/checkbox&gt;"
+}else{
+	if(installSysService != null){
+		println "&lt;br&gt;&lt;input type=\"checkbox\" name=\"installSysService\" value=\"installSysService\" id=\"installSysService\" checked&gt;Install the new Wiperdog as system service and Restart service&lt;/checkbox&gt;"
+	}else{
+		println "&lt;br&gt;&lt;input type=\"checkbox\" name=\"installSysService\" value=\"installSysService\" id=\"installSysService\"&gt;Install the new Wiperdog as system service and Restart service&lt;/checkbox&gt;"
+}
+}
 println "&lt;/form&gt;"
 println "&lt;br/&gt;"
+
 println "&lt;div class='message'&gt;"
 	if(messWDPath!=null){
 		println "&lt;pre&gt;" + messWDPath + "&lt;/pre&gt;"
