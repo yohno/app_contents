@@ -11,16 +11,53 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1382327523000</creationDate>
-<date>1382001200000</date>
-<contentUpdateDate>1382001199000</contentUpdateDate>
-<version>1.1</version>
+<date>1383184356000</date>
+<contentUpdateDate>1383184209000</contentUpdateDate>
+<version>4.3</version>
 <title>JobDoc</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment></comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
-<hidden>false</hidden>
+<hidden>false</hidden><attachment>
+<filename>closed.gif</filename>
+<filesize>365</filesize>
+<author>XWiki.Admin</author>
+<date>1383184209000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEQAMAPUAACAQECAgEDAoIEA4MFBAQFBQQGBQUGBgUHBgUHBwYJBwIKB4IIBwYIB4cLCA
+EL2UELCAIJCIcMCIENCQEMCYINCYINCgIOCYIOCgIOCgMOCoMOCwMPCoMOC4UPCwQPC4QPC4UPDA
+UPDAYPDIYPDIcPDQYPDQcP/QcP/YcJCIgJmZmaCQgLCgkLCokNfTv//YgP/ggPDgkP/gkP/okPDg
+oP/ooPDosP/woPDwsP/wsNXSyf/wwOvp4/bx5P///wAAACH5BAAAAAAALAAAAAARAAwAAAaKQF+v
+RSTyfMiksmXL5XAxlktJZVmv1pV2q0OyduCdszaTvU4kEQOpEj9vZdipFAJV1r6VmyyDoUojIBoP
+CEh6ODc1fX+BHhoSBoZjiyYjIR4cGA4EhjZkfpUhHxwZFw4DSCk2M6CWoxoXEwsCSBE0Jh0bGhYU
+FBAQDgsKAbUNCQcFAwIBAM3OAD5BADs=
+</content></attachment><attachment>
+<filename>list.gif</filename>
+<filesize>63</filesize>
+<author>XWiki.Admin</author>
+<date>1383184191000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhDgAOAPAAAFRWVPz+/CH5BAAAAAAALAAAAAAOAA4AAAIWjI+py20AXYBAUnmu040nv4CK
+iJVHAQA7
+</content></attachment><attachment>
+<filename>open.gif</filename>
+<filesize>570</filesize>
+<author>XWiki.Admin</author>
+<date>1383184199000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEQAMAPYAABAQECAQECAYEDAgIDAwIEA4MGBIIFBIQF5ZWWBYQHZnSXBgUIBoIJBwIKB4
+IIBwUIB4YLCAEJCAYJKEa5CIcMCIEMCQAMyZANCQEOCgIOCgMPCoMPCwMNCoUNCwcPC4QPDAQP/A
+UP/IUP/QUP/MZv/YYP/QcP/YcJCIgJqQipmZmaCQgLCggLCgkLCokLm4w8CwkMC4kNDAgNDAkMfD
+usrGt+DIgPDQgPDYgP/YgODQoP/ggPDgkP/gkPDooP/ooPDwoP/woPDwsMbDyv///wAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5
+BAAAAAAALAAAAAARAAwAAAeXgERELoSENIKIiYM6QkJBPy01ioktQI4/PycqK5wrFJQ+jz85JaWm
+n4gqPpgwMIQsLJ0rKJ8rPD82Lju7vDsnJx0pRLY9LjEnpiUjIh8aCkPDOLk7JqYiIB8cDBOCKzcu
+MyckJCIh2RsYBi+CKDK65NccGxkYDAiIFC0eF/wWFRERHDQwMAOfBAgPFiQ4UIDAAAEAAiAKBAA7
+</content></attachment>
 <object>
 <class>
 <name>XWiki.JavaScriptExtension</name>
@@ -340,8 +377,8 @@ jQuery.noConflict();
 <code>var persisteduls=new Object()
 var ddtreemenu=new Object()
 
-ddtreemenu.closefolder="/xwiki/resources/SimpleTreeMenu/closed.gif" //set image path to "closed" folder image
-ddtreemenu.openfolder="/xwiki/resources/SimpleTreeMenu/open.gif" //set image path to "open" folder image
+ddtreemenu.closefolder="/xwiki/bin/download/WiperDog/JobDoc/closed.gif" //set image path to "closed" folder image
+ddtreemenu.openfolder="/xwiki/bin/download/WiperDog/JobDoc/open.gif" //set image path to "open" folder image
 
 //////////No need to edit beyond here///////////////////////////
 
@@ -579,7 +616,7 @@ display:inline-block;
 
 }
 .treeview li{ /*Style for LI elements in general (excludes an LI that contains sub lists)*/
-background: white url("/xwiki/resources/SimpleTreeMenu/list.gif") no-repeat left center;
+background: white url("/xwiki/bin/download/WiperDog/JobDoc/list.gif") no-repeat left center;
 list-style-type: none;
 padding-left: 22px;
 margin-bottom: 3px;
@@ -587,13 +624,13 @@ font-weight:bold
 }
 
 .treeview li.submenu{ /* Style for LI that contains sub lists (other ULs). */
-background: white url("/xwiki/resources/SimpleTreeMenu/closed.gif") no-repeat left 1px;
+background: white url("/xwiki/bin/download/WiperDog/JobDoc/closed.gif") no-repeat left 1px;
 cursor: hand !important;
 cursor: pointer !important;
 }
 
 .treeview .ui-state-disabled {
-background: white url("/xwiki/resources/SimpleTreeMenu/closed.gif") no-repeat left 1px;
+background: white url("/xwiki/bin/download/WiperDog/JobDoc/closed.gif") no-repeat left 1px;
 color:#DBD9DA
 }
 
@@ -1053,10 +1090,13 @@ h5 {
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAdminGroup</groups>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -1133,7 +1173,10 @@ h5 {
 <allow>0</allow>
 </property>
 <property>
-<levels>delete,edit</levels>
+<groups></groups>
+</property>
+<property>
+<levels>edit,delete</levels>
 </property>
 <property>
 <users>XWiki.XWikiGuest</users>
@@ -1213,10 +1256,13 @@ h5 {
 <allow>0</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
 <levels>edit,delete</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -1293,10 +1339,13 @@ h5 {
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>comment,view</levels>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <content>{{html wiki="true" clean="false"}}
