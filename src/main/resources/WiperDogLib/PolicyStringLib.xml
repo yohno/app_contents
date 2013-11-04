@@ -7,12 +7,12 @@
 <translation>0</translation>
 <parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.leminhquan</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.leminhquan</contentAuthor>
 <creationDate>1380702671000</creationDate>
-<date>1382323972000</date>
-<contentUpdateDate>1382323970000</contentUpdateDate>
+<date>1383559340000</date>
+<contentUpdateDate>1383559336000</contentUpdateDate>
 <version>1.1</version>
 <title>PolicyStringLib</title>
 <defaultTemplate></defaultTemplate>
@@ -431,12 +431,15 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.lang.GroovyShell
  
-response.setContentType('text')
+//response.setContentType('text')
 
 def slurper = new JsonSlurper()
 def datajson = request.getParameter("data")
 def listKeyJson = request.getParameter("listKey")
-def listKey = slurper.parseText(listKeyJson)
+def listKey
+if(listKeyJson != null &amp;&amp; listKeyJson != ""){
+   listKey = slurper.parseText(listKeyJson)
+}
 def action = request.getParameter("action")
 def sampleData = request.getParameter("sampleData")
 def type = request.getParameter("type")
