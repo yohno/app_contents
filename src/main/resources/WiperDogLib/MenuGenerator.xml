@@ -7,13 +7,13 @@
 <translation>0</translation>
 <parent>WiperDogLib.WebHome</parent>
 <creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<author>XWiki.nguyenxuanluong</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>XWiki.nguyenxuanluong</contentAuthor>
 <creationDate>1380879467000</creationDate>
-<date>1383560696000</date>
-<contentUpdateDate>1383560696000</contentUpdateDate>
-<version>9.1</version>
+<date>1383630044000</date>
+<contentUpdateDate>1383630044000</contentUpdateDate>
+<version>10.1</version>
 <title>MenuGenerator</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -362,8 +362,13 @@ target.attachEvent(tasktype, functionref)
 <cache>default</cache>
 </property>
 <property>
-<code>ddtreemenu.createTree("treemenu2", true, 5)
-</code></property><property><name>creatTreeMenu-js</name>
+<code>var treemenu2 = document.getElementById('treemenu2')
+if(treemenu2 != null) {
+ddtreemenu.createTree("treemenu2", true, 5)
+}</code>
+</property>
+<property>
+<name>creatTreeMenu-js</name>
 </property>
 <property>
 <parse>0</parse>
@@ -593,10 +598,13 @@ margin-right:20px;
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAdminGroup</groups>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -673,10 +681,13 @@ margin-right:20px;
 <allow>0</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
 <levels>edit,delete</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -753,10 +764,13 @@ margin-right:20px;
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>comment,view</levels>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -831,6 +845,9 @@ margin-right:20px;
 <guid>05acec45-37a4-4fe3-b1ca-8473a14282fe</guid>
 <property>
 <allow>1</allow>
+</property>
+<property>
+<groups></groups>
 </property>
 <property>
 <levels>view,comment</levels>
@@ -913,6 +930,9 @@ margin-right:20px;
 <allow>0</allow>
 </property>
 <property>
+<groups></groups>
+</property>
+<property>
 <levels>edit,delete</levels>
 </property>
 <property>
@@ -932,7 +952,7 @@ println '{{html wiki = "true" clean="false"}}'
 //def  dbName = 'wiperdog'
 //def gmongo = new GMongo()
 //db = gmongo.getDB(dbName)
-
+try {
 MongoDBConnection.getConnection()
 def root = [
 	"MySQL",
@@ -1053,4 +1073,10 @@ println "&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;
  } 
 println "&lt;/div&gt;"
 println "{{/html}}"
+} catch(com.mongodb.MongoException ex) {
+  println "{{error}} Can not get data from MongoDB{{/error}}"
+} catch(Exception ex) {
+    println "{{error}}"+ ex +"{{/error}}"
+}
+
 {{/groovy}}</content></xwikidoc>
