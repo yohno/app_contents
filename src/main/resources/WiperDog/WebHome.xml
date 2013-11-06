@@ -11,13 +11,13 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1382327524000</creationDate>
-<date>1383560694000</date>
-<contentUpdateDate>1383560694000</contentUpdateDate>
-<version>3.1</version>
+<date>1383703742000</date>
+<contentUpdateDate>1383703740000</contentUpdateDate>
+<version>4.1</version>
 <title>WiperDog Functions</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
+<comment></comment>
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
@@ -1593,7 +1593,6 @@ sisAAAAAAGRXAAAAAADIrgAAAACAqvL/BwB+A7367exQBwAAAABJRU5ErkJggg==
 * [[**WiperDog for view data monitoring**&gt;&gt;MonitoringData]]
 * [[**WiperDog for view data LastAccumulation**&gt;&gt;LastAccumulation]]
 
-
 === Job Document===
 * [[**View document of current job**&gt;&gt;JobDoc]]
 
@@ -1616,10 +1615,11 @@ sisAAAAAAGRXAAAAAADIrgAAAACAqvL/BwB+A7367exQBwAAAABJRU5ErkJggg==
 * [[**Create, update policy for job and run test them**&gt;&gt;processPolicy]]
 * [[**Policy evaluation information**&gt;&gt;DisplayPolicy]]
 
-
 === Import , Export Instances ===
 * [[**Import, Export instances of job from csv file**&gt;&gt;ImportInstance]]
 
+=== Wiperdog Installer ===
+* [[**Install wiperdog from Xwiki**&gt;&gt;WiperdogServiceInstallation]]
 
 &lt;/div&gt;
 &lt;div id="image"  style="width:50%;float:left;"&gt;
