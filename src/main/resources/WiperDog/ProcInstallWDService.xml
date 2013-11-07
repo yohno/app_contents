@@ -11,14 +11,14 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1382432327000</creationDate>
-<date>1383796388000</date>
-<contentUpdateDate>1383796388000</contentUpdateDate>
-<version>10.1</version>
+<date>1383817718000</date>
+<contentUpdateDate>1383817718000</contentUpdateDate>
+<version>10.2</version>
 <title>ProcInstallWDService</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment></comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -526,7 +526,7 @@ try {
 							listCmd.add("mvn")
 						}
 						listCmd.add("org.apache.maven.plugins:maven-dependency-plugin:2.4:get")
-						listCmd.add("-Dartifact=org.wiperdog:wiperdog-assembly:"+objData.version+":jar:win")
+						listCmd.add("-Dartifact=org.wiperdog:wiperdog-assembly:"+objData.version+":jar:unix")
 						listCmd.add("-Ddest="+ fileSavedLoc)
 						listCmd.add("-Dmdep.useBaseVersion=true")
 
