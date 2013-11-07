@@ -11,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1380879466000</creationDate>
-<date>1382323673000</date>
-<contentUpdateDate>1382323672000</contentUpdateDate>
-<version>1.1</version>
+<date>1383796388000</date>
+<contentUpdateDate>1383796388000</contentUpdateDate>
+<version>10.1</version>
 <title></title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -585,6 +585,9 @@ jQuery.noConflict()
 <property>
 <levels>view,comment,edit,delete</levels>
 </property>
+<property>
+<users></users>
+</property>
 </object>
 <object>
 <class>
@@ -664,6 +667,9 @@ jQuery.noConflict()
 </property>
 <property>
 <levels>delete,edit</levels>
+</property>
+<property>
+<users></users>
 </property>
 </object>
 <object>
@@ -745,6 +751,9 @@ jQuery.noConflict()
 <property>
 <levels>comment,view</levels>
 </property>
+<property>
+<users></users>
+</property>
 </object>
 <object>
 <class>
@@ -818,6 +827,9 @@ jQuery.noConflict()
 <guid>47a50203-3e54-41e6-a2e9-78798121097e</guid>
 <property>
 <allow>1</allow>
+</property>
+<property>
+<groups></groups>
 </property>
 <property>
 <levels>view,comment</levels>
@@ -898,6 +910,9 @@ jQuery.noConflict()
 <guid>27c4b51d-bfc6-4d16-a391-ca0e47c4dac2</guid>
 <property>
 <allow>0</allow>
+</property>
+<property>
+<groups></groups>
 </property>
 <property>
 <levels>edit,delete</levels>
