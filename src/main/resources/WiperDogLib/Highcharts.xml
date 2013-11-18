@@ -11,14 +11,14 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1380879466000</creationDate>
-<date>1383796388000</date>
-<contentUpdateDate>1383796388000</contentUpdateDate>
-<version>10.1</version>
+<date>1383807458000</date>
+<contentUpdateDate>1383807457000</contentUpdateDate>
+<version>11.12</version>
 <title></title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
-<minorEdit>false</minorEdit>
+<comment>allow view right for XWiki.XWikiAllGroup</comment>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -508,6 +508,215 @@ jQuery.noConflict()
 </object>
 <object>
 <class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDogLib.Highcharts</name>
+<number>2</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>34fdc738-4a30-44d5-8226-b91f9b128939</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>require(['jquery'],function($){
+$(document).ready(function(){
+/**
+ * Create a global getSVG method that takes an array of charts as an argument
+ */
+Highcharts.getSVG = function(charts) {
+    var svgArr = [],
+        top = 0,
+        width = 0;
+
+    $.each(charts, function(i, chart) {
+        var svg = chart.getSVG();
+        svg = svg.replace('&lt;svg', '&lt;g transform="translate(0,' + top + ')" ');
+        svg = svg.replace('&lt;/svg&gt;', '&lt;/g&gt;');
+
+        top += chart.chartHeight;
+        width = Math.max(width, chart.chartWidth);
+
+        svgArr.push(svg);
+    });
+
+//    return '&lt;svg height="'+ top +'" width="' + width + '" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;' + svgArr.join('') + '&lt;/svg&gt;';
+    return '&lt;svg height="'+ top +'" width="' + 850 + '" version="1.1" xmlns="http://www.w3.org/2000/svg"&gt;' + svgArr.join('') + '&lt;/svg&gt;';
+};
+
+/**
+ * Create a global exportCharts method that takes an array of charts as an argument,
+ * and exporting options as the second argument
+ */
+Highcharts.exportCharts = function(charts, options) {
+    var form
+        svg = Highcharts.getSVG(charts);
+
+    // merge the options
+    options = Highcharts.merge(Highcharts.getOptions().exporting, options);
+
+    // create the form
+    form = Highcharts.createElement('form', {
+        method: 'post',
+        action: options.url
+    }, {
+        display: 'none'
+    }, document.body);
+
+    // add the values
+    Highcharts.each(['filename', 'type', 'width', 'svg'], function(name) {
+        Highcharts.createElement('input', {
+            type: 'hidden',
+            name: name,
+            value: {
+                filename: options.filename || 'chart',
+                type: options.type,
+                width: options.width,
+                svg: svg
+            }[name]
+        }, null, form);
+    });
+    //console.log(svg); return;
+    // submit
+    form.submit();
+
+    // clean up
+    form.parentNode.removeChild(form);
+};
+})
+jQuery.noConflict();
+});
+
+/**
+* Get image of chart's container
+* @param chartContainer Chart's container id
+* @return image of chart
+*/
+function getImgData(chartContainer) {
+	var canvas = getCanvas(chartContainer)
+	var imgData = canvas.toDataURL('image/png');
+	canvas.parentNode.removeChild(canvas);
+	return imgData;
+}
+
+/**
+* Turn chart into canvas for generating image
+* @param chartContainer Chart's container id
+* @return canvas of container
+*/
+function getCanvas(chartContainer){
+	var chartArea = chartContainer.getElementsByTagName('svg')[0].parentNode;
+	var svg = chartArea.innerHTML;
+	var doc = chartContainer.ownerDocument;
+	var canvas = doc.createElement('canvas');
+	canvas.setAttribute('width', chartArea.offsetWidth);
+	canvas.setAttribute('height', chartArea.offsetHeight);
+	canvas.setAttribute(
+	    'style',
+	    'position: absolute; ' +
+	    'top: ' + (-chartArea.offsetHeight * 2) + 'px;' +
+	    'left: ' + (-chartArea.offsetWidth * 2) + 'px;');
+	doc.body.appendChild(canvas);
+	canvg(canvas, svg);
+	return canvas;
+}
+
+/**
+* Generate chart to image
+* @param chartContainer Chart's container id
+* @param imgContainer Image's container id
+*/
+function toImg(chartContainer, imgContainer) { 
+	var doc = chartContainer.ownerDocument;
+	var img = doc.createElement('img');
+	img.src = getImgData(chartContainer);
+	
+	// Clear old image
+	/*while (imgContainer.firstChild) {
+	  imgContainer.removeChild(imgContainer.firstChild);
+	}*/
+	imgContainer.appendChild(img);
+}</code>
+</property>
+<property>
+<name>exportMultiChart</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
 <name>XWiki.XWikiRights</name>
 <customClass></customClass>
 <customMapping></customMapping>
@@ -580,10 +789,10 @@ jQuery.noConflict()
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAdminGroup</groups>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
-<levels>view,comment,edit,delete</levels>
+<levels>view,edit,delete,comment</levels>
 </property>
 <property>
 <users></users>
@@ -663,10 +872,10 @@ jQuery.noConflict()
 <allow>0</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>delete,edit</levels>
+<levels>edit,delete</levels>
 </property>
 <property>
 <users></users>
@@ -746,10 +955,10 @@ jQuery.noConflict()
 <allow>1</allow>
 </property>
 <property>
-<groups>XWiki.XWikiAllGroup</groups>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
 </property>
 <property>
-<levels>comment,view</levels>
+<levels>view,comment</levels>
 </property>
 <property>
 <users></users>
@@ -919,6 +1128,246 @@ jQuery.noConflict()
 </property>
 <property>
 <users>XWiki.XWikiGuest</users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDogLib.Highcharts</name>
+<number>6</number>
+<className>XWiki.XWikiRights</className>
+<guid>17ef2161-fcc5-4887-95b6-26a80de778cb</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>XWiki.XWikiAdminGroup</groups>
+</property>
+<property>
+<levels>view,comment,edit,delete</levels>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDogLib.Highcharts</name>
+<number>8</number>
+<className>XWiki.XWikiRights</className>
+<guid>c6efb8b8-636c-446f-af5b-1ff823cc8c98</guid>
+<property>
+<allow>0</allow>
+</property>
+<property>
+<groups>XWiki.XWikiAllGroup</groups>
+</property>
+<property>
+<levels>delete,edit</levels>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDogLib.Highcharts</name>
+<number>9</number>
+<className>XWiki.XWikiRights</className>
+<guid>79416c1c-c03d-44c1-ad5e-7ea8125556f4</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>XWiki.XWikiAllGroup</groups>
+</property>
+<property>
+<levels>comment,view</levels>
 </property>
 </object>
 <content></content></xwikidoc>

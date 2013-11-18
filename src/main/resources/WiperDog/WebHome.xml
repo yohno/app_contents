@@ -11,13 +11,13 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1382327524000</creationDate>
-<date>1383796389000</date>
-<contentUpdateDate>1383796389000</contentUpdateDate>
-<version>8.1</version>
+<date>1384748620000</date>
+<contentUpdateDate>1384748618000</contentUpdateDate>
+<version>9.1</version>
 <title>WiperDog Functions</title>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<comment>Imported from XAR</comment>
+<comment></comment>
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
@@ -1609,7 +1609,7 @@ sisAAAAAAGRXAAAAAADIrgAAAACAqvL/BwB+A7367exQBwAAAABJRU5ErkJggg==
 * [[**Information of log file in Wiperdog server**&gt;&gt;LogFileInfo]]
 
 === Wiperdog Control===
-* [[**Start, Stop... wiperdog server (the same machine)**&gt;&gt;ConsoleManagement]]
+* [[**Start, Stop... wiperdog server**&gt;&gt;ConsoleManagement]]
 
 === Process Policy ===
 * [[**Create, update policy for job and run test them**&gt;&gt;processPolicy]]
