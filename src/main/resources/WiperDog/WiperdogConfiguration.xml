@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1384745356000</date>
-  <contentUpdateDate>1384745355000</contentUpdateDate>
+  <date>1385440541000</date>
+  <contentUpdateDate>1385434410000</contentUpdateDate>
   <version>1.1</version>
   <title>WiperdogConfiguration</title>
   <defaultTemplate/>
@@ -302,7 +302,7 @@
       $("#userMongo").val(userMongo)
       $("#password").val(passMongo)
       $("#dbNameMongo").val(dbNameMongo)
-      $("#messageMongo").text('Update succefully!')
+      $("#messageMongo").text('Update successfully!')
       $("#hostMongo").prop('disabled',true)
       $("#portMongo").prop('disabled',true)
       $("#userMongo").prop('disabled',true)
@@ -1802,10 +1802,13 @@ label{
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -1882,10 +1885,13 @@ label{
       <allow>0</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>delete,edit</levels>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -1962,10 +1968,13 @@ label{
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>comment,view</levels>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <content>{{include document='WiperDog.GetConstantConfig'/}}
@@ -1976,7 +1985,6 @@ def shell = new GroovyShell()
 def servletData= request.getParameter('result')
 def dataMongo = request.getParameter('resultMongo')
 def defaultParams= GetConstantConfig.DEFAULT_CONFIG
-
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
 File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
@@ -1989,7 +1997,7 @@ def slurper = new JsonSlurper()
 def messServlet = null
 def messageMongo = null
 
-if(servletData!= null &amp;&amp; hostWiperdog == 'localhost'){
+if(servletData!= null ){
 	try{
 		servletDataObj = slurper.parseText(servletData)
 		def oldData = shell.evaluate(f)
@@ -2002,9 +2010,9 @@ if(servletData!= null &amp;&amp; hostWiperdog == 'localhost'){
 		oldData['servlet_config'] = servletDataObj
 		def oldDataBuilder = new JsonBuilder(oldData)
 		f.setText(oldDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
-		messServlet = "Create servlet infomartion succesfully !"
+		messServlet = "Create servlet information successfully !"
 	}catch(Exception ex){
-		messServlet = "{{error}}Failed to create servlet informartion!" + ex +"{{/error}}"
+		messServlet = "{{error}}Failed to create servlet information!" + ex +"{{/error}}"
 	}
 }
 
@@ -2022,9 +2030,9 @@ if(dataMongo != null){
                 oldData['mongoDB']['port'] = Long.valueOf(oldData['mongoDB']['port'])
 		def oldDataBuilder = new JsonBuilder(oldData)
 		f.setText(oldDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
-		messageMongo = "Create mongoDB infomartion succesfully!"
+		messageMongo = "Create mongoDB information successfully!"
 	}catch(Exception ex){
-		messageMongo = "{{error}}Failed to create mongoDB informartion!" + ex +"{{/error}}"
+		messageMongo = "{{error}}Failed to create mongoDB information!" + ex +"{{/error}}"
 	}
 }
 

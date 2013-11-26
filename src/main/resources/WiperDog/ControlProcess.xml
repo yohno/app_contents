@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1384160933000</creationDate>
-  <date>1384745414000</date>
-  <contentUpdateDate>1384745411000</contentUpdateDate>
+  <date>1385439295000</date>
+  <contentUpdateDate>1385439073000</contentUpdateDate>
   <version>1.1</version>
   <title>ControlProcess</title>
   <defaultTemplate/>
@@ -438,7 +438,7 @@ def wdHome = ''
 def errMess = ''
 def inMess = ''
 def resultSend = [:]
- 
+
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
 def shell = new GroovyShell()
@@ -553,6 +553,20 @@ if(datajson != null &amp;&amp; datajson != ""){
         println builder.toString()
         return
      }
+     if(System.getProperty('os.name').toLowerCase().contains('win') &amp;&amp; osWiperdog == 'linux'){
+        resultSend['message'] = "{{error}}Can not connect from Windows(Xwiki) to Linux(Wiperdog Server)!!!\n{{/error}}"
+        resultSend['status']= 1
+        def builder = new JsonBuilder(resultSend)
+        println builder.toString()
+        return
+     }
+     if(System.getProperty('os.name').toLowerCase().contains('linux') &amp;&amp; osWiperdog == 'win'){
+        resultSend['message'] = "{{error}}Can not connect from Linux(Xwiki) to Windows(Wiperdog Server)!!!\n{{/error}}"
+        resultSend['status']= 1
+        def builder = new JsonBuilder(resultSend)
+        println builder.toString()
+        return
+     }
      def hostAddr 
      if(hostWiperdog != 'localhost'){
         hostAddr = InetAddress.getByName(hostWiperdog);
@@ -563,8 +577,15 @@ if(datajson != null &amp;&amp; datajson != ""){
      } else {
         File workDir = new File(System.getProperty("user.dir"));
         def psExec = null
-	//Get PsExec location
+       	//Get PsExec location
 	if(hostWiperdog != 'localhost' &amp;&amp; osWiperdog == 'win'){
+                if(System.getenv('PSTOOLS') == null){
+                  resultSend['message'] = "{{error}}PSTOOL does not exist in systems!!!{{/error}}"
+                  resultSend['status']= 1
+                  def builder = new JsonBuilder(resultSend)
+                  println builder.toString()
+                  return
+                }
 		List&lt;String&gt; listCmdPSExec = new LinkedList&lt;String&gt;();
 		listCmdPSExec.add("cmd")
 		listCmdPSExec.add("/c")
@@ -591,7 +612,7 @@ if(datajson != null &amp;&amp; datajson != ""){
              }
              //check connect to host
              if(output.message.contains('refused')){
-               resultSend['message'] = "{{error}}Can not connect to hostWiperdog!!!\n{{/error}}"
+               resultSend['message'] = "{{error}}Can not connect to host $hostWiperdog!!!\n{{/error}}"
                resultSend['status']= 1
                def builder = new JsonBuilder(resultSend)
                println builder.toString()
@@ -610,9 +631,9 @@ if(datajson != null &amp;&amp; datajson != ""){
              listCmd.add("-p")
              listCmd.add('"'+ passRemote +'"')
              listCmd.add("cmd")
-             output = runProcClosure(listCmd, workDir,true)
+             output = runProcClosure(listCmd, workDir,true)      
              if(output.message.contains("Couldn't access") || output.message.contains('Logon failure')){
-               resultSend['message'] = "Can not connect to hostWiperdog!!!"
+               resultSend['message'] = "Can not connect to host $hostWiperdog!!!"
                resultSend['status']= 1
                def builder = new JsonBuilder(resultSend)
                println builder.toString()
