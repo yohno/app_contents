@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327523000</creationDate>
-  <date>1383796390000</date>
-  <contentUpdateDate>1383796390000</contentUpdateDate>
+  <date>1385722477000</date>
+  <contentUpdateDate>1385722477000</contentUpdateDate>
   <version>1.1</version>
   <title>LastAccumulation</title>
   <defaultTemplate/>
@@ -1228,8 +1228,8 @@ jQuery.noConflict()
 	xwiki.jsx.use("LastAccumulation")
 	xwiki.ssx.use("LastAccumulation")
 
-        MongoDBConnection.getConnection()
-	def db = MongoDBConnection.getMongoDB()
+        def mongoDBConn = new MongoDBConnection()
+	def db = mongoDBConn.getMongoDB()
 
 	def jobs = []
 	db.getCollectionNames().findAll({it != "system.indexes"}).each {
@@ -1258,7 +1258,7 @@ jQuery.noConflict()
 
 		def nowDate = System.currentTimeMillis()
 		col.find().sort(_id:-1).limit(1).each { document -&gt;
-			def unixTime = document['fetchedAt_bin'].toLong()*1000
+			def unixTime = (document['fetchedAt_bin'] != null)? document['fetchedAt_bin'].toLong()*1000 : 0
 			def diffTime = nowDate - unixTime
 			def unixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
 			if(diffTime &gt;= 28800000){
@@ -1285,6 +1285,6 @@ jQuery.noConflict()
 		}
 	}
 	println('{{/html}}')
-	MongoDBConnection.closeConnection()
+	mongoDBConn.closeConnection()
 {{/groovy}}</content>
 </xwikidoc>

@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879467000</creationDate>
-  <date>1383800427000</date>
-  <contentUpdateDate>1383800426000</contentUpdateDate>
+  <date>1385707959000</date>
+  <contentUpdateDate>1385707912000</contentUpdateDate>
   <version>1.1</version>
   <title>MenuGenerator</title>
   <defaultTemplate/>
@@ -1196,138 +1196,183 @@ import com.gmongo.GMongo
 import java.text.SimpleDateFormat
 import org.xwiki.context.*
 
+//The variable is used to save data for IstIid in  MonitoringData screen
 def ec = services.component.getInstance(Execution.class).getContext()
 
-println '{{html wiki = "true" clean="false"}}'
-//def  dbName = 'wiperdog'
-//def gmongo = new GMongo()
-//db = gmongo.getDB(dbName)
+//Declare menu tree map (not leaf)
+def treeMapRoot = ["MySQL":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "SQL_Server":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "Postgres":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "OS":[]]
+
 try {
-MongoDBConnection.getConnection()
-def root = [
-	"MySQL",
-	"SQL_Server",
-	"Postgres"
-	
-]
-def child = [
-	"Database_Area",
-	"Database_Statistic",
-	"Database_Structure",
-	"FaultManagement",
-	"Performance",
-	"Proactive_Check",
-	"Others"
-]
+   //From menu tree map, get list of group of Job
+   def listJobGroup= getListJobGroup(treeMapRoot)
 
-def check_coll = { coll-&gt;
-	if( coll!="system.indexes" &amp;&amp; (coll.startsWith("MySQL")|| coll.startsWith("SQL_Server")|| coll.startsWith("Postgres"))){
-		return true
-	} else {
-		return false
-	}
-}
+   //Get list collection from MongoDB, need listJobGroup for Others group
+   def listCollection = getCollections(listJobGroup)
 
-def tmp_c = [:]
-child.each{c-&gt;
-	tmp_c[c]=[]
-}
-def tmp_r=[:]
-root.each{r-&gt;
-	tmp_r[r]=[:]
-	child.each{c-&gt;
-		tmp_r[r][c] = []
-	}
-}
-
-
-
-def tmp = new ArrayList&lt;String&gt;();
-def list_coll = []
-def mapJobIstIid = [:]
-MongoDBConnection.db.getCollectionNames().each{
-	tmp = it.split("\\.")
-	if(tmp.size() == 4){
-		tmp += tmp[0] + "." + tmp[1] + "." + tmp[2]
-                if(mapJobIstIid[tmp[4]] == null){
-                   mapJobIstIid[tmp[4]] = [] 
-                }
-                mapJobIstIid[tmp[4]].add(tmp[3])
-		list_coll.add(tmp)
-	}
-	tmp = []
-}
-ec.setProperty("mapJobIstIid", mapJobIstIid)
-
-list_coll.each{
-	if(root.contains(it[0])){
-		if(child.contains(it[1])){
-                        if(!tmp_r[it[0]][it[1]].contains(it[4])){
-			   tmp_r[it[0]][it[1]].add(it[4])
-                        }
-		} else {
-                    if(!tmp_r[it[0]]["Others"].contains(it[4])){
-		        tmp_r[it[0]]["Others"].add(it[4])		
-                    }
-		}
-	} 
-
-}
-def ul_open_r = false
-def ul_open_c = false
-def ul_open_j = false
-println "&lt;div id='nav'&gt;"
-println "&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt; "
-
-
-
- tmp_r.each { r-&gt;	
-	 if(!ul_open_r){
-		 println "&lt;ul id='treemenu2' class='treeview'&gt;"
-		 ul_open_r = true
-	 }
-	 print"&lt;li&gt;"+r.key
-	 
-	 r.value.each{ c-&gt;
-		 if(!ul_open_c){
-			 println "&lt;ul&gt;"
-			 ul_open_c = true
-		 }
-		 println "&lt;li&gt;" + c.key
-		 c.value.each{ j-&gt;
-			 if(!ul_open_j){
-				 println "&lt;ul&gt;"
-				 ul_open_j = true
-			 }
-			 println "&lt;li&gt;&lt;a&gt;" + j +"&lt;/a&gt;&lt;/li&gt;"
-		 }
-		 if(ul_open_j){
-			 println "&lt;/ul&gt;"
-			 println"&lt;/li&gt;"	
-			 ul_open_j = false
-		 }else{
-		 	 println"&lt;/li&gt;"
-		 }		 
-	 }
-	 if(ul_open_c){
-		 println "&lt;/ul&gt;"
-		 println"&lt;/li&gt;"						 
-		 ul_open_c = false
-	 } else {
-	 print "&lt;/li&gt;"
-	 }
- }
- if(ul_open_r){
-	 println "&lt;/ul&gt;"
-	 ul_open_r = false
- } 
-println "&lt;/div&gt;"
-println "{{/html}}"
+   //Get HTML menu string and println
+   println getMenuGenStr(treeMapRoot, listCollection)
 } catch(com.mongodb.MongoException ex) {
   println "{{error}} Can not get data from MongoDB{{/error}}"
 } catch(Exception ex) {
     println "{{error}}"+ ex +"{{/error}}"
 }
 
+/**
+ * Main function, used for create menu 
+ * Input treeMap: Menu tree map (not leaf)
+ *       mapCollection: Map of collections, Item of map has key is a job group and value is list job which is applied for that group
+ * Output: Source menu in HTML mode
+ **/
+def getMenuGenStr(treeMap, mapCollection) {
+    def result = '{{html wiki = "true" clean="false"}}'
+    result += "&lt;div id='nav'&gt;"
+    result += "&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt; "
+
+    result += getMenuItemsStr(treeMap, mapCollection)
+
+    result += "&lt;/div&gt;"
+    result += "{{/html}}"
+    return result
+}
+
+/**
+ * Recursively function, used for gen tree menu data 
+ * Input treeItem: root tree map of menu (not leaf)
+ *       mapCollection: Map of collections, Item of map has key is a job group and value is list job which is applied for that group
+ *       parentList: used for recursively to canculate key if data if leaf
+ * Output: If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
+ *         If data isn't leaf, create node and call recursively function with sub data
+ **/
+def getMenuItemsStr(treeItem, mapCollection, parentList = []) {     
+     def ul_open = false
+     def result = ""
+     def parentStr = ""
+     def parentLstforChild = []
+
+     //If data isn't leaf, create node and call recursively function with sub data
+     if (treeItem instanceof Map) {
+         result += "&lt;ul id='treemenu2' class='treeview'&gt;"
+         treeItem.each{itemKey, itemVal -&gt; 
+             parentList.each{parentListItem-&gt;
+                 parentLstforChild.add(parentListItem)
+             }
+             parentLstforChild.add(itemKey)
+	     result += "&lt;li&gt;"+ itemKey
+             result += getMenuItemsStr(itemVal, mapCollection, parentLstforChild)
+             result +="&lt;/li&gt;"
+             parentLstforChild = []
+         } 
+         result += "&lt;/ul&gt;"
+     }
+     
+     //If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
+     if (treeItem instanceof List) {
+         result += "&lt;ul&gt;"
+         parentList.each{parentItem -&gt; 
+              if (parentStr != ""){
+                  parentStr += "."
+              }
+              parentStr += parentItem
+         }
+         if (mapCollection[parentStr] != null) {
+             mapCollection[parentStr].each {item-&gt;
+                 result += "&lt;li&gt;&lt;a&gt;" + item +"&lt;/a&gt;&lt;/li&gt;"
+             }
+         }
+         result += "&lt;/ul&gt;"
+     }
+     return result
+}
+
+/**
+ * Get data from mongoDB and create map. Item of map has key is job group and value is list job which is applied for that group
+ * Input listJobGroup: used for check Others group
+ **/
+def getCollections(listJobGroup) {
+    def tmp = new ArrayList&lt;String&gt;();
+    def tmpSize
+    def mapJobIstIid = [:]
+    def mapGroupJob = [:]
+    def ec = services.component.getInstance(Execution.class).getContext()
+
+    def mongoDBConn = new MongoDBConnection()
+    def conllections = mongoDBConn.db.getCollectionNames()
+    mongoDBConn.closeConnection()
+    
+    def itemGroup
+    def itemJob
+    def itemIst
+    conllections.each{
+	tmp = it.split("\\.")
+        tmpSize = tmp.size()
+        
+        if (tmpSize &gt;= 2) {
+            itemIst = tmp[tmpSize - 1]
+            itemJob = it - ("." + itemIst)
+            itemGroup = it - ("." + tmp[tmpSize - 2] + "." + tmp[tmpSize - 1])
+ 
+            //If this group is not contains in listJobGroup, put in Others group
+            if (tmpSize &gt;= 3 &amp;&amp; !listJobGroup.contains(itemGroup)) {
+                 itemGroup = itemGroup - tmp[tmpSize - 3] + "Others"
+            }
+
+            //Init
+            if(mapGroupJob[itemGroup] == null) {
+                mapGroupJob[itemGroup] = []
+            }
+            //Add to list if not contains
+            if (!mapGroupJob[itemGroup].contains(itemJob)) {
+                mapGroupJob[itemGroup].add(itemJob)
+            }
+            
+            //Init
+            if(mapJobIstIid[itemJob] == null) {
+                mapJobIstIid[itemJob] = [] 
+            }
+            //Add to list
+            mapJobIstIid[itemJob].add(itemIst)
+        }
+    }
+    ec.setProperty("mapJobIstIid", mapJobIstIid)
+    return mapGroupJob
+}
+
+/**
+ * Create list job group from declared treeMap
+ * Input treeItem: root tree map of menu (not leaf)
+ *       parentList: used for recursively to canculate parent key if data is the last node before leaf
+ * Output: if data is the last node before leaf, add as item of final list
+ **/
+def getListJobGroup(groupItems, parentList = []) {
+    def returnList = []
+    def parentLstforChild = []
+    def parentStr = ""
+    def chilData
+
+    if (groupItems instanceof Map) {
+        groupItems.each{itemKey, itemVal -&gt; 
+             parentList.each{parentListItem-&gt;
+                 parentLstforChild.add(parentListItem)
+             }
+             parentLstforChild.add(itemKey)
+             chilData = getListJobGroup(itemVal, parentLstforChild)
+             chilData.each{
+                  returnList.add(it)
+             }
+             parentLstforChild = []
+        }
+    }
+
+    if (groupItems instanceof List) {
+        parentList.each{parentItem -&gt; 
+            if (parentStr != ""){
+                parentStr += "."
+            }
+            parentStr += parentItem
+        }
+        returnList.add(parentStr)
+    }
+    return returnList
+}
 {{/groovy}}</content>
 </xwikidoc>

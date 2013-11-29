@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879467000</creationDate>
-  <date>1383796387000</date>
-  <contentUpdateDate>1383796387000</contentUpdateDate>
+  <date>1385708055000</date>
+  <contentUpdateDate>1385707948000</contentUpdateDate>
   <version>1.1</version>
   <title>MsgPolicyFromMongo</title>
   <defaultTemplate/>
@@ -437,8 +437,8 @@ import groovy.lang.GroovyShell
 import java.util.*;
 import java.text.*;
 
-def gmongoObject = MongoDBConnection.getConnection() 
-def dbConn = MongoDBConnection.getMongoDB()
+def gmongoObject = new MongoDBConnection() 
+def dbConn = gmongoObject.getMongoDB()
 
 def slurper = new JsonSlurper()
 def builder
@@ -505,7 +505,7 @@ try {
         mapFinal = null
         dataMongo = null
     }
-    MongoDBConnection.closeConnection()
+    gmongoObject.closeConnection()
 } catch(Exception ex) {
     def mapErrorMsg = ['status': 'fail', 'message': ex.message]
     builder = new JsonBuilder(mapErrorMsg)

@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879467000</creationDate>
-  <date>1383796387000</date>
-  <contentUpdateDate>1383796387000</contentUpdateDate>
+  <date>1385708004000</date>
+  <contentUpdateDate>1385707643000</contentUpdateDate>
   <version>1.1</version>
   <title>MongoDBConnection</title>
   <defaultTemplate/>
@@ -433,12 +433,15 @@ class MongoDBConnection{
  def static final port = 27017
  def static final user = ''
  def static final pass = ''
- def static db
- def static gmongo
+ def db
+ def gmongo
+
+ def MongoDBConnection(){
+    this.getConnection()
+ }
 
  //Get new connection
- def static getConnection(){
-  if( gmongo == null &amp;&amp; db == null){
+ def getConnection(){
    Properties props = System.getProperties();
    def xwiki_dir = props.getProperty('user.dir');
    def params
@@ -480,22 +483,21 @@ class MongoDBConnection{
      // Authenticate user and password connect to database
      db.authenticate(decidedUser, decidedPass.toCharArray())
    }
-  }
   return gmongo
  }
 
  //Close connection
- def static closeConnection(){
+ def closeConnection(){
     gmongo.close()
  }
 
  //Get mongoDB Object
- def static getMongoDB(){
+ def getMongoDB(){
     return db
  }
 
  //Get all records
- def static getDataAllFields(collection){
+ def getDataAllFields(collection){
   def list_data = []
   assert collection != null &amp;&amp; collection != "" : "Can not get data ! Collection is null or empty string"
   def result = db[collection].find();
@@ -507,7 +509,7 @@ class MongoDBConnection{
  }
 
  //Get limit N lastest records
- def static getDataAllFields(collection,limit,istIid){
+ def getDataAllFields(collection,limit,istIid){
   def list_data = []
   assert collection != null &amp;&amp; collection != "" : "Can not get data ! Collection is null or empty string"
   assert limit != null : "Can not get data ! Limit is null"
@@ -520,7 +522,7 @@ class MongoDBConnection{
  }
 
  //Get  all records with specific fields
- def static getDataLimitFields(collection,fields){
+ def getDataLimitFields(collection,fields){
   def list_data = []
   assert collection != null &amp;&amp; collection != "" : "Can not get data ! Collection is null or empty string"
   assert (fields !=null &amp;&amp; fields !=[]) : "Can not get data ! List fields is null or empty"
@@ -543,7 +545,7 @@ class MongoDBConnection{
  }
 
  //Get  N lastest record with specific fields
- def static getDataLimitFields(collection,fields,limit){
+ def getDataLimitFields(collection,fields,limit){
   def list_data = []
   assert collection != null &amp;&amp; collection != "" : "Can not get data ! Collection is null or empty string"
   assert limit != null : "Can not get data ! Limit is null"
@@ -567,7 +569,7 @@ class MongoDBConnection{
  }
 
  //Get  type of data (Store/Subtype)
- def static getDataType(collection){
+ def getDataType(collection){
   assert collection != null &amp;&amp; collection != "" : "Can not get data ! Collection is null or empty string"
   def result = db[collection].find().sort(fetchAt: -1).limit(1)
   def doc
@@ -582,7 +584,7 @@ class MongoDBConnection{
  }
 
  //Get monitor data with conditions
- def static getDataInPeriod(collection,fromDate,toDate,limit,istIid){
+ def getDataInPeriod(collection,fromDate,toDate,limit,istIid){
   def realCollectionName = collection + "." + istIid
   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
   def list_data = []

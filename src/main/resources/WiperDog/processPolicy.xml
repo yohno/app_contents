@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1383800313000</date>
-  <contentUpdateDate>1383800310000</contentUpdateDate>
+  <date>1385715195000</date>
+  <contentUpdateDate>1385715195000</contentUpdateDate>
   <version>1.1</version>
   <title>Create policy for Job or Instance </title>
   <defaultTemplate/>
@@ -26,8 +26,8 @@
     <filename>ajax-loader.gif</filename>
     <filesize>2608</filesize>
     <author>XWiki.leminhquan</author>
-    <date>1382347820000</date>
-    <version>1.1</version>
+    <date>1385715195000</date>
+    <version>1.7</version>
     <comment/>
     <content>R0lGODlhHwAfAPUAAP///wAAAOjo6NLS0ry8vK6urqKiotzc3Li4uJqamuTk5NjY2KqqqqCgoLCw
 sMzMzPb29qioqNTU1Obm5jY2NiYmJlBQUMTExHBwcJKSklZWVvr6+mhoaEZGRsbGxvj4+EhISDIy
@@ -3077,10 +3077,13 @@ overflow:scroll;
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -3157,10 +3160,13 @@ overflow:scroll;
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
       <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -3237,10 +3243,13 @@ overflow:scroll;
       <allow>0</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>delete,edit</levels>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <content>{{html wiki="true" clean="false"}}

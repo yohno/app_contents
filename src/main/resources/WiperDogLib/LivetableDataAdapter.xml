@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879467000</creationDate>
-  <date>1383796499000</date>
-  <contentUpdateDate>1383796499000</contentUpdateDate>
+  <date>1385707969000</date>
+  <contentUpdateDate>1385707864000</contentUpdateDate>
   <version>1.1</version>
   <title>LivetableDataAdapter</title>
   <defaultTemplate/>
@@ -454,13 +454,13 @@
     def str= "No data were retrieved!"
     def result = null
     if(job!="" &amp;&amp; job!=null &amp;&amp; istIid != null &amp;&amp; !istIid.equals("")){
-        MongoDBConnection.getConnection()
+        def mongoDBConn = new MongoDBConnection()
         if(fromDate != "" || toDate != ""){
-            result = MongoDBConnection.getDataInPeriod(job,fromDate,toDate,limit,istIid)
+            result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
         } else {
-            result = MongoDBConnection.getDataAllFields(job,limit,istIid)
+            result = mongoDBConn.getDataAllFields(job,limit,istIid)
         }
-        MongoDBConnection.closeConnection()       
+        mongoDBConn.closeConnection()       
         
 		def idx =0               
 		result.each{rec-&gt;		

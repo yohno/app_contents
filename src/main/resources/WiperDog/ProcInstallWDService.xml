@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382432327000</creationDate>
-  <date>1384314269000</date>
-  <contentUpdateDate>1384314260000</contentUpdateDate>
+  <date>1385707789000</date>
+  <contentUpdateDate>1385707789000</contentUpdateDate>
   <version>1.1</version>
   <title>ProcInstallWDService</title>
   <defaultTemplate/>
@@ -453,6 +453,8 @@ def whichProgram(program,remoteHost){
        if(remoteHost != "local") {
 	lstCmdWhich.add("ssh")
 	lstCmdWhich.add(remoteHost)
+	lstCmdWhich.add("-o");
+	lstCmdWhich.add("PasswordAuthentication=no");
 	lstCmdWhich.add("source")
 	lstCmdWhich.add("~/.bash_profile")
 	lstCmdWhich.add(";")
@@ -465,6 +467,7 @@ if(data != null &amp;&amp; data != ""){
 def objData = (new JsonSlurper()).parseText(data);
 
 def respMess = [:];
+def remoteHost = ""
 //Location of PsExec.exe
 InetAddress hostAddr = null
 if(objData.host != 'local'){
@@ -498,9 +501,14 @@ try {
 			def checkProg = true
 			//Check java and maven on remote host
 			if(objData.os == 'linux'){
-				javaPath = whichProgram("java",objData.host).message.trim()
-				mavenPath = whichProgram("mvn",objData.host).message.trim()
-				servicePath = whichProgram("service",objData.host).message.trim()
+                                if(objData.userName != null &amp;&amp; objData.userName != ""){
+                                    remoteHost = objData.userName + "@" + objData.host
+                                } else {
+                                    remoteHost = objData.host
+                                }
+				javaPath = whichProgram("java",remoteHost).message.trim()
+				mavenPath = whichProgram("mvn",remoteHost).message.trim()
+				servicePath = whichProgram("service",remoteHost).message.trim()
 				if(javaPath.contains("no java in")){
 					respMess['status'] = 'false'
 					respMess['message'] = 'Java not found on: ' + objData.host
@@ -521,7 +529,9 @@ try {
 						List&lt;String&gt; listCmd= new LinkedList&lt;String&gt;();
 						if(objData.host != "local"){
 							listCmd.add("ssh");
-							listCmd.add(objData.host);
+							listCmd.add(remoteHost);
+							listCmd.add("-o");
+							listCmd.add("PasswordAuthentication=no");
 							listCmd.add(mavenPath)
 						} else {
 							listCmd.add("mvn")
@@ -588,7 +598,9 @@ try {
 						List&lt;String&gt; listCmd = new LinkedList&lt;String&gt;();
 						if(objData.host != "local"){
 							listCmd.add("ssh");
-							listCmd.add(objData.host);
+							listCmd.add(remoteHost);
+							listCmd.add("-o");
+							listCmd.add("PasswordAuthentication=no");
 							listCmd.add(javaPath)
 						} else {
 							listCmd.add("java")
@@ -631,7 +643,9 @@ try {
 						  listCmd = new LinkedList&lt;String&gt;();
 						  if(objData.host != 'local'){
 							listCmd.add("ssh");
-							listCmd.add(objData.host);
+							listCmd.add(remoteHost);
+							listCmd.add("-o");
+							listCmd.add("PasswordAuthentication=no");
 							listCmd.add(servicePath)
 						  } else {
 							listCmd.add("service")

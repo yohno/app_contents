@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1384745594000</date>
-  <contentUpdateDate>1384745592000</contentUpdateDate>
+  <date>1385721204000</date>
+  <contentUpdateDate>1385721204000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
   <defaultTemplate/>
@@ -5318,15 +5318,15 @@ def str= "No data to retrieved !"
 def result = null
 if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid != ""){
   //open connection to mongoDB
-  MongoDBConnection.getConnection()
+  def mongoDBConn = new MongoDBConnection()
   //get data from mongoDB
   if(fromDate != "" || toDate != ""){
-    result = MongoDBConnection.getDataInPeriod(job,fromDate,toDate,limit,istIid)
+    result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
   } else {
-    result = MongoDBConnection.getDataAllFields(job,limit,istIid)
+    result = mongoDBConn.getDataAllFields(job,limit,istIid)
   }
   //close connection to mongoDB
-  MongoDBConnection.closeConnection()
+  mongoDBConn.closeConnection()
 } else {
   println "{{warning}}There are no selected job or IstIid{{/warning}}"
 }
@@ -5519,6 +5519,7 @@ def parseJson(data) {
 	if(data != []) {
 		//convert data to json
 		json = com.mongodb.util.JSON.serialize(data)
+                json = json.replace('\\', "_")
 	}
 	return json
 }
