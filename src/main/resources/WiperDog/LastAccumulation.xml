@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327523000</creationDate>
-  <date>1385722477000</date>
-  <contentUpdateDate>1385722477000</contentUpdateDate>
+  <date>1385973719000</date>
+  <contentUpdateDate>1385973719000</contentUpdateDate>
   <version>1.1</version>
   <title>LastAccumulation</title>
   <defaultTemplate/>
@@ -1227,64 +1227,72 @@ jQuery.noConflict()
 	xwiki.jsx.use('WiperDogLib.Highcharts')
 	xwiki.jsx.use("LastAccumulation")
 	xwiki.ssx.use("LastAccumulation")
-
-        def mongoDBConn = new MongoDBConnection()
-	def db = mongoDBConn.getMongoDB()
-
-	def jobs = []
-	db.getCollectionNames().findAll({it != "system.indexes"}).each {
-		jobs.add(it)
-	}
-
-	println('{{html  clean="false" wiki="false"}}')
-	def dataSet = [:]
-
-	println '&lt;div id="container"&gt;'
-	println '&lt;label for="chartType"&gt;Chart Type: &lt;/label&gt;'
-	println '&lt;select id="chartType"&gt;&lt;option&gt;bar&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;'
-	println '&lt;label for="viewLimit"&gt;View Limit: &lt;/label&gt;'
-	println '&lt;select id="viewLimit"&gt;&lt;option&gt;5&lt;/option&gt;&lt;option&gt;10&lt;/option&gt;&lt;option&gt;20&lt;/option&gt;&lt;/select&gt;'
-	println '&lt;input type="button" id="createChart" value="view" /&gt;'
-	println '&lt;input type="button" id="deleteChart" value="hide" /&gt;'
-	println '&lt;div id="chartArea"&gt;&lt;/div&gt;'
-	println '&lt;/div&gt;'
-	println '&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;'
-	jobs.each { jobName -&gt;
-		def col = db[jobName]
-		def getStorageSize = col.getStats().size
-		def getCumCount = col.getStats().count
-		def cumStatus = 'antena3'
 		
+	def mongoDBConn
+	try{
+		mongoDBConn = new MongoDBConnection()
+		def db = mongoDBConn.getMongoDB()
 
-		def nowDate = System.currentTimeMillis()
-		col.find().sort(_id:-1).limit(1).each { document -&gt;
-			def unixTime = (document['fetchedAt_bin'] != null)? document['fetchedAt_bin'].toLong()*1000 : 0
-			def diffTime = nowDate - unixTime
-			def unixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
-			if(diffTime &gt;= 28800000){
-				cumStatus = 'antena2'
-			}
-			if(diffTime &gt;= 57600000){
-				cumStatus = 'antena1'
-			}
-			if(diffTime &gt;= 86400000){
-				cumStatus = 'antena0'
-			}
+		def jobs = []
+		db.getCollectionNames().findAll({it != "system.indexes"}).each {
+			jobs.add(it)
+		}
 
-			def gridData = [:]
+		println('{{html  clean="false" wiki="false"}}')
+		def dataSet = [:]
 
-			gridData['cumStatus'] = cumStatus
-			gridData['jobName'] = jobName
-			gridData['unixToDate'] = unixToDate
-			gridData['getStorageSize'] = getStorageSize
-			gridData['getCumCount'] = getCumCount
+		println '&lt;div id="container"&gt;'
+		println '&lt;label for="chartType"&gt;Chart Type: &lt;/label&gt;'
+		println '&lt;select id="chartType"&gt;&lt;option&gt;bar&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;'
+		println '&lt;label for="viewLimit"&gt;View Limit: &lt;/label&gt;'
+		println '&lt;select id="viewLimit"&gt;&lt;option&gt;5&lt;/option&gt;&lt;option&gt;10&lt;/option&gt;&lt;option&gt;20&lt;/option&gt;&lt;/select&gt;'
+		println '&lt;input type="button" id="createChart" value="view" /&gt;'
+		println '&lt;input type="button" id="deleteChart" value="hide" /&gt;'
+		println '&lt;div id="chartArea"&gt;&lt;/div&gt;'
+		println '&lt;/div&gt;'
+		println '&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;'
+		jobs.each { jobName -&gt;
+			def col = db[jobName]
+			def getStorageSize = col.getStats().size
+			def getCumCount = col.getStats().count
+			def cumStatus = 'antena3'
 			
-			gridData =  com.mongodb.util.JSON.serialize(gridData)
-			println('&lt;div style="display:none"&gt;&lt;textarea class="jsonData"&gt;' + gridData + '&lt;/textarea&gt;&lt;/div&gt;')
 
+			def nowDate = System.currentTimeMillis()
+			col.find().sort(_id:-1).limit(1).each { document -&gt;
+				def unixTime = (document['fetchedAt_bin'] != null)? document['fetchedAt_bin'].toLong()*1000 : 0
+				def diffTime = nowDate - unixTime
+				def unixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
+				if(diffTime &gt;= 28800000){
+					cumStatus = 'antena2'
+				}
+				if(diffTime &gt;= 57600000){
+					cumStatus = 'antena1'
+				}
+				if(diffTime &gt;= 86400000){
+					cumStatus = 'antena0'
+				}
+
+				def gridData = [:]
+
+				gridData['cumStatus'] = cumStatus
+				gridData['jobName'] = jobName
+				gridData['unixToDate'] = unixToDate
+				gridData['getStorageSize'] = getStorageSize
+				gridData['getCumCount'] = getCumCount
+				
+				gridData =  com.mongodb.util.JSON.serialize(gridData)
+				println('&lt;div style="display:none"&gt;&lt;textarea class="jsonData"&gt;' + gridData + '&lt;/textarea&gt;&lt;/div&gt;')
+
+			}
+		}
+		println('{{/html}}')
+	} catch (Exception ex){
+		println '{{error}}' + ex + '{{/error}}'
+	} finally {
+		if(mongoDBConn != null){
+			mongoDBConn.closeConnection()
 		}
 	}
-	println('{{/html}}')
-	mongoDBConn.closeConnection()
 {{/groovy}}</content>
 </xwikidoc>

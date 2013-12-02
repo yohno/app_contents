@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1385440541000</date>
-  <contentUpdateDate>1385434410000</contentUpdateDate>
+  <date>1385966838000</date>
+  <contentUpdateDate>1385966838000</contentUpdateDate>
   <version>1.1</version>
   <title>WiperdogConfiguration</title>
   <defaultTemplate/>
@@ -319,7 +319,8 @@
     resultMongo['dbName'] = dbNameMongo
     sendDataMongo(resultMongo)
   })
-
+        var beforeOS = null
+        var beforeHost = null
   $(document).ready(function() {
 	$('#password').showPassword();
         $.ajax({
@@ -329,9 +330,23 @@
 	   crossDomain: true,
 	   success: function(result){
               if(result.data != null &amp;&amp; result.data != ''){
+                beforeOS = result.data.os
+                beforeHost = result.data.host
                 $('#remoteHost').val(result.data.host)
                 if(result.data.os == 'win' &amp;&amp; result.data.host != 'localhost'){
-                  $('#winProc').show()
+                  //$('#winProc').show()
+                  $('.u').show(400)
+                  $('.p').show(400)
+                } else {
+                 if(result.data.os == 'linux' &amp;&amp; result.data.host != 'localhost'){
+                     $('.u').show(400)
+                     $('.p').hide(400)
+                 } else {
+                      if(result.data.host == "localhost"){
+                           $('.u').hide(400)
+                           $('.p').hide(400)
+                      }
+                 }
                 }
                 $('#uName').val((result.data.user).replace('/','\\'))
                 $('#passwd').val(result.data.pass)
@@ -529,42 +544,59 @@
   var host = ''
 
   // Host select
+  //var beforeHost= $("input:radio[name=hostSelect]:checked").val()
   $("input:radio[name=hostSelect]").click(function() { 
          var value = $(this).val()
-         if (value == 'other') {
+         var os = $("input:radio[name=os]:checked").val()
+         if (beforeHost != value &amp;&amp; value == 'other') {
 		$("#remoteHost").show(400);
-                if($("input:radio:checked[name=os]").val() == 'win'){
-			$("#winProc").show(400)
+                if(os == 'win'){
+			$(".p").show(400)
                 } else {
-			$("#winProc").hide(400)
+                        $(".p").hide(400)
                 }
+			$(".u").show(400)
 	 } else {
+             if(beforeHost != value ){
 		$("#remoteHost").hide(400)
-		$("#winProc").hide(400)
+			$(".u").hide(400)
+			$(".p").hide(400)		
+             }
 	 }
+     beforeHost= value
   });
   // Select Operating System
+  //var beforeOS = $("input:radio[name=os]:checked").val()
   $("input:radio[name=os]").click(function() {
 	var value = $(this).val()
         host = $("input[name=hostSelect]:checked").val()
-	if (checkDirtyAll()) {
+	if (beforeOS != value &amp;&amp; checkDirtyAll()) {
 		var conf = confirm("Your data input will be reset ! Continue ?")
 		if (conf) {
 			resetAll()
 		} else {
                        	if (value == 'win' &amp;&amp; host != 'local') {
-		           $("#winProc").show(400)
+		           $('.u').show(400)
+		           $('.p').show(400)
                         } else {
-	                   $("#winProc").hide(400)
+	                   $('.u').show(400)
+	                   $('.p').hide(400)
 		        }        
 			return
 		}
 	}
 	if (value == 'win' &amp;&amp; host == 'other') {
-		$("#winProc").show(400)
+		$('.u').show(400)
+		$('.p').show(400)
 	} else {
-		$("#winProc").hide(400)
+            if( value == 'linux' &amp;&amp; host == 'other'){
+	        $('.u').show(400)
+              } else {
+                $('.u').hide(400) 
+              }
+	        $('.p').hide(400)
 	}
+    beforeOS = value
   });
   //reset data inputtext
   function resetAll() {
@@ -598,9 +630,9 @@
     if(host == 'other'){
       remoteHost = $.trim($("#remoteHost").val())
       if(os == 'win'){
-        userName = $.trim($("#uName").val())
         password = $.trim($("#passwd").val())
       }
+        userName = $.trim($("#uName").val())
     }
     if(host == 'local'){
       remoteHost = 'localhost'
@@ -655,6 +687,7 @@
     data2send["data"] = JSON.stringify(dataResult)
     $("#messageWiperdog").show()
     $("#messageWiperdog").text('Processing...')
+    console.log(JSON.stringify(data2send))
     $.ajax({
 	type:"POST",
 	url: "/xwiki/bin/get/WiperDog/ControlProcess?outputSyntax=plain&amp;action=write&amp;cont=",
@@ -686,6 +719,7 @@
 		console.log(xhr)
 		console.log(status)
 		console.log(error)
+                $("#messageWiperdog").text('Failed to update wiperdog config!!!')
 	}
     });
   })
@@ -807,6 +841,98 @@ label{
     </property>
     <property>
       <name>css</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.WiperdogConfiguration</name>
+    <number>1</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>0d00aa49-12f5-4a7a-a732-9f1ceae880f0</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code/>
+    </property>
+    <property>
+      <name/>
     </property>
     <property>
       <parse/>
@@ -2182,22 +2308,21 @@ println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
 	&lt;br/&gt;
 	&lt;label &gt;Operating System&lt;/label&gt;
 	&lt;br/&gt;
-	&lt;input type='radio' name='os' value='linux' checked = 'true'/&gt;Linux
+	&lt;input type='radio' name='os' value='linux'/&gt;Linux
 	&lt;input type='radio' name='os' value='win'/&gt;Windows
 	&lt;br/&gt;
 	&lt;label for='host'&gt;Host&lt;/label&gt;
 	&lt;br/&gt;
-	&lt;input type='radio' name='hostSelect' value='local' checked = 'true'/&gt;Local host
+	&lt;input type='radio' name='hostSelect' value='local' /&gt;Local host
 	&lt;input type='radio' name='hostSelect' value='other' /&gt;Other host
 	&lt;br/&gt;
 	&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;input type='text' value='' id='remoteHost' name='remoteHost'/&gt;
-	&lt;div id = 'winProc' style='display:none'&gt;
-		&lt;label for='usName'&gt;Username&lt;/label&gt;
-		&lt;input type='text' value='' id='uName' name='usName' autocomplete = 'false'/&gt;
-		&lt;br/&gt;
-		&lt;label for='pswd'&gt;Password&lt;/label&gt;
-		&lt;input type='password' value='' id='passwd' name='pswd' autocomplete = 'false' /&gt;
-	&lt;/div&gt;
+        &lt;br/&gt;
+	&lt;label for='uName' class='u'&gt;Username&lt;/label&gt;
+	&lt;input type='text' value='' id='uName' class='u' name='usName' autocomplete = 'false'/&gt;
+	&lt;br/&gt;
+	&lt;label for='passwd' class='p'&gt;Password&lt;/label&gt;
+	&lt;input type='password' value='' id='passwd' class='p' name='pswd' autocomplete = 'false' /&gt;
 
 	&lt;div&gt;&amp;nbsp;&lt;/div&gt;
 	&lt;label for = 'dir'&gt;Current Wiperdog path :&lt;/label&gt;

@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879465000</creationDate>
-  <date>1385707975000</date>
-  <contentUpdateDate>1385707814000</contentUpdateDate>
+  <date>1385973544000</date>
+  <contentUpdateDate>1385973544000</contentUpdateDate>
   <version>1.1</version>
   <title>chooseJobProcess</title>
   <defaultTemplate/>
@@ -434,96 +434,96 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.lang.GroovyShell
+def gmongoObject
 try {
-def gmongoObject = new MongoDBConnection()
-def dbConn = gmongoObject.getMongoDB()
-def lstJobMongo = dbConn.getCollectionNames()
-def slurper = new JsonSlurper()
-def builder
-def response = [:] 
-//response.setContentType('text')
+     gmongoObject = new MongoDBConnection()
+     def dbConn = gmongoObject.getMongoDB()
+     def lstJobMongo = dbConn.getCollectionNames()
+     def slurper = new JsonSlurper()
+     def builder
+     def response = [:] 
+     //response.setContentType('text')
 
-def jobName = request.getParameter("jobName")
-if(jobName == null || jobName == "") {
-    def mapNameAndType = [:]
-    def type
-    lstJobMongo.each {eCollec -&gt;
-        type = gmongoObject.getDataType(eCollec)
-        mapNameAndType[eCollec] = type
-    }
-     response["status"] = "success"
-     response["data"] = mapNameAndType
-     response["message"] = ""
+     def jobName = request.getParameter("jobName")
+     if(jobName == null || jobName == "") {
+         def mapNameAndType = [:]
+         def type
+         lstJobMongo.each {eCollec -&gt;
+             type = gmongoObject.getDataType(eCollec)
+             mapNameAndType[eCollec] = type
+         }
+          response["status"] = "success"
+          response["data"] = mapNameAndType
+          response["message"] = ""
 
-    builder = new JsonBuilder(response)
-    println builder.toString()
-} else {
-    def mapFinalPolicy = [:]
-    lstJobMongo.find {eCollection -&gt;
-        if(eCollection == jobName || eCollection.contains(jobName)) {
-            // Sample Data
-            def mapSampleData = [:]
-            def mapSampleUnit = [:]
-            def resultJob = gmongoObject.getDataAllFields(eCollection)[0]
-            def mapUnit = resultJob.KEYEXPR._unit
-            if(resultJob.type == "Store") {
-                def cloneSampleData = [:]
-                mapSampleData = resultJob.data[0]
-                mapSampleData.each {key,value -&gt;
-                    if(value.toString().contains("\\")){
-                        value = value.replaceAll("\\\\","/")
-                    }
-                    cloneSampleData[key] = value
-                    def checkExits = false
-                    mapUnit.each {keyUnit, valueUnit -&gt;
-                        if(key == keyUnit) {
-                            checkExits = true
-                            def keyResp = key + " (" + valueUnit + ")"
-                            mapSampleUnit[key] = valueUnit
-                        }
-                    }
-                    if(!checkExits) {
-                        mapSampleUnit[key] = ""
-                    }
-                }
-                mapFinalPolicy["SAMPLE"] = cloneSampleData
-                mapFinalPolicy["UNIT"] = mapSampleUnit
-                mapFinalPolicy["TYPE"] = resultJob.type
-            } else if(resultJob.type == "Subtyped") {
-                def lstKey = resultJob.data.keySet()
-                lstKey.each {eKey -&gt;
-                    def tmpMapUnit = [:]
-                    mapSampleData[eKey] = resultJob.data[eKey][0]
-                    resultJob.data[eKey][0].each {key, value -&gt;
-                        def checkExits = false
-                        mapUnit.each {keyUnit, valueUnit -&gt;
-                            if(key == keyUnit) {
-                                checkExits = true
-                                def keyResp = key + " (" + valueUnit + ")"
-                                tmpMapUnit[key] = valueUnit
-                            }                            
-                        }
-                        if(!checkExits) {
-                            tmpMapUnit[key] = ""
-                        }
-                    }
-                    mapSampleUnit[eKey] = tmpMapUnit
-                }
-                mapFinalPolicy["SAMPLE"] = mapSampleData
-                mapFinalPolicy["UNIT"] = mapSampleUnit
-                mapFinalPolicy["TYPE"] = resultJob.type
-                //mapSampleData = resultJob.data[resultJob.data.keySet()[0]][0]
-            }
-        }
-    }
-     response["status"] = "success"
-     response["data"] = mapFinalPolicy
-     response["message"] = "Get data from MongoDB successfull !"
+         builder = new JsonBuilder(response)
+         println builder.toString()
+     } else {
+         def mapFinalPolicy = [:]
+         lstJobMongo.find {eCollection -&gt;
+             if(eCollection == jobName || eCollection.contains(jobName)) {
+                 // Sample Data
+                 def mapSampleData = [:]
+                 def mapSampleUnit = [:]
+                 def resultJob = gmongoObject.getDataAllFields(eCollection)[0]
+                 def mapUnit = resultJob.KEYEXPR._unit
+                 if(resultJob.type == "Store") {
+                     def cloneSampleData = [:]
+                     mapSampleData = resultJob.data[0]
+                     mapSampleData.each {key,value -&gt;
+                         if(value.toString().contains("\\")){
+                             value = value.replaceAll("\\\\","/")
+                         }
+                         cloneSampleData[key] = value
+                         def checkExits = false
+                         mapUnit.each {keyUnit, valueUnit -&gt;
+                             if(key == keyUnit) {
+                                 checkExits = true
+                                 def keyResp = key + " (" + valueUnit + ")"
+                                 mapSampleUnit[key] = valueUnit
+                             }
+                         }
+                         if(!checkExits) {
+                             mapSampleUnit[key] = ""
+                         }
+                     }
+                     mapFinalPolicy["SAMPLE"] = cloneSampleData
+                     mapFinalPolicy["UNIT"] = mapSampleUnit
+                     mapFinalPolicy["TYPE"] = resultJob.type
+                 } else if(resultJob.type == "Subtyped") {
+                     def lstKey = resultJob.data.keySet()
+                     lstKey.each {eKey -&gt;
+                         def tmpMapUnit = [:]
+                         mapSampleData[eKey] = resultJob.data[eKey][0]
+                         resultJob.data[eKey][0].each {key, value -&gt;
+                             def checkExits = false
+                             mapUnit.each {keyUnit, valueUnit -&gt;
+                                 if(key == keyUnit) {
+                                     checkExits = true
+                                     def keyResp = key + " (" + valueUnit + ")"
+                                     tmpMapUnit[key] = valueUnit
+                                 }                            
+                             }
+                             if(!checkExits) {
+                                 tmpMapUnit[key] = ""
+                             }
+                         }
+                         mapSampleUnit[eKey] = tmpMapUnit
+                     }
+                     mapFinalPolicy["SAMPLE"] = mapSampleData
+                     mapFinalPolicy["UNIT"] = mapSampleUnit
+                     mapFinalPolicy["TYPE"] = resultJob.type
+                     //mapSampleData = resultJob.data[resultJob.data.keySet()[0]][0]
+                 }
+             }
+         }
+          response["status"] = "success"
+          response["data"] = mapFinalPolicy
+          response["message"] = "Get data from MongoDB successfull !"
 
-     builder = new JsonBuilder(response)
-     println builder.toString()    
-}
-gmongoObject.closeConnection()
+          builder = new JsonBuilder(response)
+          println builder.toString()    
+     }
 } catch (com.mongodb.MongoException ex){
      response = [:]
      response["status"] = "failed"
@@ -532,6 +532,10 @@ gmongoObject.closeConnection()
 
      builder = new JsonBuilder(response)
      println builder.toString()    
+} finally {
+     if(gmongoObject != null){
+          gmongoObject.closeConnection()
+     }
 }
 {{/groovy}}</content>
 </xwikidoc>

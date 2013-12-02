@@ -2,7 +2,7 @@
 
 <xwikidoc>
   <web>WiperDogLib</web>
-  <name>LivetableDataAdapter</name>
+  <name>MenuGeneratorLib</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -11,11 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1380879467000</creationDate>
-  <date>1385973801000</date>
-  <contentUpdateDate>1385973801000</contentUpdateDate>
+  <creationDate>1385974987000</creationDate>
+  <date>1385975035000</date>
+  <contentUpdateDate>1385975032000</contentUpdateDate>
   <version>1.1</version>
-  <title>LivetableDataAdapter</title>
+  <title>MenuGeneratorLib</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -88,250 +88,10 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>WiperDogLib.LivetableDataAdapter</name>
+    <name>WiperDogLib.MenuGeneratorLib</name>
     <number>0</number>
     <className>XWiki.XWikiRights</className>
-    <guid>453ca844-0b13-48ab-94cd-5e6dd84b8f5a</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
-    </property>
-    <property>
-      <levels>view,comment,edit,delete</levels>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDogLib.LivetableDataAdapter</name>
-    <number>1</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>83d9a06b-e95d-4c28-a7fe-8711ff955fde</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>XWiki.XWikiAllGroup</groups>
-    </property>
-    <property>
-      <levels>comment,view</levels>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDogLib.LivetableDataAdapter</name>
-    <number>2</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>f66133cf-4815-4834-9711-892fe675093a</guid>
-    <property>
-      <allow>0</allow>
-    </property>
-    <property>
-      <groups>XWiki.XWikiAllGroup</groups>
-    </property>
-    <property>
-      <levels>edit,delete</levels>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDogLib.LivetableDataAdapter</name>
-    <number>3</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>53602ccf-b2ba-4511-bbe4-01d44895fcfd</guid>
+    <guid>9820bbf5-a1f2-4472-a371-7eb49b1e1209</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -408,178 +168,433 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>WiperDogLib.LivetableDataAdapter</name>
-    <number>4</number>
+    <name>WiperDogLib.MenuGeneratorLib</name>
+    <number>1</number>
     <className>XWiki.XWikiRights</className>
-    <guid>6ec0f5e6-33a3-495f-876a-326bd2266224</guid>
+    <guid>ed1cd444-f2de-40ef-afc4-40ac87efa454</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGeneratorLib</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>5e04e8ca-5a2f-40fc-a5b8-9586f85c9a42</guid>
     <property>
       <allow>0</allow>
     </property>
     <property>
-      <levels>edit,delete</levels>
+      <levels>delete,edit</levels>
     </property>
     <property>
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGeneratorLib</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>428cc7b9-cfe3-467a-90dc-d237e25656a0</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGeneratorLib</name>
+    <number>4</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>07e4f381-cba6-4b9e-9698-1193658da63a</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+  </object>
   <content>{{include document="WiperDogLib.MongoDBConnection"/}}
 {{groovy}}
-    import groovy.json.*
-    if(request.xpage == "plain") {
-	response.setContentType('text/html')
-    }    
-    def rootLivetableRowList = []
-    def rootLivetableData = [:]
-    def legacyData = []
-    def sortedResultData = [:]
-    def dataModel = []
-	
-    def job = request.get("job")
-	
-    def fromDate = request.get("fromDate")	
-    def toDate = request.get("toDate")
-    def limit= (request.get("limit")!=null)?request.get("limit").toInteger():10
-	
-    def page = request.get("page")
-    def rows = (request.get("rows") != null &amp;&amp; !request.get("rows").equals(""))?request.get("rows"):20
-    def sidx = request.get("sidx")
-    def sord = request.get("sord")
-    def genPam = request.get("genp")
-    def istIid = request.get("istIid")
-    def subType = request.get("subType")
-    if(subType != null)
-        subType = subType.replaceAll("\"","")
-    	
-    
-    def str= "No data were retrieved!"
-    def result = null
-    if(job!="" &amp;&amp; job!=null &amp;&amp; istIid != null &amp;&amp; !istIid.equals("")){
-        def mongoDBConn
-        try{
-            mongoDBConn = new MongoDBConnection()
-            if(fromDate != "" || toDate != ""){
-                result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
-            } else {
-                result = mongoDBConn.getDataAllFields(job,limit,istIid)
-            }
-        } catch (Exception ex){
-            println '{{error}}' + ex + '{{/error}}'
-        } finally {
-            if(mongoDBConn != null){
-                mongoDBConn.closeConnection()
-            }
-        }
-		def idx =0               
-		result.each{rec-&gt;		
-			//-- get a list of data row
-			legacyData = rec['data']
-			subtractData = []
-			//-- Parsing data and assign data to subtract list
-			if(subType == null || subType.equals("")){ //-- Store
-				subtractData = legacyData
-			}else{ //-- Subtype
-				def subTypeDataList = legacyData[subType]
-				subtractData = subTypeDataList
-			}	
-            
-			subtractData.each{r2-&gt;
-					def livetableRows = [:]
-					livetableRows['id'] = rec['fetchAt'] + "_" + idx				
-					//-- replace CRLF in values to avoid JSON.parse error				
-					def values = new ArrayList&lt;String&gt;(r2.values())
-					livetableRows['cell'] = []
-                    def newdate = new Date().parse("yyyyMMddHHmmssz", rec['fetchAt'])
-                    livetableRows['cell'].add(newdate.format('yyyy/MM/dd HH:mm:ss z'))
-					values.each{s-&gt;
-					    if(s instanceof java.lang.String){
-						    def newVal = s.replaceAll("\\\\","/")
-							s = newVal.replaceAll("\r\n","")
-							newVal = s.replaceAll("\r","")
-							s = newVal.replaceAll("\n","")
-						    livetableRows['cell'].add(s)
-						}else
-						  livetableRows['cell'].add(s)
-					}
-					if(dataModel != null &amp;&amp; dataModel.size() &lt;=0){ 
-						dataModel = new ArrayList&lt;String&gt;(r2.keySet());
-					}
-					rootLivetableRowList.add(livetableRows)
-					idx++
-				}	
-		}		
-		rootLivetableData["records"] = rootLivetableRowList.size()
-		
-		rootLivetableData["total"] =  Math.round(rootLivetableRowList.size()/rows.toInteger())  //total page 
-		rootLivetableData["page"] = (page != null)?page:1
-		rootLivetableData["rows"] = rootLivetableRowList
-		rootLivetableData["userdata"] = [:]
-		rootLivetableData["dataModel"] = dataModel 
-				
-		sortedResultData = rootLivetableRowList		
-		//-- convert sidx to 
-		if(sord != null){
-		   //-- sorting
-		   def arrayMap1 = rootLivetableRowList.toArray(rootLivetableRowList)
-		   Arrays.sort(arrayMap1, new Comparator() {
-			   public int compare(arg0, arg1) {
-					def p = arg1
-					def n = arg0
-					//-- sort by id first, late we sort by sidx req. pam.
-					int lv = (sord.equals("desc"))?p["id"].compareTo(n["id"]):n["id"].compareTo(p["id"])
-					if (lv &gt; 0) {
-							return 1
-					} else if (lv &lt; 0) {
-							return -1
-					} else {
-							return 0
-					}
-						return lv
-				}
-			})				
-			sortedResultData = arrayMap1			
-			rootLivetableData["rows"] = sortedResultData
-		}		
-		//if( rootLivetableData != null &amp;&amp; rootLivetableData.size() &gt; 0 ){		
-			//-- Parsing generate parameter 
-			def builder = new JsonBuilder(rootLivetableData)		
-			if(genPam != null &amp;&amp; genPam.equals("1")){
-			    def pagerName = request.get("pager")
-				if(pagerName == null || pagerName.equals(""))
-				   str = "Must specify parameter pager incase you want to build data model (with genp parameter)"				
-				def dataUrl =  ""
-				if(subType == null || subType == "")
-					dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid
-				else
-					dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid+"&amp;subType="+subType
-				
-				//-- Building data model				
-				def model = []
-				def colSpec
-				dataModel.each{name-&gt;
-				    colSpec = [:]
-					colSpec['name'] = name
-					colSpec['index'] = name
-					colSpec['width'] = "100"
-					model.add(colSpec)
-				}
-				def dataModelStr = (new JsonBuilder(dataModel)).toPrettyString()
-				def modelStr = (new JsonBuilder(model)).toPrettyString() 
+import com.gmongo.GMongo
+import org.xwiki.context.*
 
-				def sortStr = (sord == null || sord.equals(""))?"asc":sord				
-				str = 
-				"{\"url\":\""+dataUrl+"\",\"datatype\":\"json\","+
-					"\"colNames\":"+ dataModelStr +
-					",\"colModel\":"+ modelStr +" ,\"rowList\":[10,20,30],"+
-					"\"pager\":\"#"+pagerName+"\", \"viewrecords\": true, \"sortname\": \"RECORD_SEQ\","+
-					"\"sortorder\": \""+ sortStr +"\", \"caption\":\""+job+"\"}"
-				println str 
-				
-			}else{					
-				str = builder.toPrettyString()							
-				println str 
-			}				
-		//}		
+class MenuGeneratorSupport {
+/**
+ * Main function, used for create menu 
+ * Input treeMap: Menu tree map (not leaf)
+ *       mapCollection: Map of collections, Item of map has key is a job group and value is list job which is applied for that group
+ * Output: Source menu in HTML mode
+ **/
+def getMenuGenStr(treeMap, mapCollection) {
+    def result = '{{html wiki = "true" clean="false"}}'
+    result += "&lt;div id='nav'&gt;"
+    result += "&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt; "
+
+    result += getMenuItemsStr(treeMap, mapCollection)
+
+    result += "&lt;/div&gt;"
+    result += "{{/html}}"
+    return result
+}
+
+/**
+ * Recursively function, used for gen tree menu data 
+ * Input treeItem: root tree map of menu (not leaf)
+ *       mapCollection: Map of collections, Item of map has key is a job group and value is list job which is applied for that group
+ *       parentList: used for recursively to canculate key if data if leaf
+ * Output: If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
+ *         If data isn't leaf, create node and call recursively function with sub data
+ **/
+def getMenuItemsStr(treeItem, mapCollection, parentList = []) {     
+     def ul_open = false
+     def result = ""
+     def parentStr = ""
+     def parentLstforChild = []
+
+     //If data isn't leaf, create node and call recursively function with sub data
+     if (treeItem instanceof Map) {
+         result += "&lt;ul id='treemenu2' class='treeview'&gt;"
+         treeItem.each{itemKey, itemVal -&gt; 
+             parentList.each{parentListItem-&gt;
+                 parentLstforChild.add(parentListItem)
+             }
+             parentLstforChild.add(itemKey)
+	     result += "&lt;li&gt;"+ itemKey
+             result += getMenuItemsStr(itemVal, mapCollection, parentLstforChild)
+             result +="&lt;/li&gt;"
+             parentLstforChild = []
+         } 
+         result += "&lt;/ul&gt;"
+     }
+     
+     //If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
+     if (treeItem instanceof List) {
+         result += "&lt;ul&gt;"
+         parentList.each{parentItem -&gt; 
+              if (parentStr != ""){
+                  parentStr += "."
+              }
+              parentStr += parentItem
+         }
+         if (mapCollection[parentStr] != null) {
+             mapCollection[parentStr].each {item-&gt;
+                 result += "&lt;li&gt;&lt;a&gt;" + item +"&lt;/a&gt;&lt;/li&gt;"
+             }
+         }
+         result += "&lt;/ul&gt;"
+     }
+     return result
+}
+
+/**
+ * Get data from mongoDB and create map. Item of map has key is job group and value is list job which is applied for that group
+ * Input listJobGroup: used for check Others group
+ * Input services: services API of XWiki for saving data to use later
+ **/
+def getCollections(listJobGroup, services) {
+	try{
+	    def tmp = new ArrayList&lt;String&gt;();
+	    def tmpSize
+	    def mapJobIstIid = [:]
+	    def mapGroupJob = [:]
+
+	    //The variable is used to save data for IstIid in  MonitoringData screen
+	    def ec = services.component.getInstance(Execution.class).getContext()
+
+	    def mongoDBConn = new MongoDBConnection()
+	    def conllections = mongoDBConn.db.getCollectionNames()
+	    
+	    def itemGroup
+	    def itemJob
+	    def itemIst
+	    conllections.each{
+		tmp = it.split("\\.")
+	        tmpSize = tmp.size()
+	        
+	        if (tmpSize &gt;= 2) {
+	            itemIst = tmp[tmpSize - 1]
+	            itemJob = it - ("." + itemIst)
+	            itemGroup = it - ("." + tmp[tmpSize - 2] + "." + tmp[tmpSize - 1])
+	 
+	            //If this group is not contains in listJobGroup, put in Others group
+	            if (tmpSize &gt;= 3 &amp;&amp; !listJobGroup.contains(itemGroup)) {
+	                 itemGroup = itemGroup - tmp[tmpSize - 3] + "Others"
+	            }
+
+	            //Init
+	            if(mapGroupJob[itemGroup] == null) {
+	                mapGroupJob[itemGroup] = []
+	            }
+	            //Add to list if not contains
+	            if (!mapGroupJob[itemGroup].contains(itemJob)) {
+	                mapGroupJob[itemGroup].add(itemJob)
+	            }
+	            
+	            //Init
+	            if(mapJobIstIid[itemJob] == null) {
+	                mapJobIstIid[itemJob] = [] 
+	            }
+	            //Add to list
+	            mapJobIstIid[itemJob].add(itemIst)
+	        }
+	    }
+	    ec.setProperty("mapJobIstIid", mapJobIstIid)
+	    return mapGroupJob
+	} catch (Exception ex){
+	    throw ex
+	} finally {
+	    if(mongoDBConn != null){
+	        mongoDBConn.closeConnection()
+	    }
+	}
+}
+
+/**
+ * Create list job group from declared treeMap
+ * Input treeItem: root tree map of menu (not leaf)
+ *       parentList: used for recursively to canculate parent key if data is the last node before leaf
+ * Output: if data is the last node before leaf, add as item of final list
+ **/
+def getListJobGroup(groupItems, parentList = []) {
+    def returnList = []
+    def parentLstforChild = []
+    def parentStr = ""
+    def chilData
+
+    if (groupItems instanceof Map) {
+        groupItems.each{itemKey, itemVal -&gt; 
+             parentList.each{parentListItem-&gt;
+                 parentLstforChild.add(parentListItem)
+             }
+             parentLstforChild.add(itemKey)
+             chilData = getListJobGroup(itemVal, parentLstforChild)
+             chilData.each{
+                  returnList.add(it)
+             }
+             parentLstforChild = []
+        }
     }
-    
+
+    if (groupItems instanceof List) {
+        parentList.each{parentItem -&gt; 
+            if (parentStr != ""){
+                parentStr += "."
+            }
+            parentStr += parentItem
+        }
+        returnList.add(parentStr)
+    }
+    return returnList
+}
+}
 {{/groovy}}</content>
 </xwikidoc>

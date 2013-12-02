@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1385721204000</date>
-  <contentUpdateDate>1385721204000</contentUpdateDate>
+  <date>1385973294000</date>
+  <contentUpdateDate>1385973294000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
   <defaultTemplate/>
@@ -5317,16 +5317,24 @@ def istIid = request.get("IstIid")
 def str= "No data to retrieved !"
 def result = null
 if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid != ""){
-  //open connection to mongoDB
-  def mongoDBConn = new MongoDBConnection()
-  //get data from mongoDB
-  if(fromDate != "" || toDate != ""){
-    result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
-  } else {
-    result = mongoDBConn.getDataAllFields(job,limit,istIid)
+  def mongoDBConn
+  try{
+     //open connection to mongoDB
+     mongoDBConn = new MongoDBConnection()
+     //get data from mongoDB
+     if(fromDate != "" || toDate != ""){
+       result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
+     } else {
+       result = mongoDBConn.getDataAllFields(job,limit,istIid)
+     }
+  } catch(Exception ex){
+     println '{{error}}' + ex + '{{/error}}'
+  } finally {
+     //close connection to mongoDB
+     if(mongoDBConn != null){
+         mongoDBConn.closeConnection()
+     }
   }
-  //close connection to mongoDB
-  mongoDBConn.closeConnection()
 } else {
   println "{{warning}}There are no selected job or IstIid{{/warning}}"
 }
