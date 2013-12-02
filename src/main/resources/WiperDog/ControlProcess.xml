@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385623079000</creationDate>
-  <date>1385966842000</date>
-  <contentUpdateDate>1385966842000</contentUpdateDate>
+  <date>1385976503000</date>
+  <contentUpdateDate>1385976503000</contentUpdateDate>
   <version>1.1</version>
   <title>ControlProcess</title>
   <defaultTemplate/>
@@ -639,6 +639,7 @@ if (datajson != null &amp;&amp; datajson != "") {
           listCmd.add("-p")
           listCmd.add('"' + passRemote + '"')
           listCmd.add("cmd")
+          listCmd.add("/c")
           output = runProcClosure(listCmd, workDir, true)
           if (output.message.contains("Couldn't access") || output.message.contains('Logon failure')) {
             resultSend['message'] = "Can not connect to host $hostWiperdog!!!"
@@ -809,6 +810,28 @@ if (datajson != null &amp;&amp; datajson != "") {
                   resultSend['message'] = "Update configuration file successfully. Install os service successfully!!!"
                   resultSend['status'] = 0
                 } else {
+                  //check if WD path not found on remote host
+                  //Stop service
+                  listCmd = new LinkedList &lt; String &gt; ();
+                  listCmd.add(psExec)
+                  listCmd.add("\\\\" + hostWiperdog)
+                  listCmd.add("-u")
+                  listCmd.add('"' + userRemote + '"')
+                  listCmd.add("-p")
+                  listCmd.add('"' + passRemote + '"')
+                  listCmd.add('cmd')
+                  listCmd.add('/c')
+                  listCmd.add('cd')
+                  listCmd.add(wdHome)
+                  output = runProcClosure(listCmd, workDir, true)
+                  if(output.exitVal != 0) {
+                      resultSend['message'] = "Wiperdog path not found on remote system!!!" 
+                      resultSend['status'] = 0
+                      def builder = new JsonBuilder(resultSend)
+                      println builder.toString()
+                      return
+
+                  }
                   //Stop service
                   listCmd = new LinkedList &lt; String &gt; ();
                   listCmd.add(psExec)
