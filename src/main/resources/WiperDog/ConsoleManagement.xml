@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327520000</creationDate>
-  <date>1384748584000</date>
-  <contentUpdateDate>1384748581000</contentUpdateDate>
+  <date>1386040190000</date>
+  <contentUpdateDate>1386040190000</contentUpdateDate>
   <version>1.1</version>
   <title>ConsoleManagement</title>
   <defaultTemplate/>
@@ -315,33 +315,27 @@ dAoAAAAASUVORK5CYII=
     <property>
       <code>require(['jquery'],function($){
     $("#btnStart").click(function(){    		
-    		console.log('Starting Wiperdog monitoring agent...');
     		$("#consoleout").text('Starting Wiperdog monitoring agent...');
    		var commandURL = '/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=start';
-   		console.log('commandURL = ' + commandURL);   			
    		execute(commandURL);
  	});
  	$("#btnStop").click(function(){
     	        $("#consoleout").text('Stoping Wiperdog monitoring agent...');
    		var commandURL = '/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=stop';
-   		console.log('commandURL = ' + commandURL);   			
    		execute(commandURL);
  	});
  	$("#btnStatus").click(function(){
     	        $("#consoleout").text('Query status of Wiperdog.');
    		var commandURL = '/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=status';
-   		console.log('commandURL = ' + commandURL);   			
    		execute(commandURL);
  	});
  	$("#btnHostInfo").click(function(){
     	$("#consoleout").text('Query host information...');
    		var commandURL = '/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=hostinfo';
-   		console.log('commandURL = ' + commandURL);   			
    		executeJson(commandURL);
  	});
  	function execute(commandURL){
  		var jqxhr = $.get(commandURL, function(data) {
-   			console.log('Complete executing command');
 			$("#consoleout").html(data.toString());
 		});	
  	}
@@ -349,14 +343,17 @@ dAoAAAAASUVORK5CYII=
  		$("#txtHostName").val('');
 		$("#txtHostIP").val('');
 		$("#txtPort").val('');
+               
  		var jqxhr = $.getJSON(commandURL, function(data) {
-   			console.log('Data hostName' + data.hostName);
-   			console.log('Data hostIp' + data.hostIp);
-   			console.log('Data hostPort' + data.hostPort);
+                 console.log(data)
    			$("#txtHostName").val(data.hostName);
    			$("#txtHostIP").val(data.hostIp);
    			$("#txtPort").val(data.hostPort);
-   			$("#consoleout").text('Query host information...DONE!');
+                        if(data.hostName == "" &amp;&amp; data.hostIp == "" &amp;&amp; data.hostPort == "") {
+                           $("#consoleout").text('Can not get host information ,check for host available to connect or permission to access !');
+                        } else {
+                           $("#consoleout").text('Query host information...DONE!');
+                        }
 		});	
  	}
 
@@ -446,6 +443,9 @@ dAoAAAAASUVORK5CYII=
       <allow>1</allow>
     </property>
     <property>
+      <groups/>
+    </property>
+    <property>
       <levels>view,comment</levels>
     </property>
     <property>
@@ -524,6 +524,9 @@ dAoAAAAASUVORK5CYII=
     <guid>8bacbcd9-6486-4d9b-b9a2-367beec1d1a3</guid>
     <property>
       <allow>0</allow>
+    </property>
+    <property>
+      <groups/>
     </property>
     <property>
       <levels>edit,delete</levels>
@@ -606,10 +609,13 @@ dAoAAAAASUVORK5CYII=
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -686,10 +692,13 @@ dAoAAAAASUVORK5CYII=
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
       <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -766,10 +775,13 @@ dAoAAAAASUVORK5CYII=
       <allow>0</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
       <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <content>{{velocity}}

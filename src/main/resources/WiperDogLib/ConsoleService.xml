@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879465000</creationDate>
-  <date>1384152450000</date>
-  <contentUpdateDate>1384152450000</contentUpdateDate>
+  <date>1386040198000</date>
+  <contentUpdateDate>1386040198000</contentUpdateDate>
   <version>1.1</version>
   <title>ConsoleService</title>
   <defaultTemplate/>
@@ -499,7 +499,8 @@ try{
 			def errorStr = ""
 			def command = ""
 			if(params['wiperdog_path']['host'] != "localhost"){
-				command = "ssh " + params['wiperdog_path']['host'] + " "
+			   command = "ssh -o PasswordAuthentication=no " + params['wiperdog_path']['user'].trim() + "@" + params['wiperdog_path']['host'].trim() + " "
+
 			}
 			def proc = null
 			if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("start")){
@@ -510,7 +511,6 @@ try{
 				if(errorStr != null &amp;&amp; errorStr  != '')
 					println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;"
 				println "&lt;p&gt; Output: ${proc.in.text}&lt;/p&gt;"
-				println command
 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("stop")){
 				command += '/bin/sh ' + decidedWiperdog_path + '/bin/wiperdog stop '
 				proc = command.execute()
@@ -544,11 +544,12 @@ try{
 				proc.waitFor()
 				hostInfo['hostName'] = proc.in.text
 				//Get IP
-				def commandIP = command + 'ifconfig eth0 '
+				def commandIP = command + '/sbin/ifconfig eth0 '
 				proc = commandIP.execute()
 				proc.waitFor()
 				def tmpHostIp = proc.in.text
 				def hostIp = ''
+                             
 				if(tmpHostIp != null &amp;&amp; tmpHostIp.indexOf("inet addr:") != -1){
 					hostIp = tmpHostIp.split("inet addr:")[1].split(" ")[0]
 				}
