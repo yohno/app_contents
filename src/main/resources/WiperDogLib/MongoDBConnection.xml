@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879467000</creationDate>
-  <date>1385708004000</date>
-  <contentUpdateDate>1385707643000</contentUpdateDate>
+  <date>1386236074000</date>
+  <contentUpdateDate>1386235651000</contentUpdateDate>
   <version>1.1</version>
   <title>MongoDBConnection</title>
   <defaultTemplate/>
@@ -605,7 +605,7 @@ class MongoDBConnection{
     fromDate = (Long)(format.parse(fromDate).getTime()/1000.intValue())
     result = db[realCollectionName].find( fetchedAt_bin: [ $gt: fromDate ]).sort(fetchAt: -1).limit(limit)
    } else {
-       return this.getDataAllFields(collection,limit)
+       return this.getDataAllFields(collection,limit,istIid)
    }
   }
   if(result!=null){
