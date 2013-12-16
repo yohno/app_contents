@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1387187518000</date>
-  <contentUpdateDate>1386928414000</contentUpdateDate>
+  <date>1387197938000</date>
+  <contentUpdateDate>1387196284000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
   <defaultTemplate/>
@@ -3671,7 +3671,6 @@ var limit= getParameterByName('limit')
 var selectedIstIid = getParameterByName('IstIid')
 var monitoringDays = getParameterByName('md')
 var keys
-
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&amp;]" + name + "=([^&amp;#]*)"),
@@ -3878,15 +3877,21 @@ $("#toggleJobSelect").click(function(){
 })
 
 $(".togglePie").click(function(){
-  $(this).parents("#pieChart").children('#wrapperPieChart').toggle('slow')
-  if($(this).attr('id') == 'show'){
-     $(this).attr('id','hide')
-     $(this).text("Show pie charts")
-  } else {
-     $(this).attr('id','show')
-     $(this).text("Hide pie charts")
-  }
-
+  var lstKey = jQuery.parseJSON($("#lstkey").val())
+  if (lstKey.length &gt; 0) {
+     for (var i = 0; i &lt; lstKey.length; i++) {
+        $(this).parents("#pieChart").children('#wrapperPieChart' + lstKey[i]).toggle('slow')
+     }
+   } else {
+     $(this).parents("#pieChart").children('#wrapperPieChart').toggle('slow')
+   }
+   if($(this).attr('id') == 'show'){
+       $(this).attr('id','hide')
+       $(this).text("Show pie charts")
+   } else {
+       $(this).attr('id','show')
+       $(this).text("Hide pie charts")
+   }
 })
 $(".toggleLine").click(function(){
   $(this).parents("#lineChart").children('#wrapperLineChart').toggle('slow')
@@ -3909,13 +3914,20 @@ $(".toggleBar").click(function(){
   }
 })
 $(".toggleArea").click(function(){
-  $(this).parents("#areaChart").children('#wrapperAreaChart').toggle('slow')
-  if($(this).attr('id') == 'show'){
-     $(this).attr('id','hide')
-     $(this).text("Show area charts")
+  var lstKey = jQuery.parseJSON($("#lstkey").val())
+  if (lstKey.length &gt; 0) {
+     for (var i = 0; i &lt; lstKey.length; i++) {
+        $(this).parents("#areaChart").children('#wrapperAreaChart' + lstKey[i]).toggle('slow')
+     }
   } else {
-     $(this).attr('id','show')
-     $(this).text("Hide area charts")
+     $(this).parents("#areaChart").children('#wrapperAreaChart').toggle('slow')
+  }
+  if($(this).attr('id') == 'show'){
+    $(this).attr('id','hide')
+    $(this).text("Show area charts")
+  } else {
+    $(this).attr('id','show')
+    $(this).text("Hide area charts")
   }
 })
 $(".allChart").click(function(){
@@ -6151,9 +6163,9 @@ function processChartSuccessor(result){
 							// Doesn't have this container -&gt; Create and addpoint, addDetail
 							if(newDataContainerName.substring(0, newDataContainerName.indexOf('_')) == "containerarea" + listKey2drawChart[keyIdx]){
 								if(document.getElementById(newDataContainerName) == null){
-						                        $('#wrapperAreaChart').append('&lt;img class=\"realtimeBtn\" id=\"start_' + newDataContainerName + '\" width=40px height=40px style=\"display:none\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/play.png\"/&gt;')
-						                        $('#wrapperAreaChart').append('&lt;img class=\"realtimeBtn\" id=\"stop_' + newDataContainerName + '\" width=40px height=40px style=\"display:block\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/pause.png\"/&gt;')
-									$('#wrapperAreaChart').append('&lt;div class=\'displayBlockArea\' id=\'' + newDataContainerName + '\'&gt;&lt;p&gt;' + newDataContainerName + '&lt;/p&gt;&lt;/div&gt;')
+						                        $('#wrapperAreaChart' + listKey2drawChart[keyIdx]).append('&lt;img class=\"realtimeBtn\" id=\"start_' + newDataContainerName + '\" width=40px height=40px style=\"display:none\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/play.png\"/&gt;')
+						                        $('#wrapperAreaChart' + listKey2drawChart[keyIdx]).append('&lt;img class=\"realtimeBtn\" id=\"stop_' + newDataContainerName + '\" width=40px height=40px style=\"display:block\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/pause.png\"/&gt;')
+									$('#wrapperAreaChart' + listKey2drawChart[keyIdx]).append('&lt;div class=\'displayBlockArea\' id=\'' + newDataContainerName + '\'&gt;&lt;p&gt;' + newDataContainerName + '&lt;/p&gt;&lt;/div&gt;')
 									var lstAddData = []
 									var tmpMap = {}
 									for (var itemData = 0; itemData &lt; data.data.length; itemData++) {
@@ -6254,6 +6266,7 @@ function processPieChartSuccessor(result) {
 					}
 				    }
                                 } else { // change or update structure of data
+                                    var lstKey = jQuery.parseJSON($("#lstkey").val())
 				    var numChart = 0
                                     lstRealtimeBtnId = []
                                     mapAllPie = {}
@@ -6277,7 +6290,6 @@ function processPieChartSuccessor(result) {
 					$("#jsons&gt;.jsonpie").val(result[i].jsonPie)
 					$("#jsons&gt;.lstcontainerpie").val(result[i].jsonContainerPie)
 				    }
-                                    var lstKey = jQuery.parseJSON($("#lstkey").val())
 		                    //call function draw all pie chart
 		                    drawAllPieChart(lstKey)
                                     clickButtonControl();
@@ -6327,7 +6339,7 @@ function processPieChartSuccessor(result) {
                                     } else { // change or update structure of data
                                         lstRealtimeBtnId = []
                                         mapAllPie = {}
-                                        $('#wrapperPieChart').empty()
+                                        $('#wrapperPieChart' + jsonkey).empty()
                                         var htmlSourceSub = ""
 				        for (var pieIdx = 0 ; pieIdx &lt; lstJsonPie.length; pieIdx++) {
 				            for(var chartIdx = 0; chartIdx &lt; lstJsonPie[pieIdx].length; chartIdx++) {
@@ -6345,7 +6357,7 @@ function processPieChartSuccessor(result) {
                                                 imageButtonControl()
 				            }
 				        }
-                                        $("#wrapperPieChart").html(htmlSourceSub)
+                                        $("#wrapperPieChart" + jsonkey).html(htmlSourceSub)
 				        if (result[i].jsonPie != null &amp;&amp; result[i].jsonPie != []) {
 					    $("#jsonpie_" + jsonkey).val(result[i]['jsonPie'])
 					    $("#jsons&gt;.lstcontainerpie_" + jsonkey).val(result[i]['jsonContainerPie'])
@@ -8928,7 +8940,7 @@ def prepareContainerPie(jsonPie, lstName, typeChart, key) {
 		//set link for hide/show chart of data pie
 		println "&lt;div id = 'pieChart' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Pie chart : This chart is lastest monitoring data &amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='togglePie' id = 'show'&gt;Hide pie charts  &lt;/a&gt;&lt;/span&gt;"
 		println "&amp;nbsp;"
-		println "&lt;div id=\"wrapperPieChart\" style=\"clear:both\"&gt;"
+		println "&lt;div id=\"wrapperPieChart${key}\" style=\"clear:both\"&gt;"
 		def chartPieComment = false
 		chartNumPie = 0
 		//for each data of list name
@@ -9056,7 +9068,7 @@ def prepareContainerArea(jsonArea, chartColumnsArea, fromDateFinal, toDateFinal,
 			if(!chartAreaComment){
 		        println "&lt;div id = 'areaChart'  style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Area chart : This chart is monitoring data " + fromDateFinal + toDateFinal + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleArea' id = 'show'&gt;Hide area charts  &lt;/a&gt;&lt;/span&gt;"
 		        println "&amp;nbsp;"
-				println "&lt;div id=\"wrapperAreaChart\" style=\"clear:both\"&gt;"
+				println "&lt;div id=\"wrapperAreaChart${key}\" style=\"clear:both\"&gt;"
 				chartAreaComment = true
 			}
 			//set container used to display chart of data area
