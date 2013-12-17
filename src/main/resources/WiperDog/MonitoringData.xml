@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1387197938000</date>
+  <date>1387255506000</date>
   <contentUpdateDate>1387196284000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
@@ -6198,7 +6198,8 @@ function processChartSuccessor(result){
 */
 function processPieChartSuccessor(result) {
 	require(['jquery'],function($){
-        var tmpRealtimeBtnId = lstRealtimeBtnId
+        var tmpRealtimeBtnId = lstRealtimeBtnId.clone()
+        lstRealtimeBtnId = []
 	if (result != "" &amp;&amp; result != null) {
 		result = JSON.parse(result)
                 var numberOfDataPie = 0
@@ -6235,21 +6236,22 @@ function processPieChartSuccessor(result) {
 				// Pie
                                 // List container stoping
                                 var lstPieStop = []
-				for (var piePauseId = 0; piePauseId &lt; lstRealtimeBtnId.length; piePauseId++) {
-				    if (lstRealtimeBtnId[piePauseId].indexOf("pie") != -1) {
-                                        if (lstRealtimeBtnId[piePauseId].indexOf("stop_") != -1) {
-                                            var idNotRemove = lstRealtimeBtnId[piePauseId].replace("stop_", "")
+				for (var piePauseId = 0; piePauseId &lt; tmpRealtimeBtnId.length; piePauseId++) {
+				    if (tmpRealtimeBtnId[piePauseId].indexOf("pie") != -1) {
+                                        if (tmpRealtimeBtnId[piePauseId].indexOf("stop_") != -1) {
+                                            var idNotRemove = tmpRealtimeBtnId[piePauseId].replace("stop_", "")
                                             lstPieStop.push(idNotRemove)
                                         }
 				    }
 				}
                                 var numberOfPieChart = 0
-                                for (var realTimeBtn = 0; realTimeBtn &lt; lstRealtimeBtnId.length; realTimeBtn++) {
-                                    if (lstRealtimeBtnId[realTimeBtn].indexOf("pie") != -1) {
+                                for (var realTimeBtn = 0; realTimeBtn &lt; tmpRealtimeBtnId.length; realTimeBtn++) {
+                                    if (tmpRealtimeBtnId[realTimeBtn].indexOf("pie") != -1) {
                                         numberOfPieChart++
                                     }
                                 }
                                 if (numberOfPieChart == numberOfDataPie &amp;&amp; !checkUpdateData) { // no change
+                                    lstRealtimeBtnId = tmpRealtimeBtnId.clone()
 				    var numOfChart = 0
 				    for (var pieIdx = 0 ; pieIdx &lt; lstJsonPie.length; pieIdx++) {
 				        for(var chartIdx = 0; chartIdx &lt; lstJsonPie[pieIdx].length; chartIdx++) {
@@ -6268,7 +6270,6 @@ function processPieChartSuccessor(result) {
                                 } else { // change or update structure of data
                                     var lstKey = jQuery.parseJSON($("#lstkey").val())
 				    var numChart = 0
-                                    lstRealtimeBtnId = []
                                     mapAllPie = {}
                                     $('#wrapperPieChart').empty()
                                     var htmlSource = ""
@@ -6298,10 +6299,10 @@ function processPieChartSuccessor(result) {
 				var jsonkey = result[i].key
                                 // List container stoping
                                 var lstPieStop = []
-				for (var piePauseId = 0; piePauseId &lt; lstRealtimeBtnId.length; piePauseId++) {
-				    if (lstRealtimeBtnId[piePauseId].indexOf("pie") != -1) {
-                                        if (lstRealtimeBtnId[piePauseId].indexOf("stop_pie_") != -1) {
-                                            var idNotRemove = lstRealtimeBtnId[piePauseId].replace("stop_pie_", "")
+				for (var piePauseId = 0; piePauseId &lt; tmpRealtimeBtnId.length; piePauseId++) {
+				    if (tmpRealtimeBtnId[piePauseId].indexOf("pie") != -1) {
+                                        if (tmpRealtimeBtnId[piePauseId].indexOf("stop_pie_") != -1) {
+                                            var idNotRemove = tmpRealtimeBtnId[piePauseId].replace("stop_pie_", "")
                                             lstPieStop.push(idNotRemove)
                                         }
 				    }
@@ -6312,13 +6313,14 @@ function processPieChartSuccessor(result) {
 				}
 				//append a Container into wrapperPieChart
                                 var numberOfPieChart = 0
-                                for (var realTimeBtn = 0; realTimeBtn &lt; lstRealtimeBtnId.length; realTimeBtn++) {
-                                    if (lstRealtimeBtnId[realTimeBtn].indexOf("pie") != -1) {
+                                for (var realTimeBtn = 0; realTimeBtn &lt; tmpRealtimeBtnId.length; realTimeBtn++) {
+                                    if (tmpRealtimeBtnId[realTimeBtn].indexOf("pie") != -1) {
                                         numberOfPieChart++
                                     }
                                 }
                                 if (lstJsonPie.length &gt; 0) {
                                     if (numberOfPieChart == numberOfDataPie &amp;&amp; !checkUpdateData) { // no change structure of data
+                                        lstRealtimeBtnId = tmpRealtimeBtnId.clone()
 				        for (var pieIdx = 0 ; pieIdx &lt; lstJsonPie.length; pieIdx++) {
 					    for(var chartIdx = 0; chartIdx &lt; lstJsonPie[pieIdx].length; chartIdx++) {
 						var tmpContainer = lstJsonPie[pieIdx][chartIdx]['name']
@@ -6337,7 +6339,6 @@ function processPieChartSuccessor(result) {
 					    }
 				        }
                                     } else { // change or update structure of data
-                                        lstRealtimeBtnId = []
                                         mapAllPie = {}
                                         $('#wrapperPieChart' + jsonkey).empty()
                                         var htmlSourceSub = ""
