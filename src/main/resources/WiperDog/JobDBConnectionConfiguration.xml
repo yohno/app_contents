@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327523000</creationDate>
-  <date>1383796389000</date>
+  <date>1387525368000</date>
   <contentUpdateDate>1383796389000</contentUpdateDate>
   <version>1.1</version>
   <title>JobDBConnectionConfiguration</title>
@@ -173,6 +173,7 @@ require(['jquery'],function($){
 
 
    function resetControl(){
+      $("#message").text("")
       $("#jobName").empty()
       $("#hostID").val("")
       $("#Sid").val("")
@@ -688,10 +689,13 @@ clear:both
       <allow>1</allow>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <groups/>
     </property>
     <property>
-      <users>XWiki.Admin</users>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users>xwiki:XWiki.Admin</users>
     </property>
   </object>
   <object>
@@ -766,6 +770,9 @@ clear:both
     <guid>e777ee56-1bae-4a92-a3cc-1c7bae84acdf</guid>
     <property>
       <allow>1</allow>
+    </property>
+    <property>
+      <groups/>
     </property>
     <property>
       <levels>view,comment</levels>
@@ -848,10 +855,13 @@ clear:both
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -928,10 +938,13 @@ clear:both
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
       <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -1006,6 +1019,9 @@ clear:both
     <guid>f08d394f-7541-4e24-9c33-5ba16fec930c</guid>
     <property>
       <allow>0</allow>
+    </property>
+    <property>
+      <groups/>
     </property>
     <property>
       <levels>edit,delete</levels>
@@ -1088,10 +1104,13 @@ clear:both
       <allow>0</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>delete,edit</levels>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <content>{{groovy}}

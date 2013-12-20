@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1385715195000</date>
+  <date>1387524479000</date>
   <contentUpdateDate>1385715195000</contentUpdateDate>
   <version>1.1</version>
   <title>Create policy for Job or Instance </title>
@@ -1287,7 +1287,7 @@ require(['jquery'], function($) {
         var mapPolicyForKey = mapDataPolicy.datapolicy
         for (var keyPoli in mapPolicyForKey) {
           if (groupText == key) {
-            for (var k in mapPolicyForKey[keyPoli]) {
+            for (var k in mapPolicyForKey[key]) {
               if (k == conditionText) {
                 checkAddNew = false
                 var confirm_update = confirm(mapMessage["alert_condition_existed"])
@@ -1720,7 +1720,9 @@ require(['jquery'], function($) {
       } else if (rowDeleted.cells.length == 6) { // SUBTYPED
         var groupDel = rowDeleted.cells[1].innerText
         var keyDel = rowDeleted.cells[2].innerText
-        delete mapPolicySubtyped[groupDel][keyDel]
+        var childObj = jQuery.extend(true, {}, mapPolicySubtyped[groupDel]);
+        delete (childObj[keyDel])
+        mapPolicySubtyped[groupDel] = childObj
       }
     }
   });

@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327522000</creationDate>
-  <date>1383800218000</date>
-  <contentUpdateDate>1383800217000</contentUpdateDate>
+  <date>1387526082000</date>
+  <contentUpdateDate>1387526082000</contentUpdateDate>
   <version>1.1</version>
   <title>Import Instance Info</title>
   <defaultTemplate/>
@@ -1372,7 +1372,7 @@ require(['jquery'], function($) {
 
 		$('#loadFromFile').click(function(event) {
 			$('#messageLoadFile').text('')
-			var data = $('#fileContent').val();
+			var data = $('#fileContent').val().trim();
 			if ($.trim(data) == "") {
 				$('#messageLoadFile').text('No data from file to load: ')
 				return
@@ -1644,7 +1644,7 @@ require(['jquery'], function($) {
 				$('#loadFromFile').unbind('click')
 				$('#loadFromFile').click(function(event) {
 
-					var data = $('#fileContent').val();
+					var data = $('#fileContent').val().trim();
 
 					var listObject = []
 					var headers = 0
@@ -1687,7 +1687,7 @@ require(['jquery'], function($) {
 						for (var i = 0; i &lt; lastResult.length; i++) {
 							var check = false
 							for (var j = 0; j &lt; listInstance.length; j++) {
-								if (lastResult[i]['INST_NAME'] == listInstance[j]['INST_NAME']) {
+								if (lastResult[i]['INST_NAME'].trim() == listInstance[j]['INST_NAME'].trim()) {
 									var conf = confirm("Dubplicate data at line " + (i + 1) + " .Overwrite it ?")
 									if (conf) {
 										check = true
@@ -1704,7 +1704,7 @@ require(['jquery'], function($) {
 						for (var i = 0; i &lt; listInstance.length; i++) {
 							var dubplicate = false
 							for (var j = 0; j &lt; lastResult.length; j++) {
-								if (listInstance[i]['INST_NAME'] == lastResult[j]['INST_NAME']) {
+								if (listInstance[i]['INST_NAME'].trim() == lastResult[j]['INST_NAME'].trim()) {
 									lastResult[j]['SCHEDULE'] = listInstance[i]['SCHEDULE']
 									lastResult[j]['PARAMS'] = listInstance[i]['PARAMS']
 									dubplicate = true
@@ -2727,10 +2727,13 @@ color: black !important
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -2807,10 +2810,13 @@ color: black !important
       <allow>0</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>delete,edit</levels>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -2887,10 +2893,13 @@ color: black !important
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>comment,view</levels>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <content>{{velocity}}

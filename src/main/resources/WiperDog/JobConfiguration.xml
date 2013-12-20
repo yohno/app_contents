@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327522000</creationDate>
-  <date>1383796392000</date>
-  <contentUpdateDate>1383796392000</contentUpdateDate>
+  <date>1387530134000</date>
+  <contentUpdateDate>1387530126000</contentUpdateDate>
   <version>1.1</version>
   <title>JobConfiguration</title>
   <defaultTemplate/>
@@ -1097,6 +1097,7 @@ require(['jquery'], function($) {
                     dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
                 }
                 $("#dbTypeCbb").html(dbTypeSource)
+                $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
             } else if (type == "@SYS" || type == "@NET" || type == "Others") {
                 dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
                 $("#dbTypeCbb").html(dbTypeSource)
@@ -2764,10 +2765,13 @@ overflow: auto;
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAdminGroup</groups>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
     </property>
     <property>
-      <levels>view,comment,edit,delete</levels>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -2844,10 +2848,13 @@ overflow: auto;
       <allow>0</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>delete,edit</levels>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <object>
@@ -2924,10 +2931,13 @@ overflow: auto;
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.XWikiAllGroup</groups>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>comment,view</levels>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
     </property>
   </object>
   <content>{{html wiki="true" clean="false"}}
@@ -3212,7 +3222,7 @@ overflow: auto;
  &amp;#47;&amp;#47;_unit
      &amp;#91;"UsedDataSize" : "byte" , "UsedSize":"byte"&amp;#93;
      &amp;#47;&amp;#47;or
-     &amp;#91;"M":&amp;#91;"UsedPct", "UsedSize"&amp;#93;, "D":&amp;#91;"UsedSize", "UsedDataSize"&amp;#93;&amp;#93;
+     &amp;#91;"M":&amp;#91;"UsedPct":"%", "UsedSize":"KB"&amp;#93;, "D":&amp;#91;"UsedSize":"KB", "UsedDataSize":"KB"&amp;#93;&amp;#93;
 &lt;/textarea&gt;
                                            		        &lt;/div&gt;
                                          		    &lt;/td&gt;

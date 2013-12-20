@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1387255506000</date>
+  <date>1387529897000</date>
   <contentUpdateDate>1387196284000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
@@ -4104,6 +4104,7 @@ var lastFetchAt = ''
 var MAX_NUMBER_OF_POINT = 20
 var MAX_NUMBER_OF_POINT_BAR = 2
 var lstRealtimeBtnId = []
+var lstRealtimePieBtnId = []
 // =============================&lt;End&gt;Realtime Monitoring============================================
 
 //get from date of data monitoring from form html
@@ -4136,7 +4137,8 @@ require(['jquery'],function($){
 				    $("#SelectboxLimit").hide(400)
 				    $("#from-date").val("")
 			 	    $("#to-date").val("")
-                                    imageButtonControl();
+                                    imageButtonControl(lstRealtimeBtnId);
+                                    imageButtonControl(lstRealtimePieBtnId);
  		        } else if (value == 'statistic') {
 			            $("#MonitoringDate").show(400)
 			            $("#FromToArea").show(400)
@@ -4163,7 +4165,11 @@ require(['jquery'],function($){
 	                $('.realtimeBtn').each(function() {
 	                    if (this.id.indexOf("start_") != -1) {
 	                        $("#" + this.id).hide()
-	                        lstRealtimeBtnId.push(this.id)
+				if(this.id.indexOf("_pie") != -1){
+	                        	lstRealtimePieBtnId.push(this.id)
+				} else {
+	                        	lstRealtimeBtnId.push(this.id)
+				}
 	                    }
 	                });
 	            }
@@ -4221,43 +4227,51 @@ require(['jquery'],function($){
 function clickButtonControl() {
     require(['jquery'],function($){
         $(".realtimeBtn").click(function(){
-            var checkExistId = false
-            var listRemove = []
-            for (var idReal = 0; idReal &lt; lstRealtimeBtnId.length; idReal++) {
-                if (this.id == lstRealtimeBtnId[idReal]) {
-                    checkExistId = true
-                } else if (this.id.replace("start_","").replace("stop_","") == lstRealtimeBtnId[idReal].replace("start_","").replace("stop_","")) {
-                    listRemove.push(lstRealtimeBtnId[idReal])
-                    lstRealtimeBtnId[idReal].replace("start_","stop_").replace("stop_","start_")
-                }
+            if(this.id.indexOf('_pie') != -1){
+                processGlobalListBtn(lstRealtimePieBtnId, this.id)
+            } else {
+                processGlobalListBtn(lstRealtimeBtnId, this.id)            
             }
-            if (!checkExistId) {
-                lstRealtimeBtnId.push(this.id)
-                var showId = this.id.replace("start_","stop_").replace("stop_","start_")
-            }
-            for (var idRemov = 0; idRemov &lt; listRemove.length; idRemov++) {
-                var index = lstRealtimeBtnId.indexOf(listRemove[idRemov])
-                lstRealtimeBtnId.splice(index, 1);
-            }
-            imageButtonControl();
         });
 	jQuery.noConflict()
     });
 }
 
+function processGlobalListBtn(list, id){
+	var checkExistId = false
+	var listRemove = []
+	for (var idReal = 0; idReal &lt; list.length; idReal++) {
+		if (id == list[idReal]) {
+			checkExistId = true
+		} else if (id.replace("start_","").replace("stop_","") == list[idReal].replace("start_","").replace("stop_","")) {
+			listRemove.push(list[idReal])
+			list[idReal].replace("start_","stop_").replace("stop_","start_")
+		}
+	}
+	if (!checkExistId) {
+		list.push(id)
+		var showId = id.replace("start_","stop_").replace("stop_","start_")
+	}
+	for (var idRemov = 0; idRemov &lt; listRemove.length; idRemov++) {
+		var index = list.indexOf(listRemove[idRemov])
+		list.splice(index, 1);
+	}
+	imageButtonControl(list);
+}
+
 /**
  * imageButtonControl: show/hide image of button
 */
-function imageButtonControl() {
+function imageButtonControl(list) {
     require(['jquery'],function($){
-            for (var ctrlShowHide = 0; ctrlShowHide &lt; lstRealtimeBtnId.length; ctrlShowHide++) {
+            for (var ctrlShowHide = 0; ctrlShowHide &lt; list.length; ctrlShowHide++) {
                 var showId = ""
-                if (lstRealtimeBtnId[ctrlShowHide].indexOf("stop_") != -1) {
-                    showId = lstRealtimeBtnId[ctrlShowHide].replace("stop_","start_")
-                } else if (lstRealtimeBtnId[ctrlShowHide].indexOf("start_") != -1) {
-                    showId = lstRealtimeBtnId[ctrlShowHide].replace("start_","stop_")
+                if (list[ctrlShowHide].indexOf("stop_") != -1) {
+                    showId = list[ctrlShowHide].replace("stop_","start_")
+                } else if (list[ctrlShowHide].indexOf("start_") != -1) {
+                    showId = list[ctrlShowHide].replace("start_","stop_")
                 }
-                $("#" + lstRealtimeBtnId[ctrlShowHide]).hide()
+                $("#" + list[ctrlShowHide]).hide()
                 $("#" + showId).show()
             }
 	jQuery.noConflict()
@@ -5709,7 +5723,9 @@ function drawAreaChartUpdate(result, tmpUpdate){
 						chartNameUpdate = data_all[j].chart_name
 						if(chartNameUpdate == tmpUpdate.chart_name){
 							//call to function draw chart
-							drawAreaChart(data_all[j].xAxis, data_all[j].series, tmpUpdate.container, tmpUpdate.unit, chartNameUpdate)
+							if(confirmUpdate(data_all[j].xAxis)){
+								drawAreaChart(data_all[j].xAxis, data_all[j].series, tmpUpdate.container, tmpUpdate.unit, chartNameUpdate)
+							}
 						}
 					}
 				}
@@ -6198,8 +6214,8 @@ function processChartSuccessor(result){
 */
 function processPieChartSuccessor(result) {
 	require(['jquery'],function($){
-        var tmpRealtimeBtnId = lstRealtimeBtnId.clone()
-        lstRealtimeBtnId = []
+        var tmpRealtimeBtnId = lstRealtimePieBtnId.clone()
+        lstRealtimePieBtnId = []
 	if (result != "" &amp;&amp; result != null) {
 		result = JSON.parse(result)
                 var numberOfDataPie = 0
@@ -6251,7 +6267,7 @@ function processPieChartSuccessor(result) {
                                     }
                                 }
                                 if (numberOfPieChart == numberOfDataPie &amp;&amp; !checkUpdateData) { // no change
-                                    lstRealtimeBtnId = tmpRealtimeBtnId.clone()
+                                    lstRealtimePieBtnId = tmpRealtimeBtnId.clone()
 				    var numOfChart = 0
 				    for (var pieIdx = 0 ; pieIdx &lt; lstJsonPie.length; pieIdx++) {
 				        for(var chartIdx = 0; chartIdx &lt; lstJsonPie[pieIdx].length; chartIdx++) {
@@ -6270,6 +6286,7 @@ function processPieChartSuccessor(result) {
                                 } else { // change or update structure of data
                                     var lstKey = jQuery.parseJSON($("#lstkey").val())
 				    var numChart = 0
+                                    lstRealtimePieBtnId = []
                                     mapAllPie = {}
                                     $('#wrapperPieChart').empty()
                                     var htmlSource = ""
@@ -6278,10 +6295,10 @@ function processPieChartSuccessor(result) {
 				            var addNewContainer2 = "container" + numChart + "_pie"
                                             htmlSource += '&lt;div class=\"displaypie\"&gt;&lt;img class=\"realtimeBtn\" id=\"start_' + addNewContainer2 + '\" width=40px height=40px style=\"display:none\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/play.png\"/&gt;&lt;img class=\"realtimeBtn\" id=\"stop_' + addNewContainer2 + '\" width=40px height=40px style=\"display:block\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/pause.png\"/&gt;&lt;div id=\"' + addNewContainer2 + '\"&gt;paragragh&lt;/div&gt;&lt;/div&gt;'
                                             if (tmpRealtimeBtnId.indexOf("stop_" + addNewContainer2) != -1) {
-                                                lstRealtimeBtnId.push("stop_" + addNewContainer2)
-                                                imageButtonControl()
+                                                lstRealtimePieBtnId.push("stop_" + addNewContainer2)
+                                                imageButtonControl(lstRealtimePieBtnId)
                                             } else {
-                                                lstRealtimeBtnId.push("start_" + addNewContainer2)
+                                                lstRealtimePieBtnId.push("start_" + addNewContainer2)
                                             }
 					    numChart++
 					}
@@ -6320,7 +6337,7 @@ function processPieChartSuccessor(result) {
                                 }
                                 if (lstJsonPie.length &gt; 0) {
                                     if (numberOfPieChart == numberOfDataPie &amp;&amp; !checkUpdateData) { // no change structure of data
-                                        lstRealtimeBtnId = tmpRealtimeBtnId.clone()
+                                        lstRealtimePieBtnId = tmpRealtimeBtnId.clone()
 				        for (var pieIdx = 0 ; pieIdx &lt; lstJsonPie.length; pieIdx++) {
 					    for(var chartIdx = 0; chartIdx &lt; lstJsonPie[pieIdx].length; chartIdx++) {
 						var tmpContainer = lstJsonPie[pieIdx][chartIdx]['name']
@@ -6351,11 +6368,11 @@ function processPieChartSuccessor(result) {
 						var addNewContainer = "container" + jsonkey + "_" + pieIdx + "_" + tmpContainer
                                                 htmlSourceSub += '&lt;div class=\"displaypie\"&gt;&lt;img class=\"realtimeBtn\" id=\"start_pie_' + addNewContainer + '\" width=40px height=40px style=\"display:none\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/play.png\"/&gt;&lt;img class=\"realtimeBtn\" id=\"stop_pie_' + addNewContainer + '\" width=40px height=40px style=\"display:block\" src=\"/xwiki/bin/download/WiperDog/MonitoringData/pause.png\"/&gt;&lt;div id=\"' + addNewContainer + '\"&gt;paragragh&lt;/div&gt;&lt;/div&gt;'
                                                 if (tmpRealtimeBtnId.indexOf("stop_pie_" + addNewContainer) != -1) {
-                                                    lstRealtimeBtnId.push("stop_pie_" + addNewContainer)
+                                                    lstRealtimePieBtnId.push("stop_pie_" + addNewContainer)
                                                 } else {
-                                                    lstRealtimeBtnId.push("start_pie_" + addNewContainer)
+                                                    lstRealtimePieBtnId.push("start_pie_" + addNewContainer)
                                                 }
-                                                imageButtonControl()
+                                                imageButtonControl(lstRealtimePieBtnId)
 				            }
 				        }
                                         $("#wrapperPieChart" + jsonkey).html(htmlSourceSub)
@@ -6564,19 +6581,21 @@ function errorFunc(xhr, status, error){
     </property>
     <property>
       <code>function processExportPDF(){
-	require(['jquery'],function($){
-	var doc = new jsPDF('l');
+	require(['jquery'],function($){	
 	var livetableContent = $("#livetableJson").text() != '' ? JSON.parse($("#livetableJson").text()) : null
 	var resultData = $("#resultData").text() != '' ? JSON.parse($("#resultData").text()) : null
 	var result_KEYEXPR = resultData[0] != null ? resultData[0].KEYEXPR : null
 	var result_KEYEXPR_unit = result_KEYEXPR != null ? result_KEYEXPR._unit : null
 	var jobName = getParameterByName('job')
+	var morType = getParameterByName('monitorType')
 	var headers = []
 	var headersAlias = {}
 	var isStored = true
 	var mapHeaderSubtyped = {}
 	var listKeys = []
-		
+	var doc
+
+	doc = new jsPDF('l');	
 	// Report's title
 	doc.setFontSize(20)
 	doc.text(jobName, 5, 10)
@@ -6606,85 +6625,89 @@ function errorFunc(xhr, status, error){
 			headers = getHeadersForTable(result_KEYEXPR_sequence, result_KEYEXPR_unit)
 		}
 	}
-	if(resultData != null){
-		// List data
-		var listData = []
-		if(isStored){
-			// Headers Alias
-			headersAlias = getHeaderAliasForTable(headers, result_KEYEXPR_unit)
-			for(var i = resultData.length - 1; i &gt;= 0; i--){
-				var data = resultData[i]
-				var fetchAt = data.fetchAt
-				// Need a dataWrapper because data now is a 1 member-list
-				var dataWrapper = data.data[0]
+	if(morType != 'realtime'){
+		if(resultData != null){
+			// List data
+			var listData = []
+			if(isStored){
+				// Headers Alias
+				headersAlias = getHeaderAliasForTable(headers, result_KEYEXPR_unit)
+				for(var i = resultData.length - 1; i &gt;= 0; i--){
+					var data = resultData[i]
+					var fetchAt = data.fetchAt
+					// Need a dataWrapper because data now is a 1 member-list
+					var dataWrapper = data.data[0]
 				
-				// KEYEXPR doesn't contain all column name -&gt; We add missing column into headers
-				for(var dataCol in dataWrapper){
-					if(dataWrapper.hasOwnProperty(dataCol) &amp;&amp; dataCol != 'RECORD_SEQ' &amp;&amp; headers.indexOf(dataCol) == -1){
-						headers.push(dataCol)
+					// KEYEXPR doesn't contain all column name -&gt; We add missing column into headers
+					for(var dataCol in dataWrapper){
+						if(dataWrapper.hasOwnProperty(dataCol) &amp;&amp; dataCol != 'RECORD_SEQ' &amp;&amp; headers.indexOf(dataCol) == -1){
+							headers.push(dataCol)
+						}
 					}
-				}
 
-				for(var j = 0; j &lt; data.data.length; j++){
-					var tmpData = data.data[j]
-					tmpData['fetchAt'] = fetchAt
-					listData.push(tmpData)
-				}	
+					for(var j = 0; j &lt; data.data.length; j++){
+						var tmpData = data.data[j]
+						tmpData['fetchAt'] = fetchAt
+						listData.push(tmpData)
+					}	
 			
-			}
-			headers = genTableHeaders(doc, headers, listData, headersAlias)
+				}
+				headers = genTableHeaders(doc, headers, listData, headersAlias)
 			
-			doc.setFontSize(20)
-			doc.text("Statistic Data", 5, 25)
+				doc.setFontSize(20)
+				doc.text("Statistic Data", 5, 25)
 		
-			genTablePDF(doc, listData, headers, headersAlias, true, 5, 30, 4)
-			//savePDF(doc, 'uri','datauri')
-		}else{
-			// Draw a number of tables so we need a variable that mark where table ends
-			var lastY = 5
-			// X tables with x headers : x headersAliases 
-			for(headersArrayKey in mapHeaderSubtyped){
-				if(mapHeaderSubtyped.hasOwnProperty(headersArrayKey)){
-					listData = []
-					headers = mapHeaderSubtyped[headersArrayKey]
-					headersAlias = getHeaderAliasForTable(headers, result_KEYEXPR_unit)
-					var dataForKey = resultData[0]['data'][headersArrayKey]
-					for(var i = dataForKey.length - 1; i &gt;= 0; i--){
-						var data = dataForKey[i]
+				genTablePDF(doc, listData, headers, headersAlias, true, 5, 30, 4)
+				//savePDF(doc, 'uri','datauri')
+			}else{
+				// Draw a number of tables so we need a variable that mark where table ends
+				var lastY = 5
+				// X tables with x headers : x headersAliases 
+				for(headersArrayKey in mapHeaderSubtyped){
+					if(mapHeaderSubtyped.hasOwnProperty(headersArrayKey)){
+						listData = []
+						headers = mapHeaderSubtyped[headersArrayKey]
+						headersAlias = getHeaderAliasForTable(headers, result_KEYEXPR_unit)
+						var dataForKey = resultData[0]['data'][headersArrayKey]
+						for(var i = dataForKey.length - 1; i &gt;= 0; i--){
+							var data = dataForKey[i]
 						
-						// KEYEXPR doesn't contain all column name -&gt; We add missing column into headers
-						for(var dataCol in data){
-							if(data.hasOwnProperty(dataCol) &amp;&amp; dataCol != 'RECORD_SEQ' &amp;&amp; headers.indexOf(dataCol) == -1){
-								headers.push(dataCol)
+							// KEYEXPR doesn't contain all column name -&gt; We add missing column into headers
+							for(var dataCol in data){
+								if(data.hasOwnProperty(dataCol) &amp;&amp; dataCol != 'RECORD_SEQ' &amp;&amp; headers.indexOf(dataCol) == -1){
+									headers.push(dataCol)
+								}
 							}
 						}
-					}
 
-					for(var i = 0; i &lt; resultData.length; i++){
-						var fetchAt = resultData[i].fetchAt
-						var tmpLstData = resultData[i].data[headersArrayKey]
-						for(var j = 0; j &lt; tmpLstData.length; j++){
-							var data = tmpLstData[j]
-							data['fetchAt'] = fetchAt
-							listData.push(data)
+						for(var i = resultData.length - 1; i &gt;= 0; i--){
+							var fetchAt = resultData[i].fetchAt
+							var tmpLstData = resultData[i].data[headersArrayKey]
+							for(var j = 0; j &lt; tmpLstData.length; j++){
+								var data = tmpLstData[j]
+								data['fetchAt'] = fetchAt
+								listData.push(data)
+							}
+						}
+
+						headers = genTableHeaders(doc, headers, listData, headersAlias)
+					
+						doc.setFontSize(20)
+						doc.text("Statistic Data for " + headersArrayKey, 5, lastY + 20)
+						
+						lastY = genTablePDF(doc, listData, headers, headersAlias, true, 5, lastY + 25, 4)
+						if(lastY + 20 &gt;= doc.internal.pageSize.height){
+							doc.addPage()
 						}
 					}
-
-					headers = genTableHeaders(doc, headers, listData, headersAlias)
-					
-					doc.setFontSize(20)
-					doc.text("Statistic Data for " + headersArrayKey, 5, lastY + 20)
-					
-					lastY = genTablePDF(doc, listData, headers, headersAlias, true, 5, lastY + 25, 4)
-					if(lastY + 20 &gt;= doc.internal.pageSize.height){
-						doc.addPage()
-					}
 				}
+				//savePDF(doc, 'uri', jobName)
 			}
-			//savePDF(doc, 'uri', jobName)
 		}
+		savePDF(doc, 'file', jobName + "." + selectedIstIid + ' data.pdf')
+	}else{
+		alert('In realtime mode, only charts are exported!')
 	}
-	savePDF(doc, 'file', jobName + "." + selectedIstIid + ' data.pdf')
 	doc = new jsPDF('p');
 	// Chart
 	exportChart(doc, listKeys, jobName)
@@ -7063,8 +7086,6 @@ function confirmUpdate(xAxis) {
 	var messUpdate = 'Time of last data insert into mongo is ' + lastTimeInsertData + ' greater than end time monitor is ' + endTimeMonitor + '. Are you want to update chart?'
 	var flagUpdate = false
 	//check update chart
-console.log(lastTimeInsertData)
-console.log(endTimeMonitor)
 	if(endTimeMonitor != '' &amp;&amp; lastTimeInsertData &gt; endTimeMonitor){
 		var conf_update = confirm(messUpdate)
 		if(conf_update){

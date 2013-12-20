@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1385976530000</date>
-  <contentUpdateDate>1385976530000</contentUpdateDate>
+  <date>1387523877000</date>
+  <contentUpdateDate>1387523877000</contentUpdateDate>
   <version>1.1</version>
   <title>WiperdogConfiguration</title>
   <defaultTemplate/>
@@ -122,7 +122,18 @@
       // Support for the Metadata Plugin.
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
       $parent.height(parentHeight);
-    
+      
+      //Create the input to switch
+      $('&lt;input/&gt;', {
+        'class': o.showPasswordInputClass,
+        css: {
+          display: 'none',
+          left: elPosition.left,
+          top: elPosition.top
+        },
+        type: 'text'
+      }).appendTo($parent);
+
       //Create the link
       $('&lt;a/&gt;', {
         href: '#',
@@ -144,10 +155,6 @@
           }
           e.preventDefault();
         },
-        css: {
-          left: elPosition.left + elWidth,
-          top: elPosition.top + elHeight
-        },
         text: o.linkText
       }).appendTo($parent);
       
@@ -161,18 +168,6 @@
         'left': (toggleAnchorLeft - toggleAnchorWidth - o.linkRightOffset),
         'top': (toggleAnchorTop - toggleAnchorHeight - o.linkTopOffset)
       });
-      
-      //Create the input to switch
-      $('&lt;input/&gt;', {
-        'class': o.showPasswordInputClass,
-        css: {
-          display: 'none',
-          left: elPosition.left,
-          top: elPosition.top
-        },
-        type: 'text'
-      }).appendTo($parent);
-      
     });
   };
   // default options
