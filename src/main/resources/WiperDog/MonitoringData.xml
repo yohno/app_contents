@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>WiperDog</web>
-  <name>MonitoringData</name>
-  <language/>
-  <defaultLanguage/>
-  <translation>0</translation>
-  <parent>WiperDog.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1382327524000</creationDate>
-  <date>1387529897000</date>
-  <contentUpdateDate>1387196284000</contentUpdateDate>
-  <version>1.1</version>
-  <title>MonitoringData</title>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <attachment>
-    <filename>pause.png</filename>
-    <filesize>51901</filesize>
-    <author>XWiki.phamtienthanh</author>
-    <date>1386900229000</date>
-    <version>1.1</version>
-    <comment/>
-    <content>iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAgAElEQVR4nOy9eZwcV3n3+31Odc8+
+<web>WiperDog</web>
+<name>MonitoringData</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>WiperDog.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1382327524000</creationDate>
+<date>1387529563000</date>
+<contentUpdateDate>1387447370000</contentUpdateDate>
+<version>40.10</version>
+<title>MonitoringData</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>true</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden><attachment>
+<filename>pause.png</filename>
+<filesize>51901</filesize>
+<author>XWiki.Admin</author>
+<date>1387271423000</date>
+<version>1.7</version>
+<comment></comment><content>iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAgAElEQVR4nOy9eZwcV3n3+31Odc8+
 mn1G22hfvEiWbcmyLduyscHYMbYBs5rYkGCWJITkEvLCm9x8LnlzE0KWS/YQIGAgG4TFAcIOwZZt
 bGPJO1iLLWsdbaNl9u6uc577x6nqru7pmenZZAn7mU9Pd1Wdqq46Vb/fs57ToqoA1Kz7A6YiWmVA
 AZHCShEwgBhUouVAQAATgCgqpqgdQrRdQASN3v06U/SuResF+6/vndK5vywvy0xI+jV/SZhzBDVp
@@ -940,16 +937,13 @@ Fw9oH4gTLXDEEUBDlQ2RBOJfUS0HmF+M5Zb6Vtugv1ptmwCuZgu2eaSGYOONK5Xg6xDqAPVQl/LD
 4XSYhK96twIsQpD+9R2vawoSLX1OHdQV6KtNiaRQP2bdZPfrz3A7kPfCtm0CeEFbLYAYDD+12pX1
 W8d8WFmk5LeMM9XEfQRyqdYRMVl9eWO8ae1vzBFc+JzGrarmbBm3j23wv1CtrATcbtttu/2X19aF
 grfbdttu/+W0/x+yPGSbvr74ygAAAABJRU5ErkJggg==
-</content>
-  </attachment>
-  <attachment>
-    <filename>play.png</filename>
-    <filesize>23368</filesize>
-    <author>XWiki.phamtienthanh</author>
-    <date>1386900236000</date>
-    <version>1.1</version>
-    <comment/>
-    <content>iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
+</content></attachment><attachment>
+<filename>play.png</filename>
+<filesize>23368</filesize>
+<author>XWiki.Admin</author>
+<date>1387271424000</date>
+<version>1.7</version>
+<comment></comment><content>iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
 WXMAAABIAAAASABGyWs+AAAACXZwQWcAAAEAAAABAACyZ9yKAABaBklEQVR42u2deZwlV1n3v6fu
 2t2zZSZ7SAJkWhZBVBZlMyAg8CovhqgzwyogqyIqi4iA+AKCgi/yIq4sksyEXVBA9p2wJCQkgUBC
 Zt+6e3q5+1rLef+oOlXnVNW9fXsmyZ3bU7/51HTd2utUPc/ze5ZzCjJkyJAhQ4YMGTJkyJAhQ4YM
@@ -1359,89 +1353,88 @@ P7b90m9NA1NiAAAAX3RFWHRjb21tZW50AEFjdGlvbnMgbmV4dCBnbyB2aWV3IHN0YXJ0IHJlc3Vt
 ZSBwYXVzZSBiYWNrIHBsYXkgZnJvbSBJY29uIEdhbGxlcnkgaHR0cDovL2ljb25nYWwuY29tL+UM
 BrcAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTEtMDgtMjFUMTQ6NDA6MDQtMDY6MDD0tkdsAAAAJXRF
 WHRkYXRlOm1vZGlmeQAyMDExLTA4LTIxVDE0OjQwOjA0LTA2OjAwhev/0AAAAABJRU5ErkJggg==
-</content>
-  </attachment>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>3</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>e9f88f34-085f-45e6-9f35-9b4f4a552b37</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>require(['jquery'],function($){
+</content></attachment>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>3</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>e9f88f34-085f-45e6-9f35-9b4f4a552b37</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>require(['jquery'],function($){
 /*
  * jQuery timepicker addon
  * By: Trent Richardson [http://trentrichardson.com]
@@ -3572,98 +3565,98 @@ WHRkYXRlOm1vZGlmeQAyMDExLTA4LTIxVDE0OjQwOjA0LTA2OjAwhev/0AAAAABJRU5ErkJggg==
 })(jQuery);
 jQuery.noConflict();
 });</code>
-    </property>
-    <property>
-      <name>datetimepicker-js</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>4</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>5a22e410-861a-40ea-886b-3c10fcb39636</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>var monitorType
+</property>
+<property>
+<name>datetimepicker-js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>4</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>5a22e410-861a-40ea-886b-3c10fcb39636</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>var monitorType
 var jobName= getParameterByName('job')
 var fromDate = getParameterByName('fromDate')
 var toDate = getParameterByName('toDate')
@@ -4006,98 +3999,98 @@ $(".toggleLiveTableContainer").click(function(){
         
 jQuery.noConflict()
 });</code>
-    </property>
-    <property>
-      <name>process</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>5</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>d60dd870-be62-4f8a-8c77-a62c7472146a</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>// =============================Realtime Monitoring============================================
+</property>
+<property>
+<name>process</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>5</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>d60dd870-be62-4f8a-8c77-a62c7472146a</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>// =============================Realtime Monitoring============================================
 var mapAllChart = {}
 var mapAllChartDetailData = {}
 var lastFetchAt = ''
@@ -4258,7 +4251,6 @@ function processGlobalListBtn(list, id){
 	}
 	imageButtonControl(list);
 }
-
 /**
  * imageButtonControl: show/hide image of button
 */
@@ -4277,98 +4269,98 @@ function imageButtonControl(list) {
 	jQuery.noConflict()
     });
 }</code>
-    </property>
-    <property>
-      <name>drawChart-js</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>6</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>371ec24a-0185-4fe1-b83f-7e317a8dbf60</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/**
+</property>
+<property>
+<name>drawChart-js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>6</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>371ec24a-0185-4fe1-b83f-7e317a8dbf60</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/**
  * Version: 1.0 Alpha-1 
  * Build Date: 13-Nov-2007
  * Copyright (c) 2006-2007, Coolite Inc. (http://www.coolite.com/). All rights reserved.
@@ -4472,99 +4464,96 @@ return g._start.call({},s);};}());Date._parse=Date.parse;Date.parse=function(s){
 try{r=Date.Grammar.start.call({},s);}catch(e){return null;}
 return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=Date.Grammar.formats(fx);return function(s){var r=null;try{r=fn.call({},s);}catch(e){return null;}
 return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
+</code></property><property><name>date.js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
 </code>
-    </property>
-    <property>
-      <name>date.js</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>7</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>01969b67-1a4d-4b62-88c5-0a162a042166</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>var mapAllPie = {}
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>7</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>ff056618-4d74-4358-aad0-66c203754512</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>var mapAllPie = {}
 
 /**
 * Function to draw all Pie Chart with data in textarea jsonpie and fill to textarea lstcontainerpie
@@ -4787,99 +4776,96 @@ function drawPieChart(data, container, chartName, unit){
 	jQuery.noConflict()
 	});
 }
+</code></property><property><name>pie_chart</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
 </code>
-    </property>
-    <property>
-      <name>pie_chart</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>8</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>a35d6703-1dea-4de8-a932-d6ca9bd7d1e8</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/**
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>8</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>d19923f2-e193-4d5b-bb97-19d962e52893</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/**
 * Function to draw all Line Chart with data in textarea jsonline and fill to textarea lstcontainerline
 * @param lstKey list key of data line
 */
@@ -5146,98 +5132,98 @@ function drawLineChart(xAxis, series, container, data_detail, chart_name){
 	jQuery.noConflict()
 	});
 }</code>
-    </property>
-    <property>
-      <name>line_chart</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>9</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>9d4d1768-ef9c-4136-b99d-1de7a64d015e</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/**
+</property>
+<property>
+<name>line_chart</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>9</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>7c1e9987-ebe8-4770-953c-37789b15b9ed</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/**
 * Function to draw all Bar Chart with data in textarea jsonbar and fill to textarea lstcontainerbar
 * @param lstKey list key of data bar
 */
@@ -5504,98 +5490,98 @@ function drawBarChart(xAxis, series, container, data_detail, chart_name){
 	jQuery.noConflict()
 	});
 }</code>
-    </property>
-    <property>
-      <name>bar_chart</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>10</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>60c2740b-a723-489c-8429-232c9a4f9a3f</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/**
+</property>
+<property>
+<name>bar_chart</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>10</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>9a679a45-a3ff-4afb-9c2b-d1915e8649ae</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/**
 * Function to draw all Area Chart with data in textarea jsonarea and fill to textarea lstcontainerarea
 * @param lstKey list key of data area
 */
@@ -5722,8 +5708,8 @@ function drawAreaChartUpdate(result, tmpUpdate){
 					for(var j=0;j&lt;data_all.length;j++){
 						chartNameUpdate = data_all[j].chart_name
 						if(chartNameUpdate == tmpUpdate.chart_name){
-							//call to function draw chart
 							if(confirmUpdate(data_all[j].xAxis)){
+								//call to function draw chart
 								drawAreaChart(data_all[j].xAxis, data_all[j].series, tmpUpdate.container, tmpUpdate.unit, chartNameUpdate)
 							}
 						}
@@ -5860,98 +5846,98 @@ function drawAreaChart(xAxis, series, container, unit, chart_name){
 	jQuery.noConflict()
 	});
 };</code>
-    </property>
-    <property>
-      <name>area_chart</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>11</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>1c242be6-b4ef-4209-b1e1-a415dd9b6e49</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/**
+</property>
+<property>
+<name>area_chart</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>11</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>8d0d433f-280b-448e-b0a8-2913d405b038</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/**
 * Function to process line, bar, area chart in realtime mode
 * @param jobName2Send Job's name
 * @param istIid2Send IstIid of the job
@@ -6356,6 +6342,7 @@ function processPieChartSuccessor(result) {
 					    }
 				        }
                                     } else { // change or update structure of data
+                                        //lstRealtimePieBtnId = []
                                         mapAllPie = {}
                                         $('#wrapperPieChart' + jsonkey).empty()
                                         var htmlSourceSub = ""
@@ -6489,98 +6476,98 @@ function errorFunc(xhr, status, error){
 	console.log(status)
 	console.log(xhr)
 }</code>
-    </property>
-    <property>
-      <name>RealtimeMonitoringHandle</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>12</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>cf4ea2d8-0e37-4085-a821-f6b918c53a85</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>function processExportPDF(){
+</property>
+<property>
+<name>RealtimeMonitoringHandle</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>12</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>60a967fd-c8ad-46fa-8591-c7fdd3b2c5e7</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>function processExportPDF(){
 	require(['jquery'],function($){	
 	var livetableContent = $("#livetableJson").text() != '' ? JSON.parse($("#livetableJson").text()) : null
 	var resultData = $("#resultData").text() != '' ? JSON.parse($("#resultData").text()) : null
@@ -6926,98 +6913,98 @@ function drawListChartAtPDF(doc, lstContainer, lastY){
 	lastY += imageHeight + 10
 	return lastY
 }</code>
-    </property>
-    <property>
-      <name>exportPDFHandle</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>13</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>ead08ec8-24bb-40ff-b548-bd06322acf8e</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/**
+</property>
+<property>
+<name>exportPDFHandle</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>13</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>d625319c-c8ba-4bcc-8e10-efabe5bd23e8</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/**
 * Function to call get data
 * @param tmpUpdate map data to draw chart
 * @param type type of chart update
@@ -7096,98 +7083,98 @@ function confirmUpdate(xAxis) {
 	}
 	return flagUpdate
 }</code>
-    </property>
-    <property>
-      <name>processUpdateChart</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.StyleSheetExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>1</number>
-    <className>XWiki.StyleSheetExtension</className>
-    <guid>8a00c0ff-1104-4d18-adfc-5ff84005f27b</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>/* css for timepicker */
+</property>
+<property>
+<name>processUpdateChart</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>1</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>8a00c0ff-1104-4d18-adfc-5ff84005f27b</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/* css for timepicker */
 .ui-timepicker-div .ui-widget-header { 
 margin-bottom: 8px;
  }
@@ -7206,99 +7193,96 @@ margin-bottom: 8px;
  width:auto;
  height:auto
 }
+</code></property><property><name>datetimepicker -css</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
 </code>
-    </property>
-    <property>
-      <name>datetimepicker -css</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.StyleSheetExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>2</number>
-    <className>XWiki.StyleSheetExtension</className>
-    <guid>7613b438-ae32-48c1-b42e-db3161cbe041</guid>
-    <property>
-      <cache>default</cache>
-    </property>
-    <property>
-      <code>.displayblock {
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>2</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>7613b438-ae32-48c1-b42e-db3161cbe041</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>.displayblock {
   border:2px solid;
   -webkit-border-radius:6px;
   float: left;
@@ -7334,1190 +7318,1097 @@ margin-bottom: 8px;
 
  
 }</code>
-    </property>
-    <property>
-      <name>drawChart-css</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.StyleSheetExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>3</number>
-    <className>XWiki.StyleSheetExtension</className>
-    <guid>7ec5a749-de1f-4451-8a9c-8393df0b9d7d</guid>
-    <property>
-      <cache>long</cache>
-    </property>
-    <property>
-      <code/>
-    </property>
-    <property>
-      <name/>
-    </property>
-    <property>
-      <parse/>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>2</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>8dc58f01-03a9-4f34-af69-60d448eee014</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>5</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>09a5684f-cdd7-4181-96aa-4dda923a2e34</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-    </property>
-    <property>
-      <levels>view,edit,delete,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>6</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>ba3e19d9-17f7-4e60-9e86-f66a19cfe0ea</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups/>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users>XWiki.XWikiGuest</users>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>7</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>49f1f4dd-05ca-4998-b214-593d28dc5a4f</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-    </property>
-    <property>
-      <levels>view,edit,delete,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>8</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>6d6f07e6-824f-4b07-bc8a-e83c5637c3bc</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>9</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>1349e763-c1a9-4993-aa46-8f015275d72b</guid>
-    <property>
-      <allow>0</allow>
-    </property>
-    <property>
-      <groups/>
-    </property>
-    <property>
-      <levels>edit,delete</levels>
-    </property>
-    <property>
-      <users>XWiki.XWikiGuest</users>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>10</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>f1f4d704-047e-4a94-9f51-bbd1bc1cbd7c</guid>
-    <property>
-      <allow>0</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>edit,delete</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>11</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>79d8aed1-766d-4a00-824a-7612e42e2d00</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-    </property>
-    <property>
-      <levels>view,edit,delete,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>13</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>f374a06a-9de4-4ed9-baed-b59d1c2f32de</guid>
-    <property>
-      <allow>0</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>edit,delete</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>14</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>8bd488d5-13dd-4342-9197-a87827e25dd4</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>15</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>ad091d47-bac4-449b-b005-1918f937ce0b</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-    </property>
-    <property>
-      <levels>view,edit,delete,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>17</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>803e3cab-44de-478a-9785-c59411495ce0</guid>
-    <property>
-      <allow>0</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>edit,delete</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
-    <name>WiperDog.MonitoringData</name>
-    <number>18</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>7896bc4b-0918-481e-bbf0-73a1a02701cd</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <content>{{include document="WiperDogLib.DataToDrawChart"/}}
-{{include document="WiperDogLib.MongoDBConnection"/}}
+</property>
+<property>
+<name>drawChart-css</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>2</number>
+<className>XWiki.XWikiRights</className>
+<guid>8dc58f01-03a9-4f34-af69-60d448eee014</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>5</number>
+<className>XWiki.XWikiRights</className>
+<guid>09a5684f-cdd7-4181-96aa-4dda923a2e34</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+</property>
+<property>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>6</number>
+<className>XWiki.XWikiRights</className>
+<guid>ba3e19d9-17f7-4e60-9e86-f66a19cfe0ea</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups></groups>
+</property>
+<property>
+<levels>view,comment</levels>
+</property>
+<property>
+<users>XWiki.XWikiGuest</users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>7</number>
+<className>XWiki.XWikiRights</className>
+<guid>49f1f4dd-05ca-4998-b214-593d28dc5a4f</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+</property>
+<property>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>8</number>
+<className>XWiki.XWikiRights</className>
+<guid>6d6f07e6-824f-4b07-bc8a-e83c5637c3bc</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>9</number>
+<className>XWiki.XWikiRights</className>
+<guid>1349e763-c1a9-4993-aa46-8f015275d72b</guid>
+<property>
+<allow>0</allow>
+</property>
+<property>
+<groups></groups>
+</property>
+<property>
+<levels>edit,delete</levels>
+</property>
+<property>
+<users>XWiki.XWikiGuest</users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>10</number>
+<className>XWiki.XWikiRights</className>
+<guid>f1f4d704-047e-4a94-9f51-bbd1bc1cbd7c</guid>
+<property>
+<allow>0</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>edit,delete</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>11</number>
+<className>XWiki.XWikiRights</className>
+<guid>79d8aed1-766d-4a00-824a-7612e42e2d00</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+</property>
+<property>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>13</number>
+<className>XWiki.XWikiRights</className>
+<guid>f374a06a-9de4-4ed9-baed-b59d1c2f32de</guid>
+<property>
+<allow>0</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>edit,delete</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>14</number>
+<className>XWiki.XWikiRights</className>
+<guid>8bd488d5-13dd-4342-9197-a87827e25dd4</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>15</number>
+<className>XWiki.XWikiRights</className>
+<guid>ad091d47-bac4-449b-b005-1918f937ce0b</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+</property>
+<property>
+<levels>view,edit,delete,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>17</number>
+<className>XWiki.XWikiRights</className>
+<guid>803e3cab-44de-478a-9785-c59411495ce0</guid>
+<property>
+<allow>0</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>edit,delete</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.XWikiRights</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<allow>
+<defaultValue>1</defaultValue>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>allow</displayType>
+<name>allow</name>
+<number>4</number>
+<prettyName>Allow/Deny</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</allow>
+<groups>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>groups</name>
+<number>1</number>
+<picker>1</picker>
+<prettyName>Groups</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+</groups>
+<levels>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>1</multiSelect>
+<name>levels</name>
+<number>2</number>
+<prettyName>Levels</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>3</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+</levels>
+<users>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>users</name>
+<number>3</number>
+<picker>1</picker>
+<prettyName>Users</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+</users>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>18</number>
+<className>XWiki.XWikiRights</className>
+<guid>7896bc4b-0918-481e-bbf0-73a1a02701cd</guid>
+<property>
+<allow>1</allow>
+</property>
+<property>
+<groups>xwiki:XWiki.XWikiAllGroup,</groups>
+</property>
+<property>
+<levels>view,comment</levels>
+</property>
+<property>
+<users></users>
+</property>
+</object>
+<content>{{include document="WiperDogLib.MongoDBConnection"/}}
 {{velocity}}
 $xwiki.jsx.use('WiperDogLib.JQueryUILib')
 $xwiki.ssx.use('WiperDogLib.MenuGenerator')
@@ -8535,7 +8426,7 @@ $xwiki.jsx.use('WiperDogLib.jsPDF')
 {{include document="WiperDogLib.MenuGenerator"/}}
 {{html wiki="true" clean="false"}}
 &lt;div id="viewer"&gt;
-&lt;table style="text-align:left"&gt;
+&lt;table style="text-align:left"  &gt;
  &lt;tr&gt;
   &lt;th &gt;Monitoring Type&lt;/th&gt;
   &lt;td colspan=3&gt;
@@ -8623,6 +8514,8 @@ println '{{/html}}'
 
 {{groovy}}
 import groovy.json.*
+import org.wiperdog.DrawChartDataLib.DataToDrawChart
+
 xwiki.jsx.use("WiperDogLib.Highcharts")
 
 if(request.xpage == "plain") {
@@ -8650,16 +8543,16 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
      mongoDBConn = new MongoDBConnection()
      //get data from mongoDB
      if(fromDate != "" || toDate != ""){
-       result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
+       result = mongoDBConn.cGmongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
      } else {
-       result = mongoDBConn.getDataAllFields(job,limit,istIid)
+       result = mongoDBConn.cGmongoDBConn.getDataAllFields(job,limit,istIid)
      }
   } catch(Exception ex){
      println '{{error}}' + ex + '{{/error}}'
   } finally {
      //close connection to mongoDB
      if(mongoDBConn != null){
-         mongoDBConn.closeConnection()
+         mongoDBConn.cGmongoDBConn.closeConnection()
      }
   }
 } else {
@@ -9213,5 +9106,4 @@ if(listKey.size() &lt;= 0 &amp;&amp; (result != null) &amp;&amp; (result.size() 
 }
 
 println "{{/html}}"
-{{/groovy}}</content>
-</xwikidoc>
+{{/groovy}}</content></xwikidoc>

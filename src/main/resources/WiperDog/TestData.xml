@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>WiperDog</web>
+<name>TestData</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>WiperDog.MonitoringData</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1385002279000</creationDate>
+<date>1386813588000</date>
+<contentUpdateDate>1386813588000</contentUpdateDate>
+<version>5.1</version>
+<title>TestData</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment>Imported from XAR</comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<content>{{include document="WiperDogLib.DataToDrawChart"/}}
+{{include document="WiperDogLib.MongoDBConnection"/}}
+{{groovy}}
+import java.text.SimpleDateFormat
+import com.google.gson.*
+
+def job = request.get("jobName")
+def istIid = request.get("IstIid")
+def from_date = request.get("fromDate")
+MongoDBConnection.getConnection()
+def result = MongoDBConnection.getDataInPeriod(job, from_date, '', 10, istIid)
+MongoDBConnection.closeConnection()
+
+def chartData
+
+def chartDataLine = getAdditionDataLine(result)
+chartData = chartDataLine
+def chartDataBar = getAdditionDataBar(result)
+chartDataBar.each{it-&gt;
+    chartData.add(it)
+}
+def chartDataArea = getAdditionDataArea(result)
+chartDataArea.each{it-&gt;
+    chartData.add(it)
+}
+Gson gson = new GsonBuilder().setPrettyPrinting().create()
+println gson.toJson(chartData)
+
+
+def getAdditionDataLine(collection) {
+    def returnResult = []
+    def resultRecord = [:]
+if(collection != null &amp;&amp; collection[0] != null &amp;&amp; collection[0].KEYEXPR != null){
+    def key_chart = collection[0].KEYEXPR._chart
+    def key_root = collection[0].KEYEXPR._root
+    def key_unit = collection[0].KEYEXPR._unit
+    if (key_unit == null) {
+	key_unit = [:]
+    }
+    if (key_root == null) {
+	key_root = [:]
+    }
+
+    //Convert format
+    key_chart.each{chart-&gt;
+        if (chart.type == "line"){
+             //Get declaration chart info
+             def chartCollumns = chart.chart_columns
+	     def hintColumns = chart.chart_columns.clone()
+	     if(chart.hint_columns != null){
+	         chart.hint_columns.each{hintCol-&gt;
+		     if(!hintColumns.contains(hintCol)){
+		         hintColumns.add(hintCol)
+		     }
+		 }
+	     }
+
+             //Chart name
+             def chartName
+             chartCollumns.each{col-&gt;
+                 if(chartName != null){
+	             chartName += "_" + col
+		 }else {
+		     chartName = col
+		 }
+             }
+
+             collection.each{record-&gt;
+
+                 //Type
+                 resultRecord["type"] = "line_"
+
+                 //Chart name
+                 resultRecord["chartName"] = chartName
+
+                 //Categories
+                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z")
+                 def milis = ((Long)record.fetchedAt_bin) * 1000
+                 String dateFormatted = sdf.format(new Date(milis))
+                 resultRecord["categories"] = dateFormatted 
+
+                 // Chart data
+                 def chartDataList = []
+                 def chartRecord
+                 
+                 //Hint data
+                 def hintDataList = []
+                 def hintRecord
+
+                 //Loop each data in one monitor data
+                 def dataMonitor = record['data']
+                 dataMonitor.each{ dataRecord -&gt;
+                     //Get name key
+		     def chartKeyName
+		     key_root.each{keyRoot-&gt;
+		         if(chartKeyName == null){
+	                     chartKeyName = dataRecord[keyRoot]
+		         }else{
+			     chartKeyName+= "." + dataRecord[keyRoot]
+		         }
+		     }
+                     //Loop to get chart data
+                     chartCollumns.each{ chartColumnItem -&gt;
+                         chartRecord = [:]
+                         hintRecord = [:]
+                         
+                         //Get series name
+                         if (chartKeyName != null){
+                             chartRecord["seriesName"] = chartKeyName + "($chartColumnItem)"
+                             hintRecord["seriesName"] = chartKeyName + "($chartColumnItem)"
+                         } else {
+                             chartRecord["seriesName"] = chartColumnItem
+                             hintRecord["seriesName"] = chartColumnItem
+                         }
+                         //Get value of chart data
+                         chartRecord["value"] = dataRecord[chartColumnItem]
+                         
+                         //Add to list data
+                         chartDataList.add(chartRecord)
+                         
+                         //Get hint data
+                         def hintRecordDetail = [:]
+                         def keyUnit
+                         hintColumns.each{hintColumnRecord-&gt;
+                             hintRecordDetail[hintColumnRecord] = dataRecord[hintColumnRecord]
+                             if (key_unit != null &amp;&amp; key_unit[hintColumnRecord] != null &amp;&amp; key_unit[hintColumnRecord] != "") {
+                                 keyUnit = key_unit[hintColumnRecord]
+                                 hintRecordDetail[hintColumnRecord] += "( $keyUnit )"
+                             }
+                         }
+                         hintRecordDetail["fetchAt"] = dateFormatted 
+                         hintRecord["detail"] = hintRecordDetail
+                         
+                         //Add to list hint data
+                         hintDataList.add(hintRecord)
+                     }
+                 }
+                 //Chart data
+                 resultRecord["data"] = chartDataList
+
+                 //Hint data
+                 resultRecord["detailData"] = hintDataList
+                 returnResult.add(resultRecord)                
+                 resultRecord = [:]
+             }
+        }
+    }
+}
+    //Return
+    return returnResult
+}
+
+def getAdditionDataBar(collection) {
+  def returnResult = []
+  if (collection != null &amp;&amp; collection[0] != null &amp;&amp; collection[0].KEYEXPR != null) {
+    def resultRecord = [:]
+    def key_chart = collection[0].KEYEXPR._chart
+    def key_root = collection[0].KEYEXPR._root
+    def key_unit = collection[0].KEYEXPR._unit
+    def chartType
+    def chartName
+
+    if (key_unit == null) {
+	key_unit = [:]
+    }
+    if (key_root == null) {
+	key_root = [:]
+    }
+
+    //Convert format
+    def chart_Num = 0
+    key_chart.each{chart-&gt;
+        if (chart.type == "bar"){
+             if (chart.type == "bar") {
+                 chartType = "bar"
+             }
+             //Get declaration chart info
+             def chartCollumns = chart.chart_columns
+	     def hintColumns = chart.chart_columns.clone()
+	     if(chart.hint_columns != null){
+	         chart.hint_columns.each{hintCol-&gt;
+		     if(!hintColumns.contains(hintCol)){
+		         hintColumns.add(hintCol)
+		     }
+		 }
+	     }
+	     
+             chartCollumns.each{chartCol-&gt;
+                // Chart data
+                def chartDataList = []
+                def chartRecord
+                    
+                //Hint data
+                def hintDataList = []
+                def hintRecord
+  
+                //chart name
+                chartName = chart_Num + "_" + chartCol
+
+                collection.each{record-&gt;
+                    resultRecord["type"] = chartType 
+                    resultRecord["chartName"] = chartName
+
+                    //Categories
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z")
+                    def milis = ((Long)record.fetchedAt_bin) * 1000
+                    String dateFormatted = sdf.format(new Date(milis))
+                    resultRecord["categories"] = dateFormatted 
+
+                    //Loop each data in one monitor data
+                    def dataMonitor = record['data']
+                    dataMonitor.each{ dataRecord -&gt;
+                       chartRecord = [:]
+                       hintRecord = [:]
+
+                       //Get name key
+		       def chartKeyName
+		       key_root.each{keyRoot-&gt;
+		         if(chartKeyName == null){
+	                     chartKeyName = dataRecord[keyRoot]
+		         }else{
+			     chartKeyName+= "." + dataRecord[keyRoot]
+			     
+		         }
+		       }
+
+                       //Get series name
+                       if (chartKeyName != null){
+                           chartRecord["seriesName"] = chartKeyName 
+                           hintRecord["seriesName"] = chartKeyName
+                       } else {
+                           chartRecord["seriesName"] = chartCol
+                           hintRecord["seriesName"] = chartCol
+                       }
+                       
+                       //Get value of chart data
+                       chartRecord["value"] = dataRecord[chartCol]
+
+                       //Add to list data
+                       chartDataList.add(chartRecord)
+
+                       //Get hint data
+                       def hintRecordDetail = [:]
+                       def keyUnit
+                       hintColumns.each{hintColumnRecord-&gt;
+                           hintRecordDetail[hintColumnRecord] = dataRecord[hintColumnRecord]
+                           if (key_unit != null &amp;&amp; key_unit[hintColumnRecord] != null &amp;&amp; key_unit[hintColumnRecord] != "") {
+                               keyUnit = key_unit[hintColumnRecord]
+                               hintRecordDetail[hintColumnRecord] += "( $keyUnit )"
+                           }
+                       }
+                       hintRecordDetail["fetchAt"] = dateFormatted 
+                       hintRecord["detail"] = hintRecordDetail
+                        
+                       //Add to list hint data
+                       hintDataList.add(hintRecord)
+                    }
+
+                    //Chart data
+                    resultRecord["data"] = chartDataList
+
+                    //Hint data
+                    resultRecord["detailData"] = hintDataList
+                    returnResult.add(resultRecord)
+                    resultRecord = [:]
+                }
+            }
+        }
+        //chart_Num++
+    }
+  }
+    //Return
+    return returnResult
+}
+
+def getAdditionDataArea(collection) {
+    def returnResult = []
+    def resultRecord = [:]
+if(collection != null &amp;&amp; collection[0] != null &amp;&amp; collection[0].KEYEXPR != null){
+    def key_chart = collection[0].KEYEXPR._chart
+    def key_root = collection[0].KEYEXPR._root
+    def key_unit = collection[0].KEYEXPR._unit
+    if (key_unit == null) {
+	key_unit = [:]
+    }
+    if (key_root == null) {
+	key_root = [:]
+    }
+
+    //Convert format
+    def chart_Num = 0
+    key_chart.each{chart-&gt;
+        if (chart.type == "area"){         
+             //Get declaration chart info
+             def chartCollumns = chart.chart_columns
+	     def hintColumns = chart.chart_columns.clone()
+	     if(chart.hint_columns != null){
+	         chart.hint_columns.each{hintCol-&gt;
+		     if(!hintColumns.contains(hintCol)){
+		         hintColumns.add(hintCol)
+		     }
+		 }
+	     }
+
+
+             collection.each{record-&gt;
+                 //Categories
+                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z")
+                 def milis = ((Long)record.fetchedAt_bin) * 1000
+                 String dateFormatted = sdf.format(new Date(milis))
+
+                 // Chart data
+                 def chartDataList = []
+                 def chartRecord = [:]
+                 
+                 //Hint data
+                 def hintDataList = []
+                 def hintRecord = [:]
+
+                 //Loop each data in one monitor data
+                 def dataMonitor = record['data']
+                 dataMonitor.each{ dataRecord -&gt;
+                     // type
+                     resultRecord["type"] = "area" 
+
+                     // Categories   
+                     resultRecord["categories"] = dateFormatted 
+ 
+                     //Chart name
+                     def chartName = chart_Num 
+                     key_root.each{col-&gt;
+	                 chartName += "_" + dataRecord[col]
+                     }
+		     if (chartName == chart_Num) {
+		         chartName += "_root"
+                     }
+                     resultRecord["chartName"] = chartName
+
+                     //Loop to get chart data
+                     chartCollumns.each{ chartColumnItem -&gt;                         
+                         //Get series name
+                         chartRecord["seriesName"] = chartColumnItem
+                         hintRecord["seriesName"] = chartColumnItem
+                         
+                         //Get value of chart data
+                         chartRecord["value"] = dataRecord[chartColumnItem]
+                         
+                         //Add to list data
+                         chartDataList.add(chartRecord)
+                         
+                         //Get hint data
+                         def hintRecordDetail = [:]
+                         def keyUnit
+                         hintColumns.each{hintColumnRecord-&gt;
+                             hintRecordDetail[hintColumnRecord] = dataRecord[hintColumnRecord]
+                             if (key_unit != null &amp;&amp; key_unit[hintColumnRecord] != null &amp;&amp; key_unit[hintColumnRecord] != "") {
+                                 keyUnit = key_unit[hintColumnRecord]
+                                 hintRecordDetail[hintColumnRecord] += "( $keyUnit )"
+                             }
+                         }
+                         hintRecordDetail["fetchAt"] = dateFormatted 
+                         hintRecord["detail"] = hintRecordDetail
+                         
+                         //Add to list hint data
+                         hintDataList.add(hintRecord)
+
+                         chartRecord = [:]
+                         hintRecord = [:]
+                     }
+                     //Chart data
+                     resultRecord["data"] = chartDataList
+
+                     //Hint data
+                     resultRecord["detailData"] = hintDataList
+                     returnResult.add(resultRecord)                
+                     resultRecord = [:]
+                     chartDataList = []
+                     hintDataList = []
+                 }
+             }
+        }
+    }
+}
+    //Return
+    return returnResult
+}
+
+def parseJson(data) {
+	def json
+	if(data != []) {
+		//convert data to json
+		json = com.mongodb.util.JSON.serialize(data)
+	}
+	return json
+}
+
+{{/groovy}}</content></xwikidoc>
