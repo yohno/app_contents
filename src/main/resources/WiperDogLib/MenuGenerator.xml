@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>WiperDogLib</web>
-<name>MenuGenerator</name>
-<language></language>
-<defaultLanguage></defaultLanguage>
-<translation>0</translation>
-<parent>WiperDogLib.WebHome</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1387249772000</creationDate>
-<date>1387271430000</date>
-<contentUpdateDate>1387271430000</contentUpdateDate>
-<version>2.4</version>
-<title>MenuGenerator</title>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment>Import: add attachment</comment>
-<minorEdit>true</minorEdit>
-<syntaxId>xwiki/2.1</syntaxId>
-<hidden>false</hidden><attachment>
-<filename>closed.gif</filename>
-<filesize>365</filesize>
-<author>XWiki.Admin</author>
-<date>1387271430000</date>
-<version>1.2</version>
-<comment></comment><content>R0lGODlhEQAMAPUAACAQECAgEDAoIEA4MFBAQFBQQGBQUGBgUHBgUHBwYJBwIKB4IIBwYIB4cLCA
+  <web>WiperDogLib</web>
+  <name>MenuGenerator</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WiperDogLib.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1387850030000</creationDate>
+  <date>1387850031000</date>
+  <contentUpdateDate>1387850031000</contentUpdateDate>
+  <version>1.1</version>
+  <title>MenuGenerator</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>closed.gif</filename>
+    <filesize>365</filesize>
+    <author>XWiki.Admin</author>
+    <date>1387850030000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>R0lGODlhEQAMAPUAACAQECAgEDAoIEA4MFBAQFBQQGBQUGBgUHBgUHBwYJBwIKB4IIBwYIB4cLCA
 EL2UELCAIJCIcMCIENCQEMCYINCYINCgIOCYIOCgIOCgMOCoMOCwMPCoMOC4UPCwQPC4QPC4UPDA
 UPDAYPDIYPDIcPDQYPDQcP/QcP/YcJCIgJmZmaCQgLCgkLCokNfTv//YgP/ggPDgkP/gkP/okPDg
 oP/ooPDosP/woPDwsP/wsNXSyf/wwOvp4/bx5P///wAAACH5BAAAAAAALAAAAAARAAwAAAaKQF+v
 RSTyfMiksmXL5XAxlktJZVmv1pV2q0OyduCdszaTvU4kEQOpEj9vZdipFAJV1r6VmyyDoUojIBoP
 CEh6ODc1fX+BHhoSBoZjiyYjIR4cGA4EhjZkfpUhHxwZFw4DSCk2M6CWoxoXEwsCSBE0Jh0bGhYU
 FBAQDgsKAbUNCQcFAwIBAM3OAD5BADs=
-</content></attachment><attachment>
-<filename>list.gif</filename>
-<filesize>63</filesize>
-<author>XWiki.Admin</author>
-<date>1387271430000</date>
-<version>1.2</version>
-<comment></comment><content>R0lGODlhDgAOAPAAAFRWVPz+/CH5BAAAAAAALAAAAAAOAA4AAAIWjI+py20AXYBAUnmu040nv4CK
+</content>
+  </attachment>
+  <attachment>
+    <filename>list.gif</filename>
+    <filesize>63</filesize>
+    <author>XWiki.Admin</author>
+    <date>1387850031000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>R0lGODlhDgAOAPAAAFRWVPz+/CH5BAAAAAAALAAAAAAOAA4AAAIWjI+py20AXYBAUnmu040nv4CK
 iJVHAQA7
-</content></attachment><attachment>
-<filename>open.gif</filename>
-<filesize>570</filesize>
-<author>XWiki.Admin</author>
-<date>1387271430000</date>
-<version>1.2</version>
-<comment></comment><content>R0lGODlhEQAMAPYAABAQECAQECAYEDAgIDAwIEA4MGBIIFBIQF5ZWWBYQHZnSXBgUIBoIJBwIKB4
+</content>
+  </attachment>
+  <attachment>
+    <filename>open.gif</filename>
+    <filesize>570</filesize>
+    <author>XWiki.Admin</author>
+    <date>1387850031000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>R0lGODlhEQAMAPYAABAQECAQECAYEDAgIDAwIEA4MGBIIFBIQF5ZWWBYQHZnSXBgUIBoIJBwIKB4
 IIBwUIB4YLCAEJCAYJKEa5CIcMCIEMCQAMyZANCQEOCgIOCgMPCoMPCwMNCoUNCwcPC4QPDAQP/A
 UP/IUP/QUP/MZv/YYP/QcP/YcJCIgJqQipmZmaCQgLCggLCgkLCokLm4w8CwkMC4kNDAgNDAkMfD
 usrGt+DIgPDQgPDYgP/YgODQoP/ggPDgkP/gkPDooP/ooPDwoP/woPDwsMbDyv///wAAAAAAAAAA
@@ -57,88 +66,89 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5
 BAAAAAAALAAAAAARAAwAAAeXgERELoSENIKIiYM6QkJBPy01ioktQI4/PycqK5wrFJQ+jz85JaWm
 n4gqPpgwMIQsLJ0rKJ8rPD82Lju7vDsnJx0pRLY9LjEnpiUjIh8aCkPDOLk7JqYiIB8cDBOCKzcu
 MyckJCIh2RsYBi+CKDK65NccGxkYDAiIFC0eF/wWFRERHDQwMAOfBAgPFiQ4UIDAAAEAAiAKBAA7
-</content></attachment>
-<object>
-<class>
-<name>XWiki.JavaScriptExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>0</number>
-<className>XWiki.JavaScriptExtension</className>
-<guid>22d47077-abde-480e-893b-1c77d94fe25a</guid>
-<property>
-<cache>default</cache>
-</property>
-<property>
-<code>var persisteduls=new Object()
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>22d47077-abde-480e-893b-1c77d94fe25a</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>var persisteduls=new Object()
 var ddtreemenu=new Object()
 
 ddtreemenu.closefolder = "/xwiki/bin/download/WiperDogLib/MenuGenerator/closed.gif"; //set image path to "closed" folder image
@@ -271,193 +281,193 @@ target.addEventListener(tasktype, functionref, false)
 else if (target.attachEvent)
 target.attachEvent(tasktype, functionref)
 }</code>
-</property>
-<property>
-<name>treeMenu-js</name>
-</property>
-<property>
-<parse>0</parse>
-</property>
-<property>
-<use>currentPage</use>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.JavaScriptExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>1</number>
-<className>XWiki.JavaScriptExtension</className>
-<guid>8ea5c46d-1647-4958-8d98-6cf380267004</guid>
-<property>
-<cache>default</cache>
-</property>
-<property>
-<code>var treemenu2 = document.getElementById('treemenu2')
+    </property>
+    <property>
+      <name>treeMenu-js</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>8ea5c46d-1647-4958-8d98-6cf380267004</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>var treemenu2 = document.getElementById('treemenu2')
 if(treemenu2 != null) {
 ddtreemenu.createTree("treemenu2", true, 5)
 }</code>
-</property>
-<property>
-<name>creatTreeMenu-js</name>
-</property>
-<property>
-<parse>0</parse>
-</property>
-<property>
-<use>onDemand</use>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.StyleSheetExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>0</number>
-<className>XWiki.StyleSheetExtension</className>
-<guid>9a8cb683-6376-40e5-8bcb-a9e33cc762b3</guid>
-<property>
-<cache>default</cache>
-</property>
-<property>
-<code>.treeview ul{ /*CSS for Simple Tree Menu*/
+    </property>
+    <property>
+      <name>creatTreeMenu-js</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>9a8cb683-6376-40e5-8bcb-a9e33cc762b3</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>.treeview ul{ /*CSS for Simple Tree Menu*/
 margin: 0;
 padding: 0;
 
@@ -513,673 +523,673 @@ margin-right:20px;
   color:#0089DC;
   float :left;
 }</code>
-</property>
-<property>
-<name>treemenu-css</name>
-</property>
-<property>
-<parse>0</parse>
-</property>
-<property>
-<use>currentPage</use>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>0</number>
-<className>XWiki.XWikiRights</className>
-<guid>65b7595f-5684-4f60-9d34-a2c89bbb878a</guid>
-<property>
-<allow>1</allow>
-</property>
-<property>
-<groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-</property>
-<property>
-<levels>view,edit,delete,comment</levels>
-</property>
-<property>
-<users></users>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>2</number>
-<className>XWiki.XWikiRights</className>
-<guid>fe3e8efa-fc49-44d9-8c31-4dcea3ad91fc</guid>
-<property>
-<allow>0</allow>
-</property>
-<property>
-<groups>xwiki:XWiki.XWikiAllGroup,</groups>
-</property>
-<property>
-<levels>edit,delete</levels>
-</property>
-<property>
-<users></users>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>3</number>
-<className>XWiki.XWikiRights</className>
-<guid>acde1be9-cd7e-4083-bc02-359dba929873</guid>
-<property>
-<allow>1</allow>
-</property>
-<property>
-<groups>xwiki:XWiki.XWikiAllGroup,</groups>
-</property>
-<property>
-<levels>view,comment</levels>
-</property>
-<property>
-<users></users>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>4</number>
-<className>XWiki.XWikiRights</className>
-<guid>05acec45-37a4-4fe3-b1ca-8473a14282fe</guid>
-<property>
-<allow>1</allow>
-</property>
-<property>
-<groups></groups>
-</property>
-<property>
-<levels>view,comment</levels>
-</property>
-<property>
-<users>XWiki.XWikiGuest</users>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>5</number>
-<className>XWiki.XWikiRights</className>
-<guid>50ab1819-ed0d-4f7e-bdc7-5e6f43a55e34</guid>
-<property>
-<allow>0</allow>
-</property>
-<property>
-<groups></groups>
-</property>
-<property>
-<levels>edit,delete</levels>
-</property>
-<property>
-<users>XWiki.XWikiGuest</users>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>6</number>
-<className>XWiki.XWikiRights</className>
-<guid>24d78de9-1ed2-4cc7-87f7-d4dd9d8523f9</guid>
-<property>
-<allow>1</allow>
-</property>
-<property>
-<groups>XWiki.XWikiAdminGroup</groups>
-</property>
-<property>
-<levels>view,comment,edit,delete</levels>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>8</number>
-<className>XWiki.XWikiRights</className>
-<guid>507dde51-3cdf-4cb8-90bc-7d8929e4d946</guid>
-<property>
-<allow>0</allow>
-</property>
-<property>
-<groups>XWiki.XWikiAllGroup</groups>
-</property>
-<property>
-<levels>delete,edit</levels>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.XWikiRights</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<allow>
-<defaultValue>1</defaultValue>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>allow</displayType>
-<name>allow</name>
-<number>4</number>
-<prettyName>Allow/Deny</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</allow>
-<groups>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>groups</name>
-<number>1</number>
-<picker>1</picker>
-<prettyName>Groups</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-</groups>
-<levels>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>1</multiSelect>
-<name>levels</name>
-<number>2</number>
-<prettyName>Levels</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>3</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-</levels>
-<users>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>users</name>
-<number>3</number>
-<picker>1</picker>
-<prettyName>Users</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-</users>
-</class>
-<name>WiperDogLib.MenuGenerator</name>
-<number>9</number>
-<className>XWiki.XWikiRights</className>
-<guid>4d61ae62-ae0f-4a0d-8634-2cb519656cd6</guid>
-<property>
-<allow>1</allow>
-</property>
-<property>
-<groups>XWiki.XWikiAllGroup</groups>
-</property>
-<property>
-<levels>comment,view</levels>
-</property>
-</object>
-<content>{{include document="WiperDogLib.MongoDBConnection"/}}
+    </property>
+    <property>
+      <name>treemenu-css</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>65b7595f-5684-4f60-9d34-a2c89bbb878a</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>fe3e8efa-fc49-44d9-8c31-4dcea3ad91fc</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>acde1be9-cd7e-4083-bc02-359dba929873</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>4</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>05acec45-37a4-4fe3-b1ca-8473a14282fe</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups/>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>5</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>50ab1819-ed0d-4f7e-bdc7-5e6f43a55e34</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups/>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>6</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>24d78de9-1ed2-4cc7-87f7-d4dd9d8523f9</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>8</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>507dde51-3cdf-4cb8-90bc-7d8929e4d946</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>delete,edit</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.MenuGenerator</name>
+    <number>9</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>4d61ae62-ae0f-4a0d-8634-2cb519656cd6</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>comment,view</levels>
+    </property>
+  </object>
+  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
 {{include document="WiperDogLib.MenuGeneratorLib"/}}
 {{groovy}}
 import com.gmongo.GMongo
@@ -1198,4 +1208,5 @@ try {
 } //catch(Exception ex) {
     //println "{{error}}"+ ex +"{{/error}}"
 //}
-{{/groovy}}</content></xwikidoc>
+{{/groovy}}</content>
+</xwikidoc>
