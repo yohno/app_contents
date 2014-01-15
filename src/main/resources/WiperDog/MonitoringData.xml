@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1387850028000</date>
-  <contentUpdateDate>1387850028000</contentUpdateDate>
+  <date>1389775454000</date>
+  <contentUpdateDate>1389773068000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
   <defaultTemplate/>
@@ -26,8 +26,8 @@
     <filename>pause.png</filename>
     <filesize>51901</filesize>
     <author>XWiki.Admin</author>
-    <date>1387850028000</date>
-    <version>1.12</version>
+    <date>1389773067000</date>
+    <version>1.15</version>
     <comment/>
     <content>iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAgAElEQVR4nOy9eZwcV3n3+31Odc8+
 mn1G22hfvEiWbcmyLduyscHYMbYBs5rYkGCWJITkEvLCm9x8LnlzE0KWS/YQIGAgG4TFAcIOwZZt
@@ -946,8 +946,8 @@ grfbdttu/+W0/x+yPGSbvr74ygAAAABJRU5ErkJggg==
     <filename>play.png</filename>
     <filesize>23368</filesize>
     <author>XWiki.Admin</author>
-    <date>1387850028000</date>
-    <version>1.12</version>
+    <date>1389773068000</date>
+    <version>1.15</version>
     <comment/>
     <content>iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
 WXMAAABIAAAASABGyWs+AAAACXZwQWcAAAEAAAABAACyZ9yKAABaBklEQVR42u2deZwlV1n3v6fu
@@ -6080,7 +6080,11 @@ function processChartSuccessor(result){
 
 							//Remove old data
 							var deleteCategories = newCategories.clone()
-							deleteCategories.splice(newCategories.length - limitChart, limitChart)
+                                                        if (newCategories.length &gt; limitChart) {
+							    deleteCategories.splice(newCategories.length - limitChart, limitChart)
+                                                        } else {
+                                                            deleteCategories = []
+                                                        }
 							var dataLength = 0
 							for(var poinIdx = 0; poinIdx &lt; chart.series.length; poinIdx++){
 								dataLength = chart.series[poinIdx].data.length
@@ -6137,7 +6141,11 @@ function processChartSuccessor(result){
 
 					    //Delete old point
 					    var deleteCategories = chart.options.xAxis[0].categories.clone()
-					    deleteCategories.splice(deleteCategories.length - limitChart, limitChart)
+					    if (deleteCategories.length &gt; limitChart) {
+						deleteCategories.splice(deleteCategories.length - limitChart, limitChart)
+					    } else {
+						deleteCategories = []
+					    }
 					    for(var poinIdx = 0; poinIdx &lt; chart.series.length; poinIdx++){
 						dataLength = chart.series[poinIdx].data.length
 						for(var poinDelIdx = 0; poinDelIdx &lt; dataLength; poinDelIdx++){
@@ -8530,7 +8538,7 @@ println '{{/html}}'
 
 {{groovy}}
 import groovy.json.*
-import org.wiperdog.DrawChartDataLib.DataToDrawChart
+import org.wiperdog.drawchartdatalib.DataToDrawChart
 
 xwiki.jsx.use("WiperDogLib.Highcharts")
 
