@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WiperDogLib</web>
+  <name>RealtimeData</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.AllDocs</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1389769941000</creationDate>
+  <date>1389773075000</date>
+  <contentUpdateDate>1389773075000</contentUpdateDate>
+  <version>1.1</version>
+  <title>RealtimeData</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
+{{groovy}}
+import com.google.gson.*
+import java.text.SimpleDateFormat
+import org.wiperdog.drawchartdatalib.DataToDrawChart
+import org.wiperdog.realtimelib.RealtimeDataLib
+
+def rtLib = new RealtimeDataLib()
+def job = request.get("jobName")
+def istIid = request.get("IstIid")
+def from_date = request.get("fromDate")
+def to_date = request.get("toDate")
+def limit = request.get("limit")
+def type = request.get("type")
+if(limit != null &amp;&amp; limit != ''){
+	limit = limit.toInteger()
+}
+def drawMethod = request.get("drawMethod")
+if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp; drawMethod != null) {
+    def mongoDBConnectionObj = new MongoDBConnection()
+    def result
+    Gson gson = new GsonBuilder().setPrettyPrinting().create()
+    if (drawMethod == "overWrite") {
+        result = mongoDBConnectionObj.cGmongoDBConn.getDataAllFields(job, 10, istIid)
+	def finalData = []
+	def finalMapData = [:]
+	def typeChart = result[0].type
+	if (result[0].type == "Subtyped") {
+		def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result)
+		dataSubtype.each {key,value -&gt;
+			finalMapData = rtLib.drawChart(key, value, typeChart)
+			finalData.add(finalMapData)
+			finalMapData = [:]
+		}
+	} else if (result[0].type == "Store") {
+	    def key = ""
+	    finalMapData = rtLib.drawChart(key, result, typeChart)
+	    finalData.add(finalMapData)
+	    finalMapData = [:]
+	}
+
+	// Response data
+	if (finalData != []) {
+	    println gson.toJson(finalData)
+	}
+    } else if (drawMethod == "addPoint") {
+        result = mongoDBConnectionObj.cGmongoDBConn.getDataInPeriod(job, from_date, '', 10, istIid)
+        def chartData = []
+        if(result[0] != null){
+            def jobType = result[0]['type']
+            if (jobType == "Store") {
+	        chartData = rtLib.getAdditionData(result, '')
+            } else if (jobType == "Subtyped") {
+                def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result) 
+                dataSubtype.each {key,value -&gt;
+                    def chartDataSubtyped = rtLib.getAdditionData(value, key)
+                    chartDataSubtyped.each {
+                        chartData.add(it)
+                    }
+	        }
+	    }
+        }
+        if (chartData != []) {
+            println gson.toJson(chartData)
+        }
+    } else if(drawMethod == "updateChart"){
+        if(from_date != "" || to_date != ""){
+            result = mongoDBConnectionObj.cGmongoDBConn.getDataInPeriod(job,from_date,to_date,limit,istIid)
+        } else {
+            result = mongoDBConnectionObj.cGmongoDBConn.getDataAllFields(job,limit,istIid)
+        }
+        result.each {item -&gt;;
+            def newdate = new Date().parse("yyyyMMddHHmmssz", item['fetchAt'])
+            item['fetchAt'] = newdate.format('yyyy/MM/dd HH:mm:ss z')
+        }
+        def dataUpdate = []
+        def dataUpdateSubtyped = []
+        if(result[0] != null){
+            def jobType = result[0]['type']
+            if(jobType == "Store") {
+		if(type == 'pie'){
+			dataUpdate = DataToDrawChart.getDataToDrawPie(result)
+		} else if(type == 'line'){
+			dataUpdate = DataToDrawChart.getDataToDrawLine(result)
+		} else if(type == 'bar'){
+			dataUpdate = DataToDrawChart.getDataToDrawBar(result)
+		} else if(type == 'area'){
+			dataUpdate = DataToDrawChart.getDataToDrawArea(result)		
+		}
+                if (dataUpdate != []) {
+                        println gson.toJson(dataUpdate)
+                }
+            } else if (jobType == "Subtyped") {
+		dataUpdateSubtyped = DataToDrawChart.getDataToDrawSubtype(result)
+		def finalMap = [:]
+		dataUpdateSubtyped.each {key,value -&gt;;
+			if(type == 'pie'){
+				dataUpdate = DataToDrawChart.getDataToDrawPie(value)
+			} else if(type == 'line'){
+				dataUpdate = DataToDrawChart.getDataToDrawLine(value)
+			} else if(type == 'bar'){
+				dataUpdate = DataToDrawChart.getDataToDrawBar(value)
+			} else if(type == 'area'){
+				dataUpdate = DataToDrawChart.getDataToDrawArea(value)		
+			}
+			finalMap[key] = dataUpdate
+		}
+		println gson.toJson(finalMap)
+	    }
+        }
+    }
+    mongoDBConnectionObj.closeConnection()
+}
+{{/groovy}}</content>
+</xwikidoc>

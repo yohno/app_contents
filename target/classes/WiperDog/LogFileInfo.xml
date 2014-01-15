@@ -1,0 +1,1619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WiperDog</web>
+  <name>LogFileInfo</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WiperDog.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1389773073000</creationDate>
+  <date>1389773073000</date>
+  <contentUpdateDate>1389773073000</contentUpdateDate>
+  <version>1.1</version>
+  <title>LogFileInfo</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>48b34faf-0d1a-48b5-acfc-9616483a15d6</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>require(['jquery'],function($){
+
+/**
+ * Copyright (c)2005-2009 Matt Kruse (javascripttoolbox.com)
+ * 
+ * Dual licensed under the MIT and GPL licenses. 
+ * This basically means you can use this code however you want for
+ * free, but don't claim to have written it yourself!
+ * Donations always accepted: http://www.JavascriptToolbox.com/donate/
+ * 
+ * Please do not link to the .js files on javascripttoolbox.com from
+ * your site. Copy the files locally to your server instead.
+ * 
+ */
+/**
+ * jquery.contextmenu.js
+ * jQuery Plugin for Context Menus
+ * http://www.JavascriptToolbox.com/lib/contextmenu/
+ *
+ * Copyright (c) 2008 Matt Kruse (javascripttoolbox.com)
+ * Dual licensed under the MIT and GPL licenses. 
+ *
+ * @version 1.1
+ * @history 1.1 2010-01-25 Fixed a problem with 1.4 which caused undesired show/hide animations
+ * @history 1.0 2008-10-20 Initial Release
+ * @todo slideUp doesn't work in IE - because of iframe?
+ * @todo Hide all other menus when contextmenu is shown?
+ * @todo More themes
+ * @todo Nested context menus
+ */
+;(function($){
+	$.contextMenu = {
+		shadow:true,
+		shadowOffset:0,
+		shadowOffsetX:5,
+		shadowOffsetY:5,
+		shadowWidthAdjust:-3,
+		shadowHeightAdjust:-3,
+		shadowOpacity:.2,
+		shadowClass:'context-menu-shadow',
+		shadowColor:'black',
+
+		offsetX:0,
+		offsetY:0,
+		appendTo:'body',
+		direction:'down',
+		constrainToScreen:true,
+				
+		showTransition:'show',
+		hideTransition:'hide',
+		showSpeed:null,
+		hideSpeed:null,
+		showCallback:null,
+		hideCallback:null,
+		
+		className:'context-menu',
+		itemClassName:'context-menu-item',
+		itemHoverClassName:'context-menu-item-hover',
+		disabledItemClassName:'context-menu-item-disabled',
+		disabledItemHoverClassName:'context-menu-item-disabled-hover',
+		separatorClassName:'context-menu-separator',
+		innerDivClassName:'context-menu-item-inner',
+		themePrefix:'context-menu-theme-',
+		theme:'default',
+
+		separator:'context-menu-separator', // A specific key to identify a separator
+		target:null, // The target of the context click, to be populated when triggered
+		menu:null, // The jQuery object containing the HTML object that is the menu itself
+		shadowObj:null, // Shadow object
+		bgiframe:null, // The iframe object for IE6
+		shown:false, // Currently being shown?
+		useIframe:/*@cc_on @*//*@if (@_win32) true, @else @*/false,/*@end @*/ // This is a better check than looking at userAgent!
+		
+		// Create the menu instance
+		create: function(menu,opts) {
+			var cmenu = $.extend({},this,opts); // Clone all default properties to created object
+			
+			// If a selector has been passed in, then use that as the menu
+			if (typeof menu=="string") {
+				cmenu.menu = $(menu);
+			} 
+			// If a function has been passed in, call it each time the menu is shown to create the menu
+			else if (typeof menu=="function") {
+				cmenu.menuFunction = menu;
+			}
+			// Otherwise parse the Array passed in
+			else {
+				cmenu.menu = cmenu.createMenu(menu,cmenu);
+			}
+			if (cmenu.menu) {
+				cmenu.menu.css({display:'none'});
+				$(cmenu.appendTo).append(cmenu.menu);
+			}
+			
+			// Create the shadow object if shadow is enabled
+			if (cmenu.shadow) {
+				cmenu.createShadow(cmenu); // Extracted to method for extensibility
+				if (cmenu.shadowOffset) { cmenu.shadowOffsetX = cmenu.shadowOffsetY = cmenu.shadowOffset; }
+			}
+			$('body').bind('contextmenu',function(){cmenu.hide();}); // If right-clicked somewhere else in the document, hide this menu
+			return cmenu;
+		},
+		
+		// Create an iframe object to go behind the menu
+		createIframe: function() {
+		    return $('&lt;iframe frameborder="0" tabindex="-1" src="javascript:false" style="display:block;position:absolute;z-index:-1;filter:Alpha(Opacity=0);"/&gt;');
+		},
+		
+		// Accept an Array representing a menu structure and turn it into HTML
+		createMenu: function(menu,cmenu) {
+			var className = cmenu.className;
+			$.each(cmenu.theme.split(","),function(i,n){className+=' '+cmenu.themePrefix+n});
+			var $t = $('&lt;table cellspacing=0 cellpadding=0&gt;&lt;/table&gt;').click(function(){cmenu.hide(); return false;}); // We wrap a table around it so width can be flexible
+			var $tr = $('&lt;tr&gt;&lt;/tr&gt;');
+			var $td = $('&lt;td&gt;&lt;/td&gt;');
+			var $div = $('&lt;div class="'+className+'"&gt;&lt;/div&gt;');
+			
+			// Each menu item is specified as either:
+			//     title:function
+			// or  title: { property:value ... }
+			for (var i=0; i&lt;menu.length; i++) {
+				var m = menu[i];
+				if (m==$.contextMenu.separator) {
+					$div.append(cmenu.createSeparator());
+				}
+				else {
+					for (var opt in menu[i]) {
+						$div.append(cmenu.createMenuItem(opt,menu[i][opt])); // Extracted to method for extensibility
+					}
+				}
+			}
+			if ( cmenu.useIframe ) {
+				$td.append(cmenu.createIframe());
+			}
+			$t.append($tr.append($td.append($div)))
+			return $t;
+		},
+		
+		// Create an individual menu item
+		createMenuItem: function(label,obj) {
+			var cmenu = this;
+			if (typeof obj=="function") { obj={onclick:obj}; } // If passed a simple function, turn it into a property of an object
+			// Default properties, extended in case properties are passed
+			var o = $.extend({
+				onclick:function() { },
+				className:'',
+				hoverClassName:cmenu.itemHoverClassName,
+				icon:'',
+				disabled:false,
+				title:'',
+				hoverItem:cmenu.hoverItem,
+				hoverItemOut:cmenu.hoverItemOut
+			},obj);
+			// If an icon is specified, hard-code the background-image style. Themes that don't show images should take this into account in their CSS
+			var iconStyle = (o.icon)?'background-image:url('+o.icon+');':'';
+			var $div = $('&lt;div class="'+cmenu.itemClassName+' '+o.className+((o.disabled)?' '+cmenu.disabledItemClassName:'')+'" title="'+o.title+'"&gt;&lt;/div&gt;')
+							// If the item is disabled, don't do anything when it is clicked
+							.click(function(e){if(cmenu.isItemDisabled(this)){return false;}else{return o.onclick.call(cmenu.target,this,cmenu,e)}})
+							// Change the class of the item when hovered over
+							.hover( function(){ o.hoverItem.call(this,(cmenu.isItemDisabled(this))?cmenu.disabledItemHoverClassName:o.hoverClassName); }
+									,function(){ o.hoverItemOut.call(this,(cmenu.isItemDisabled(this))?cmenu.disabledItemHoverClassName:o.hoverClassName); }
+							);
+			var $idiv = $('&lt;div class="'+cmenu.innerDivClassName+'" style="'+iconStyle+'"&gt;'+label+'&lt;/div&gt;');
+			$div.append($idiv);
+			return $div;
+		},
+		
+		// Create a separator row
+		createSeparator: function() {
+			return $('&lt;div class="'+this.separatorClassName+'"&gt;&lt;/div&gt;');
+		},
+		
+		// Determine if an individual item is currently disabled. This is called each time the item is hovered or clicked because the disabled status may change at any time
+		isItemDisabled: function(item) { return $(item).is('.'+this.disabledItemClassName); },
+		
+		// Functions to fire on hover. Extracted to methods for extensibility
+		hoverItem: function(c) { $(this).addClass(c); },
+		hoverItemOut: function(c) { $(this).removeClass(c); },
+		
+		// Create the shadow object
+		createShadow: function(cmenu) {
+			cmenu.shadowObj = $('&lt;div class="'+cmenu.shadowClass+'"&gt;&lt;/div&gt;').css( {display:'none',position:"absolute", zIndex:9998, opacity:cmenu.shadowOpacity, backgroundColor:cmenu.shadowColor } );
+			$(cmenu.appendTo).append(cmenu.shadowObj);
+		},
+		
+		// Display the shadow object, given the position of the menu itself
+		showShadow: function(x,y,e) {
+			var cmenu = this;
+			if (cmenu.shadow) {
+				cmenu.shadowObj.css( {
+					width:(cmenu.menu.width()+cmenu.shadowWidthAdjust)+"px", 
+					height:(cmenu.menu.height()+cmenu.shadowHeightAdjust)+"px", 
+					top:(y+cmenu.shadowOffsetY)+"px", 
+					left:(x+cmenu.shadowOffsetX)+"px"
+				}).addClass(cmenu.shadowClass)[cmenu.showTransition](cmenu.showSpeed);
+			}
+		},
+		
+		// A hook to call before the menu is shown, in case special processing needs to be done.
+		// Return false to cancel the default show operation
+		beforeShow: function() { return true; },
+		
+		// Show the context menu
+		show: function(t,e) {
+			var cmenu=this, x=e.pageX, y=e.pageY;
+			cmenu.target = t; // Preserve the object that triggered this context menu so menu item click methods can see it
+			if (cmenu.beforeShow()!==false) {
+				// If the menu content is a function, call it to populate the menu each time it is displayed
+				if (cmenu.menuFunction) {
+					if (cmenu.menu) { $(cmenu.menu).remove(); }
+					cmenu.menu = cmenu.createMenu(cmenu.menuFunction(cmenu,t),cmenu);
+					cmenu.menu.css({display:'none'});
+					$(cmenu.appendTo).append(cmenu.menu);
+				}
+				var $c = cmenu.menu;
+				x+=cmenu.offsetX; y+=cmenu.offsetY;
+				var pos = cmenu.getPosition(x,y,cmenu,e); // Extracted to method for extensibility
+				cmenu.showShadow(pos.x,pos.y,e);
+				// Resize the iframe if needed
+				if (cmenu.useIframe) {
+					$c.find('iframe').css({width:$c.width()+cmenu.shadowOffsetX+cmenu.shadowWidthAdjust,height:$c.height()+cmenu.shadowOffsetY+cmenu.shadowHeightAdjust});
+				}
+				$c.css( {top:pos.y+"px", left:pos.x+"px", position:"absolute",zIndex:9999} )[cmenu.showTransition](cmenu.showSpeed,((cmenu.showCallback)?function(){cmenu.showCallback.call(cmenu);}:null));
+				cmenu.shown=true;
+				$(document).one('click',null,function(){cmenu.hide()}); // Handle a single click to the document to hide the menu
+			}
+		},
+		
+		// Find the position where the menu should appear, given an x,y of the click event
+		getPosition: function(clickX,clickY,cmenu,e) {
+			var x = clickX+cmenu.offsetX;
+			var y = clickY+cmenu.offsetY
+			var h = $(cmenu.menu).height();
+			var w = $(cmenu.menu).width();
+			var dir = cmenu.direction;
+			if (cmenu.constrainToScreen) {
+				var $w = $(window);
+				var wh = $w.height();
+				var ww = $w.width();
+				if (dir=="down" &amp;&amp; (y+h-$w.scrollTop() &gt; wh)) { dir = "up"; }
+				var maxRight = x+w-$w.scrollLeft();
+				if (maxRight &gt; ww) { x -= (maxRight-ww); }
+			}
+			if (dir=="up") { y -= h; }
+			return {'x':x,'y':y};
+		},
+		
+		// Hide the menu, of course
+		hide: function() {
+			var cmenu=this;
+			if (cmenu.shown) {
+				if (cmenu.iframe) { $(cmenu.iframe).hide(); }
+				if (cmenu.menu) { cmenu.menu[cmenu.hideTransition](cmenu.hideSpeed,((cmenu.hideCallback)?function(){cmenu.hideCallback.call(cmenu);}:null)); }
+				if (cmenu.shadow) { cmenu.shadowObj[cmenu.hideTransition](cmenu.hideSpeed); }
+			}
+			cmenu.shown = false;
+		}
+	};
+	
+	// This actually adds the .contextMenu() function to the jQuery namespace
+	$.fn.contextMenu = function(menu,options) {
+		var cmenu = $.contextMenu.create(menu,options);
+		return this.each(function(){
+			$(this).bind('contextmenu',function(e){cmenu.show(this,e);return false;});
+		});
+	};
+})(jQuery);
+
+jQuery.noConflict();
+});</code>
+    </property>
+    <property>
+      <name>contextMenuPlugin-js</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>44e94a6b-edb5-4ab3-878d-4f746393f413</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>var logFileName
+var deleteFileName
+var lstAID = new Array()
+
+require(['jquery'], function($) {
+
+	// Set width for area content
+	var widthMenu = document.getElementById('xwikicontent').offsetWidth * 0.2
+	var widthContent = document.getElementById('xwikicontent').offsetWidth * 0.7
+	$("#lstLog").css('width', widthMenu)
+	$("#contentLog").css('width', widthContent)
+
+	// Get servlet
+	var param = 'logfileinfo'
+	var servlet = ''
+	$.ajax({
+		type: "GET",
+		url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + param,
+		success: function(result) {
+			processData(result)
+		},
+		error: function(xhr, status, error) {
+			$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+		}
+	});
+
+	// Draw list log and get anchor text
+
+	function drawListLog(domainURL, result) {
+		// Draw
+		var htmlSource = "&lt;ul&gt;"
+		for (var i = 0; i &lt; result.length; i++) {
+			var aID = "logfile" + i
+			lstAID[i] = aID
+			htmlSource += "&lt;li class=\"" + aID + "\"&gt;&lt;a id=\"" + aID + "\"&gt;" + result[i] + "&lt;/a&gt;&lt;/li&gt;"
+		}
+		htmlSource += "&lt;/ul&gt;"
+		$("#lstLog").html(htmlSource)
+
+		// Get anchor text
+		$("#lstLog a").click(function() {
+			logFileName = $(this).text()
+			var aID = $(this).attr('id')
+			for (var e = 0; e &lt; lstAID.length; e++) {
+				if (lstAID[e] == aID) {
+					$("#" + lstAID[e]).css('color', '#1E90FF')
+				} else {
+					$("#" + lstAID[e]).css('color', '#636B75')
+				}
+			}
+                        $('#contentLog').text('')
+			ajax_post_data(logFileName, domainURL, "getLimitLog",null)
+		});
+
+		// Delete log file
+		var menuRightClick = [{
+			'Delete': {
+				onclick: function(menuItem, menu) {
+					if (confirm('Are you sure?')) {
+						$(this).remove();
+						deleteFileName = $(this).text()
+						ajax_post_data_delete(domainURL, function(result) {})
+					}
+				},
+				icon: '/xwiki/resources/contextmenu/delete.png',
+				disabled: false
+			}
+		}, {
+			"You can't edit me!": {
+				disabled: true
+			}
+		}];
+
+		$(function() {
+			for (var e = 0; e &lt; lstAID.length; e++) {
+				$("." + lstAID[e]).contextMenu(menuRightClick, {
+					theme: 'vista'
+				});
+			}
+		});
+	}
+
+	// Set data response to textarea
+
+	function setDataForTextArea(result) {
+		var text = result.logContent
+		$("#contentLog").val(text)
+	}
+
+	// Set message to textarea
+
+	function setMessageToArea(result) {
+		var htmlSource = "&lt;i&gt;" + result.status + "&lt;/i&gt;"
+		$("#contentLog").html(htmlSource)
+		$('#moreLogsBtn').prop('disabled',false);
+	}
+
+	// Get list log
+
+	function processData(domainURL) {
+		ajax_get_data(domainURL, function(result) {});
+	}
+
+	function ajax_get_data(domainURL, callback) {
+		$.ajax({
+			type: "GET",
+			crossDomain: true,
+			url: domainURL,
+			dataType: 'json',
+			success: function(result) {
+				drawListLog(domainURL, result)
+				callback(result)
+			},
+			error: function(xhr, status, error) {
+				$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+			}
+		});
+	}
+
+	// Get content of log
+
+	function ajax_post_data(logFileName, domainURL,action,lines) {
+		var logNameMap = {}
+
+		logNameMap['log'] = logFileName
+		logNameMap['action'] = action
+		logNameMap['lines'] = lines
+
+		$.ajax({
+			type: "POST",
+			crossDomain: true,
+			url: domainURL,
+			dataType: 'json',
+			data: JSON.stringify(logNameMap),
+			success: function(result) {
+				setDataForTextArea(result)
+				$('#moreLogsBtn').unbind('click')
+				$('#moreLogsBtn').click(function(event) {
+					ajax_post_data(logFileName,domainURL,'moreLogs',result.lines)
+				});
+			},
+			error: function(xhr, status, error) {
+				$("#message_add").text("Can not get content of " + logFileName + " : size of this file is too large or wiperdog does not run!")
+			}
+		});
+	}
+
+	// Delete log file
+
+	function ajax_post_data_delete(domainURL, callback) {
+		var logNameMap = {}
+		logNameMap['delete'] = deleteFileName
+		$.ajax({
+			type: "POST",
+			crossDomain: true,
+			url: domainURL,
+			dataType: 'json',
+			data: JSON.stringify(logNameMap),
+			success: function(result) {
+				setMessageToArea(result)
+				callback(result)
+			},
+			error: function(xhr, status, error) {
+				$("#message_add").text("Can not get data info from configuration file !.Wiperdog is on yet ?")
+			}
+		});
+	}
+
+	jQuery.noConflict();
+});</code>
+    </property>
+    <property>
+      <name>LogFileInfo-js</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>35f946f8-d38a-42c1-b76d-b10588cef7f0</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>b {
+    font-size: 1.3em;
+}
+
+i {
+    font-size: 1.3em;
+    color: red;
+}
+
+ul li {
+    font-size: 1.3em;
+}
+
+#lstLog {
+    height: 500px;
+}
+
+#lstLog a:hover {
+    text-decoration: none;
+    font-size: 110%;
+}
+
+#contentLog {
+    overflow: scroll;
+    height: 500px;
+}
+
+#message_add {
+    float: left;
+    color: red;
+    font-size: 1.5em;
+}
+#moreLogs{
+margin-left: 400px;
+disabled: disabled
+}</code>
+    </property>
+    <property>
+      <name>LogFileInfo-css</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>1</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>ac9ad483-3d9b-417f-b9ad-189606b0e2f0</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>/* Classic Windows Theme (default) */
+/* =============================== */
+.context-menu-theme-default {
+	border:2px outset white;
+	background-color:#D4D0C8;
+}
+.context-menu-theme-default .context-menu-item {
+	text-align:left;
+	cursor:pointer;
+	padding:4px 28px 4px 16px;
+	color:black;
+	font-family:Tahoma,Arial;
+	font-size:11px;
+}
+.context-menu-theme-default .context-menu-separator {
+	margin:4px 2px;
+	font-size:0px;
+	border-top:1px solid #808080;
+	border-bottom:1px solid white;
+}
+.context-menu-theme-default .context-menu-item-disabled {
+	color:#808080;
+}
+.context-menu-theme-default .context-menu-item .context-menu-item-inner {
+	background:none no-repeat fixed 999px 999px; /* Make sure icons don't appear */
+}
+.context-menu-theme-default .context-menu-item-hover {
+	background-color:#0A246A;
+	color:white;
+}
+.context-menu-theme-default .context-menu-item-disabled-hover {
+	background-color:#0A246A;
+}
+
+/* Windows XP Theme */
+/* ================ */
+.context-menu-theme-xp {
+	border:1px solid #666;
+	padding:1px;
+	background:#F9F8F7 url(cmenu-xp-bg.gif) repeat-y top left;
+}
+.context-menu-theme-xp .context-menu-separator {
+	margin:4px 2px;
+	font-size:0px;
+	border-top:1px solid #808080;
+	border-bottom:1px solid white;
+}
+.context-menu-theme-xp .context-menu-item {
+	text-align:left;
+	color:black;
+	font-family:arial;
+	font-size:11px;
+	cursor:pointer;
+}
+.context-menu-theme-xp .context-menu-item .context-menu-item-inner {
+	background:none no-repeat 2px center;
+	padding:4px 10px 4px 30px;
+}
+.context-menu-theme-xp .context-menu-item-hover .context-menu-item-inner {
+	background:#B6BDD2 none no-repeat 2px center;
+	padding:3px 9px 3px 29px;
+	border:1px solid #0A246A;
+}
+
+/* Windows Vista Theme */
+/* =================== */
+.context-menu-theme-vista {
+	background:#FAFAFA url(/xwiki/resources/contextmenu/cmenu-vista-bg.gif) repeat-y left top;
+	border:1px solid #868686;
+}
+.context-menu-theme-vista .context-menu-item {
+	text-align:left;
+	cursor:pointer;
+	color:black;
+	font-family:Tahoma,Arial;
+	font-size:11px;
+}
+.context-menu-theme-vista .context-menu-separator {
+	margin:0px 0px 0px 32px;
+	font-size:0px;
+	border-top:1px solid #C5C5C5;
+	border-bottom:1px solid #F5F5F5;
+}
+.context-menu-theme-vista .context-menu-item-hover {
+	background:transparent url(/xwiki/resources/contextmenu/cmenu-vista-menu-item-hover.gif) repeat-x left center;
+	border:1px solid #D7D0B3;
+}
+.context-menu-theme-vista .context-menu-item .context-menu-item-inner {
+	padding:4px 16px 4px 35px;
+	margin-left:1px;
+	background-color:none;
+	background-repeat:no-repeat;
+	background-position:3px center;
+	background-image:none;
+}
+.context-menu-theme-vista .context-menu-item-hover .context-menu-item-inner {
+	padding:3px 15px 3px 35px;
+	margin-left:0px;
+}
+.context-menu-theme-vista .context-menu-item-disabled {
+	color:#A7A7A7;
+}
+
+/* OSX Theme */
+/* ========= */
+.context-menu-theme-osx {
+	background-color:white;
+	opacity: .93;
+	filter: alpha(opacity=93);
+	zoom:1.0;
+	border:1px solid #b2b2b2;
+}
+.context-menu-theme-osx .context-menu-item {
+	text-align:left;
+	cursor:pointer;
+	color:black;
+	font-family:Lucida Grande,Arial;
+	font-weight:700;
+	font-size:12px;
+	opacity: 1.0;
+	filter: alpha(opacity=100);
+	z-index:1;
+}
+.context-menu-theme-osx .context-menu-separator {
+	margin:5px 1px 4px 1px;
+	font-size:0px;
+	border-top:1px solid #e4e4e4;
+}
+.context-menu-theme-osx .context-menu-item-hover {
+	background-color:#1C44F2;
+	color:white;
+}
+.context-menu-theme-osx .context-menu-item .context-menu-item-inner {
+	padding:2px 10px 2px 22px;
+	background-color:none;
+	background-repeat:no-repeat;
+	background-position:4px center;
+	background-image:none;
+}
+.context-menu-theme-osx .context-menu-item-disabled {
+	color:#939393;
+}
+
+/* Linux Human Theme */
+/* ================= */
+.context-menu-theme-human {
+	background:#F9F5F2;
+	border:1px solid #963;
+}
+.context-menu-theme-human .context-menu-item {
+	text-align:left;
+	cursor:pointer;
+	color:black;
+	font-family:Helvetica,DejaVu Sans,Arial;
+	font-size:12px;
+	line-height:20px;
+	height:28px;
+	border:1px solid #F9F5F2;
+	border-left:0;
+	border-right:0;
+}
+.context-menu-theme-human .context-menu-separator {
+	margin:0px 0px 0px 32px;
+	font-size:0px;
+	border-top:1px solid #C5C5C5;
+	border-bottom:1px solid #F5F5F5;
+}
+.context-menu-theme-human .context-menu-item-hover {
+	background:transparent url(/xwiki/resources/contextmenu/cmenu-human-menu-item-hover.gif) repeat-x left center;
+	border-color:#963;
+}
+.context-menu-theme-human .context-menu-item .context-menu-item-inner {
+	padding:4px 16px 4px 35px;
+	margin-left:0px;
+	background-color:none;
+	background-repeat:no-repeat;
+	background-position:3px center;
+	background-image:none;
+}
+.context-menu-theme-human .context-menu-item-hover .context-menu-item-inner {
+}
+.context-menu-theme-human .context-menu-item-disabled {
+	color:#A7A7A7;
+}
+
+/* Gloss Theme */
+/* =========== */
+.context-menu-theme-gloss {
+	background:#f4f4f4 url(/xwiki/resources/contextmenu/cmenu-gloss-bg.gif) repeat-y left center;
+	border:1px solid #f4f4f4;
+	padding:1px;
+	padding-right:0;
+}
+.context-menu-theme-gloss .context-menu-item {
+	text-align:left;
+	cursor:pointer;
+	color:black;
+	font-family:Helvetica,DejaVu Sans,Arial;
+	font-size:12px;
+	line-height:20px;
+	height:27px;
+	border:1px solid transparent;
+}
+.context-menu-theme-gloss .context-menu-separator {
+	margin:0px 0px 0px 32px;
+	font-size:0px;
+	border-top:1px solid #C5C5C5;
+	border-bottom:1px solid #F5F5F5;
+}
+.context-menu-theme-gloss .context-menu-item-hover {
+	background:transparent url(/xwiki/resources/contextmenu/cmenu-gloss-menu-item-hover.gif) repeat-x left center;
+	color:#fff;
+	border-color:#000;
+  	border-radius: 3px;
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+.context-menu-theme-gloss .context-menu-item .context-menu-item-inner {
+	padding:4px 16px 4px 35px;
+	margin-left:0px;
+	background-color:none;
+	background-repeat:no-repeat;
+	background-position:3px center;
+	background-image:none;
+}
+.context-menu-theme-gloss .context-menu-item-hover .context-menu-item-inner {
+}
+.context-menu-theme-gloss .context-menu-item-disabled {
+	color:#A7A7A7;
+}
+
+.context-menu-theme-gloss-cyan .context-menu-item-hover {
+	background-image:url(/xwiki/resources/contextmenu/cmenu-gloss-cyan-menu-item-hover.gif);
+	border-color:#00c;
+}
+
+.context-menu-theme-gloss-semitransparent .context-menu-item-hover {
+	background-image:url(/xwiki/resources/contextmenu/cmenu-item-gloss-semitransparent-menu-item-hover.png);
+	border-color:#00c;
+	background-color:#30f;
+}
+
+.menuRightClick-custom-item {
+	font-size:16px !important;
+	font-weight:bold;
+	padding:3px;
+}
+.menuRightClick-custom-item-hover {
+	border:2px solid black;
+	padding:1px;
+}
+</code>
+    </property>
+    <property>
+      <name>contextMenuPlugin-css</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>3561f86b-47f5-47ff-aeb9-7b073d5d56e9</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+    <property>
+      <users>XWiki.Admin</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>1</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>37fbebe9-3a5c-4339-9696-7fcb879d8f32</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>345da599-649e-4e4a-bb3c-0ba082988e8b</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>b97e05e5-0cec-41b6-8196-ef15fba3e533</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>comment,view</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>4</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>8737e656-3147-43ab-bcab-6813324f3c55</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.LogFileInfo</name>
+    <number>5</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>b425884e-798b-4c5c-8264-56db0bd78a37</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>delete,edit</levels>
+    </property>
+  </object>
+  <content>{{html wiki="true" clean="false"}}
+&lt;div id="container"&gt;
+&lt;table style="text-align:left;"&gt;
+    &lt;tr&gt;
+        &lt;th&gt;
+            &lt;b&gt;LIST LOG FILES&lt;/b&gt;
+        &lt;/th&gt;
+        &lt;th&gt;
+            &lt;b&gt;CONTENT OF LOG FILES&lt;/b&gt;&lt;span id='moreLogs'&gt;&lt;input type='button' id='moreLogsBtn' class = 'button' value = "More previous logs"&gt;&lt;/span&gt;
+        &lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            &lt;div id="lstLog"&gt;&lt;/div&gt;
+        &lt;/td&gt;
+        &lt;td&gt;
+            &lt;textarea id="contentLog" wrap='off' &gt;&lt;/textarea&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;div id="message"&gt;&lt;span id="message_add"&gt;&lt;span&gt;&lt;/div&gt;
+{{/html}}</content>
+</xwikidoc>

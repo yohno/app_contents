@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WiperDogLib</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1389769941000</creationDate>
+  <date>1389769941000</date>
+  <contentUpdateDate>1389769941000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.WebHome</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>7a31dc18-bbc9-47fa-ba95-1050650efa7d</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.WebHome</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>e409ee92-bfd0-4802-a2f4-9b0acbfefd0e</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>delete,edit</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.WebHome</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>28a030a7-db1a-41f8-855f-0b42045fb9ff</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>comment,view</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.WebHome</name>
+    <number>4</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>9aed7b8e-6eda-4afa-b066-d97aa4c86562</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDogLib.WebHome</name>
+    <number>5</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>97687cca-1ba0-480d-aa28-8c01b6b86bb5</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <content>{{groovy}}
+import groovy.json.*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import groovy.lang.GroovyShell
+ 
+//response.setContentType('text')
+
+def slurper = new JsonSlurper()
+def datajson = request.getParameter("data")
+def listKeyJson = request.getParameter("listKey")
+def listKey
+if(listKeyJson != null &amp;&amp; listKeyJson != ""){
+   listKey = slurper.parseText(listKeyJson)
+}
+def action = request.getParameter("action")
+def sampleData = request.getParameter("sampleData")
+def type = request.getParameter("type")
+def mapConditionLevelJson = request.getParameter("mapConditionLevel")
+def mapConditionLevel
+if(mapConditionLevelJson != null &amp;&amp; mapConditionLevelJson != ""){
+   mapConditionLevel = slurper.parseText(mapConditionLevelJson)
+}
+
+def data
+def closureStr = ""
+if(datajson != null &amp;&amp; datajson != ""){
+    if(action == "STANDARDCONDITION") {
+        def standardData = getDataConditionsAfterEdit(datajson, listKey)
+        println standardData
+    } else if(action == "STANDARDMESSAGE") {
+        def standardData = getDataMessageAfterEdit(datajson, listKey)
+        println standardData
+    } else {
+        data = slurper.parseText(datajson)
+        def resp = [:]
+        closureStr = generatePolicyString(data, listKey, type, mapConditionLevel)
+    }
+
+    if(action == "PREVIEW") {
+        println closureStr
+    } else if(action == "RUNTEST") {
+     try {
+            // Data policy
+            def mapSampleData = slurper.parseText(sampleData)
+            // Closure
+            GroovyShell shell = new GroovyShell()
+            def obj = shell.evaluate(closureStr)
+            def binding = obj.getBinding()
+            def policyClos = binding.getVariable("POLICY")
+            def resultResponse = policyClos(mapSampleData)
+            def builder = new JsonBuilder(resultResponse)
+            println builder.toString()
+        } catch(Exception ex) {
+            def respData = ['status':'failed']
+            def errorMsg = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(ex)
+            respData['message'] = errorMsg
+            def builder = new JsonBuilder(respData)
+            println builder.toString()
+        }
+    } else if(action == "WRITE2FILE") {
+       def respData = generatePolicyString(data,listKey, type, mapConditionLevel)
+       println respData
+    }
+}
+
+def getLevel(condition, mapConditionLevel, group = null){
+    def ret = ''
+    def intRet
+    if(mapConditionLevel != null &amp;&amp; mapConditionLevel.size() &gt; 0){
+       if(group == null){
+           // Store
+           mapConditionLevel.each{key, value-&gt;
+               if(condition == key){
+                   ret = value
+               }
+           }
+       }else{
+           // Subtyped
+           mapConditionLevel[group].each{key, value-&gt;
+               if(condition == key){
+                   ret = value
+               }
+           }
+       }
+    }
+    if(ret == "Low"){
+       intRet = 1
+    } 
+    if(ret == "Medium"){
+       intRet = 2
+    }
+    if(ret == "High"){
+       intRet = 3
+    }
+    return intRet 
+}
+
+// GENERATE DATA TO POLICY STRING
+def generatePolicyString(data, listKey, type, mapConditionLevel){
+    def policyStr = ""
+    //return data
+    try {
+        if(type == "store") {
+     if(data.mappolicy != null &amp;&amp; data.mappolicy.size() &gt; 0){
+     policyStr += "POLICY = {resultData-&gt;\n"
+     policyStr += "\tdef listMess = []\n"
+  policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
+     def mapPolicy = data.mappolicy
+     policyStr += "\tresultData.each{data-&gt;\n"
+     mapPolicy.each {key,value -&gt;
+      key = key.trim()
+      if(key[0] != "("){
+           key = "(" + key
+      }
+      if(key[key.size() - 1] != ")"){
+          key = key + ")"
+      }
+       
+      // if statement
+      policyStr += "\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
+      // message print statement
+      policyStr += "\t\t\tlistMess.add([level: " + getLevel(key, mapConditionLevel) + ", message: \"\"\""+ value +"\"\"\"])\n\t\t}\n"
+         }
+  policyStr += "\t}\n"
+  policyStr += "\tret['message'] = listMess\n"
+  policyStr += "\treturn ret\n}"
+     }
+        } else if(type == "subtyped") {
+            policyStr += "POLICY = {resultData-&gt;\n"
+            policyStr += "\tdef listMess = []\n"
+            policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
+            policyStr += "\tresultData.each {key,value -&gt;\n"
+            data.mappolicy.each {keyData,valueData -&gt;
+                if(valueData != [:]) {
+                    policyStr += "\t\tif(key == \"" + keyData + "\") {\n"
+                    policyStr += "\t\t\tvalue.each {data -&gt;\n"
+                    valueData.each {key,value -&gt;
+                        // If
+                        policyStr += "\t\t\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
+                        // Message
+                        policyStr += "\t\t\t\t\tlistMess.add([level: " + getLevel(key, mapConditionLevel, keyData) + ", message: \"\"\""+ value +"\"\"\"])\n"
+                        policyStr += "\t\t\t\t}\n"
+                    }
+                    policyStr += "\t\t\t}\n"
+                    policyStr += "\t\t}\n"
+                }
+            }
+            policyStr += "\t}\n"
+            policyStr += "\tret['message'] = listMess\n"
+            policyStr += "\treturn ret\n"
+            policyStr += "}"
+        }
+        return policyStr
+    } catch(Exception ex) {
+ return "ex:" + ex
+    }
+}
+
+def getDataConditionsAfterEdit(String stringOfPolicy, dataKey){
+    List OperatorList = [" ", "\\(", "\\)", "=", "\\+|\\-|\\*|\\/|%", "&gt;|&lt;|=|!", "\\|\\||&amp;&amp;|\\?\\:", "\\~|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\\^|\\|"]
+
+    //Replace all unnecessary space
+    String macherPattern = "([ ]{2,})"
+    Pattern pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+    stringOfPolicy = "(" + stringOfPolicy.replaceAll(pattern, " ").trim() + ")"
+
+    String strKeyPattern = convertListToString(dataKey, "|")
+    String strOperator = convertListToString(OperatorList, "|")
+ 
+    //Create macher
+    macherPattern = "(" + strOperator + ")(" + strKeyPattern + ")(" + strOperator + "|\\.)"
+    pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+    Matcher matcher = pattern.matcher(stringOfPolicy);
+    def oldData
+    def newData
+    while(matcher.find()){
+     oldData = matcher.group()
+ newData = matcher.group(1) + "data." + matcher.group(2) + matcher.group(3)
+ stringOfPolicy = stringOfPolicy.replace(oldData, newData)
+    }
+    stringOfPolicy = stringOfPolicy.substring(1, stringOfPolicy.length() -1)
+    return stringOfPolicy
+}
+
+def getDataMessageAfterEdit(String stringOfMessage, dataKey){
+	//Replace all unnecessary space
+	String macherPattern = "([ ]{2,})"
+	Pattern pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+	stringOfMessage = stringOfMessage.replaceAll(pattern, " ").trim()
+	stringOfMessage = " " + stringOfMessage + " "
+	stringOfMessage = stringOfMessage.replaceAll('"""', '\'\'\'')
+	String strKeyPattern = convertListToString(dataKey, "|")
+	
+	//Remove unneed data
+	macherPattern = "(\\\$\\{data\\.)(" + strKeyPattern + ")(\\})"
+	pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+	Matcher matcher = pattern.matcher(stringOfMessage);
+	while(matcher.find()){
+		stringOfMessage = stringOfMessage.replace(matcher.group(), matcher.group(2))
+	}
+	
+	//Create macher
+	macherPattern = "((?:(?!(\\d|[a-zA-Z]|\'|\")).)+)(" + strKeyPattern + ")((?:(?!(\\d|[a-zA-Z]|\'|\")).)+)"
+	pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+	matcher = pattern.matcher(stringOfMessage);
+	def oldData
+	def newData
+	while(matcher.find()){
+		oldData = matcher.group()
+		newData = matcher.group(1) + '${data.' + matcher.group(3) + '}' + matcher.group(4)
+		stringOfMessage = stringOfMessage.replace(oldData, newData)
+	}
+	stringOfMessage = stringOfMessage.substring(1, stringOfMessage.length() -1)
+	stringOfMessage = stringOfMessage.replace('"', '') 
+	stringOfMessage = stringOfMessage.replace('\'\'\'', '')
+	return stringOfMessage
+}
+def convertListToString (List listData, String concatStr = "|"){
+ def strRet = ""
+  listData.each {key-&gt;
+    strRet += key + concatStr
+  }
+  if (strRet != "") {
+    strRet = strRet.subSequence(0, strRet.length() - concatStr.length())
+  }
+}
+{{/groovy}}</content>
+</xwikidoc>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<package>
+<infos>
+<name>XWiki Application - Wiperdog</name>
+<description>XWiki Application - Wiperdog</description>
+<licence></licence>
+<author>XWiki.Admin</author>
+<extensionId>org.wiperdog:wiperdog-ui</extensionId>
+<version>0.2.3-SNAPSHOT</version>
+<backupPack>false</backupPack>
+</infos>
+<files>
+<file language="" defaultAction="0">WiperDog.TestJob</file>
+<file language="" defaultAction="0">WiperDog.LastSeverity</file>
+<file language="" defaultAction="0">WiperDog.GetServlet</file>
+<file language="" defaultAction="0">WiperDogLib.ExportPDFLib</file>
+<file language="" defaultAction="0">WiperDogLib.WebHome</file>
+<file language="" defaultAction="0">WiperDogLib.PolicyStringLib</file>
+<file language="" defaultAction="0">WiperDogLib.RealtimeData</file>
+<file language="" defaultAction="0">WiperDog.JobConfiguration</file>
+<file language="" defaultAction="0">WiperDog.WebHome</file>
+<file language="" defaultAction="0">WiperDog.GetServletClass</file>
+<file language="" defaultAction="0">WiperDogLib.timeagoLib</file>
+<file language="" defaultAction="0">WiperDogLib.JQueryUILib</file>
+<file language="" defaultAction="0">WiperDogLib.MenuGeneratorLib</file>
+<file language="" defaultAction="0">WiperDogLib.ConsoleService</file>
+<file language="" defaultAction="0">WiperDogLib.JqGridLib</file>
+<file language="" defaultAction="0">WiperDog.WebPreferences</file>
+<file language="" defaultAction="0">WiperDog.WiperdogServiceInstallation</file>
+<file language="" defaultAction="0">WiperDogLib.RealtimeDataLiveTable</file>
+<file language="" defaultAction="0">WiperDog.GetConstantConfig</file>
+<file language="" defaultAction="0">WiperDog.LogFileInfo</file>
+<file language="" defaultAction="0">WiperDogLib.MenuGenerator</file>
+<file language="" defaultAction="0">WiperDog.ProcInstallWDService</file>
+<file language="" defaultAction="0">WiperDog.processPolicy</file>
+<file language="" defaultAction="0">WiperDogLib.chooseJobProcess</file>
+<file language="" defaultAction="0">WiperDog.LastAccumulation</file>
+<file language="" defaultAction="0">WiperDogLib.MsgPolicyFromMongo</file>
+<file language="" defaultAction="0">WiperDogLib.js</file>
+<file language="" defaultAction="0">WiperDogLib.LivetableDataAdapter</file>
+<file language="" defaultAction="0">WiperDog.JobDoc</file>
+<file language="" defaultAction="0">WiperDog.DisplayPolicy</file>
+<file language="" defaultAction="0">WiperDog.DBConfiguration</file>
+<file language="" defaultAction="0">WiperDog.ControlProcess</file>
+<file language="" defaultAction="0">WiperDog.MonitoringData</file>
+<file language="" defaultAction="0">WiperDogLib.WebPreferences</file>
+<file language="" defaultAction="0">WiperDogLib.MongoDBConnection</file>
+<file language="" defaultAction="0">WiperDog.JobDBConnectionConfiguration</file>
+<file language="" defaultAction="0">WiperDog.ImportInstance</file>
+<file language="" defaultAction="0">WiperDog.WiperdogConfiguration</file>
+<file language="" defaultAction="0">WiperDog.ConsoleManagement</file>
+<file language="" defaultAction="0">WiperDogLib.Highcharts</file>
+<file language="" defaultAction="0">WiperDogLib.jsPDF</file>
+</files>
+</package>
