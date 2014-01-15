@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879466000</creationDate>
-  <date>1387523627000</date>
-  <contentUpdateDate>1387523588000</contentUpdateDate>
+  <date>1387536987000</date>
+  <contentUpdateDate>1387536987000</contentUpdateDate>
   <version>1.1</version>
   <title>DataToDrawChart</title>
   <defaultTemplate/>
@@ -866,7 +866,6 @@
 							mapSeries['name'] = itemChart
 							mapSeries['data'] = []
 							def isHasData
-							def numOfData = 0
 							result['data'].each {oneRunData -&gt;
 								isHasData = false
 								oneRunData.each {itemData -&gt;
@@ -883,7 +882,6 @@
 								if (!isHasData) {
 									mapSeries['data'].add(null)
 								}
-								numOfData ++
 							}
 							finalData['series'].add(mapSeries)
                                                         finalData['unit'] = unit[itemChart]

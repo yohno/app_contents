@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1382327524000</creationDate>
-  <date>1387529897000</date>
+  <date>1389776910000</date>
   <contentUpdateDate>1387196284000</contentUpdateDate>
   <version>1.1</version>
   <title>MonitoringData</title>
@@ -6081,7 +6081,11 @@ function processChartSuccessor(result){
 
 							//Remove old data
 							var deleteCategories = newCategories.clone()
-							deleteCategories.splice(newCategories.length - limitChart, limitChart)
+                                                        if (newCategories.length &gt; limitChart) {
+							    deleteCategories.splice(newCategories.length - limitChart, limitChart)
+                                                        } else {
+                                                            deleteCategories = []
+                                                        }
 							var dataLength = 0
 							for(var poinIdx = 0; poinIdx &lt; chart.series.length; poinIdx++){
 								dataLength = chart.series[poinIdx].data.length
@@ -6138,7 +6142,11 @@ function processChartSuccessor(result){
 
 					    //Delete old point
 					    var deleteCategories = chart.options.xAxis[0].categories.clone()
-					    deleteCategories.splice(deleteCategories.length - limitChart, limitChart)
+                                            if (deleteCategories.length &gt; limitChart) {
+					        deleteCategories.splice(deleteCategories.length - limitChart, limitChart)
+                                            } else {
+                                                deleteCategories = []
+                                            }
 					    for(var poinIdx = 0; poinIdx &lt; chart.series.length; poinIdx++){
 						dataLength = chart.series[poinIdx].data.length
 						for(var poinDelIdx = 0; poinDelIdx &lt; dataLength; poinDelIdx++){

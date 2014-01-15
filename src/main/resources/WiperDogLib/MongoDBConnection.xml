@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1380879467000</creationDate>
-  <date>1386236074000</date>
-  <contentUpdateDate>1386235651000</contentUpdateDate>
+  <date>1389777854000</date>
+  <contentUpdateDate>1389777854000</contentUpdateDate>
   <version>1.1</version>
   <title>MongoDBConnection</title>
   <defaultTemplate/>
@@ -586,7 +586,7 @@ class MongoDBConnection{
  //Get monitor data with conditions
  def getDataInPeriod(collection,fromDate,toDate,limit,istIid){
   def realCollectionName = collection + "." + istIid
-  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
   def list_data = []
   assert collection != null || collection != "" || istIid != null || istIid !="" : "Can not get data ! Collection is null or empty string"
   assert limit != null : "Can not get data ! Limit is null"
