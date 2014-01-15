@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WiperDog</web>
+  <name>ControlProcess</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WiperDog.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1385623079000</creationDate>
+  <date>1385976503000</date>
+  <contentUpdateDate>1385976503000</contentUpdateDate>
+  <version>1.1</version>
+  <title>ControlProcess</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.ControlProcess</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>7a68746f-2ca0-4634-b786-bf0b77cb2dc3</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.ControlProcess</name>
+    <number>1</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>efcbe2be-cff9-4ae7-823c-9196a17d7663</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.ControlProcess</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>e835136b-58af-4d9a-8183-4b82bf25dc50</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>delete,edit,comment,view</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.ControlProcess</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>b3791638-4a02-425e-9d2b-c7535d8b0f53</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.ControlProcess</name>
+    <number>4</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>e9319898-d04f-434e-b7d4-b518d1306906</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+  </object>
+  <content>{{groovy}}
+import groovy.json.*
+import java.util.regex.Pattern
+
+def slurper = new JsonSlurper()
+def datajson = request.getParameter('data');
+def action = request.getParameter('action');
+def dataSend = [:]
+def osWiperdog = ''
+def hostWiperdog = ''
+def userRemote = ''
+def passRemote = ''
+def wdHome = ''
+def errMess = ''
+def inMess = ''
+def resultSend = [:]
+Properties props = System.getProperties();
+def xwiki_dir = props.getProperty('user.dir');
+def shell = new GroovyShell()
+File f = new File(xwiki_dir + "/webapps/xwiki/resources/conf.params")
+
+//update file conf.params
+def updateConfig(wiperdogPath, file) {
+  // Update file config no matter what
+  def mapMess = [:]
+  try {
+    def shell = new GroovyShell()
+    def confData = shell.evaluate(file)
+    if (confData == null) {
+      confData = [:]
+    }
+    if (confData['wiperdog_path'] == null) {
+      confData['wiperdog_path'] = [:]
+    }
+    confData['wiperdog_path'] = wiperdogPath
+    def confDataBuilder = new JsonBuilder(confData)
+    file.setText(confDataBuilder.toPrettyString().replaceAll("\\{", "\\[").replaceAll("\\}", "\\]"))
+    mapMess['message'] = "Update wiperdog path succesfully !"
+    mapMess['status'] = 0
+  } catch (Exception ex) {
+    mapMess['message'] = "{{error}}Fail to update wiperdog path!" + ex.getMessage().replace('\\', '/') + "{{/error}}"
+    mapMess['status'] = 0
+  }
+  return mapMess
+}
+//run remote
+def runRemote(command, wiperdog, data, workDir) {
+  List &lt; String &gt; listCmd = new LinkedList &lt; String &gt; ();
+  listCmd = new LinkedList &lt; String &gt; ();
+  listCmd.add(command);
+  if(command == 'ssh' || command == 'scp'){
+    listCmd.add("-o");
+    listCmd.add("PasswordAuthentication=no");
+  }
+  listCmd.add(wiperdog);
+  listCmd.add(data.replaceAll('//', '/'));
+  def output = runProcClosure(listCmd, workDir, true)
+  return output
+}
+
+//Closure to run a java process
+def runProcClosure(listCmd, dir, waitFor) {
+  def output = [:]
+  ProcessBuilder builder = new ProcessBuilder(listCmd);
+  builder.redirectErrorStream(true);
+  builder.directory(dir);
+  Process p = builder.start();
+  if (waitFor) {
+    output['exitVal'] = p.waitFor()
+  }
+  InputStream procOut = p.getInputStream();
+  BufferedReader br = new BufferedReader(new InputStreamReader(procOut))
+  def line = null
+  StringBuffer stdin = new StringBuffer()
+  while ((line = br.readLine()) != null) {
+    stdin.append(line + "\n")
+  }
+  output["message"] = stdin.toString()
+  return output
+}
+
+//action read data from file
+if (action == 'read') {
+  try {
+    if (!f.exists()) {
+      println "{{warning}}File conf.params not found ,new file created !.Create data to update to conf.params file {{/warning}}"
+      f.createNewFile()
+    }
+    def params = shell.evaluate(f)
+    if (params != null &amp;&amp; params != []) {
+      if (params.wiperdog_path != []) {
+        dataSend['status'] = 0
+        dataSend['data'] = params.wiperdog_path
+      }
+    }
+  } catch (Exception ex) {
+    dataSend['status'] = 1
+    dataSend['data'] = ex.getMessage()
+  }
+  def builder = new JsonBuilder(dataSend)
+  println builder.toString().replace("\\\\", "/")
+  return
+}
+
+if (datajson != null &amp;&amp; datajson != "") {
+  //action update data
+  if (action == 'write') {
+    def cont = request.getParameter('cont');
+    def data = slurper.parseText(datajson)
+    def wiperdogPath = [:]
+
+    osWiperdog = data.os
+    hostWiperdog = data.host
+    if (data.user != null &amp;&amp; data.user != '') {
+      userRemote = data.user.replace("\\\\", "\\")
+    } else {
+      userRemote = data.user
+    }
+    passRemote = data.pass
+    wdHome = data.path.replace("\\\\", "\\")
+
+    wiperdogPath['os'] = osWiperdog
+    wiperdogPath['host'] = hostWiperdog
+    wiperdogPath['user'] = userRemote
+    wiperdogPath['pass'] = passRemote
+    wiperdogPath['path'] = wdHome
+
+    if (wdHome != null &amp;&amp; wdHome != '') {
+      if (cont == 'yes') {
+        resultSend = updateConfig(wiperdogPath, f)
+        def builder = new JsonBuilder(resultSend)
+        println builder.toString()
+        return
+      }
+      if (System.getProperty('os.name').toLowerCase().contains('win') &amp;&amp; osWiperdog == 'linux') {
+        resultSend['message'] = "{{error}}Can not connect from Windows(Xwiki) to Linux(Wiperdog Server)!!!\n{{/error}}"
+        resultSend['status'] = 1
+        def builder = new JsonBuilder(resultSend)
+        println builder.toString()
+        return
+      }
+      if (System.getProperty('os.name').toLowerCase().contains('linux') &amp;&amp; osWiperdog == 'win') {
+        resultSend['message'] = "{{error}}Can not connect from Linux(Xwiki) to Windows(Wiperdog Server)!!!\n{{/error}}"
+        resultSend['status'] = 1
+        def builder = new JsonBuilder(resultSend)
+        println builder.toString()
+        return
+      }
+      def hostAddr
+      if (hostWiperdog != 'localhost') {
+        hostAddr = InetAddress.getByName(hostWiperdog);
+      }
+      if (hostAddr != null &amp;&amp; !hostAddr.isReachable(30000)) {
+        resultSend['message'] = "{{error}}Can not connect to host $hostWiperdog!!!\n{{/error}}"
+        resultSend['status'] = 1
+      } else {
+        File workDir = new File(System.getProperty("user.dir"));
+        def psExec = null
+        //Get PsExec location
+        if (hostWiperdog != 'localhost' &amp;&amp; osWiperdog == 'win') {
+          if (System.getenv('PSTOOLS') == null) {
+            resultSend['message'] = "{{error}}PSTOOL does not exist in systems!!!{{/error}}"
+            resultSend['status'] = 1
+            def builder = new JsonBuilder(resultSend)
+            println builder.toString()
+            return
+          }
+          List &lt; String &gt; listCmdPSExec = new LinkedList &lt; String &gt; ();
+          listCmdPSExec.add("cmd")
+          listCmdPSExec.add("/c")
+          listCmdPSExec.add("echo")
+          listCmdPSExec.add("%PSTOOLS%")
+          psExec = runProcClosure(listCmdPSExec, workDir, true).message.trim() + "\\PsExec.exe"
+          psExec = psExec.replace("\\\\", "\\")
+        }
+        //Check connect to host on Linux
+        def remoteHost = null
+
+        if (hostWiperdog != 'localhost' &amp;&amp; osWiperdog == 'linux') {
+          remoteHost = userRemote + "@" + hostWiperdog
+          def output = [:]
+          listCmd = new LinkedList &lt; String &gt; ();
+          listCmd.add("ssh");
+          listCmd.add(remoteHost);
+          listCmd.add("-o");
+          listCmd.add("PasswordAuthentication=no");
+          listCmd.add(wdHome);
+          output = runProcClosure(listCmd, workDir, true)
+          //check wiperdog path exist or not
+          if (output.message.contains('No such')) {
+            resultSend['message'] = "{{error}}Wiperdog Path does not exist!!!\n{{/error}}"
+            resultSend['status'] = 0
+            def builder = new JsonBuilder(resultSend)
+            println builder.toString()
+            return
+          }
+          //check connect to host
+          if (output.message.contains('refused')) {
+            resultSend['message'] = "{{error}}Can not connect to host $remoteHost!!!\n{{/error}}"
+            resultSend['status'] = 1
+            def builder = new JsonBuilder(resultSend)
+            println builder.toString()
+            return
+          }
+        }
+        //Check connect to host on windows
+        if (hostWiperdog != 'localhost' &amp;&amp; osWiperdog == 'win') {
+          // service
+          def output = [:]
+          listCmd = new LinkedList &lt; String &gt; ();
+          listCmd.add(psExec)
+          listCmd.add("\\\\" + hostWiperdog)
+          listCmd.add("-u")
+          listCmd.add('"' + userRemote + '"')
+          listCmd.add("-p")
+          listCmd.add('"' + passRemote + '"')
+          listCmd.add("cmd")
+          listCmd.add("/c")
+          output = runProcClosure(listCmd, workDir, true)
+          if (output.message.contains("Couldn't access") || output.message.contains('Logon failure')) {
+            resultSend['message'] = "Can not connect to host $hostWiperdog!!!"
+            resultSend['status'] = 1
+            def builder = new JsonBuilder(resultSend)
+            println builder.toString()
+            return
+          }
+        }
+        //update config
+        resultSend = updateConfig(wiperdogPath, f)
+        //install os service
+        if (data.installSysService == true) {
+          File wpPath = new File(wdHome)
+          if (hostWiperdog == 'localhost' &amp;&amp; !wpPath.isDirectory()) {
+            resultSend['message'] = "{{error}}Update config successfully !!! But can't not regist the new Wiperdog as system service because privileges problems. \nPlease stop all wiperdog process which are running and start the Wiperdog which you have been set.\n Or Wiperdog path is simply not a directory{{/error}}"
+            resultSend['status'] = 0
+          } else {
+            try {
+              def encoding = "SJIS"
+              def proc = null
+              def output = null
+              if (osWiperdog == "linux") {
+                // Linux process
+                if (hostWiperdog == 'localhost') {
+                  configFile = new File(wdHome + "/bin/wiperdog")
+                }
+                if (hostWiperdog == 'localhost' &amp;&amp; !configFile.exists()) {
+                  resultSend['message'] = "Directory: " + wdHome + " not be a wiperdog home directory !"
+                  resultSend['status'] = 0
+                } else {
+                  if (hostWiperdog == 'localhost') {
+                    fileText = configFile.text
+                    def newHome = wdHome.replaceAll(/\\+/, '/')
+                    newFileText = ""
+                    macherPattern = "(WIPERDOGHOME=)((?:(?!\\n).)*)"
+                    pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+                    matcher = pattern.matcher(fileText);
+                    while (matcher.find()) {
+                      newFileText = fileText.replace(matcher.group(1) + matcher.group(2), matcher.group(1) + newHome)
+                    }
+                    def crlfFixFileText = newFileText.replaceAll("\r", "");
+                    configFile.write(crlfFixFileText)
+
+                    // Install service script 
+                    FileOutputStream fos = new FileOutputStream(new File("install_service.sh"))
+                    StringBuffer sBuff = new StringBuffer(512)
+                    sBuff.append("#!/bin/sh\n#\n#\n#\n")
+                    def procCheckStatus = "/sbin/service wiperdog status".execute()
+                    if (!procCheckStatus. in .text.contains('stopped')) {
+                      sBuff.append("/sbin/service wiperdog stop\n")
+                    }
+                    sBuff.append(("/bin/cp " + newHome + "/bin/wiperdog /etc/rc.d/init.d/\n").replaceAll('//', '/'))
+                    sBuff.append("/bin/chmod 755 /etc/rc.d/init.d/wiperdog\n")
+                    sBuff.append("/sbin/chkconfig --del wiperdog\n")
+                    sBuff.append("/sbin/chkconfig --add wiperdog\n")
+                    sBuff.append("/sbin/chkconfig --level 2 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --level 3 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --level 4 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --level 5 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --list wiperdog\n")
+                    sBuff.append(("/bin/chmod 755 " + newHome + "/bin/* \n").replaceAll('//', '/'))
+                    sBuff.append("/sbin/service wiperdog start\n")
+                    fos.write(sBuff.toString().getBytes());
+                    fos.flush();
+                    fos.close();
+                    proc = "sudo /bin/chmod 755 install_service.sh".execute()
+                    proc = "sudo /bin/sh install_service.sh".execute()
+                    inMess = proc. in .text
+                    errMess = proc.err.text
+                    def exitVal = proc.waitFor()
+                    if(exitVal == 0){
+                       resultSend['message'] = "Update config successfully!!! The new Wiperdog has been started as system service on localhost."
+                    } else {
+                       resultSend['message'] = "Failed to update wiperdog path .Reason: \n" + inMess +"\n" + errMess 
+                    }
+                    resultSend['status'] = exitVal 
+                  } else {
+                    //get wiperdog file from other host to localhost
+                    runRemote("scp", remoteHost + ":" + wdHome + "/bin/wiperdog", ".", workDir)
+
+                    //new file
+                    configFile = new File("./wiperdog")
+                    fileText = configFile.text
+                    def newHome = wdHome.replaceAll(/\\+/, '/')
+                    newFileText = ""
+                    macherPattern = "(WIPERDOGHOME=)((?:(?!\\n).)*)"
+                    pattern = Pattern.compile(macherPattern, Pattern.DOTALL);
+                    matcher = pattern.matcher(fileText);
+                    while (matcher.find()) {
+                      newFileText = fileText.replace(matcher.group(1) + matcher.group(2), matcher.group(1) + newHome)
+                    }
+                    def crlfFixFileText = newFileText.replaceAll("\r", "");
+                    //write file
+                    configFile.write(crlfFixFileText)
+
+                    //send wiperdog file to wiperdog_home/bin/
+                    runRemote("scp", "./wiperdog", remoteHost + ":" + newHome + "/bin/", workDir)
+
+                    //check status of wiperdog
+                    listCmd = new LinkedList &lt; String &gt; ();
+                    listCmd.add("ssh");
+                    listCmd.add("-o");
+                    listCmd.add("PasswordAuthentication=no");
+                    listCmd.add(remoteHost);
+                    listCmd.add("/sbin/service wiperdog status");
+                    output = runProcClosure(listCmd, workDir, true)
+
+                    //Create file install service
+                    FileOutputStream fos = new FileOutputStream(new File("./install_service.sh"))
+                    StringBuffer sBuff = new StringBuffer(512)
+                    sBuff.append("#!/bin/sh\n#\n#\n#\n")
+                    if (!output.message.contains('stopped')) {
+                      sBuff.append("/sbin/service wiperdog stop\n")
+                    }
+                    sBuff.append(("/bin/cp " + newHome + "/bin/wiperdog /etc/rc.d/init.d/\n").replaceAll('//', '/'))
+                    sBuff.append("/bin/chmod 755 /etc/rc.d/init.d/wiperdog\n")
+                    sBuff.append("/sbin/chkconfig --del wiperdog\n")
+                    sBuff.append("/sbin/chkconfig --add wiperdog\n")
+                    sBuff.append("/sbin/chkconfig --level 2 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --level 3 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --level 4 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --level 5 wiperdog on\n")
+                    sBuff.append("/sbin/chkconfig --list wiperdog\n")
+                    sBuff.append(("/bin/chmod 755 " + newHome + "/bin/* \n").replaceAll('//', '/'))
+                    sBuff.append("/sbin/service wiperdog start\n")
+                    fos.write(sBuff.toString().getBytes());
+                    fos.flush();
+                    fos.close();
+
+                    //send file install service from localhost to other host
+                    runRemote("scp", "./install_service.sh", hostWiperdog + ":" + wdHome, workDir)
+
+                    //set permisson for install_service file
+                    runRemote("ssh", remoteHost, "chmod 755 " + wdHome + "/install_service.sh", workDir)
+
+                    //start wiperdog service
+                    output = runRemote("ssh", remoteHost, "sudo /bin/sh " + wdHome + "/install_service.sh", workDir)
+                    if(output.exitVal == 0){
+                      resultSend['message'] = "Update config successfully !!! The new Wiperdog has been started as system service."
+                    } else {
+                      resultSend['message'] = "Failed to update wiperdog path .Reason: \n" + output.message
+                    }
+                    resultSend['status'] = output.exitVal
+                    def builder = new JsonBuilder(resultSend)
+                    println builder.toString()
+                    return
+                  }
+                }
+                if (errMess == "" &amp;&amp; resultSend['message'] == "") {
+                  resultSend['message'] = "Update config successfully !!! The new Wiperdog has been started as system service."
+                  resultSend['status'] = 0
+                } else if (errMess != "" &amp;&amp; resultSend['message'] == "") {
+                  resultSend['message'] = "{{error}}Update config successfully !!! But can't not regist the new Wiperdog as system service because privileges problems. \nPlease stop all wiperdog process which are running and start the Wiperdog which you have been set.\n" + errMess.replace('\\', '/') + "{{/error}}"
+                  resultSend['status'] = 0
+                }
+              } else {
+                // Install wiperdog service for Windows
+                List &lt; String &gt; listCmd = new LinkedList &lt; String &gt; ();
+                listCmd = new LinkedList &lt; String &gt; ();
+                if (hostWiperdog == 'localhost') {
+                  //start wiperdog local host
+                  def controlService = new ControlService()
+                  controlService.stopServiceWindows()
+                  controlService.reInstallServiceWindows(wdHome)
+                  // Re-install
+                  controlService.startServiceWindows()
+                  resultSend['message'] = "Update configuration file successfully. Install os service successfully!!!"
+                  resultSend['status'] = 0
+                } else {
+                  //check if WD path not found on remote host
+                  //Stop service
+                  listCmd = new LinkedList &lt; String &gt; ();
+                  listCmd.add(psExec)
+                  listCmd.add("\\\\" + hostWiperdog)
+                  listCmd.add("-u")
+                  listCmd.add('"' + userRemote + '"')
+                  listCmd.add("-p")
+                  listCmd.add('"' + passRemote + '"')
+                  listCmd.add('cmd')
+                  listCmd.add('/c')
+                  listCmd.add('cd')
+                  listCmd.add(wdHome)
+                  output = runProcClosure(listCmd, workDir, true)
+                  if(output.exitVal != 0) {
+                      resultSend['message'] = "Wiperdog path not found on remote system!!!" 
+                      resultSend['status'] = 0
+                      def builder = new JsonBuilder(resultSend)
+                      println builder.toString()
+                      return
+
+                  }
+                  //Stop service
+                  listCmd = new LinkedList &lt; String &gt; ();
+                  listCmd.add(psExec)
+                  listCmd.add("\\\\" + hostWiperdog)
+                  listCmd.add("-i")
+                  listCmd.add("-u")
+                  listCmd.add('"' + userRemote + '"')
+                  listCmd.add("-p")
+                  listCmd.add('"' + passRemote + '"')
+                  listCmd.add('net')
+                  listCmd.add('stop')
+                  listCmd.add('wiperdog')
+                  output = runProcClosure(listCmd, workDir, true)
+
+                  //Wait for service stop
+                  Thread.sleep(10000);
+
+                  //Start wiperdog other host
+                  listCmd = new LinkedList &lt; String &gt; ();
+                  listCmd.add(psExec)
+                  listCmd.add("\\\\" + hostWiperdog)
+                  listCmd.add("-i")
+                  listCmd.add("-u")
+
+                  listCmd.add('"' + userRemote + '"')
+                  listCmd.add("-p")
+                  listCmd.add('"' + passRemote + '"')
+                  def path = (wdHome + '\\service\\javaservice\\create_wiperdog_service.bat').replace("\\\\", "\\").replace("/", "\\")
+                  listCmd.add(path)
+                  listCmd.add(wdHome)
+                  output = runProcClosure(listCmd, workDir, true)
+                  if (output.exitVal == 0) {
+                    listCmd = new LinkedList &lt; String &gt; ();
+                    listCmd.add(psExec)
+                    listCmd.add("\\\\" + hostWiperdog)
+                    listCmd.add("-i")
+                    listCmd.add("-u")
+                    listCmd.add('"' + userRemote + '"')
+                    listCmd.add("-p")
+                    listCmd.add('"' + passRemote + '"')
+                    listCmd.add('net')
+                    listCmd.add('start')
+                    listCmd.add('wiperdog')
+                    output = runProcClosure(listCmd, workDir, true)
+                    if (output.exitVal == 0) {
+                      resultSend['message'] = "Update configuration file successfully. Install os service successfully!!!"
+                      resultSend['status'] = 0
+                    } else {
+                      resultSend['message'] = "Update configuration file successfully. Failed to start wiperdog service. Reason: " + output.message.replace('\\', '/')
+                      resultSend['status'] = 0
+                    }
+                  } else {
+                    resultSend['message'] = "Update configuration file successfully. Failed to install os service. Reason: " + output.message.replace('\\', '/')
+                    resultSend['message'] += "\n Maybe the service which is running can not stop. Please click UPDATE button to retry !!!"
+                    resultSend['status'] = 0
+                  }
+                }
+              }
+            } catch (Exception ex) {
+              resultSend['message'] = "{{error}}Update config successfully !!! But can't not regist the new Wiperdog as system service!\n" + ex.getMessage().replace('\\', '/') + "{{/error}}"
+              resultSend['status'] = 0
+            }
+          }
+        } else {
+          resultSend['message'] = "{{warning}}Update configuration file successfully. You have to reset Wiperdog's service manually!{{/warning}}"
+          resultSend['status'] = 0
+        }
+      }
+    } else {
+      resultSend['message'] = "{{warning}}Input new valid Wiperdog's path to update!{{/warning}}"
+      resultSend['status'] = 0
+    }
+    def builder = new JsonBuilder(resultSend)
+    println builder.toString()
+  }
+}
+
+//Control stop and reinstall wiperdog service
+class ControlService {
+  public void stopServiceWindows() throws Exception {
+
+    File workDir = new File(System.getProperty("user.dir"));
+    List &lt; String &gt; listCmd = new LinkedList &lt; String &gt; ();
+    listCmd.add("net");
+    listCmd.add("stop");
+    listCmd.add("wiperdog");
+    ProcessBuilder builder = new ProcessBuilder(listCmd);
+    builder.redirectErrorStream(true);
+    Process p = builder.start();
+    InputStream procOut = p.getInputStream();
+    OutputStream procIn = p.getOutputStream();
+    p.waitFor();
+
+    //-- kill process
+    listCmd = new LinkedList &lt; String &gt; ();
+    listCmd.add("taskkill");
+    listCmd.add("/F");
+    listCmd.add("/IM");
+    listCmd.add("wiperdog_service.exe");
+
+    builder = new ProcessBuilder(listCmd);
+    builder.redirectErrorStream(true);
+    p = builder.start();
+    procOut = p.getInputStream();
+    procIn = p.getOutputStream();
+    p.waitFor();
+
+    //-- Wait
+    listCmd = new LinkedList &lt; String &gt; ();
+    listCmd.add("cmd.exe");
+    listCmd.add("/c");
+    listCmd.add("sleep");
+    listCmd.add("3");
+    builder = new ProcessBuilder(listCmd);
+    builder.redirectErrorStream(true);
+    p = builder.start();
+    procOut = p.getInputStream();
+    procIn = p.getOutputStream()
+    p.waitFor();
+
+  }
+  public String startServiceWindows() throws Exception {
+
+    File workDir = new File(System.getProperty("user.dir"));
+    List &lt; String &gt; listCmd = new LinkedList &lt; String &gt; ();
+    listCmd.add("net");
+    listCmd.add("start");
+    listCmd.add("wiperdog");
+    ProcessBuilder builder = new ProcessBuilder(listCmd);
+    builder.redirectErrorStream(true);
+    Process p = builder.start();
+    BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+    StringBuilder strbuilder = new StringBuilder();
+    String line = null;
+    while ((line = br.readLine()) != null) {
+      if ((line.trim() != "")) {
+        strbuilder.append(line + "&amp;#13;&amp;#10;");
+        strbuilder.append(System.getProperty("line.separator"));
+      }
+    }
+    return strbuilder.toString();
+
+  }
+
+  public String reInstallServiceWindows(wdHome) {
+    // install new service
+    def javaServDir = wdHome + "\\service\\javaservice"
+    if (!(new File(javaServDir)).exists()) {
+      return "Directory '" + wdHome + "' existed but not be a wiperdog home directory !"
+    }
+    def installerService = javaServDir + '\\create_wiperdog_service.bat'
+    ProcessBuilder builder = new ProcessBuilder(installerService, wdHome);
+    builder.redirectErrorStream(true);
+    Process p = builder.start();
+    BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+    StringBuilder strbuilder = new StringBuilder();
+    String line = null;
+    while ((line = br.readLine()) != null) {
+      if ((line.trim() != "")) {
+        strbuilder.append(line + "&amp;#13;&amp;#10;");
+        strbuilder.append(System.getProperty("line.separator"));
+      }
+    }
+    return strbuilder.toString();
+  }
+}
+{{/groovy}}</content>
+</xwikidoc>

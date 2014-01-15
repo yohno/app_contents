@@ -1,0 +1,3531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WiperDog</web>
+  <name>JobConfiguration</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WiperDog.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1382327522000</creationDate>
+  <date>1387530134000</date>
+  <contentUpdateDate>1387530126000</contentUpdateDate>
+  <version>1.1</version>
+  <title>JobConfiguration</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>a51304f1-6a56-48ed-933d-2a8a7b420f8a</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>var JobDeclared
+var ImportInstanceServlet
+var selectedJob
+var groupChart = null
+var charts = {} // chart data information
+var jobMap = {} // job data information
+var jobParams = {} // params data information
+var chart = {}
+var jobInstance = {} // instances data information
+var jobInstanceValue = {}
+var paramInstance = {}
+var fileSaved = false
+var htmlSourceValid = ""
+var checkValid = true
+var mapMsg = {
+    err_run_wiperdog: "There is an error! Wiperdog agent is on yet ?",
+    err_wrong_format: "&lt;b&gt;Error when get data. Maybe data format is wrong!!! (JOB, PARAMS, INSTANCE)!!&lt;/b&gt;",
+    msg_exist_chart: "Chart existed ! Update it ?",
+    msg_delete_chart: "Delete this chart, are you sure ?",
+    msg_exist_params: "Param name existed ! Update it ?",
+    msg_delete_params: "Delete this param , are you sure ?",
+    msg_exist_instance_param: "Params instance is existed ! Update it ?",
+    msg_delete_instance_param: "Delete this params instance , are you sure ?",
+    msg_exist_instance: "Instance name existed ! Update it ?",
+    msg_delete_instance: "Delete this instance , are you sure ?",
+    msg_empty_data_csv: "Data of List Instance is empty. Are you want to write file .csv?"
+}
+
+require(['jquery'], function($) {
+
+    /**
+     * ready: document ready, process create init data and all actions of JobConfiguration monitor
+    */
+    $(document).ready(function() {
+        init();
+
+        // show / hide KEYEXPR, JOB PARAMS and JOB INSTANCE FORM
+        $(".toggleKEYEXPR").click(function(){
+          $("#keyExpr").toggle('slow')
+            showHideControl($(this),"KEYEXPR")
+        })
+        $(".toggleJobParams").click(function(){
+           $("#formJobParams").toggle('slow')
+            showHideControl($(this),"JOB PARAMS")
+        })
+        $(".toggleJobInst").click(function(){
+            $(".instGroup").toggle('slow')
+            showHideControl($(this),"JOB INSTANCES")
+        })
+
+        // CHOOSE &lt;DB's type&gt; =&gt; FILL LIST JOB INTO SELECT BOX &lt;Job's File&gt;
+        $("#dbTypeCbb").change(function() {
+            var selectedDBType = $("#dbTypeCbb option:selected").val() // SQL_Server, MySQL, Postgres
+            $("#listJob option:gt(0)").remove()
+            if (selectedDBType != null &amp;&amp; selectedDBType != "") {
+                $.ajax({
+                    type: "GET",
+                    crossDomain: true,
+                    url: JobDeclared + "?dbtype=" + selectedDBType,
+                    dataType: 'json',
+                    success: function(result) {
+                        for (var i = 0; i &lt; result.length; i++) {
+                            $("#listJob").append("&lt;option id=" + result[i] + " value=" + result[i] + "&gt;" + result[i] + "&lt;/option&gt;")
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showErrorMsg(xhr, status, error)
+                        alert(mapMsg['err_run_wiperdog'])
+                    }
+                });
+            }
+        });
+
+        // CHOOSE A JOB =&gt; FILL INFORMATION OF THAT JOB INTO BELOW ELEMENTS
+        $("#listJob").change(function() {
+            // SHOW KEYEXPR, JOB PARAMS AND INST GROUP SELECTER TO SEE INFORMATION OF JOB
+            $("#keyExpr").show()
+            $("#formJobParams").show()
+            $(".instGroup").toggle('slow')
+            showHideControl($(".toggleKEYEXPR"),"KEYEXPR")
+            showHideControl($(".toggleJobParams"),"JOB PARAMS")
+            showHideControl($(".toggleJobInst"),"JOB INSTANCES")
+            // GET NAME OF JOB SELECTED
+            selectedJob = $("#listJob option:selected").val()
+            // IF DON'T CHOOSE JOB =&gt; RESET TO INIT SCREEN
+            if (selectedJob == "noChoice") {
+                resetControl()
+            }
+            // CHOOSE A JOB =&gt; SEND JOB NAME TO SERVLET, USE AJAX
+            if ((selectedJob != null) &amp;&amp; (selectedJob != "") &amp;&amp; (selectedJob != "noChoice")) {
+                var data = {}
+                data['COMMAND'] = "Read"
+                data['job'] = (selectedJob)
+                ajax_post_data_read(JobDeclared, function(result) {}, data)
+
+            }
+        });
+
+        /**
+         * ajax_post_data_read: send job was selected and corresponding action of it (read) to servlet
+         * @param domain: servlet
+         * @param data: job name
+         * @return data response =&gt; call function bindingData to fill data into below elements
+        */
+        function ajax_post_data_read(domain, callback, data) {
+            $.ajax({
+                type: "POST",
+                crossDomain: true,
+                url: domain,
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function(result) {
+                    // reset to init screen
+                    resetControl()
+                    var statusExecute = result.status
+                    if (statusExecute == "failed") {
+                        // If process in servlet has error =&gt; show message
+                        $("#messageValid").html(mapMsg['err_wrong_format'])
+                    } else {
+                        // Success =&gt; process fill data
+                        $("#messageValid").html("")
+                        bindingData(result)
+                    }
+                    callback(result)
+                },
+                error: function(xhr, status, error) {
+                    showErrorMsg(xhr, status, error)
+                    alert(mapMsg['err_run_wiperdog'])
+                }
+            });
+        }
+
+        /**
+         * bindingData: binding data into elements
+         * @params result: data response from servlet
+        */
+        function bindingData(result) {
+            // JOB NAME, JOB FILE NAME, JOB CLASS NAME, COMMENT AND GROUP KEY
+            $("#jobNameText").val(result.Job.JOB)
+            $("#jobFileNameText").val(selectedJob)
+            $("#jobClassNameText").val(result.Job.jobclass)
+            if (result.Job.comment != null) {
+                $("#commentForJobText").css('min-height', '200px')
+                $("#commentForJobText").val(result.Job.comment)
+            }
+            $("#groupkeyText").val(result.Job.GROUPKEY)
+
+            // ACTION OF JOB: QUERY, DBEXEC, COMMAND, FETCHACTION
+            if (result.Job.QUERY != null) {
+                $("#listActionJob").val("runQuery")
+                showHideActionForm({"#showHideQueryForm": 1, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+                $("#queryText").val(result.Job.QUERY)
+                $("#queryVariableText").val(result.Job.QUERY_VARIABLE)
+            } else if (result.Job.DBEXEC != null) {
+                $("#listActionJob").val("runOther")
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 1, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+                $("#dbexecText").val(result.Job.DBEXEC)
+                $("#dbexecVariableText").val(result.Job.DBEXEC_VARIABLE)
+            } else if (result.Job.COMMAND != null) {
+                $("#listActionJob").val("runCommand")
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 0, "#showHideCommandForm": 1, "#showHideFetchactionForm": 0})
+                $("#dbexecText").val(result.Job.DBEXEC)
+                $("#commandText").val(result.Job.COMMAND)
+                $("#formatText").val(result.Job.FORMAT)
+            } else if (result.Job.FETCHACTION != null) {
+                $("#fetchactionText").css('height', '250px')
+                $("#listActionJob").val("runFetchAction")
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 1})
+                $("#fetchactionText").val(result.Job.FETCHACTION)
+            }
+
+            // ACCUMULATE, FINALLY
+            if (result.Job.ACCUMULATE != null) {
+                $("#accumulateText").css('height', '250px')
+            }
+            $("#accumulateText").val(result.Job.ACCUMULATE)
+            $("#finallyText").val(result.Job.FINALLY)
+
+            // SENDTYPE, RESOURCE, DEST
+            var valSendType
+            if (result.Job.SENDTYPE != null) {
+                valSendType = result.Job.SENDTYPE.replace("\"", "").replace("\n", "").replace("\"", "").replace(/^\s+|\s+$/g, '')
+            }
+            $("#listSendType").val(valSendType)
+
+            var resource
+            if (result.Job.RESOURCEID != null) {
+                resource = result.Job.RESOURCEID.replace("\"", "").replace("\n", "").replace("\"", "").replace(/^\s+|\s+$/g, '')
+            }
+            $("#resourceIdText").val(resource)
+            $("#destText").val(result.Job.DEST)
+
+            // KEYEXPR
+            var htmlChartSource = "&lt;tr&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Group&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Type&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Chart Columns&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Hint_columns&lt;/p&gt;&lt;/th&gt;&lt;th style='background-color:#EBEBFF'&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;"
+            // ---- Check if valSendType has no data
+            if ((valSendType == "") || (valSendType == null)) {
+                valSendType = ""
+                var keyExprChk = result.Job.KEYEXPR
+                if (keyExprChk != null) {
+                    if (keyExprChk instanceof Array) {
+                        valSendType = "Store"
+                    } else {
+                        var mapSequenceChk = result.Job.KEYEXPR._sequence
+                        var mapUnitChk = result.Job.KEYEXPR._unit
+                        var mapChartChk = result.Job.KEYEXPR._chart
+                        if (((mapSequenceChk != null) &amp;&amp; (! mapSequenceChk instanceof Array))||
+                            ((mapUnitChk != null) &amp;&amp; (! mapUnitChk instanceof Array))||
+                            ((mapChartChk != null) &amp;&amp; (! mapChartChk instanceof Array))){
+                           valSendType = "Subtyped"
+                        } else {
+                            for (var key in mapKeyexpr) {
+                                if ((key != "_sequence") &amp;&amp;  (key != "_unit") &amp;&amp; (key != "_description") &amp;&amp; (key != "_chart")){
+                                    valSendType = "Subtyped"
+                                }
+                            }
+                            if (valSendType == ""){
+                                valSendType = "Store"
+                            }       
+                        }
+                    }
+                }
+            }
+            // ---- DATA IS STORE
+            if (valSendType == "Store") {
+                // Root
+                var keyExpr = result.Job.KEYEXPR
+                var rootStr = ""
+
+                if (keyExpr != null) {
+                    if (!(keyExpr instanceof Array)) {
+                        keyExpr = keyExpr._root
+                    }
+                    if (keyExpr != null) {
+                        for (var i = 0; i &lt; keyExpr.length; i++) {
+                            rootStr += keyExpr[i] + ","
+                        }
+                    }
+                    if (rootStr != "") {
+                        rootStr = rootStr.substring(0, rootStr.length - 1)
+                    }
+                    $("#rootText").val(rootStr)
+
+                    // Sequence
+                    $("#sequenceText").val(result.Job.KEYEXPR._sequence)
+
+                    // Chart
+                    var lstChart = result.Job["KEYEXPR._chart"]
+                    if (lstChart != null) {
+                        for (var i = 0; i &lt; lstChart.length; i++) {
+                            // chart type
+                            var type = lstChart[i].type
+                            type = type.replace("\"", "").replace("\n", "").replace("\"", "").replace(/^\s+|\s+$/g, '')
+                            // chart name
+                            var name = lstChart[i].name
+                            // chart column
+                            var chartCol = ""
+                            if (lstChart[i].chart_columns != null) {
+                                chartCol = lstChart[i].chart_columns
+                            }
+                            // hint column
+                            var hintCol = ""
+                            if (lstChart[i].hint_columns != null) {
+                                hintCol = lstChart[i].hint_columns
+                            }
+                            // key of chart
+                            groupChart = ""
+                            var keyForChart = groupChart + "_" + type + "_" + name
+                            // map data chart
+                            var inputMaps = {}
+                            if (hintCol == "") {
+                                inputMaps = {
+                                    'group': groupChart,
+                                    'type': type,
+                                    'name': name,
+                                    'chart_columns': chartCol
+                                }
+                            } else {
+                                inputMaps = {
+                                    'group': groupChart,
+                                    'type': type,
+                                    'name': name,
+                                    'chart_columns': chartCol,
+                                    'hint_columns': hintCol
+                                }
+                            }
+                            // set value for map "charts"
+                            charts[keyForChart] = inputMaps
+                            // generate html source to draw chart table
+                            htmlChartSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + type + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + name + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + chartCol + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + hintCol + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
+                        }
+                    }
+                }
+                // Store =&gt; don't have group
+                $("#groupChart").hide();
+            } else if (valSendType == "Subtyped") {
+            // ---- DATA IS SUBTYPED
+                // Sequence
+                var mapSequence = result.Job.KEYEXPR._sequence
+                var resultSeq = ""
+                if (mapSequence instanceof Array) {
+                    for (var i = 0; i &lt; mapSequence.length; i++) {
+                        resultSeq += mapSequence[i] + ","
+                    }
+                    resultSeq = resultSeq.substring(0, resultSeq.length - 1)
+                } else {
+                    for (var key in mapSequence) {
+                        if (resultSeq != "") {
+                            resultSeq += ",\n"
+                        }
+                        resultSeq += key + ": [" + mapSequence[key] + "]"
+                    }
+                }
+                $("#sequenceText").val(resultSeq)
+
+                // Chart
+                var mapChart = result.Job["KEYEXPR._chart"]
+                for (var key in mapChart) {
+                    var lstChart = mapChart[key]
+                    for (var i = 0; i &lt; lstChart.length; i++) {
+                        // chart type
+                        var type = lstChart[i].type
+                        // chart name
+                        var name = lstChart[i].name
+                        // chart column
+                        var chartCol = ""
+                        if (lstChart[i].chart_columns != null) {
+                            chartCol = lstChart[i].chart_columns
+                        }
+                        // hint column
+                        var hintCol = ""
+                        if (lstChart[i].hint_columns != null) {
+                            hintCol = lstChart[i].hint_columns
+                        }
+                        // generate html source to draw chart table
+                        htmlChartSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + key + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + type + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + name + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + chartCol + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + hintCol + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
+                        // key of chart
+                        groupChart = key
+                        var keyForChart = groupChart + "_" + type + "_" + name
+                        // map data chart
+                        if (hintCol == "") {
+                            inputMaps = {
+                                'group': groupChart,
+                                'type': type,
+                                'name': name,
+                                'chart_columns': chartCol
+                            }
+                        } else {
+                            inputMaps = {
+                                'group': groupChart,
+                                'type': type,
+                                'name': name,
+                                'chart_columns': chartCol,
+                                'hint_columns': hintCol
+                            }
+                        }
+                        // set value for map "charts"
+                        charts[keyForChart] = inputMaps
+                    }
+                }
+
+                // Group of key
+                $("#groupChart").show();
+            }
+            // draw table "Chart Info"
+            $("#chartTable").html(htmlChartSource)
+
+            // Unit
+            if (result.Job["KEYEXPR._unit"] != null) {
+                $("#unitText").css('min-height', '100px')
+            }
+            var mapUnit = result.Job["KEYEXPR._unit"]
+            if (mapUnit != null) {
+                $("#unitText").val(JSON.stringify(mapUnit))
+            }
+
+            if (valSendType == "Subtyped") {
+                // Root
+                var mapKeyexpr = result.Job.KEYEXPR
+                var resultRoot = ""
+                for (var key in mapKeyexpr) {
+                    if (key == "_sequence" || key == "_unit" || key == "_chart") {
+                        delete mapKeyexpr[key]
+                    }
+                }
+                for (var key in mapKeyexpr) {
+                    resultRoot += key + ":[ " + mapKeyexpr[key] + "],"
+                }
+                resultRoot = resultRoot.substring(0, resultRoot.length - 1)
+                if (resultRoot != null &amp;&amp; resultRoot != "") {
+                    resultRoot = "[" + resultRoot + "]"
+                }
+                $("#rootText").val(resultRoot)
+            }
+            // PARAMS
+            var htmlParamsSource = "&lt;tr&gt;&lt;th&gt;&lt;p&gt;name&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;value&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;"
+            var mapParams = result.params
+            if (mapParams != null) {
+                var lstKeyParams = Object.keys(mapParams)
+                for (var i = 0; i &lt; lstKeyParams.length; i++) {
+                    jobParams[lstKeyParams[i]] = standardParams(mapParams[lstKeyParams[i]])
+                    htmlParamsSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + lstKeyParams[i] + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + mapParams[lstKeyParams[i]] + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
+                }
+            }
+            $("#paramJobTable").html(htmlParamsSource)
+
+            // INSTANCES
+            var htmlInstancesSource = "&lt;tr&gt;&lt;th&gt;&lt;p&gt;Instance's name&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;Params&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;Schedule&lt;/p&gt;&lt;/th&gt;&lt;th&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;"
+            var mapInstances = result.instances
+            if (mapInstances != null) {
+                var lstKeyInst = Object.keys(mapInstances)
+                for (var i = 0; i &lt; lstKeyInst.length; i++) {
+                    var instName = lstKeyInst[i]
+
+                    var params = ""
+                    var schedule = ""
+                    if (mapInstances[lstKeyInst[i]]['params'] != null) {
+                        params = JSON.stringify(mapInstances[lstKeyInst[i]]['params'])
+                        jobInstanceValue['params'] = standardParams(params)
+                    }
+                    if (mapInstances[lstKeyInst[i]]['schedule'] != null) {
+                        schedule = mapInstances[lstKeyInst[i]]['schedule']
+                        jobInstanceValue['schedule'] = schedule
+
+                    }
+                    jobInstance[instName] = jobInstanceValue
+                    jobInstanceValue = {}
+                    htmlInstancesSource += "&lt;tr&gt;&lt;td&gt;&lt;p&gt;" + instName + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + params + "&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;" + schedule + "&lt;/p&gt;&lt;/td&gt;&lt;td class='td_button'&gt;&lt;input type='button' style = 'width:50px' class ='delete_btn button' value ='Delete'/&gt;&lt;input type='button'  style = 'width:50px'  class ='edit_btn button' value ='Edit'/&gt;&lt;/td&gt;&lt;/tr&gt;"
+                }
+            }
+            $("#updateJobInstanceTable").html(htmlInstancesSource)
+        }
+
+        // CHOOSE AN ACTION OF SELECT BOX &lt;Action of Job&gt; =&gt; SHOW CORRESPONDING TEXTAREA
+        $("#listActionJob").change(function() {
+            $("#showHideQueryForm").show();
+            var valueSelect = $("#listActionJob option:selected").val()
+            if (valueSelect == "runQuery") {
+                showHideActionForm({"#showHideQueryForm": 1, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+            } else if (valueSelect == "runOther") {
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 1, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+            } else if (valueSelect == "runCommand") {
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 0, "#showHideCommandForm": 1, "#showHideFetchactionForm": 0})
+            } else if (valueSelect == "runFetchAction") {
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 1})
+            }
+        });
+
+        // VIEW SAMPLE DATA
+        $('.sample div').each(function(event) {
+            $(this).click(function() {
+                $(this).parent('.sample').children('textarea').toggle()
+            })
+        }); 
+
+        // SHOW GROUP KEY TEXT OF SUBTYPED WITH CASE SENDTYPE IS SUBTYPED, IF SENDTYPE IS STORE =&gt; HIDE GROUP KEY TEXT
+        $("#groupChart").hide();
+        $("#listSendType").change(function() {
+            var valueSelect = $("#listSendType option:selected").val()
+            if (valueSelect == "Subtyped") {
+                $("#groupChart").show();
+                $("#groupChartText").prop('disabled', false);
+            } else {
+                $("#groupChart").hide();
+            }
+        });
+
+        // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; BEGIN: PROCESS CREATE CHART OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+        // CLICK BUTTON ADD AT CHART FORM
+        $('#updateChartInfo').click(function(event) {
+            var group = ""
+            // VALIDATE: IF SENDTYPE IS SUBTYPED, MUST BE ENTER DATA IN INPUT TEXT (id="groupChartText")
+            if ($("#listSendType").val() == 'Subtyped') {
+                group = $.trim($('#groupChartText').val());
+                if (group == "") {
+                    $("#messageChart").text('Group chart is require !').addClass('error').removeClass('message')
+                    $('#groupChartText').focus();
+                    return
+                } else {
+                    $("#messageChart").text("")
+                }
+            }
+
+            // VALIDATE TYPE, NAME AND CHART COLUMNS (MUST BE DIFFERENT EMPTY)
+            var chartType = $.trim($('#listChartType').val());
+            var chartName = replaceAllString($.trim($('#nameChartText').val()), "'", "");
+            var chartColumns = $('#chartColumnsText').val();
+            var hintColumns = $('#hintColumnsText').val();
+            if (chartType == "") {
+                $("#messageChart").text('No chart type selected !').addClass('error').removeClass('message')
+                $('#listChartType').focus();
+                return
+            } else {
+                if (chartName == "") {
+                    $("#messageChart").text('Chart name is require !').addClass('error').removeClass('message')
+                    $('#chartName').focus();
+                    return
+                } else {
+                    if (chartColumns == "") {
+                        $("#messageChart").text('Chart column is require !').addClass('error').removeClass('message')
+                        $('#chartColumnsText').focus();;
+                        return
+                    }
+                }
+            }
+
+            // CREATE MAP DATA FROM INFORMATIONS WHICH ENTERD IN CHART FORM
+            chartColumns = $.parseJSON(standardRoot(chartColumns))
+            var inputMaps = {}
+            if (hintColumns == "") {
+                inputMaps = {
+                    'group': group,
+                    'type': chartType,
+                    'name': chartName,
+                    'chart_columns': chartColumns,
+                }
+            } else {
+                hintColumns = $.parseJSON(standardRoot(hintColumns))
+                inputMaps = {
+                    'group': group,
+                    'type': chartType,
+                    'name': chartName,
+                    'chart_columns': chartColumns,
+                    'hint_columns': hintColumns
+                }
+            }
+
+            // CHECK THE EXITSTENCE OF NEW CHART OBJECT IN MAP "charts", IF EXITS =&gt; UPDATE, ELSE =&gt; ADD
+            var keyChart = group + "_" + chartType + "_" + chartName
+            if (checkKeyDupl(keyChart, charts)) {
+                var conf_update = confirm(mapMsg['msg_exist_chart'])
+                if (conf_update) {
+                    var rows = document.getElementById('chartTable').rows
+                    for (var i = 0; i &lt; rows.length; i++) {
+                        var key2remove = $.trim(rows[i].cells[0].innerText) + '_' + $.trim(rows[i].cells[1].innerText) + '_' + $.trim(rows[i].cells[2].innerText)
+                        if (keyChart == key2remove) {
+                            rows[i].cells[0].innerText = group
+                            rows[i].cells[1].innerText = chartType
+                            rows[i].cells[2].innerText = chartName
+                            rows[i].cells[3].innerText = chartColumns
+                            rows[i].cells[4].innerText = hintColumns
+                            $('#messageChart').text('Charts updated !').addClass('message').removeClass('error');
+                            break
+                        }
+                    }
+                }
+            } else {
+                var table = document.getElementById('chartTable')
+                var drawMap = {
+                    'group': group,
+                    'type': chartType,
+                    'name': chartName,
+                    'chart_columns': chartColumns,
+                    'hint_columns': hintColumns
+                }
+
+                var tr = createTrAppend(drawMap, 'chartTable')
+                tr.appendChild(createTdAction())
+                table.appendChild(tr)
+                $('#messageChart').text('Chart added!').addClass('message').removeClass('error');
+            }
+            // UPDATE MAP "charts"
+            charts[keyChart] = inputMaps
+            // SET CHART FORM TO INIT
+            $('#groupChartText').val('')
+            $('#listChartType').val('');
+            $('#nameChartText').val('');
+            $('#chartColumnsText').val('');
+            $('#hintColumnsText').val('');
+            if ($('#listSendType').val() == 'Subtyped') {
+                $("#groupChartText").prop('disabled', false)
+            }
+            $("#listChartType").prop('disabled', false)
+            $("#nameChartText").prop('disabled', false)
+        });
+
+        // CLICK DELETE A ROW AT CHART INFORMATION TABLE
+        $(document).off('click', '#chartTable  .delete_btn')
+        $(document).on('click', '#chartTable  .delete_btn', function(event) {
+            event.preventDefault();
+            var conf = confirm(mapMsg['msg_delete_chart'])
+            if (conf) {
+                var rowDeleted = deleteRow(this, 'chartTable')
+                var keyDeleted = rowDeleted.cells[0].innerText + '_' + rowDeleted.cells[1].innerText + '_' + rowDeleted.cells[2].innerText
+                delete charts[keyDeleted]
+            }
+        });
+
+        // CLICK EDIT A ROW AT CHART INFORMATION TABLE
+        $(document).on('click', '#chartTable  .edit_btn', function(event) {
+            event.preventDefault();
+            var row = this.parentNode.parentNode
+            $("#groupChartText").val(row.cells[0].innerText)
+            $("#listChartType").val(row.cells[1].innerText.trim())
+            $('#nameChartText').val(row.cells[2].innerText);
+            $('#chartColumnsText').val(row.cells[3].innerText);
+            $('#hintColumnsText').val(row.cells[4].innerText);
+            $("#groupChartText").prop('disabled', true)
+            $("#listChartType").prop('disabled', true)
+            $("#nameChartText").prop('disabled', true)
+        });
+        // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; END: PROCESS CREATE CHART OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+        // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; BEGIN: PROCESS CREATE PARAMS OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+        // CLICK ADD IN JOB PARAMS FORM
+        $('#updateParamOfJob').click(function() {
+            // 4.17.1. VALIDATE: JOB PARAMS NAME AND JOB PARAMS VALUE MUST BE DIFFERENT EMPTY
+            var jobParamName = replaceAllString($('#nameJobText').val(), "'", "");
+            jobParamName = replaceAllString(jobParamName, "\"", "");
+            var jobParamVal = $('#valueJobText').val();
+            if (jobParamName == "") {
+                $("#messageParams").text('Job param name is require !').addClass('error').removeClass('message')
+                $('#nameJobText').focus();
+                return
+            } else {
+                $("#messageParams").text('')
+            }
+            if (jobParamVal == "") {
+                $("#messageParams").text('Job param value is require !').addClass('error').removeClass('message')
+                $('#valueJobText').focus();;
+                return
+            } else {
+                $("#messageParams").text('')
+            }
+
+            // CHECK THE EXITSTENCE OF JOB PARAMS IN MAP "jobParams", IF EXITS =&gt; UPDATE, ELSE =&gt; ADD
+            if (checkKeyDupl(jobParamName, jobParams)) {
+                var conf_update = confirm(mapMsg['msg_exist_params'])
+                if (conf_update) {
+                    var rows = document.getElementById('paramJobTable').rows
+                    for (var i = 0; i &lt; rows.length; i++) {
+                        var key2remove = $.trim(rows[i].cells[0].innerText)
+                        if (key == key2remove) {
+                            rows[i].cells[0].innerText = jobParamName
+                            rows[i].cells[1].innerText = $.trim(jobParamVal)
+                            $('#messageParams').text('Job param updated !').addClass('message').removeClass('error');
+                        }
+                    }
+                }
+            } else {
+                var inputMaps = {
+                    'paramName': jobParamName,
+                    'paramVal': jobParamVal
+                }
+                var table = document.getElementById('paramJobTable')
+                var tr = createTrAppend(inputMaps, 'paramJobTable')
+                tr.appendChild(createTdAction())
+                table.appendChild(tr)
+                $('#messageParams').text('Job param added !').addClass('message').removeClass('error');
+
+            };
+
+            // SET JOB PARAMS FORMS TO INIT AND UPDATE MAP "jobParams"
+            $('#nameJobText').prop('disabled', false)
+            $("#nameJobText").val('')
+            $('#valueJobText').val('');
+            var jobParamValAft = standardParams(jobParamVal)
+            jobParams[jobParamName] = jobParamValAft
+        });
+
+        // CLICK DELETE IN PARAMS JOB TABLE
+        $(document).on('click', '#paramJobTable  .delete_btn', function(event) {
+            event.preventDefault();
+            var conf = confirm(mapMsg['msg_delete_params'])
+            if (conf) {
+                var rowDeleted = deleteRow(this, "paramJobTable")
+                var keyDeleted = rowDeleted.cells[0].innerText
+                delete jobParams[keyDeleted]
+            }
+        });
+
+        // CLICK EDIT IN PARAMS JOB TABLE
+        $(document).on('click', '#paramJobTable  .edit_btn', function(event) {
+            event.preventDefault();
+            var row = this.parentNode.parentNode
+            $("#nameJobText").val(row.cells[0].innerText)
+            $('#valueJobText').val(row.cells[1].innerText);
+            $('#nameJobText').prop('disabled', true)
+        });
+        // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; END: PROCESS CREATE PARAMS OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+        // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; BEGIN: PROCESS CREATE INSTANCE OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+        // CLICK ADD IN INSTANCE PARAMS FORM
+        $('#updateParamInstance').click(function(event) {
+            // VALIDATE INSTANCE NAME AND INSTANCE VALUE (MUST BE DIFFERENT EMPTY)
+            var instParamName = replaceAllString($('#nameInstanceText').val(), "'", "");
+            instParamName = replaceAllString(instParamName, "\"", "");
+            var instParamVal = $('#valueInstanceText').val();
+            var instanceName = replaceAllString($('#instanceNameText').val(), "'", "");
+                        instanceName = replaceAllString(instanceName, "\"", "");
+            if (instanceName == "") {
+                $('#messageInstances').text("No instance specificed for param  !").addClass('error').removeClass('message');
+                $('#nameInstanceText').focus();
+                return
+            } else {
+                $('#messageInstances').text("");
+            }
+            if ((instParamVal == "") || (instParamName == "")) {
+                $('#messageInstancesParams').text("Instance param name and value is required  !").addClass('error').removeClass('message');
+                return
+            } else {
+                $('#messageInstancesParams').text("");
+            };
+
+            // CHECK THE EXITSTENCE OF INSTANCE PARAMS IN MAP "paramInstance", IF EXITS =&gt; UPDATE, ELSE =&gt; ADD
+            if (checkKeyDupl(instParamName, paramInstance)) {
+                var conf_update = confirm(mapMsg['msg_exist_instance_param'])
+                if (conf_update) {
+                    var rows = document.getElementById('paramInstanceTable').rows
+                    for (var i = 0; i &lt; rows.length; i++) {
+                        var key2remove = rows[i].cells[0].innerText
+                        if (key == key2remove) {
+                            rows[i].cells[0].innerText = instParamName
+                            rows[i].cells[1].innerText = instParamVal
+                            $('#messageInstancesParams').text('Instance param updated !').addClass('message').removeClass('error');
+                        }
+                    }
+                }
+            } else {
+                var inputMaps = {
+                    'paramName': instParamName,
+                    'paramVal': instParamVal
+                }
+                var table = document.getElementById('paramInstanceTable')
+                var tr = createTrAppend(inputMaps, 'paramInstanceTable')
+                tr.appendChild(createTdAction())
+                table.appendChild(tr)
+                $('#messageInstancesParams').text('Instance param added !').addClass('message').removeClass('error');;
+            };
+
+            // SET JOB INSTANCE FORMS TO INIT AND UPDATE MAP "paramInstance"
+            $('#nameInstanceText').prop('disabled', false)
+            $("#nameInstanceText").val('')
+            $('#valueInstanceText').val('');
+            var jobParamValAft = standardParams(instParamVal)
+            paramInstance[instParamName] = jobParamValAft
+        });
+
+        // CLICK DELETE IN INSTANCE PARAMS TABLE
+        $(document).off('click', '#paramInstanceTable  .delete_btn')
+        $(document).on('click', '#paramInstanceTable  .delete_btn', function(event) {
+            event.preventDefault();
+            var conf = confirm(mapMsg['msg_delete_instance_param'])
+            if (conf) {
+                var rowDeleted = deleteRow(this, "paramInstanceTable")
+                var keyDeleted = rowDeleted.cells[0].innerText
+                delete paramInstance[keyDeleted]
+            }
+        });
+
+        // CLICK EDIT IN INSTANCE PARAMS TABLE
+        $(document).on('click', '#paramInstanceTable  .edit_btn', function(event) {
+            event.preventDefault();
+            var row = this.parentNode.parentNode
+            $("#nameInstanceText").val(row.cells[0].innerText)
+            $('#valueInstanceText').val(row.cells[1].innerText);
+            $('#nameInstanceText').prop('disabled', true)
+        });
+
+        // CLICK BUTTON "ADD TO LIST INSTANCE OF JOB"
+        $('#updateInstance').click(function(event) {
+            $('#nameInstanceText').prop('disabled', false)
+            $('#valueInstanceText').val('')
+            $('#nameInstanceText').val('')
+            //Job Instance process
+            $('#messageInstancesParams').text("")
+            var instanceName = replaceAllString($('#instanceNameText').val(), "'", "");
+            instanceName = replaceAllString(instanceName, "\"", "");
+
+            var instanceSchedule = $('#scheduleText').val();
+
+            if (instanceName == "") {
+                $('#messageInstances').text("Instance name is require !").addClass('error').removeClass('message');
+                $('#instanceNameText').focus();
+                return
+            } else {
+                $('#messageInstances').text("");
+            }
+
+            if (instanceSchedule != "") {
+                jobInstanceValue['schedule'] = instanceSchedule
+            }
+            if (!$.isEmptyObject(paramInstance)) {
+                jobInstanceValue['params'] = paramInstance
+
+            }
+
+            if (checkKeyDupl(instanceName, jobInstance)) {
+                var conf_update = confirm(mapMsg['msg_exist_instance'])
+                if (conf_update) {
+                    var rows = document.getElementById('updateJobInstanceTable').rows
+                    for (var i = 0; i &lt; rows.length; i++) {
+                        var key2remove = $.trim(rows[i].cells[0].innerText)
+                        if (key == key2remove) {
+                            rows[i].cells[0].innerText = instanceName
+                            rows[i].cells[1].innerText = JSON.stringify(paramInstance)
+                            rows[i].cells[2].innerText = instanceSchedule
+                            $('#messageInstances').text('Instance param updated !').addClass('message').removeClass('error');;
+                        }
+                    }
+                }
+
+            } else {
+                $('#instanceNameText').val("");
+                $('#scheduleText').val("");
+                $('#messageListInstances').text('New Instance added !').addClass('message').removeClass('error');
+                var inputMaps = {
+                    'instanceName': instanceName,
+                    'instanceParams': JSON.stringify(paramInstance),
+                    'instanceSchedule': instanceSchedule,
+                }
+                var table = document.getElementById('updateJobInstanceTable')
+                var tr = createTrAppend(inputMaps, 'updateJobInstanceTable')
+                tr.appendChild(createTdAction())
+                table.appendChild(tr)
+            }
+            jobInstance[instanceName] = jobInstanceValue
+            paramInstance = {}
+            jobInstanceValue = {}
+            $('#instanceNameText').val("");
+            $('#scheduleText').val("");
+            $("#paramInstanceTable").find("tr:gt(0)").remove();
+            $("#instanceNameText").prop('disabled', false)
+
+        });
+        $(document).off('click', '#updateJobInstanceTable .delete_btn')
+        $(document).on('click', '#updateJobInstanceTable .delete_btn', function(event) {
+            event.preventDefault();
+            var conf = confirm(mapMsg['msg_delete_instance'])
+            if (conf) {
+                var rowDeleted = deleteRow(this, "updateJobInstanceTable")
+                var keyDeleted = rowDeleted.cells[0].innerText
+                delete jobInstance[keyDeleted]
+            }
+        });
+        $(document).on('click', '#updateJobInstanceTable .edit_btn', function(event) {
+            event.preventDefault();
+            var row = this.parentNode.parentNode
+            var instaneNameTmp = $.trim(row.cells[0].innerText)
+            var instaneSchedTmp = $.trim(row.cells[2].innerText)
+
+            $("#instanceNameText").val(instaneNameTmp)
+            $("#scheduleText").val(instaneSchedTmp)
+
+            $("#instanceNameText").prop('disabled', true)
+            var instanceParamTmp = $.trim(row.cells[1].innerText)
+                        var paramsObject = {}
+                        if (instanceParamTmp != "") {
+                            paramsObject = $.parseJSON(instanceParamTmp);
+                        }
+            $("#paramInstanceTable").find("tr:gt(0)").remove();
+            var table = document.getElementById('paramInstanceTable')
+            for (paramsKey in paramsObject) {
+                var inputMaps = {}
+                inputMaps['name'] = paramsKey
+                inputMaps['value'] = JSON.stringify(paramsObject[paramsKey])
+                var tr = createTrAppend(inputMaps, 'paramInstanceTable')
+                tr.appendChild(createTdAction())
+                table.appendChild(tr)
+            }
+            paramInstance = paramsObject
+        });
+        // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; END: PROCESS CREATE INSTANCE OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+        /**
+         * deleteRow: delete a row from table
+         * @param row: row delete
+         * @param tableId: id of table
+         * @return rowDeleted
+        */
+        function deleteRow(row, tableId) {
+            var idx = row.parentNode.parentNode.rowIndex
+            var rowDeleted = row.parentNode.parentNode
+            $(row).closest('tr').remove();
+            return rowDeleted
+        }
+
+        /**
+         * checkKeyDupl: check the existence of key in map object
+         * @param keyCheck: key
+         * @param obj: map object
+         * @return boolean (true if exist, false if not exist)
+        */
+        function checkKeyDupl(keyCheck, obj) {
+            for (key in obj) {
+                if (key == keyCheck) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        /**
+         * createTdAction: create td of table with 2 button "DELETE" and "EDIT"
+         * @return td_action
+        */
+        function createTdAction() {
+            var td_action = document.createElement('td')
+            td_action.setAttribute('class', 'td_button')
+            var del_btn = document.createElement('input')
+            var edit_btn = document.createElement('input')
+            del_btn.setAttribute('type', 'input')
+            del_btn.setAttribute('class', 'delete_btn button')
+            del_btn.setAttribute('value', 'Delete')
+            del_btn.setAttribute('style', 'width:50px')
+
+            edit_btn.setAttribute('type', 'input')
+            edit_btn.setAttribute('class', 'edit_btn button')
+            edit_btn.setAttribute('value', 'Edit')
+            edit_btn.setAttribute('style', 'width:50px')
+
+            td_action.appendChild(del_btn)
+            td_action.appendChild(edit_btn)
+            return td_action
+        }
+
+        /**
+         * createTrAppend: process append rows (each row corrensponding an element of map data) into table
+         * @param jsonObj: map data
+         * @return tr
+        */
+        function createTrAppend(jsonObj) {
+            var tr = document.createElement('tr')
+            for (key in jsonObj) {
+                var td = document.createElement('td')
+                var td_text = document.createTextNode(jsonObj[key])
+                td.appendChild(td_text)
+                tr.appendChild(td)
+            }
+            return tr
+        }
+    });
+
+    // CLICK "EXPORT TO CSV" BUTTON
+    $("#exportCSV").click(function() {
+        doSend('exportFromJobConfig')
+    });
+
+    // CLICK "SAVE" BUTTON
+    $("#updateJobInfo").click(function() {
+        doSend('save')
+    });
+
+    // CLICK "SAVE &amp; RUN TEST" BUTTON
+    $('#saveAndRunTest').click(function(event) {
+        doSend('saveNRun')
+    });
+
+    // CLICK "CLEAR DATA" BUTTON
+    $("#clearData").click(function() {
+        resetControl()
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'slow');
+        return false;
+    });
+
+    // CLICK "BACK TO MAIN MENU" BUTTON
+    $("#backToMain").click(function() {
+        window.location.href = "/xwiki/bin/view/WiperDog/WebHome"
+    });
+
+    /**
+     * init(): get servlet to be used and create init data of init screen
+     * @param JobDeclared: read / write job file, params file and instance file
+     * @param ImportInstanceServlet: read / write / export csv file
+    */
+    function init() {
+        // Get JobDeclared servlet
+        JobDeclared = getServlet('JobDeclared')
+
+        // Get ImportInstanceServlet servlet
+        ImportInstanceServlet = getServlet('importinstances')
+
+        // Choose monitoring type =&gt; Fill data to select box &lt;DB's type&gt; and &lt;Actions of Job&gt;
+        // ---- Default choose @DB and gend db type contains: SQL_Server, MySQL, Postgres
+        var listDBType = ['SQL_Server', 'MySQL', 'Postgres']
+        var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+        var actionOfJob = ''
+        for (var i = 0; i &lt; listDBType.length; i++) {
+            dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
+        }
+        $("#dbTypeCbb").html(dbTypeSource)
+        // ---- Choose monitoring type
+        $("#listMonitoring").change(function() {
+            resetControl()
+            $("#listJob").empty()
+            var type = $("#listMonitoring option:selected").val() // @DB, @SYS, @NET, @Others
+            generateActionJob(type)
+            if (type == "@DB") {
+                $("#dbTypeCbb").prop('disabled',false)
+                dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+                for (var i = 0; i &lt; listDBType.length; i++) {
+                    dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
+                }
+                $("#dbTypeCbb").html(dbTypeSource)
+                $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
+            } else if (type == "@SYS" || type == "@NET" || type == "Others") {
+                dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+                $("#dbTypeCbb").html(dbTypeSource)
+                $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
+                // PROCESS GET LIST JOB FOR @SYS, @NET OR OTHERS
+                $.ajax({
+                    type: "GET",
+                    crossDomain: true,
+                    url: JobDeclared + "?morType=" + type,
+                    dataType: 'json',
+                    success: function(result) {
+                        for (var i = 0; i &lt; result.listJob.length; i++) {
+                            $("#listJob").append("&lt;option id=" + result.listJob[i] + " value=" + result.listJob[i] + "&gt;" + result.listJob[i] + "&lt;/option&gt;")
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showErrorMsg(xhr, status, error)
+                        alert(mapMsg['err_run_wiperdog'])
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * generateActionJob: generate list action of job
+     * @param typeMonitoring: monitoring type was selected
+     * @output all actions of job were filled to select box "Action of Job"
+    */
+    function generateActionJob(typeMonitoring) {
+        var actionOfJob = ''
+        if(typeMonitoring == "@DB") {
+            // FILL ACTIONS PROCESS JOB TO SELECT BOX "listActionJob"
+            actionOfJob = '&lt;option id=\"showHideQuery\" value=\"runQuery\"&gt;Run Select Query&lt;/option&gt;'
+            actionOfJob += '&lt;option id=\"showHideOther\" value=\"runOther\"&gt;Run Others Query&lt;/option&gt;'
+            actionOfJob += '&lt;option id=\"showHideCommand\" value=\"runCommand\"&gt;Run Command&lt;/option&gt;'
+            actionOfJob += '&lt;option id=\"showHideFetchAction\" value=\"runFetchAction\"&gt;Run FetchAction&lt;/option&gt;'
+            $("#listActionJob").html(actionOfJob)
+
+            // DEFAULT: SHOW QUERY ACTION
+            showHideActionForm({"#showHideQueryForm": 1, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+        } else if (typeMonitoring == "@SYS" || typeMonitoring == "@NET" || typeMonitoring == "Others") {
+            actionOfJob = ''
+            if (typeMonitoring == "Others") {
+                $("#dbTypeCbb").prop('disabled',false)
+                actionOfJob += '&lt;option id=\"showHideQuery\" value=\"runQuery\"&gt;Run Select Query&lt;/option&gt;'
+                actionOfJob += '&lt;option id=\"showHideOther\" value=\"runOther\"&gt;Run Others Query&lt;/option&gt;'
+            }
+                            
+            actionOfJob += '&lt;option id=\"showHideCommand\" value=\"runCommand\"&gt;Run Command&lt;/option&gt;'
+            actionOfJob += '&lt;option id=\"showHideFetchAction\" value=\"runFetchAction\"&gt;Run FetchAction&lt;/option&gt;'
+            $("#listActionJob").html(actionOfJob)
+            if (typeMonitoring == "Others") {
+                showHideActionForm({"#showHideQueryForm": 1, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+            } else {
+                showHideActionForm({"#showHideQueryForm": 0, "#showHideDbexecForm": 0, "#showHideCommandForm": 1, "#showHideFetchactionForm": 0})
+            }
+        }
+    }    
+
+    /**
+     * getServlet: get servlet from GetServlet page
+     * @param paramsServlet: servlet name
+     * @return servlet
+    */
+    function getServlet(paramsServlet) {
+        var servlet
+        $.ajax({
+            type: "GET",
+            url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + paramsServlet,
+            async: false,
+            success: function(result) {
+                servlet = result
+            },
+            error: function(xhr, status, error) {
+                showErrorMsg(xhr, status, error)
+            }
+        });
+        return servlet
+    }
+
+    /**
+     * showHideActionForm: show or hide actions in list action of job
+     * @param mapControlState: map data action, key is selector, value is 1 (show selector) or 0 (hide selector)
+    */
+    function showHideActionForm(mapControlState) {
+        for(var key in mapControlState) {
+            if(mapControlState[key] == 1) {
+                $(key).show();
+            } else {
+                $(key).hide();
+            }
+        }
+    }
+
+    /**
+     * showHideControl: show or hide chart form, params form and instance form
+     * @param element: selector
+     * @param str: KEYEXPR, JOB PARAMS, JOB INSTANCES
+    */
+    function showHideControl(element,str) {
+        if(element.attr('id') == 'show') {
+            element.text('Show '+ str +' Form')
+            element.attr('id','hide')
+        } else {
+            element.text('Hide '+ str +' Form')
+            element.attr('id','show')
+        }
+    }
+
+    /**
+     * doSend: get all data from JobConfiguration monitor and send to servlet
+     * @param action: exportFromJobConfig, save or saveNRun
+    */
+    function doSend(action) {
+        var finalMapData = {}
+        checkValid = true
+        htmlSourceValid = ""
+        jobMap = {}
+
+        // Get job data information from JobConfiguration monitor
+        // ---- MONITORING TYPE, DB TYPE, JOB NAME, JOB FILE NAME, JOB CLASS NAME, COMMENT AND GROUP KEY
+        getInputDataJobInfo();
+
+        // ---- ACTION OF JOB: QUERY, DBEXEC, COMMAND, FETCHACTION
+        getInputDataActionOfJob();
+
+        // ---- ACCUMULATE, FINALLY
+        getInputDataAccumulate();
+
+        // ---- SENDTYPE, RESOURCEID, DEST
+        getInputDataSendDataInfo();
+
+        // ---- KEYEXPR
+        getInputDataKeyexpr();
+
+        // Set final data into finalMapData
+        finalMapData['COMMAND'] = "Write"
+        finalMapData['JOB'] = jobMap
+        finalMapData['PARAMS'] = jobParams
+        finalMapData['INSTANCES'] = jobInstance
+        // Send data request and corresponding action of it to servlet
+        if(action != "exportFromJobConfig") {
+            if (checkValid) {
+                ajax_post_data_write(JobDeclared, function(result) {}, finalMapData, action)
+            } else {
+                $("#messageValid").html(htmlSourceValid)
+            }
+        } else {
+            ajax_post_data_write(ImportInstanceServlet, function(result) {}, finalMapData, action)
+        }
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'slow');
+    }
+
+    /**
+     * getInputDataJobInfo:
+     *  - get monitoringType, dbType, jobName, jobFileName, jobClassName, comment and groupKey from JobConfiguration monitor
+     *  - validate input data: dbType, jobName can not be empty
+     * output: set these values into jobMap
+    */
+    function getInputDataJobInfo() {
+        jobMap['monitoringType'] = document.getElementById('listMonitoring').value
+        var dbType
+        if ((document.getElementById('dbTypeCbb').value != "") || (jobMap['monitoringType'] != "@DB")) {
+            dbType = document.getElementById('dbTypeCbb').value
+            jobMap['dbType'] = dbType
+        } else {
+            htmlSourceValid += "&lt;p&gt;* \"DB's\" type can not be empty&lt;/p&gt;"
+            checkValid = false
+        }
+        var jobName
+        if (document.getElementById('jobNameText').value != "") {
+            jobName = document.getElementById('jobNameText').value
+            jobMap['jobName'] = jobName
+        } else {
+            htmlSourceValid += "&lt;p&gt;* Job Name can not be empty&lt;/p&gt;"
+            checkValid = false
+        }
+        var jobFileName
+        if (document.getElementById('jobFileNameText').value != "") {
+            jobFileName = document.getElementById('jobFileNameText').value
+            jobMap['jobFileName'] = jobFileName
+        }
+        var jobClassName
+        if (document.getElementById('jobClassNameText').value != "") {
+            jobClassName = document.getElementById('jobClassNameText').value
+            jobMap['jobClassName'] = jobClassName
+        }
+        var commentForJob
+        if (document.getElementById('commentForJobText').value != "") {
+            commentForJob = document.getElementById('commentForJobText').value
+            commentForJob = standardComment(commentForJob)
+            jobMap['commentForJob'] = commentForJob
+        }
+        var groupKey
+        if (document.getElementById('groupkeyText').value != "") {
+            groupKey = document.getElementById('groupkeyText').value
+            groupKey = standardGroupKey(groupKey)
+            jobMap['groupKey'] = groupKey
+        }
+    }
+
+    /**
+     * getInputDataActionOfJob:
+     *  - get action of job: query, dbexec, command and fetchaction from JobConfiguration monitor
+     *  - validate input data:
+     *    + if actionOfJob == "runQuery" then query must be valid
+     *    + if actionOfJob == "runOther" then dbexec must be valid
+     *    + if actionOfJob == "runCommand" then command must be valid
+     *    + if actionOfJob == "runFetchAction" then fetchaction must be valid
+     * output: set these values into jobMap
+    */
+    function getInputDataActionOfJob() {
+        var actionOfJob = document.getElementById('listActionJob').value
+
+        if (actionOfJob == "runQuery") {
+            var query
+            if (document.getElementById('queryText').value != "") {
+                query = document.getElementById('queryText').value
+                jobMap['query'] = query
+            } else {
+                htmlSourceValid += "&lt;p&gt;* \"QUERY\" can not be empty&lt;/p&gt;"
+                checkValid = false
+            }
+            var queryVariable
+            if (document.getElementById('queryVariableText').value != "") {
+                queryVariable = document.getElementById('queryVariableText').value
+                queryVariable = standardGroupKey(queryVariable)
+                jobMap['queryVariable'] = queryVariable
+            }
+        }
+
+        if (actionOfJob == "runOther") {
+            var dbExec
+            if (document.getElementById('dbexecText').value != "") {
+                dbExec = document.getElementById('dbexecText').value
+                jobMap['dbExec'] = dbExec
+            } else {
+                htmlSourceValid += "&lt;p&gt;* \"DBEXEC\" can not be empty&lt;/p&gt;"
+                checkValid = false
+            }
+            var dbExecVariable
+            if (document.getElementById('dbexecVariableText').value != "") {
+                dbExecVariable = document.getElementById('dbexecVariableText').value
+                dbExecVariable = standardGroupKey(dbExecVariable)
+                jobMap['dbExecVariable'] = dbExecVariable
+            }
+        }
+
+        if (actionOfJob == "runCommand") {
+            var command
+            if (document.getElementById('commandText').value != "") {
+                command = document.getElementById('commandText').value
+                jobMap['command'] = command
+            } else {
+                htmlSourceValid += "&lt;p&gt;* \"COMMAND\" can not be empty&lt;/p&gt;"
+                checkValid = false
+            }
+            var format
+            if (document.getElementById('formatText').value != "") {
+                format = document.getElementById('formatText').value
+                format = standardRoot(format)
+                if (format.indexOf(":") != -1) {
+                    jobMap['format'] = format
+                } else {
+                    htmlSourceValid += "&lt;p&gt;* \"FORMAT\" must be map type.&lt;/p&gt;"
+                    checkValid = false
+                }
+            }
+        }
+
+        if (actionOfJob == "runFetchAction") {
+            var fetchAction
+            if (document.getElementById('fetchactionText').value != "") {
+                fetchAction = document.getElementById('fetchactionText').value
+                fetchAction = standardClosure(fetchAction)
+                jobMap['fetchAction'] = fetchAction
+            } else {
+                htmlSourceValid += "&lt;p&gt;* \"FETCHACTION\" can not be empty&lt;/p&gt;"
+                checkValid = false
+            }
+        }
+    }
+
+    /**
+     * getInputDataAccumulate: get accumulate and finally from JobConfiguration monitor
+     * output: set these values into jobMap
+    */
+    function getInputDataAccumulate() {
+        var accumulate
+        if (document.getElementById('accumulateText').value != "") {
+            accumulate = document.getElementById('accumulateText').value
+            accumulate = standardClosure(accumulate)
+            jobMap['accumulate'] = accumulate
+        }
+
+        var finallyClosure
+        if (document.getElementById('finallyText').value != "") {
+            finallyClosure = document.getElementById('finallyText').value
+            finallyClosure = standardClosure(finallyClosure)
+            jobMap['finally'] = finallyClosure
+            finallyClosure = null
+        }
+    }
+
+    /**
+     * getInputDataSendDataInfo: get sendType, resourceId and dest from JobConfiguration monitor
+     * output: set these values into jobMap
+    */
+    function getInputDataSendDataInfo() {
+        var sendTypeTxt = document.getElementById('listSendType').value
+        if (sendTypeTxt != null &amp;&amp; sendTypeTxt != "" &amp;&amp; sendTypeTxt != "slectDataType") {
+            jobMap['sendType'] = sendTypeTxt
+        }
+        var resourceId
+        if (document.getElementById('resourceIdText').value != "") {
+            resourceId = document.getElementById('resourceIdText').value
+            jobMap['resourceId'] = resourceId
+        }
+
+        var dest
+        if (document.getElementById('destText').value != "") {
+            dest = document.getElementById('destText').value
+            if (dest != "parameters.dest") {
+                dest = standardDest(dest)
+                jobMap['dest'] = dest
+            }
+        }
+    }
+
+    /**
+     * getInputDataKeyexpr: get keyExpr from JobConfiguration monitor
+     * output: set these values into jobMap
+    */
+    function getInputDataKeyexpr() {
+        var KEYEXPR = {}
+        var _rootStr = ""
+        var _root
+        if (document.getElementById('rootText').value != "") {
+            _rootStr = standardRoot(document.getElementById('rootText').value)
+            if (_rootStr.indexOf(":") &gt; -1) {
+                if (_rootStr.indexOf("[") == 0) {
+                    _rootStr = "{" + _rootStr.substring(1)
+                    _rootStr = _rootStr.substring(0, _rootStr.length - 1) + "}"
+                } else {
+                    _rootStr = "{" + rootText + "}"
+                }
+            }
+
+            try {
+                _root = $.parseJSON(_rootStr)
+            } catch (ex) {
+                checkValid = false
+                htmlSourceValid += "&lt;p&gt;* \"_root\" must be map or list type.&lt;/p&gt;"
+            }
+            KEYEXPR['_root'] = _root
+        }
+
+        var _sequence = ""
+        if (document.getElementById('sequenceText').value != "") {
+            _sequence = standardRoot(document.getElementById('sequenceText').value)
+            KEYEXPR['_sequence'] = _sequence
+        }
+
+        var _unit = ""
+        if (document.getElementById('unitText').value != "") {
+            _unit = standardRoot(document.getElementById('unitText').value)
+            if (_unit.indexOf(":") != -1) {
+                _unit = replaceAllString(_unit, "\n", "")
+                _unit = replaceAllString(_unit, "\t", "")
+                KEYEXPR['_unit'] = _unit
+            } else {
+                htmlSourceValid += "&lt;p&gt;* \"_unit\" must be map type.&lt;/p&gt;"
+                checkValid = false
+            }
+        }
+        KEYEXPR['_chart'] = {}
+        if (Object.keys(charts).length != 0) {
+            KEYEXPR['_chart'] = charts
+        }
+        jobMap['KEYEXPR'] = KEYEXPR
+    }
+
+    /**
+     * ajax_post_data_write: send information of job (mapJob, mapParams, mapInstances) to servlet =&gt; process create / write / update
+     * file corresponding with action
+     * @param domainURL: servlet
+     * @param data: {"COMMAND": "write", "JOB": mapJob, "PARAMS": mapParams, "INSTANCES": mapInstances}
+     * @param action: exportFromJobConfig, save, saveNRun
+    */
+    function ajax_post_data_write(domainURL, callback, data, action) {
+        // Export CSV =&gt; send information of instances
+        if(action == "exportFromJobConfig") {
+            if($.isEmptyObject(data.INSTANCES)){
+                var confir = confirm(mapMsg['msg_empty_data_csv'])
+                if(!confir){
+                    resetControl()
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 'slow');
+                    return
+                }
+            }
+            domainURL = domainURL + "?action=exportFromJobConfig&amp;jobFileName=" + data.JOB.jobFileName
+            data = data.INSTANCES
+        }
+        // Send data to servlet
+        $.ajax({
+            type: "POST",
+            crossDomain: true,
+            url: domainURL,
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function(result) {
+                var statusExecute = result.status
+                var messageExecute = result.message
+                if (statusExecute == "OK") {
+                    $("#messageValid").html("&lt;b&gt;" + messageExecute + "&lt;/b&gt;")
+                    if(action == 'saveNRun') {
+                        if(data.JOB.jobFileName != null &amp;&amp; data.JOB.jobFileName != "") {
+                            window.location = "/xwiki/bin/view/WiperDog/TestJob?jobFileName=" + data.JOB.jobFileName +".job"
+                        } else {
+                            window.location = "/xwiki/bin/view/WiperDog/TestJob?jobFileName=" + data.JOB.jobName +".job"
+                        }
+                    }
+                } else if (statusExecute == "failed") {
+                    $("#messageValid").html("&lt;p&gt;Can not create !!!&lt;/p&gt;&lt;b&gt;Reason: &lt;/b&gt;&lt;p&gt;" + messageExecute + "&lt;/p&gt;")
+                }
+                callback(result)
+            },
+            error: function(xhr, status, error) {
+                showErrorMsg(xhr, status, error)
+                $("#message_add").text(mapMsg['err_run_wiperdog'])
+            }
+        });
+    }
+
+    /**
+     * resetControl: reset to init screen
+     *  - delete table: chartTable, paramJobTable, updateJobInstanceTable, paramInstanceTable
+     *  - disable control: listChartType, nameChartText, groupChartText, nameJobText, instanceNameText, nameInstanceText
+     *  - reset selectors to be empty: messageChart, messageParams, messageInstances, messageInstancesParams, messageListInstances, messageValid, message_add
+     *  - reset temporary maps data: groupChart, charts, jobParams, chart, jobInstance, jobInstanceValue, paramInstance
+     *  - reset form action of job
+    */
+    function resetControl() {
+        // Reset form
+        $("#form1")[0].reset();
+
+        // Reset table data
+        $("#chartTable").find("tr:gt(0)").remove();
+        $("#paramJobTable").find("tr:gt(0)").remove();
+        $("#updateJobInstanceTable").find("tr:gt(0)").remove();
+        $("#paramInstanceTable").find("tr:gt(0)").remove();
+        $('#listChartType').prop('disabled', false);
+        $('#nameChartText').prop('disabled', false);
+        $('#groupChartText').prop('disabled', false);
+        $('#nameJobText').prop('disabled', false);
+        $('#instanceNameText').prop('disabled', false);
+        $('#nameInstanceText').prop('disabled', false);
+                
+        // Reset message
+        $("#messageChart").text("")
+        $("#messageParams").text('')
+        $('#messageInstances').text("");
+        $('#messageInstancesParams').text("");
+        $('#messageListInstances').text('')
+        $("#messageValid").html("")
+        $("#message_add").text("")
+
+        // Reset temporary maps data        
+        groupChart = null
+        charts = {}
+        jobParams = {}
+        chart = {}
+        jobInstance = {}
+        jobInstanceValue = {}
+        paramInstance = {}
+
+        // Reset Action of Job
+        showHideActionForm({"#showHideQueryForm": 1, "#showHideDbexecForm": 0, "#showHideCommandForm": 0, "#showHideFetchactionForm": 0})
+    }
+
+    /**
+     * standardComment:
+     *  - edit comment to standard before send to servlet
+     *  - add "/* *\/" in start and end of comment if not contains
+     * @param comment: string data receive from textarea "Comment for Job"
+     * @return standard commnent
+    */
+    function standardComment(comment) {
+        if (comment.indexOf("/*") == -1) {
+            comment = "/*\n" + comment
+        }
+        if (comment.indexOf("*/") == -1) {
+            comment = comment + "\n*/"
+        }
+        return comment
+    }
+
+    /**
+     * standardRoot:
+     *  - edit rootText to standard before send to servlet
+     *  - remove special char ({,},[,],",')
+     *  - if rootText not contains ":" =&gt; rootText is sample groupKey
+     *  - else split follow ":" =&gt; will have two child data sample groupKey
+     * @param rootText: string data receive from input "_root(key of data)"
+     * @return standard rootText
+    */
+    function standardRoot(rootText) {
+        rootText = replaceAllString(rootText, "\"", "")
+        rootText = replaceAllString(rootText, "'", "")
+        rootText = replaceAllString(rootText, "{", "\"")
+        rootText = replaceAllString(rootText, "}", "\"\"")
+        rootText = replaceAllString(rootText, "[", "\"")
+        rootText = replaceAllString(rootText, "]", "\"\"")
+
+        var ouputRoot = ""
+        if (rootText.indexOf(":") == -1) {
+            ouputRoot = standardGroupKey(rootText)
+        } else {
+            var lstRoot = rootText.split(",")
+            for (var i = 0; i &lt; lstRoot.length; i++) {
+                var lstColon = lstRoot[i].split(":")
+                for (var j = 0; j &lt; lstColon.length; j++) {
+                    ouputRoot += "\"" + lstColon[j].trim() + "\"" + ":"
+                }
+                ouputRoot = ouputRoot.substring(0, ouputRoot.length - 1)
+                ouputRoot += ","
+            }
+            ouputRoot = ouputRoot.substring(0, ouputRoot.length - 1)
+            ouputRoot = replaceAllString(ouputRoot, "\"\"\"\"\"", "\"]]")
+            ouputRoot = replaceAllString(ouputRoot, "\"\"\"", "\"]")
+            ouputRoot = replaceAllString(ouputRoot, "\"\"", "[\"")
+
+            if (ouputRoot.indexOf("[") != 0) {
+                ouputRoot = "[" + ouputRoot + "]"
+            }
+        }
+        return ouputRoot
+    }
+
+    /**
+     * standardParams:
+     *  - edit paramsText text to standard before send to servlet
+     * @param paramsText: string data receive from input "value" of JOB PARAMS form
+     * @return standard paramsText
+    */
+    function standardParams(paramsText) {
+        paramsText = replaceAllString(paramsText, "\"", "")
+        paramsText = replaceAllString(paramsText, "'", "")
+
+        var ouputParams = ""
+        var lstRoot = paramsText.split(",")
+        if ((lstRoot.length == 1) &amp;&amp; (paramsText.indexOf("{") == -1)&amp;&amp; (paramsText.indexOf("}") == -1)&amp;&amp; (paramsText.indexOf("[") == -1)&amp;&amp; (paramsText.indexOf("]") == -1)) {
+            ouputParams = "\"" + paramsText + "\""
+        } else {
+            paramsText = replaceAllString(paramsText, "{", "\"")
+            paramsText = replaceAllString(paramsText, "}", "\"\"")
+            paramsText = replaceAllString(paramsText, "[", "\"")
+            paramsText = replaceAllString(paramsText, "]", "\"\"")
+
+            if (paramsText.indexOf(":") == -1) {
+                ouputParams = standardGroupKey(paramsText)
+            } else {
+                lstRoot = paramsText.split(",")
+                for (var i = 0; i &lt; lstRoot.length; i++) {
+                    var lstColon = lstRoot[i].split(":")
+                    for (var j = 0; j &lt; lstColon.length; j++) {
+                        ouputParams += "\"" + lstColon[j].trim() + "\"" + ":"
+                    }
+                    ouputParams = ouputParams.substring(0, ouputParams.length - 1)
+                    ouputParams += ","
+                }
+                ouputParams = ouputParams.substring(0, ouputParams.length - 1)
+                ouputParams = replaceAllString(ouputParams, "\"\"\"\"\"", "\"]]")
+                ouputParams = replaceAllString(ouputParams, "\"\"\"", "\"]")
+                ouputParams = replaceAllString(ouputParams, "\"\"", "[\"")
+
+                if (ouputParams.indexOf("[") != 0) {
+                    ouputParams = "[" + ouputParams + "]"
+                }
+            }
+        }
+        return ouputParams
+    }    
+
+    /**
+     * standardGroupKey:
+     *  - edit groupKey text to standard before send to servlet
+     *  - remove special char ({,},[,],")
+     *  - split follow "," =&gt; add character " in start and end of each element
+     *  - add "[" and "]" in start and end of final string
+     * @param groupKey: string data receive from input text "GROUPKEY"
+     * @return standard groupKey
+    */
+    function standardGroupKey(groupKey) {
+        groupKey = replaceAllString(groupKey, "{", "")
+        groupKey = replaceAllString(groupKey, "}", "")
+        groupKey = replaceAllString(groupKey, "[", "")
+        groupKey = replaceAllString(groupKey, "]", "")
+        groupKey = replaceAllString(groupKey, "\"", "")
+
+        var output
+        if (groupKey.indexOf(",") == -1) {
+            if (groupKey.indexOf("[\"") == -1) {
+                groupKey = "[\"" + groupKey
+            }
+            if (groupKey.indexOf("\"]") == -1) {
+                groupKey = groupKey + "\"]"
+            }
+            output = groupKey
+        } else {
+            output = "["
+            var lstKey = groupKey.split(",")
+            for (var i = 0; i &lt; lstKey.length; i++) {
+                output += "\"" + lstKey[i].trim() + "\","
+            }
+            output = output.substring(0, output.length - 1)
+            output += "]"
+        }
+        return output
+    }
+
+    /**
+     * standardDest:
+     *  - edit destText text to standard before send to servlet
+     *  - remove special char ([,])
+     *  - split follow "," =&gt; add "[, ]" in start and end each element
+     *  - add "[, ]" in start and end final string text
+     * @param destText: string data receive from input "DEST"
+     * @return standard destText
+    */
+    function standardDest(destText) {
+        destText = standardRoot(destText)
+        destText = replaceAllString(destText, "[", "")
+        destText = replaceAllString(destText, "]", "")
+        var lstDest = destText.split(",")
+        var outputDest = ""
+        for (var i = 0; i &lt; lstDest.length; i++) {
+            outputDest += "[" + lstDest[i] + "],"
+        }
+        outputDest = "[" + outputDest.substring(0, outputDest.length - 1) + "]"
+        return outputDest
+    }
+
+    /**
+     * replaceAllString: replace all character to an other character
+     * @param oriStr: original string
+     * @param strTarget: original character
+     * @param strSubString: change character
+     * @return standard oriStr
+    */
+    function replaceAllString(oriStr, strTarget, strSubString) {
+        var strText = oriStr;
+        var intIndexOfMatch = strText.indexOf(strTarget);
+        while (intIndexOfMatch != -1) {
+            strText = strText.replace(strTarget, strSubString)
+            intIndexOfMatch = strText.indexOf(strTarget);
+        }
+        return (strText);
+    }
+
+    /**
+     * standardClosure: edit string closure to standard closure
+     * @param strClosure: data receive from "FETCHACTION", "ACCUMULATE", "FINALLY"
+     * @return standard strClosure
+    */
+    function standardClosure(strClosure) {
+        if (strClosure.indexOf("{") != 0) {
+            strClosure = "{\n" + strClosure
+        }
+        strClosure = strClosure.trim()
+        if (strClosure.charAt(strClosure.length - 1) != "}") {
+            strClosure = strClosure + "\n}"
+        }
+        return strClosure
+    }
+
+    /**
+     * showErrorMsg: console log error when send and receive data
+    */
+    function showErrorMsg(xhr, status, error) {
+        console.log(xhr)
+        console.log(status)
+        console.log(error)
+    }
+
+    jQuery.noConflict()
+});</code>
+    </property>
+    <property>
+      <name>JobConfiguration-js</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>e16d36ec-74ee-4a1f-a095-a4c6c81bd028</guid>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>#nav{
+  float:left;
+  width:30%;
+}
+
+.main ul{
+  margin-left:0em;
+}
+.jobInfo{
+  width:150px;
+  height:200px;
+}
+
+#formJobInfo{
+  width:80%;
+}
+#xwikicontent textarea {
+  width:100%;
+  height:100%;
+  rows:10;
+  border:10px;
+  background: #FFFFD6!important
+}
+#xwikicontent input[type='text']{
+  background: #FFFFD6!important
+}
+
+#formJobParams{
+  width:80%;
+}
+
+#formInstances{
+  width:75%;
+  margin-left:50px;
+}
+
+.longContent{
+  max-width:210px
+}
+.td_button{
+  width:60px;
+  text-align:center;
+}
+.delete_btn{
+  margin:5px !important
+}
+
+#instanceInfoTable table{
+  margin:0px !important
+}
+#updateJobInstanceForm{
+  width:40%;
+  margin-left:200px;
+}
+
+#updateJobInstanceTable{
+  width:680px;
+  border:1px solid red !important;
+}
+
+#jobInstance{
+  width:700px;
+  overflow:auto;
+  max-height: 500px;
+}
+
+#buttonUpdateJobInfo{
+  text-align:center;
+  clear:both;
+  padding-top:15px; !important;
+}
+#chartInfoForm{
+  width:100%;
+  height:100%;
+  border:1px solid #E60000 !important;
+}
+
+#paramJobForm{
+  width:100%;
+  height:100%;
+  border:1px solid #E60000 !important;
+}
+
+#paramInstanceForm{
+  width:100%;
+  height:100%;
+  border:1px solid #E60000 !important;
+
+}
+#showHideQueryForm{
+  width:500px;
+}
+
+.classAction{
+ min-width:100%;
+}
+.message{
+color: green
+}
+.error{
+color: red
+}
+
+#chartInfo{
+height:300px; 
+width:700px;
+overflow: auto;
+}
+
+#paramJob{
+height:300px; 
+width:700px;
+overflow: auto;
+}
+
+#messageValid p {
+    font-size: 1.3em;
+    color: red;
+}
+
+#messageValid b {
+    font-size: 1.3em;
+    color: blue;
+}
+#toggleKEYEXPR,#toggleJobParams {
+ cursor: pointer;
+ text-decoration: none;
+ font-weight: bold;
+ font-size: 1em
+}
+.showHideLink a{
+ background-color: green;
+ color: #fff;
+ font-weight: bold
+}</code>
+    </property>
+    <property>
+      <name>jobconfig-css</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>0306404b-8184-4669-9e65-70cdc8cf0f51</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups/>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users>xwiki:XWiki.Admin</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>1</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>01021579-4982-4942-8b82-cbedaf834f4c</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups/>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>b736df4f-f73d-407d-ba31-1a8d21101e0b</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>e3de5d1d-8fe4-4129-9eb3-814efbe4ae90</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>4</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>8c4d5258-614e-429c-b5e6-cc8838884674</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups/>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users>XWiki.XWikiGuest</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>5</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>7ce56844-055f-4e19-845e-697546ff9166</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>6</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>fb0f0db6-419e-497b-8792-040a201e624c</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>7</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>0b099f51-c9f0-4d3b-9b09-d613bf2e7e8a</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>8</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>49cb2f46-7397-4459-a227-0f16de4b57fd</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>10</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>2dacddf1-cd73-4884-83ab-52397ae62084</guid>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>WiperDog.JobConfiguration</name>
+    <number>11</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>61551504-e2cc-4e42-8f92-592c7638be84</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users/>
+    </property>
+  </object>
+  <content>{{html wiki="true" clean="false"}}
+
+{{html clean="false"}}
+&lt;div id="messageValid"&gt;&lt;/div&gt;
+	&lt;table id="configJobInfo" style="width:65%"&gt;
+		&lt;tr&gt;
+			&lt;th style="width:20%"&gt;MONITORINGTYPE&lt;span&gt;(*)&lt;/span&gt;&lt;/th&gt;
+			&lt;td colspan=4&gt;
+				&lt;select style="width:30%" id="listMonitoring" tabindex="1"&gt;
+					&lt;option id="none" value="@DB"&gt;@DB&lt;/option&gt;
+					&lt;option id="none" value="@SYS"&gt;@SYS&lt;/option&gt;
+					&lt;option id="none" value="@NET"&gt;@NET&lt;/option&gt;
+                                        &lt;option id="none" value="Others"&gt;Others&lt;/option&gt;
+				&lt;/select&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th&gt; &lt;class=requiredField&gt;DB's type&lt;/th&gt;
+			&lt;td&gt;
+				&lt;select style="width:100%" id="dbTypeCbb" tabindex="2"&gt;
+
+				&lt;/select&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;th class=requiredField&gt;Job's File&lt;/th&gt;
+			&lt;td colspan=4&gt;
+				&lt;select style="width:100%" id="listJob" tabindex="3"&gt;
+					&lt;option id="noChoice" value="noChoice"&gt;-select a job-&lt;/option&gt;
+				&lt;/select&gt;
+			&lt;/td&gt;
+                        &lt;th style="color:blue; width:35%"&gt;*Note: Select a job if want to update info&lt;/th&gt;
+		&lt;/tr&gt;
+&lt;/table&gt;
+{{/html}}
+
+&lt;form action="#" method='POST' id="form1"&gt;
+&lt;table id="formJobInfo"&gt;
+	&lt;tr&gt;
+		&lt;th colspan=2 style="color:Green"&gt;&lt;p&gt;JOB INFORMATION&lt;/p&gt;&lt;/th&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td colspan="4"&gt;
+			&lt;table id="formJob" style="width:100%"&gt;
+				&lt;tr&gt;
+					&lt;th&gt;&lt;p class="requiredField"&gt;Job Name&lt;span&gt;(*)&lt;/span&gt;:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:100%" id="jobNameText" tabindex="4"&gt;&lt;/td&gt;
+					&lt;th&gt;&lt;p&gt;Job File Name:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:100%" id="jobFileNameText" tabindex="5"&gt;&lt;/td&gt;
+					&lt;th&gt;&lt;p&gt;Job Class Name:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:100%" id="jobClassNameText" tabindex="6"&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/table&gt;
+
+				&lt;tr&gt;
+					&lt;th style="width:30px;"&gt;&lt;p class="requiredField"&gt;Comment for Job:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;textarea style="width:100%;" rows=5 id="commentForJobText" tabindex="7"&gt;&lt;/textarea&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr id="groupkeyForm"&gt;
+					&lt;th style="width:30px;"&gt;&lt;p&gt;GROUPKEY:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:50%" id="groupkeyText" tabindex="8"/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+                                &lt;tr&gt;
+                                    &lt;td&gt;&lt;/td&gt;
+                                    &lt;td&gt;
+                                        &lt;div class='sample'&gt;
+                                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                             &lt;textarea readonly style="display:none; width:50%" rows=4&gt;
+ &amp;#47;&amp;#47;GROUPKEY
+ ["database","table"]
+&lt;/textarea&gt;
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;
+			        &lt;/tr&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table&gt;
+	&lt;tr id="actionOfJob"&gt;
+		&lt;th&gt;&lt;p&gt;Action of Job:&lt;/p&gt;&lt;/th&gt;
+		&lt;td&gt;
+			&lt;select style="width:100%" id="listActionJob" tabindex="9"&gt;
+				&lt;option id="showHideQuery" value="runQuery"&gt;Run Select Query&lt;/option&gt;
+				&lt;option id="showHideOther" value="runOther"&gt;Run Others Query&lt;/option&gt;
+				&lt;option id="showHideCommand" value="runCommand"&gt;Run Command&lt;/option&gt;
+				&lt;option id="showHideFetchAction" value="runFetchAction"&gt;Run FetchAction&lt;/option&gt;
+			&lt;/select&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div style="width:80%"&gt;
+		&lt;table id="showHideQueryForm" class="classAction"&gt;
+			&lt;tr id="queryForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;QUERY:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="queryText" style="width:100%" rows=5 tabindex="10"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+			&lt;tr id="queryVariableForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;QUERY_VARIABLE:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="queryVariableText" style="width:100%" rows=5 cols=10 tabindex="11"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+ &amp;#47;&amp;#47;QUERY
+ select * from user_catalog where rownum &lt;= :rowcnt
+ &amp;#47;&amp;#47;QUERY_VARIABLE
+ [rowcnt: 2]
+&lt;/textarea&gt;
+                           &lt;/div&gt;
+                          &lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+		&lt;table id="showHideDbexecForm" style="display:none;" class="classAction"&gt;
+			&lt;tr id="dbexecForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;DBEXEC:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="dbexecText" style="width:100%" rows=5 tabindex="10"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+			&lt;tr id="dbexecVariableForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;DBEXEC_VARIABLE:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="dbexecVariableText" style="width:100%" rows=5 tabindex="11"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+ &amp;#47;&amp;#47;DBEXEC
+ Update table_name set column_name1 = :abc where column_name2 = :def
+ &amp;#47;&amp;#47;DBEXEC_VARIABLE
+ [abc:123, def:"data"]
+&lt;/textarea&gt;
+                           &lt;/div&gt;
+                          &lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+		&lt;table id="showHideCommandForm" style="display:none;" class="classAction"&gt;
+			&lt;tr id="commandForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;COMMAND:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="commandText" style="width:100%" rows=5 tabindex="10"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+			&lt;tr id="formatForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;FORMAT:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="formatText" style="width:100%" rows=5 tabindex="11"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+ &amp;#47;&amp;#47;COMMAND
+ ["/bin/sh", "-c", "echo 123  abc  def"]
+ &amp;#47;&amp;#47;FORMAT
+ [ match: /([0-9]+)[ \t]+([^ ]+)[ \t]+(.+)/, 1: "id", 2: "name", 3: "desc" ]
+&lt;/textarea&gt;
+                           &lt;/div&gt;
+                          &lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+		&lt;table id="showHideFetchactionForm" style="display:none;" class="classAction"&gt;
+			&lt;tr id="fetchactionForm"&gt;
+				&lt;th style="width:15%"&gt;&lt;p&gt;FETCHACTION:&lt;/p&gt;&lt;/th&gt;
+				&lt;th&gt;&lt;textarea id="fetchactionText" style="width:100%" rows=5 tabindex="10"&gt;&lt;/textarea&gt;&lt;/th&gt;
+			&lt;/tr&gt;
+                        &lt;tr&gt;
+                          &lt;td&gt;&lt;/td&gt;
+                          &lt;td&gt;
+                           &lt;div class='sample'&gt;
+                               &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                               &lt;textarea readonly style="display:none" rows=5&gt;
+{
+ &amp;#47;&amp;#47;closure code here
+ def data = "abc"
+ return data
+}&lt;/textarea&gt;
+                           &lt;/div&gt;
+                          &lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+&lt;/div&gt;
+&lt;table style="width:80%"&gt;
+				&lt;tr id="accumulateForm"&gt;
+					&lt;th style="width:15%"&gt;&lt;p&gt;ACCUMULATE:&lt;/p&gt;&lt;/th&gt;
+					&lt;th&gt;&lt;textarea id="accumulateText" style="width:100%" rows=5 tabindex="12"&gt;&lt;/textarea&gt;&lt;/th&gt;
+				&lt;/tr&gt;
+				&lt;tr id="finallyForm"&gt;
+					&lt;th style="width:15%"&gt;&lt;p&gt;FINALLY:&lt;/p&gt;&lt;/th&gt;
+					&lt;th&gt;&lt;textarea id="finallyText" style="width:100%" rows=5 tabindex="13"&gt;&lt;/textarea&gt;&lt;/th&gt;
+				&lt;/tr&gt;
+                                &lt;tr&gt;
+                                    &lt;td&gt;&lt;/td&gt;
+                                    &lt;td&gt;
+                                        &lt;div class='sample'&gt;
+                                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                             &lt;textarea readonly style="display:none" rows=7&gt;
+{
+ &amp;#47;&amp;#47;closure code here
+ OUTPUT.each { rec -&gt;
+	rec['ReadsCnt'] = rec['ReadsCumCnt']
+	rec['BytesReadsCnt'] = rec['BytesReadCumCnt']
+ }
+}&lt;/textarea&gt;
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;
+			        &lt;/tr&gt;
+&lt;/table&gt;
+&lt;table style="width:80%"&gt;
+				&lt;tr id="sendtypeForm"&gt;
+					&lt;th&gt;&lt;p&gt;SENDTYPE:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;
+						&lt;select style="width:50%" id="listSendType" tabindex="14"&gt;
+							&lt;option id="none" value="slectDataType"&gt;-select a data type-&lt;/option&gt;
+							&lt;option id="none" value="Store"&gt;Store&lt;/option&gt;
+							&lt;option id="none" value="Subtyped"&gt;Subtyped&lt;/option&gt;
+							&lt;option id="none" value="Gathered"&gt;Gathered&lt;/option&gt;
+						&lt;/select&gt;
+			                &lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr id="resourceIdForm"&gt;
+					&lt;th&gt;&lt;p&gt;RESOURCEID:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:50%" id="resourceIdText" tabindex="15"&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr id="destForm" &gt;
+					&lt;th&gt;&lt;p&gt;DEST:&lt;/p&gt;&lt;/th&gt;
+					&lt;td &gt;&lt;input type="text" style="width:50%" id="destText" tabindex="16"&gt;
+                                        &lt;/td&gt;
+                                        &lt;tr&gt;
+                                            &lt;td&gt;&lt;/td&gt;
+                                              &lt;td&gt;
+                                                 &lt;div class='sample'&gt;
+                                                     &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                                        &lt;textarea readonly style="display:none; width:50%" rows=6&gt;
+ &amp;#47;&amp;#47;DEST
+ parameters.dest
+ &amp;#47;&amp;#47;or
+ &amp;#91;&amp;#91;"file":"stdout"&amp;#93;&amp;#93;
+&lt;/textarea&gt;
+                                                    &lt;/div&gt;
+                                             &lt;/td&gt;
+			                &lt;/tr&gt;
+				&lt;/tr&gt;
+
+&lt;/table&gt;
+&lt;div class ='showHideLink'&gt;&lt;a class ='toggleKEYEXPR'  id = 'hide'&gt;Show KEYEXPR Form&lt;/a&gt;&lt;/div&gt;
+&lt;table id = 'keyExpr' style = "display: none"&gt;
+                &lt;tr&gt;&lt;th style = "color: green"&gt;&lt;p&gt;KEYEXPR&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;
+				&lt;tr id="keyexprForm"&gt;
+					&lt;td&gt;
+						&lt;table style="width:55%"&gt;
+							&lt;tr id="rootForm"&gt;
+								&lt;th&gt;&lt;p&gt;_root (key of data):&lt;/p&gt;&lt;/th&gt;
+								&lt;td&gt;&lt;input type="text" style="width:100%" id="rootText" tabindex="17"/&gt;&lt;/td&gt;
+							&lt;/tr&gt;
+							&lt;tr id="sequenceForm"&gt;
+								&lt;th&gt;&lt;p&gt;_sequence:&lt;/p&gt;&lt;/th&gt;
+								&lt;td&gt;&lt;textarea style="width:100%" id="sequenceText" tabindex="18"&gt;&lt;/textarea&gt;&lt;/td&gt;
+							&lt;/tr&gt;
+							&lt;tr id="unitForm"&gt;
+								&lt;th&gt;&lt;p&gt;_unit:&lt;/p&gt;&lt;/th&gt;
+								&lt;td&gt;&lt;textarea style="width:100%" id="unitText" tabindex="19"&gt;&lt;/textarea&gt;&lt;/td&gt;
+						  	&lt;/tr&gt;
+                                      			&lt;tr&gt;
+                                        		    &lt;td&gt;&lt;/td&gt;
+                                        		      &lt;td&gt;
+                                         		        &lt;div class='sample'&gt;
+                                               		           &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                           		             &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;_root
+     &amp;#91;"DatabaseName","FileId"&amp;#93;
+     &amp;#47;&amp;#47;or
+     &amp;#91;"M":&amp;#91;"DatabaseNm", "UsedPct"&amp;#93;, "D":&amp;#91;"DatabaseNm"&amp;#93;&amp;#93;
+ &amp;#47;&amp;#47;_sequence
+     &amp;#91;"AverageIOTimeDbl","AverageIOTimeCumDbl"&amp;#93;
+     &amp;#47;&amp;#47;or
+     &amp;#91;"M":&amp;#91;"UsedPct", "UsedSize", "UsedDataSize"&amp;#93;, "D":&amp;#91;"UsedPct", "UsedSize", "UsedDataSize"&amp;#93;&amp;#93;
+ &amp;#47;&amp;#47;_unit
+     &amp;#91;"UsedDataSize" : "byte" , "UsedSize":"byte"&amp;#93;
+     &amp;#47;&amp;#47;or
+     &amp;#91;"M":&amp;#91;"UsedPct":"%", "UsedSize":"KB"&amp;#93;, "D":&amp;#91;"UsedSize":"KB", "UsedDataSize":"KB"&amp;#93;&amp;#93;
+&lt;/textarea&gt;
+                                           		        &lt;/div&gt;
+                                         		    &lt;/td&gt;
+			              		 	&lt;/tr&gt;
+							&lt;table id="chartForm" &gt;
+								&lt;tr&gt;
+									&lt;th colspan=2&gt;&lt;p&gt;_chart:&lt;/p&gt;&lt;/th&gt;
+								&lt;/tr&gt;
+								&lt;tr&gt;
+									&lt;td colspan=2 id = "messageChart" &gt;&lt;p&gt;&lt;/p&gt;&lt;/td&gt;
+								&lt;/tr&gt;
+
+								&lt;tr&gt;
+									&lt;td style='width:40%'&gt;
+										&lt;table id="formChartConfig" style='width:100%;height:100%'&gt;
+											&lt;tr id="groupChart" style="display:none"&gt;
+												&lt;th&gt;&lt;p&gt;Key of Subtype:&lt;/p&gt;&lt;/th&gt;
+												&lt;td&gt;&lt;input type="text" id="groupChartText" tabindex="6"/&gt;&lt;/td&gt;
+											&lt;/tr&gt;
+											&lt;tr&gt;
+												&lt;th&gt;&lt;p&gt;Type:&lt;/p&gt;&lt;/th&gt;
+												&lt;td&gt;
+				                                                                	&lt;select style="width:50%" id="listChartType" tabindex="20"&gt;
+					                                                                	&lt;option id="none" value="pie"&gt;pie&lt;/option&gt;
+					                                                                	&lt;option id="none" value="line"&gt;line&lt;/option&gt;
+					                                                                	&lt;option id="none" value="bar"&gt;bar&lt;/option&gt;
+					                                                                	&lt;option id="none" value="area"&gt;area&lt;/option&gt;
+                                                                                                	&lt;/select&gt;
+												&lt;/td&gt;
+											&lt;/tr&gt;
+											&lt;tr&gt;
+												&lt;th&gt;&lt;p&gt;Name:&lt;/p&gt;&lt;/th&gt;
+												&lt;td&gt;&lt;input type="text" id="nameChartText" tabindex="21"/&gt;&lt;/td&gt;
+											&lt;/tr&gt;
+											&lt;tr&gt;
+												&lt;th&gt;&lt;p&gt;Chart Columns:&lt;/p&gt;&lt;/th&gt;
+												&lt;td&gt;&lt;input type="text" id="chartColumnsText" tabindex="22"/&gt;&lt;/td&gt;
+											&lt;/tr&gt;
+											&lt;tr&gt;
+												&lt;th&gt;&lt;p&gt;Hint Columns:&lt;/p&gt;&lt;/th&gt;
+												&lt;td&gt;&lt;input type="text" id="hintColumnsText" tabindex="23"/&gt;&lt;/td&gt;
+											&lt;/tr&gt;
+										&lt;/table&gt;
+										&lt;div style="text-align:center;padding-top:5px;"&gt;
+											&lt;input type="button" style='width:50px' value="Add" class="button" id="updateChartInfo" tabindex="24"/&gt;
+										&lt;/div&gt;
+                                         		        		&lt;div class='sample'&gt;
+                                               		           		&lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                           		             		&lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;Key of Subtype
+     key_name
+     &amp;#47;&amp;#47;or
+     "key_name"
+ &amp;#47;&amp;#47;Name
+     chart_name
+     &amp;#47;&amp;#47;or
+     "chart_name"
+ &amp;#47;&amp;#47;Chart Columns
+     &amp;#91;"UsedDataSize", "UsedSize"&amp;#93;
+     &amp;#47;&amp;#47;or
+     "chart_columns_name"
+     &amp;#47;&amp;#47;or
+     chart_columns_name
+ &amp;#47;&amp;#47;Hint Columns
+     &amp;#91;"UsedCount", "UsedSize"&amp;#93;
+     &amp;#47;&amp;#47;or
+     "hint_columns_name"
+     &amp;#47;&amp;#47;or
+     hint_columns_name
+&lt;/textarea&gt;
+                                           		        		&lt;/div&gt;
+									&lt;/td&gt;
+									&lt;td style='width:40%'&gt;
+										&lt;table id="chartInfoForm"&gt;
+											&lt;tr&gt;
+												&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Chart Info&lt;/p&gt;&lt;/th&gt;
+											&lt;/tr&gt;
+											&lt;tr &gt;
+												&lt;td&gt;
+													&lt;div id="chartInfo"&gt;
+														&lt;table id="chartTable"&gt;
+															&lt;tr&gt;
+																&lt;th style="background-color:#EBEBFF; width:20%"&gt;&lt;p&gt;Group&lt;/p&gt;&lt;/th&gt;
+																&lt;th style="background-color:#EBEBFF; width:20%"&gt;&lt;p&gt;Type&lt;/p&gt;&lt;/th&gt;
+																&lt;th style="background-color:#EBEBFF; width:20%"&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/th&gt;
+																&lt;th style="background-color:#EBEBFF; width:20%"&gt;&lt;p&gt;Chart Columns&lt;/p&gt;&lt;/th&gt;
+																&lt;th style="background-color:#EBEBFF; width:20%"&gt;&lt;p&gt;Hint Columns&lt;/p&gt;&lt;/th&gt;
+																&lt;th style="background-color:#EBEBFF; width:20%"&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;
+
+															&lt;/tr&gt;
+														&lt;/table&gt;
+													&lt;/div&gt;
+												&lt;/td&gt;
+											&lt;/tr&gt;
+										&lt;/table&gt;
+									&lt;/td&gt;
+								&lt;/tr&gt;
+							&lt;/table&gt;
+						&lt;/table&gt;
+					&lt;/td&gt;
+				&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div&gt;&amp;nbsp;&lt;/div&gt;
+&lt;div class ='showHideLink'&gt;&lt;a class ='toggleJobParams' id = 'hide'&gt;Show JOB PARAMS Form&lt;/a&gt;&lt;/div&gt;
+&lt;table id="formJobParams"  style= "display: none"&gt;
+        &lt;tr&gt;&lt;th colspan=2 style="color:Green"&gt;&lt;p&gt;JOB PARAMS&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td colspan=2 style="color:blue"&gt;&lt;p&gt;*Note: When select MONITORINGTYPE with value @DB =&gt; Need set 2 params: dbHostId and dbSid&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;&lt;p id='messageParams'&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+
+	&lt;tr&gt;
+		&lt;td style='width:40%'&gt;
+			&lt;table id="formJobParamConfig" style='width:70%;height:100%'&gt;
+				&lt;tr&gt;
+					&lt;th&gt;&lt;p class="requiredField"&gt;name:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:100%;" id="nameJobText" tabindex="25"/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;th&gt;&lt;p&gt;value:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;textarea type="text" style="width:300px;height:100px" id="valueJobText" tabindex="26"&gt;&lt;/textarea&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/table&gt;
+			&lt;div style="text-align:center;padding-top:5px;"&gt;
+				&lt;input type="button" style='width:50px' value="Add" class="button" id="updateParamOfJob" tabindex="27"/&gt;
+			&lt;/div&gt;
+                        &lt;div class='sample'&gt;
+                             &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                   &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+ &amp;#47;&amp;#47;name
+     job_params_name
+     &amp;#47;&amp;#47;or
+     "job_params_name"
+ &amp;#47;&amp;#47;value
+     "params_values"
+     &amp;#47;&amp;#47;or
+     &amp;#91;param1:'value1', param2:'value2'&amp;#93;
+                                   &lt;/textarea&gt;
+                         &lt;/div&gt;
+
+		&lt;td style='width:60%'&gt;
+			&lt;table id="paramJobForm"&gt;
+				&lt;tr&gt;
+					&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Params File&lt;/p&gt;&lt;/th&gt;
+				&lt;/tr&gt;
+				&lt;tr &gt;
+					&lt;td &gt;
+						&lt;div id="paramJob" &gt;
+							&lt;table id="paramJobTable"&gt;
+								&lt;tr&gt;
+									&lt;th style="background-color:#EBEBFF; width:40%"&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/th&gt;
+									&lt;th style="background-color:#EBEBFF; width:40%"&gt;&lt;p&gt;Value&lt;/p&gt;&lt;/th&gt;
+									&lt;th style="background-color:#EBEBFF; width:40%"&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;
+
+								&lt;/tr&gt;
+							&lt;/table&gt;
+						&lt;/div&gt;
+					&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/table&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+{{/html}}
+{{html wiki="false" clean="false"}}
+&lt;div class ='showHideLink'&gt;&lt;a class ='toggleJobInst'  id = 'hide'&gt;Show JOB INSTANCES Form&lt;/a&gt;&lt;/div&gt;
+&lt;table id="formInstances" style = "display: none" class="instGroup"&gt;
+    &lt;tr&gt;&lt;th colspan=2 style="color:green"&gt;&lt;p&gt;JOB INSTANCES&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;
+	&lt;tr id='formInstanceShowHide'&gt;
+		&lt;td&gt;
+			&lt;table &gt;
+				&lt;tr id="instanceNameForm"&gt;
+					&lt;th&gt;&lt;p class="requiredField"&gt;Instance Name&lt;span&gt;(*)&lt;/span&gt;:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" id="instanceNameText" tabindex="28"/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr id="scheduleForm"&gt;
+					&lt;th&gt;&lt;p&gt;schedule:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" id="scheduleText" tabindex="29"/&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+                                &lt;tr&gt;
+                                      &lt;td&gt;&lt;/td&gt;
+                                      &lt;td&gt;
+                                      &lt;div class='sample'&gt;
+                                           &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+                                           &lt;textarea readonly style="display:none; width:100%" rows=5&gt;
+     10   &amp;#47;&amp;#47;or
+     10i  &amp;#47;&amp;#47;or
+     now  &amp;#47;&amp;#47;or
+     0****
+                                           &lt;/textarea&gt;
+                                      &lt;/div&gt;
+                                      &lt;/td&gt;
+                                &lt;/tr&gt;
+				&lt;tr&gt;&lt;td&gt;&lt;p id="messageInstances"&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+
+				&lt;table id="formInstanceParams" style="width:100%;height:100%"&gt;
+					&lt;tr&gt;
+						&lt;th colspan=2&gt;&lt;p&gt;params:&lt;/p&gt;&lt;/th&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+						&lt;td colspan=2 style="color:blue;"&gt;&lt;p&gt;*Note: When select MONITORINGTYPE with value @DB =&gt; Need set 2 params: dbHostId and dbSid&lt;/p&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+					&lt;tr&gt;
+						&lt;td style='width:40%'&gt;
+							&lt;table id="formInstanceParamConfig" style='width:100%;height:30%'&gt;
+								&lt;tr&gt;
+									&lt;th&gt;&lt;p class="requiredField"&gt;name:&lt;/p&gt;&lt;/th&gt;
+									&lt;td&gt;&lt;input type="text" style="width:100%;" id="nameInstanceText" tabindex="30"/&gt;&lt;/td&gt;
+								&lt;/tr&gt;
+
+								&lt;tr&gt;
+									&lt;th&gt;&lt;p&gt;value:&lt;/p&gt;&lt;/th&gt;
+									&lt;td&gt;&lt;input type="text" style="width:100%;" id="valueInstanceText" tabindex="31"/&gt;&lt;/td&gt;
+								&lt;/tr&gt;
+                                &lt;tr&gt;
+									&lt;td&gt;&lt;/td&gt;
+									&lt;td&gt;
+									&lt;div class='sample'&gt;
+									   &lt;div style="color:Green"&gt;&lt;b&gt;Click to view sample data&lt;/b&gt;&lt;/div&gt;
+									    &lt;textarea readonly style="display:none; width:100%" rows=10&gt;
+											 &amp;#47;&amp;#47;name
+											     params_instance_name
+											     &amp;#47;&amp;#47;or
+											     "params_instance_name"
+											 &amp;#47;&amp;#47;value
+											     "params_values"
+											     &amp;#47;&amp;#47;or
+											     &amp;#91;param1:'value1', param2:'value2'&amp;#93;
+									     &lt;/textarea&gt;
+									    &lt;/div&gt;
+									&lt;/td&gt;
+								&lt;/tr&gt;
+								&lt;tr&gt;
+									&lt;td colspan="2"&gt;&lt;p id="messageInstancesParams" &gt;&lt;/p&gt;&lt;/td&gt;
+								&lt;/tr&gt;
+							&lt;/table&gt;
+							&lt;div style="text-align:center;padding-top:10px;"&gt;
+									   &lt;input type="button" style='width:50px' value="Add" class="button" id="updateParamInstance" tabindex="32"/&gt;
+							&lt;/div&gt;
+						&lt;/td&gt;
+
+						&lt;td style='width:60%'&gt;
+							&lt;table id="paramInstanceForm"&gt;
+								&lt;tr&gt;
+									&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Params Instance&lt;/p&gt;&lt;/th&gt;
+								&lt;/tr&gt;
+								&lt;tr &gt;
+									&lt;td &gt;
+										&lt;div id="paramInstance"&gt;
+											&lt;table id="paramInstanceTable" style="width:100%;height:100%"&gt;
+												&lt;tr&gt;
+													&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/th&gt;
+													&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Value&lt;/p&gt;&lt;/th&gt;
+													&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;
+												&lt;/tr&gt;
+											&lt;/table&gt;
+										&lt;/div&gt;
+									&lt;/td&gt;
+								&lt;/tr&gt;
+							&lt;/table&gt;
+						&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/table&gt;
+                                &lt;div style="text-align:center;padding:2px;"&gt;
+					&lt;input type="button" style='width:200px' value="Add to List Instance of Job" class="button" id="updateInstance" tabindex="33"/&gt;
+				&lt;/div&gt;
+			&lt;/table&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;table id="updateJobInstanceForm" class="instGroup" style = "display: none"&gt;
+	&lt;tr&gt;
+		&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Update Job Instance Info&lt;/p&gt;&lt;/th&gt;
+	&lt;/tr&gt;
+        &lt;tr&gt;
+		&lt;td&gt;&lt;p id="messageListInstances"&gt;&lt;/p&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+
+	&lt;tr &gt;
+		&lt;td &gt;
+			&lt;div id="jobInstance"&gt;
+				&lt;table id="updateJobInstanceTable"&gt;
+					&lt;tr&gt;
+						&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Instance's name&lt;/p&gt;&lt;/th&gt;
+						&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Params&lt;/p&gt;&lt;/th&gt;
+						&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Schedule&lt;/p&gt;&lt;/th&gt;
+						&lt;th style="background-color:#EBEBFF"&gt;&lt;p&gt;Action&lt;/p&gt;&lt;/th&gt;
+					&lt;/tr&gt;
+				&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div style="padding-left:35%;padding-bottom:25px;"&gt;
+&lt;tr&gt;&lt;td&gt;&lt;input type="button" style='width:120px; height:25px; display: none' value="Export To CSV" class="button instGroup" id="exportCSV" tabindex="34"/&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/div&gt;
+{{/html}}
+{{html wiki="true" clean="false"}}
+&lt;div id="buttonUpdateJobInfo"&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Save" class="button" id="updateJobInfo" tabindex="35"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Save &amp; Run Test" class="button" id="saveAndRunTest" tabindex="36"/&gt;
+		&lt;input type="reset" style='width:150px; height:30px' value="Clear Data" class="button" id="clearData" tabindex="37"/&gt;
+		&lt;input type="button" style='width:150px; height:30px' value="Back To Menu" class="button" id="backToMain" tabindex="38"/&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+{{/html}}</content>
+</xwikidoc>
