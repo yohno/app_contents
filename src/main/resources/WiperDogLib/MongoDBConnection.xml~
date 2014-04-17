@@ -454,16 +454,13 @@ class MongoDBConnection{
    if(f.exists()){
 	   def shell = new GroovyShell()
 	   params = shell.evaluate(f)
-	   def declaredMongoDB 
-	   if (params != null) {
-                   declaredMongoDB = params['mongoDB']
-           }
+	   def declaredMongoDB = params['mongoDB']
 	   if(declaredMongoDB != null){
-	   	   decidedDbName = (declaredMongoDB['dbName'] != null)?declaredMongoDB['dbName'] : dbName
-	   	   decidedHost = (declaredMongoDB['host'] != null)?declaredMongoDB['host'] : host
-	   	   decidedPort = (declaredMongoDB['port'] != null)?declaredMongoDB['port'] : port
-	   	   decidedUser = (declaredMongoDB['user'] != null)?declaredMongoDB['user'] : user
-	   	   decidedPass = (declaredMongoDB['pass'] != null)?declaredMongoDB['pass'] : pass
+	   	   	decidedDbName = (declaredMongoDB['dbName'] != null)?declaredMongoDB['dbName'] : dbName
+	   	   	decidedHost = (declaredMongoDB['host'] != null)?declaredMongoDB['host'] : host
+	   	   	decidedPort = (declaredMongoDB['port'] != null)?declaredMongoDB['port'] : port
+	   	   	decidedUser = (declaredMongoDB['user'] != null)?declaredMongoDB['user'] : user
+	   	   	decidedPass = (declaredMongoDB['pass'] != null)?declaredMongoDB['pass'] : pass
 	   }else{
 	   	   decidedHost = host
 	   	   decidedPort = port
