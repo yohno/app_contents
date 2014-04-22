@@ -281,11 +281,20 @@ RU5ErkJggg==
 
 		$('#createChart').bind('click', function(){
 			var paData = getJsonData({type:'desc', target:'getStorageSize'});
+			var paDataLength = paData.length;
 			var poOption = {};
 			var pnCount = $('option:selected', '#viewLimit').val();
 			var psChartType = $('option:selected', '#chartType').val();
 			var paSeries = [];
-			
+
+			if(paDataLength &lt; 5){
+				pnCount = paDataLength;
+			}else if((paDataLength &lt; 10) &amp;&amp; (pnCount &gt; 5)){
+				pnCount = paDataLength;
+			}else if((paDataLength &lt; 20) &amp;&amp; (pnCount &gt; 10)){
+				pnCount = paDataLength;
+			}			
+
 			if(psChartType === 'bar'){
 				var paCategory = [];
 				for(var i=0, len=pnCount;i&lt;len;i++){
