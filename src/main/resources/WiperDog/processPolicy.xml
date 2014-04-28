@@ -1438,6 +1438,7 @@ require(['jquery'], function($) {
       mapFinal['mappolicy'] = mapDataPolicy.datapolicy
       var mapConditionLevel = mapDataPolicy.mapConditionLevel
       var mapSampleData = responseData.SAMPLE
+      var params = getParamsFromTable()
       var data2send
       if (JSON.stringify(mapPolicy) != '{}') {
         // CASE STORE
@@ -1449,7 +1450,8 @@ require(['jquery'], function($) {
           'listKey': JSON.stringify(listKey),
           'sampleData': JSON.stringify(listSampleData),
           'type': 'store',
-          'mapConditionLevel': JSON.stringify(mapConditionLevel)
+          'mapConditionLevel': JSON.stringify(mapConditionLevel),
+          'params' : JSON.stringify(params)
         }
       }
       if (JSON.stringify(mapPolicySubtyped) != '{}') {
@@ -1466,7 +1468,8 @@ require(['jquery'], function($) {
           'listKey': JSON.stringify(listKey),
           'sampleData': JSON.stringify(mapDataRequest),
           'type': 'subtyped',
-          'mapConditionLevel': JSON.stringify(mapConditionLevel)
+          'mapConditionLevel': JSON.stringify(mapConditionLevel),
+          'params' : JSON.stringify(params)
         }
       }
       if (data2send != null) {
