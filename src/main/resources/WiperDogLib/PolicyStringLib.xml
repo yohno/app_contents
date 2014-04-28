@@ -482,6 +482,11 @@ if(datajson != null &amp;&amp; datajson != ""){
             def obj = shell.evaluate(closureStr)
             def binding = obj.getBinding()
             params.each{key, value-&gt;
+                try{
+                    value = Double.valueOf(value)
+                }catch(NumberFormatException nfe){
+                    // Do nothing
+                }
                 binding.setVariable(key, value)
             }
             def policyClos = binding.getVariable("POLICY")
