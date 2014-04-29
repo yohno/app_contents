@@ -1122,6 +1122,7 @@ var XWikiUploader = (function(d) {
 				if (e.target.status &gt;= 200 &amp;&amp; e.target.status &lt; 300) {
 					this.statusUI.UPLOAD_RESPONSE.update(e.target.responseText)
 					document.getElementById("fileName").innerText = this.file.name + "__"+ new Date()
+					document.getElementById("fileName").textContent = this.file.name + "__"+ new Date()
 
 				} else {
 					this.onUploadError();
