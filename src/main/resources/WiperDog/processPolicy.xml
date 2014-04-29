@@ -1753,11 +1753,11 @@ require(['jquery'], function($) {
     if (conf) {
       var rowDeleted = deleteRow(this, 'policyInfo')
       if (rowDeleted.cells.length == 5) { // STORE
-        var keyDeleted = rowDeleted.cells[1].innerText
+        var keyDeleted = rowDeleted.cells[1].innerText || rowDeleted.cells[1].textContent
         delete mapPolicy[keyDeleted]
       } else if (rowDeleted.cells.length == 6) { // SUBTYPED
-        var groupDel = rowDeleted.cells[1].innerText
-        var keyDel = rowDeleted.cells[2].innerText
+        var groupDel = rowDeleted.cells[1].innerText || rowDeleted.cells[1].textContent
+        var keyDel = rowDeleted.cells[2].innerText || rowDeleted.cells[2].textContent
         var childObj = jQuery.extend(true, {}, mapPolicySubtyped[groupDel]);
         delete (childObj[keyDel])
         mapPolicySubtyped[groupDel] = childObj

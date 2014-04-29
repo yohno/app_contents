@@ -188,12 +188,16 @@
 
   function editRow(r){
     var row = r.parentNode.parentNode
-    var key_edit= row.cells[0].innerText
+    var key_edit= row.cells[0].innerText || row.cells[0].textContent
     $("#name").val(key_edit)
-    $("#host").val(row.cells[1].innerText)
-    $("#port").val(row.cells[2].innerText)
-    $("#servlet").val(row.cells[3].innerText)
-    $("#desc").val(row.cells[4].innerText)
+    var host_txt = row.cells[1].innerText || row.cells[1].textContent
+    $("#host").val(host_txt)
+    var port_txt = row.cells[2].innerText || row.cells[2].textContent
+    $("#port").val(port_txt)
+    var servlet_txt = row.cells[3].innerText || row.cells[3].textContent
+    $("#servlet").val(servlet_txt)
+    var desc_txt = row.cells[4].innerText || row.cells[4].textContent
+    $("#desc").val(desc_txt)
   }
 
   function sendDataMongo(resultMongo){
@@ -435,12 +439,16 @@
      if(confirm_update){
        var rows = document.getElementById('table_display').rows
        for(var i = 0 ; i &lt; rows.length ; i++) {
-         var key2remove = rows[i].cells[0].innerText
+         var key2remove = rows[i].cells[0].innerText || rows[i].cells[0].textContent
          if(key == key2remove ){
           rows[i].cells[1].innerText = $("#host").val()
+          rows[i].cells[1].textContent = $("#host").val()
           rows[i].cells[2].innerText = $("#port").val()
+          rows[i].cells[2].textContent = $("#port").val()
           rows[i].cells[3].innerText = $("#servlet").val()
-                                        rows[i].cells[4].innerText = $("#desc").val()
+          rows[i].cells[3].textContent = $("#servlet").val()
+          rows[i].cells[4].innerText = $("#desc").val()
+          rows[i].cells[4].textContent = $("#desc").val()
           $("#message").text('Update succefully !')
           $("#name").prop('disabled',false)
           $("#name").val("")
@@ -506,7 +514,7 @@
     var conf_del = confirm("Are you sure ?")
     if(conf_del){
       var row = deleteRow(this)
-      var key_remove = row.cells[0].innerText
+      var key_remove = row.cells[0].innerText || row.cells[0].textContent
 			delete result[key_remove]
       sendData(result)
       if($("#name").text() === key_remove) {

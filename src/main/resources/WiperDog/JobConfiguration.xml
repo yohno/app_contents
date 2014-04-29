@@ -635,13 +635,21 @@ require(['jquery'], function($) {
                 if (conf_update) {
                     var rows = document.getElementById('chartTable').rows
                     for (var i = 0; i &lt; rows.length; i++) {
-                        var key2remove = $.trim(rows[i].cells[0].innerText) + '_' + $.trim(rows[i].cells[1].innerText) + '_' + $.trim(rows[i].cells[2].innerText)
+						var tmp0 = rows[i].cells[0].innerText || rows[i].cells[0].textContent
+						var tmp1 = rows[i].cells[1].innerText || rows[i].cells[1].textContent
+						var tmp2 = rows[i].cells[2].innerText || rows[i].cells[2].textContent
+                        var key2remove = $.trim(tmp0) + '_' + $.trim(tmp1) + '_' + $.trim(tmp2)
                         if (keyChart == key2remove) {
                             rows[i].cells[0].innerText = group
+                            rows[i].cells[0].textContent = group
                             rows[i].cells[1].innerText = chartType
+                            rows[i].cells[1].textContent = chartType
                             rows[i].cells[2].innerText = chartName
+                            rows[i].cells[2].textContent = chartName
                             rows[i].cells[3].innerText = chartColumns
+                            rows[i].cells[3].textContent = chartColumns
                             rows[i].cells[4].innerText = hintColumns
+                            rows[i].cells[4].textContent = hintColumns
                             $('#messageChart').text('Charts updated !').addClass('message').removeClass('error');
                             break
                         }
@@ -684,7 +692,10 @@ require(['jquery'], function($) {
             var conf = confirm(mapMsg['msg_delete_chart'])
             if (conf) {
                 var rowDeleted = deleteRow(this, 'chartTable')
-                var keyDeleted = rowDeleted.cells[0].innerText + '_' + rowDeleted.cells[1].innerText + '_' + rowDeleted.cells[2].innerText
+                var tmp0 = rowDeleted.cells[0].innerText || rowDeleted.cells[0].textContent
+                var tmp1 = rowDeleted.cells[1].innerText || rowDeleted.cells[1].textContent
+                var tmp2 = rowDeleted.cells[2].innerText || rowDeleted.cells[2].textContent
+                var keyDeleted = tmp0 + '_' + tmp1 + '_' + tmp2
                 delete charts[keyDeleted]
             }
         });
@@ -693,11 +704,16 @@ require(['jquery'], function($) {
         $(document).on('click', '#chartTable  .edit_btn', function(event) {
             event.preventDefault();
             var row = this.parentNode.parentNode
-            $("#groupChartText").val(row.cells[0].innerText)
-            $("#listChartType").val(row.cells[1].innerText.trim())
-            $('#nameChartText').val(row.cells[2].innerText);
-            $('#chartColumnsText').val(row.cells[3].innerText);
-            $('#hintColumnsText').val(row.cells[4].innerText);
+            var groupChart_txt = row.cells[0].innerText || row.cells[0].textContent
+            $("#groupChartText").val(groupChart_txt)
+            var listChartType_txt = row.cells[1].innerText || row.cells[1].textContent
+            $("#listChartType").val(listChartType_txt.trim())
+            var nameChart_txt = row.cells[2].innerText || row.cells[2].textContent
+            $('#nameChartText').val(nameChart_txt);
+            var chartColumns_txt = row.cells[3].innerText || row.cells[3].textContent
+            $('#chartColumnsText').val(chartColumns_txt);
+            var hintColumns_txt = row.cells[4].innerText || row.cells[4].textContent
+            $('#hintColumnsText').val(hintColumns_txt);
             $("#groupChartText").prop('disabled', true)
             $("#listChartType").prop('disabled', true)
             $("#nameChartText").prop('disabled', true)
@@ -732,10 +748,13 @@ require(['jquery'], function($) {
                 if (conf_update) {
                     var rows = document.getElementById('paramJobTable').rows
                     for (var i = 0; i &lt; rows.length; i++) {
-                        var key2remove = $.trim(rows[i].cells[0].innerText)
+						var tmp0 = rows[i].cells[0].innerText || rows[i].cells[0].textContent
+                        var key2remove = $.trim(tmp0)
                         if (key == key2remove) {
                             rows[i].cells[0].innerText = jobParamName
+                            rows[i].cells[0].textContent = jobParamName
                             rows[i].cells[1].innerText = $.trim(jobParamVal)
+                            rows[i].cells[1].textContent = $.trim(jobParamVal)
                             $('#messageParams').text('Job param updated !').addClass('message').removeClass('error');
                         }
                     }
@@ -767,7 +786,7 @@ require(['jquery'], function($) {
             var conf = confirm(mapMsg['msg_delete_params'])
             if (conf) {
                 var rowDeleted = deleteRow(this, "paramJobTable")
-                var keyDeleted = rowDeleted.cells[0].innerText
+                var keyDeleted = rowDeleted.cells[0].innerText || rowDeleted.cells[0].textContent
                 delete jobParams[keyDeleted]
             }
         });
@@ -776,8 +795,10 @@ require(['jquery'], function($) {
         $(document).on('click', '#paramJobTable  .edit_btn', function(event) {
             event.preventDefault();
             var row = this.parentNode.parentNode
-            $("#nameJobText").val(row.cells[0].innerText)
-            $('#valueJobText').val(row.cells[1].innerText);
+            var nameJob_txt = row.cells[0].innerText || row.cells[0].textContent
+            $("#nameJobText").val(nameJob_txt)
+            var valueJob_txt = row.cells[1].innerText || row.cells[1].textContent
+            $('#valueJobText').val(valueJob_txt);
             $('#nameJobText').prop('disabled', true)
         });
         // &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; END: PROCESS CREATE PARAMS OBJECT &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
@@ -811,10 +832,12 @@ require(['jquery'], function($) {
                 if (conf_update) {
                     var rows = document.getElementById('paramInstanceTable').rows
                     for (var i = 0; i &lt; rows.length; i++) {
-                        var key2remove = rows[i].cells[0].innerText
+                        var key2remove = rows[i].cells[0].innerText || rows[i].cells[0].textContent
                         if (key == key2remove) {
                             rows[i].cells[0].innerText = instParamName
+                            rows[i].cells[0].textContent = instParamName
                             rows[i].cells[1].innerText = instParamVal
+                            rows[i].cells[1].textContent = instParamVal
                             $('#messageInstancesParams').text('Instance param updated !').addClass('message').removeClass('error');
                         }
                     }
@@ -846,7 +869,7 @@ require(['jquery'], function($) {
             var conf = confirm(mapMsg['msg_delete_instance_param'])
             if (conf) {
                 var rowDeleted = deleteRow(this, "paramInstanceTable")
-                var keyDeleted = rowDeleted.cells[0].innerText
+                var keyDeleted = rowDeleted.cells[0].innerText || rowDeleted.cells[0].textContent
                 delete paramInstance[keyDeleted]
             }
         });
@@ -855,8 +878,10 @@ require(['jquery'], function($) {
         $(document).on('click', '#paramInstanceTable  .edit_btn', function(event) {
             event.preventDefault();
             var row = this.parentNode.parentNode
-            $("#nameInstanceText").val(row.cells[0].innerText)
-            $('#valueInstanceText').val(row.cells[1].innerText);
+            var nameInstance_txt = row.cells[0].innerText || row.cells[0].textContent
+            $("#nameInstanceText").val(nameInstance_txt)
+            var valueInstance_txt = row.cells[1].innerText || row.cells[1].textContent
+            $('#valueInstanceText').val(valueInstance_txt);
             $('#nameInstanceText').prop('disabled', true)
         });
 
@@ -893,11 +918,15 @@ require(['jquery'], function($) {
                 if (conf_update) {
                     var rows = document.getElementById('updateJobInstanceTable').rows
                     for (var i = 0; i &lt; rows.length; i++) {
-                        var key2remove = $.trim(rows[i].cells[0].innerText)
+						var tmp0 = rows[i].cells[0].innerText || rows[i].cells[0].textContent
+                        var key2remove = $.trim(tmp0)
                         if (key == key2remove) {
                             rows[i].cells[0].innerText = instanceName
+                            rows[i].cells[0].textContent = instanceName
                             rows[i].cells[1].innerText = JSON.stringify(paramInstance)
+                            rows[i].cells[1].textContent = JSON.stringify(paramInstance)
                             rows[i].cells[2].innerText = instanceSchedule
+                            rows[i].cells[2].textContent = instanceSchedule
                             $('#messageInstances').text('Instance param updated !').addClass('message').removeClass('error');;
                         }
                     }
@@ -932,15 +961,17 @@ require(['jquery'], function($) {
             var conf = confirm(mapMsg['msg_delete_instance'])
             if (conf) {
                 var rowDeleted = deleteRow(this, "updateJobInstanceTable")
-                var keyDeleted = rowDeleted.cells[0].innerText
+                var keyDeleted = rowDeleted.cells[0].innerText || rowDeleted.cells[0].textContent
                 delete jobInstance[keyDeleted]
             }
         });
         $(document).on('click', '#updateJobInstanceTable .edit_btn', function(event) {
             event.preventDefault();
             var row = this.parentNode.parentNode
-            var instaneNameTmp = $.trim(row.cells[0].innerText)
-            var instaneSchedTmp = $.trim(row.cells[2].innerText)
+            var tmp0 = row.cells[0].innerText || row.cells[0].textContent
+            var instaneNameTmp = $.trim(tmp0)
+            var tmp2 = row.cells[2].innerText || row.cells[2].textContent
+            var instaneSchedTmp = $.trim(tmp2)
 
             $("#instanceNameText").val(instaneNameTmp)
             $("#scheduleText").val(instaneSchedTmp)
