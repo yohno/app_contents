@@ -977,6 +977,7 @@ require(['jquery'], function($) {
             $("#scheduleText").val(instaneSchedTmp)
 
             $("#instanceNameText").prop('disabled', true)
+            var tmp1 = row.cells[1].innerText || row.cells[1].textContent
             var instanceParamTmp = $.trim(row.cells[1].innerText)
                         var paramsObject = {}
                         if (instanceParamTmp != "") {
