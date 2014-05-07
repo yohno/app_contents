@@ -1418,7 +1418,7 @@ require(['jquery'], function($) {
 											delete originResult[keysCSV[i]]
 											var rows = document.getElementById('table_display').rows
 											for (var k = 0; k &lt; rows.length; k++) {
-												var key2remove = rows[k].cells[0].innerText
+												var key2remove = rows[k].cells[0].innerText || rows[k].cells[0].textContent
 												if (keysCSV[i] == key2remove) {
 													//document.getElementById('table_display').deleteRow(k);
 													rowsRemove.push(k)
@@ -1608,7 +1608,7 @@ require(['jquery'], function($) {
 						delete result[key]
 						var rows = document.getElementById('table_display').rows
 						for (var i = 0; i &lt; rows.length; i++) {
-							var key2remove = rows[i].cells[0].innerText
+							var key2remove = rows[i].cells[0].innerText || rows[i].cells[0].textContent
 							if (key == key2remove) {
 								bindDataToRow(rows[i], {1: db_conn_str, 2: userName, 3: hostID, 4: sid})
 							}
@@ -1651,7 +1651,7 @@ require(['jquery'], function($) {
 				var conf_del = confirm("Are you sure ?")
 				if (conf_del) {
 					var row = deleteRow(this)
-					var key_remove = row.cells[0].innerText
+					var key_remove = row.cells[0].innerText || row.cells[0].textContent
 					delete result[key_remove]
 
 				}
@@ -2002,6 +2002,7 @@ require(['jquery'], function($) {
 		if(row != null &amp;&amp; mapValue != null &amp;&amp; mapValue != {}){
 			for(item in mapValue){
 				row.cells[item].innerText = mapValue[item]
+				row.cells[item].textContent = mapValue[item]
 			}
 		}
 	}
@@ -2026,7 +2027,7 @@ require(['jquery'], function($) {
 	*/
 	function editRow(r, result) {
 		var row = r.parentNode.parentNode
-		var key_remove = row.cells[0].innerText
+		var key_remove = row.cells[0].innerText || row.cells[0].textContent
 		for (key in result) {
 			if (key === key_remove) {
 				var arr_conn_str = result[key]['dbconnstr'].split(":")

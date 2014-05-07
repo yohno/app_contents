@@ -450,6 +450,12 @@ if(mapConditionLevelJson != null &amp;&amp; mapConditionLevelJson != ""){
    mapConditionLevel = slurper.parseText(mapConditionLevelJson)
 }
 
+def params
+def params_json = request.getParameter("params")
+if(params_json != null &amp;&amp; params_json != ""){
+   params = slurper.parseText(params_json)
+}
+
 def data
 def closureStr = ""
 if(datajson != null &amp;&amp; datajson != ""){
@@ -475,6 +481,14 @@ if(datajson != null &amp;&amp; datajson != ""){
             GroovyShell shell = new GroovyShell()
             def obj = shell.evaluate(closureStr)
             def binding = obj.getBinding()
+            params.each{key, value-&gt;
+                try{
+                    value = Double.valueOf(value)
+                }catch(NumberFormatException nfe){
+                    // Do nothing
+                }
+                binding.setVariable(key, value)
+            }
             def policyClos = binding.getVariable("POLICY")
             def resultResponse = policyClos(mapSampleData)
             def builder = new JsonBuilder(resultResponse)

@@ -165,7 +165,7 @@ function deleteInstanceRecord(r){
 	var i= r.parentNode.parentNode.rowIndex;
 	var row = r.parentNode.parentNode
 	document.getElementById('instanceParamTable').deleteRow(i);
-	var instanceName = row.cells[0].innerText
+	var instanceName = row.cells[0].innerText || row.cells[0].textContent
 	delete paramsResult.instances[instanceName]
         isDirty = true
    }

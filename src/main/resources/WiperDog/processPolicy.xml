@@ -1030,6 +1030,7 @@ require(['jquery'], function($) {
           responseData = result
           // Bind list data into policy info table
           bindPollicyDataIntoTable(responseData, typeOfData)
+          bindPollicyParamsIntoTable(responseData)
         },
         error: function(xhr, status, error) {
           logError(xhr, status, error)
@@ -1059,6 +1060,19 @@ require(['jquery'], function($) {
         }
       }
       $("#policyInfo").html(htmlPolicyInfoSource)
+    }
+
+    /**
+     * Bind list params from servlet into displayed table
+     * @param responseData List params from servlet
+     */
+    function bindPollicyParamsIntoTable(responseData) {
+      if(responseData.POLICY.params != null){
+          var params = responseData.POLICY.params
+          for(var paramIdx in params){
+              addRecord({"param-key":paramIdx, "param-value":params[paramIdx]})
+          }
+      }
     }
 
     /**
@@ -1144,7 +1158,8 @@ require(['jquery'], function($) {
 
       if (groupText == null || groupText == "") { // STORE
         for (var i = 0; i &lt; lstRow.length; i++) {
-          if (policyID == lstRow[i].cells[0].innerText) {
+          var pol_id_txt = lstRow[i].cells[0].innerText || lstRow[i].cells[0].textContent
+          if (policyID == pol_id_txt) {
             var checkAddNew = true
             checkAddNew = tryToUpdatePolicyStore(mapPolicy, conditionText, messageText, level, lstRow)
             if (checkAddNew) {
@@ -1184,7 +1199,8 @@ require(['jquery'], function($) {
         }
       } else { // SUBTYPED
         for (var i = 0; i &lt; lstRow.length; i++) {
-          if (policyID == lstRow[i].cells[0].innerText) {
+          var pol_id_txt = lstRow[i].cells[0].innerText || lstRow[i].cells[0].textContent
+          if (policyID == pol_id_txt) {
             var checkAddNew = true
             checkAddNew = tryToUpdatePolicySubtyped(mapPolicySubtyped, conditionText, messageText, level, lstRow, groupText)
             booleanUpdate = true
@@ -1254,7 +1270,8 @@ require(['jquery'], function($) {
             mapPolicy[key] = messageText
             var idUpdate
             for (var i = 0; i &lt; lstRow.length; i++) {
-              if (lstRow[i].cells[1].innerText == conditionText) {
+              var condition_txt = lstRow[i].cells[1].innerText || lstRow[i].cells[1].textContent
+              if (condition_txt == conditionText) {
                 idUpdate = i
               }
             }
@@ -1295,7 +1312,9 @@ require(['jquery'], function($) {
                   mapPolicySubtyped[key][keyPoli] = messageText
                   var idUpdate
                   for (var i = 0; i &lt; lstRow.length; i++) {
-                    if (lstRow[i].cells[2].innerText == conditionText &amp;&amp; lstRow[i].cells[1].innerText == groupText) {
+                    var group_txt = lstRow[i].cells[1].innerText || lstRow[i].cells[1].textContent
+                    var condition_txt = lstRow[i].cells[2].innerText || lstRow[i].cells[2].textContent
+                    if (condition_txt == conditionText &amp;&amp; group_txt == groupText) {
                       idUpdate = i
                     }
                   }
@@ -1419,6 +1438,7 @@ require(['jquery'], function($) {
       mapFinal['mappolicy'] = mapDataPolicy.datapolicy
       var mapConditionLevel = mapDataPolicy.mapConditionLevel
       var mapSampleData = responseData.SAMPLE
+      var params = getParamsFromTable()
       var data2send
       if (JSON.stringify(mapPolicy) != '{}') {
         // CASE STORE
@@ -1430,7 +1450,8 @@ require(['jquery'], function($) {
           'listKey': JSON.stringify(listKey),
           'sampleData': JSON.stringify(listSampleData),
           'type': 'store',
-          'mapConditionLevel': JSON.stringify(mapConditionLevel)
+          'mapConditionLevel': JSON.stringify(mapConditionLevel),
+          'params' : JSON.stringify(params)
         }
       }
       if (JSON.stringify(mapPolicySubtyped) != '{}') {
@@ -1447,7 +1468,8 @@ require(['jquery'], function($) {
           'listKey': JSON.stringify(listKey),
           'sampleData': JSON.stringify(mapDataRequest),
           'type': 'subtyped',
-          'mapConditionLevel': JSON.stringify(mapConditionLevel)
+          'mapConditionLevel': JSON.stringify(mapConditionLevel),
+          'params' : JSON.stringify(params)
         }
       }
       if (data2send != null) {
@@ -1486,6 +1508,7 @@ require(['jquery'], function($) {
       if (JSON.stringify(mapDataPolicy.datapolicy) != '{}') {
         // Get policy's script
         var result = generatePolicyScript(mapDataPolicy, dataType)
+        var params = getParamsFromTable()
         // Write it into file
         var jobName = $("#listJob option:selected").val()
         var instText = currentIstIidSelector
@@ -1493,7 +1516,8 @@ require(['jquery'], function($) {
           'action': 'WRITE2FILE',
           'jobName': jobName,
           'instanceName': instText,
-          'policyStr': result
+          'policyStr': result,
+          'params': params
         }
         send_ajax_post_data(servletName, function(result) {}, resquestData)
       } else {
@@ -1503,6 +1527,19 @@ require(['jquery'], function($) {
         $("#runTestText").val("")
       }
     });
+
+    function getParamsFromTable(){
+        var mapParams = {}
+        var listRows = document.getElementById("param-table").rows
+        // Loop from row 1. Row 0 is headers
+        for(var i = 1; i &lt;= listRows.length - 1; i++){
+            var row = listRows[i]
+            var param_key = row.cells[0].firstChild.value
+            var param_value = row.cells[1].firstChild.value
+            mapParams[param_key] = param_value
+        }
+        return mapParams
+    }
 
     /**
      * Get policy list from policy table
@@ -1532,14 +1569,15 @@ require(['jquery'], function($) {
         // Prepare to to get list policy from table
         var lstKey = new Array()
         for (var i = 1; i &lt; lstRow.length; i++) {
+          var condition_txt = lstRow[i].cells[1].innerText || lstRow[i].cells[1].textContent
           if (lstKey.length != 0) {
-            if (lstKey.indexOf(lstRow[i].cells[1].innerText) == -1) {
-              lstKey.push(lstRow[i].cells[1].innerText)
+            if (lstKey.indexOf(condition_txt) == -1) {
+              lstKey.push(condition_txt)
             }
           } else {
-            lstKey.push(lstRow[i].cells[1].innerText)
+            lstKey.push(condition_txt)
           }
-          mapConditionLevel[lstRow[i].cells[1].innerText] = {}
+          mapConditionLevel[condition_txt] = {}
         }
 
         // Process to get list policy
@@ -1547,7 +1585,7 @@ require(['jquery'], function($) {
           var tmpDataPolicy = {}
           // Read all rows of table
           for (var i = 1; i &lt; lstRow.length; i++) {
-            var groupStr = lstRow[i].cells[1].innerText
+            var groupStr = lstRow[i].cells[1].innerText || lstRow[i].cells[1].textContent
             if (lstKey[elist] == groupStr) {
               var aPolicy = getPolicyFromRow(lstRow[i], "Subtyped")
               tmpDataPolicy[aPolicy['condition']] = aPolicy['message']
@@ -1589,9 +1627,9 @@ require(['jquery'], function($) {
           messageIdx = 3
           levelIdx = 4
         }
-        var conditionStr = row.cells[conditionIdx].innerText
-        var msgStr = row.cells[messageIdx].innerText
-        var levelStr = row.cells[levelIdx].innerText
+        var conditionStr = row.cells[conditionIdx].innerText || row.cells[conditionIdx].textContent
+        var msgStr = row.cells[messageIdx].innerText || row.cells[messageIdx].textContent
+        var levelStr = row.cells[levelIdx].innerText || row.cells[levelIdx].textContent
         ret['condition'] = conditionStr
         ret['message'] = msgStr
         ret['level'] = levelStr
@@ -1715,11 +1753,11 @@ require(['jquery'], function($) {
     if (conf) {
       var rowDeleted = deleteRow(this, 'policyInfo')
       if (rowDeleted.cells.length == 5) { // STORE
-        var keyDeleted = rowDeleted.cells[1].innerText
+        var keyDeleted = rowDeleted.cells[1].innerText || rowDeleted.cells[1].textContent
         delete mapPolicy[keyDeleted]
       } else if (rowDeleted.cells.length == 6) { // SUBTYPED
-        var groupDel = rowDeleted.cells[1].innerText
-        var keyDel = rowDeleted.cells[2].innerText
+        var groupDel = rowDeleted.cells[1].innerText || rowDeleted.cells[1].textContent
+        var keyDel = rowDeleted.cells[2].innerText || rowDeleted.cells[2].textContent
         var childObj = jQuery.extend(true, {}, mapPolicySubtyped[groupDel]);
         delete (childObj[keyDel])
         mapPolicySubtyped[groupDel] = childObj
@@ -1733,18 +1771,36 @@ require(['jquery'], function($) {
     event.preventDefault();
     var row = this.parentNode.parentNode
     if (row.cells.length == 5) {
-      $("#policyIdText").val(row.cells[0].innerText.trim())
-      $("#inputText").val(row.cells[1].innerText.trim())
-      $("#messageText").val(row.cells[2].innerText.trim())
-      var levelStr = row.cells[3].innerText.trim()
+      var policyId_txt = row.cells[0].innerText || row.cells[0].textContent
+      $("#policyIdText").val(policyId_txt.trim())
+
+      var inputText_txt = row.cells[1].innerText || row.cells[1].textContent
+      $("#inputText").val(inputText_txt.trim())
+
+      var messageText_text = row.cells[2].innerText || row.cells[2].textContent
+      $("#messageText").val(messageText_text.trim())
+
+      var levelStr_text = row.cells[3].innerText || row.cells[3].textContent
+      var levelStr = levelStr_text.trim()
+
       $('#radio' + levelStr).prop('checked', true)
     } else if (row.cells.length == 6) {
-      $("#policyIdText").val(row.cells[0].innerText.trim())
-      document.getElementById('selectBoxId').value = row.cells[1].innerText.trim();
-      $("#inputText").val(row.cells[2].innerText.trim())
-      $("#messageText").val(row.cells[3].innerText.trim())
-      delete mapPolicySubtyped[row.cells[1].innerText.trim()][row.cells[2].innerText.trim()]
-      var levelStr = row.cells[4].innerText.trim()
+      var policyId_txt = row.cells[0].innerText || row.cells[0].textContent
+      $("#policyIdText").val(policyId_txt.trim())
+
+      var selectBoxId_txt = row.cells[1].innerText || row.cells[1].textContent
+      document.getElementById('selectBoxId').value = selectBoxId_txt.trim();
+
+      var inputText_txt = row.cells[2].innerText || row.cells[2].textContent
+      $("#inputText").val(inputText_txt.trim())
+
+      var messageText_txt = row.cells[3].innerText || row.cells[3].textContent
+      $("#messageText").val(messageText_txt.trim())
+
+      delete mapPolicySubtyped[selectBoxId_txt][inputText_txt]
+
+      var levelStr_txt = row.cells[4].innerText || row.cells[4].textContent
+      var levelStr = levelStr_txt.trim()
       $('#radio' + levelStr).prop('checked', true)
     }
   });
@@ -1918,6 +1974,7 @@ function resetControl() {
     $("#groupSubtyped").css('display', 'none')
     $("#groupSubtyped").html("")
     $('input:radio[name="level"][value="Low"]').prop('checked', true);
+    $("#param-table").find("tr:gt(0)").remove();
     mapPolicy = {}
     tmpPolicyForKey = {}
     mapPolicySubtyped = {}
@@ -2010,6 +2067,12 @@ function drawTable(istIid) {
             mapPolicySubtyped[key] = tmpPolicyForKey
           }
           $("#policyInfo").html(htmlPolicyInfoSource)
+        }
+        if(responseData.POLICY.params != null){
+          var params = responseData.POLICY.params
+          for(var paramIdx in params){
+              addRecord({"param-key":paramIdx, "param-value":params[paramIdx]})
+          }
         }
       },
       error: function(xhr, status, error) {
@@ -3254,7 +3317,12 @@ overflow:scroll;
       <users/>
     </property>
   </object>
-  <content>{{html wiki="true" clean="false"}}
+<content>{{velocity}}
+$xwiki.jsx.use('WiperDog.PolicyParams')
+$xwiki.ssx.use('WiperDog.PolicyParams')
+{{/velocity}}
+
+{{html wiki="true" clean="false"}}
 &lt;div id="initLoading" style="display:block"&gt;&lt;img src="/xwiki/bin/download/WiperDog/processPolicy/ajax-loader.gif"/&gt;&lt;/div&gt;
 &lt;table border=1&gt;
     &lt;tr&gt;
@@ -3288,6 +3356,7 @@ overflow:scroll;
                 &lt;/tr&gt;
                 &lt;tr style="height:10px"&gt;&lt;/tr&gt;
             &lt;/table&gt;
+            {{include document="WiperDog.PolicyParams" /}}
         &lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
