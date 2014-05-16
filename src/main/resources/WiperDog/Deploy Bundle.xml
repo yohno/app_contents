@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>Sandbox</web>
+<name>Deploy Bundle</name>
+<language/>
+<defaultLanguage/>
+<translation>0</translation>
+<parent>Sandbox.WebHome</parent>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+<creationDate>1400228449000</creationDate>
+<date>1400212410000</date>
+<contentUpdateDate>1400120089000</contentUpdateDate>
+<version>1.1</version>
+<title>Deploy Bundle</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Sandbox.Deploy Bundle</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>65003e2f-c8a6-418f-a9f1-5e16dfa23b8d</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>    var HOST
+require(['jquery'], function($) {
+  
+
+    $(document).ready(function(){
+        console.log("Hello")
+        ajaxGetServlet()
+    })
+
+    $("#downloadBtn").click(function(){
+        $("#message").empty()
+        $("#listFiles").empty()
+        if(validate("groupId") &amp; validate("artifactId") &amp; validate("version")){
+           $("#downloadBtn").prop("disabled", true)
+           $("#message").text("Processing...")
+           var groupId = $("#groupId").val()
+           var artifactId = $("#artifactId").val()
+           var version = $("#version").val().trim() != "" ? $("#version").val().trim() : "LASTEST"
+           $.ajax({
+              type: "GET",
+              crossDomain: true,
+              url: HOST + "/" + groupId + "/" + artifactId + "/" + version,
+              dataType: 'json',
+              //data: JSON.stringify(data2Send),
+              async: false,
+              success: function(result, status, xhr) {
+                 if(result.status == "success" &amp;&amp; result.listFiles != null){
+                    showListFiles(result.listFiles)
+                    $("#status").text("Status: " + result.status)
+                    $("#message").text("Got " + (result.listFiles.length - 1) + " files")
+                 }else{
+                    $("#status").text("Status: " + result.status)
+                    $("#message").text(result.message)
+                 }
+              },
+              error: function(xhr, status, error) {
+                $("#status").text("Status: " + status)
+                $("#message").text(error)
+              }
+           });
+           $("#downloadBtn").prop("disabled", false)
+           $("#downloadBtn").val("Download")
+        }
+     })
+
+    $("#instBtn").click(function(){
+        var data2Send = []
+        var listFiles = $(".files:checked")
+        for(var fileIdx = 0; fileIdx &lt; listFiles.length; fileIdx++){
+            var aFile = $(listFiles[fileIdx])
+            data2Send.push({index:aFile.attr('index'), path:listFiles[fileIdx].value})
+        }
+        $.ajax({
+           type: "POST",
+           crossDomain: true,
+           url: HOST + "/install",
+           dataType: 'json',
+           data: JSON.stringify(data2Send),
+           async: false,
+           success: function(result, status, xhr) {
+             for(var resIdx = 0; resIdx &lt; result.length; resIdx++){
+               var res = result[resIdx]
+               if(res.status){
+                  $("#" + res.index + "_status").addClass("OK_status")
+               }else{
+                  $("#" + res.index + "_status").addClass("fail_status")
+               }
+             }
+           },
+           error: function(xhr, status, error) {
+              console.log("ERROR:" + error)
+           }
+        });
+     })
+
+     function showListFiles(listFiles){
+        $("#listFiles").empty()
+        $("#listFiles").append('&lt;input type="checkbox" id="checkAll" value="selectAll" onClick="selectAllJob()"&gt;Select all files&lt;/input&gt;&lt;br&gt;')
+        for(var fileIdx = 0; fileIdx &lt; listFiles.length; fileIdx++){
+           var file = listFiles[fileIdx]
+           $("#listFiles").append('&lt;input type="checkbox" class="files" value="' + file + '" index="' + fileIdx + '"&gt;' + file + '&lt;/input&gt;&lt;div id="'+ fileIdx +'_status" style="display:inline-block;width:20px;height:20px"&gt;&lt;/div&gt;&lt;br&gt;')
+        }
+     }
+
+     function ajaxGetServlet() {
+       params = 'BundleExtractor'
+       $.ajax({
+         type: "GET",
+         url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + params,
+         success: function(result) {
+           HOST = result
+         },
+         error: function(xhr, status, error) {
+           logError(xhr, status, error)
+         }
+       });
+     }
+     
+     function validate(control){
+        var ctrl = $("#" + control)
+        if(ctrl.val() != null &amp;&amp; ctrl.val().trim() != ''){
+            return true;
+        }else{
+            $("#message").append("&lt;p&gt;Please insert " + ctrl.prop("name") + "&lt;/p&gt;")
+        }
+        return false;
+     }
+jQuery.noConflict()
+})
+
+function selectAllJob(){
+   require(['jquery'], function($) {
+      var checkboxes = $(".files")
+      checkboxes.prop('checked', $("#checkAll").prop('checked'))
+   jQuery.noConflict()
+   })
+}
+
+function replaceAllString(oriStr, strTarget, strSubString ){
+   var strText = oriStr;
+   var intIndexOfMatch = strText.indexOf( strTarget );
+   while (intIndexOfMatch != -1){
+      strText = strText.replace( strTarget, strSubString )
+      intIndexOfMatch = strText.indexOf( strTarget );
+   }
+   return( strText );
+}
+</code></property><property><name>restAPITest.js</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Sandbox.Deploy Bundle</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>dde4b9c4-c303-44a3-a1e0-602ec37736fd</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>.OK_status{
+   background: url("/xwiki/resources/icons/silk/tick.png") no-repeat left .2em;
+}
+.fail_status{
+   background: url("/xwiki/resources/icons/silk/cross.png") no-repeat left .2em;
+}
+.fail_control{
+   border-color:red;
+}</code>
+</property>
+<property>
+<name>csss</name>
+</property>
+<property>
+<parse></parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<content>{{html wiki=true clean=false}}
+&lt;table width="98%" border=1&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            &lt;table border=1 width="100%"&gt;
+                &lt;tr&gt;
+                    &lt;td width="30%"&gt;
+                        &lt;div id="bundleForm"&gt;
+                            &lt;input type="text" name="groupId" id="groupId" placeholder="GroupId"/&gt;&lt;br&gt;
+                            &lt;input type="text" name="artifactId" id="artifactId" placeholder="ArtifactId"/&gt;&lt;br&gt;
+                            &lt;input type="text" name="version" id="version" placeholder="Version"/&gt;&lt;br&gt;
+                        &lt;/div&gt;
+                        &lt;input type="button" class="button" id="downloadBtn" value="Download"/&gt;
+                    &lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;p id="status"&gt;&lt;/p&gt;
+                        &lt;div id="message"&gt;&lt;/div&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            &lt;div id="listFiles"&gt;List files in bundle&lt;br&gt;&lt;/div&gt;
+            &lt;p id="blank"&gt;&lt;/p&gt;
+            &lt;input type="button" class="button" id="instBtn" value="Install selected files"/&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+{{/html}}</content></xwikidoc>
