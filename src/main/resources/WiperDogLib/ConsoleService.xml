@@ -476,7 +476,6 @@ try{
 	if(cmd != null &amp;&amp; cmd != ""){
 		def osName = System.getProperty('os.name')
 		if(osName != null &amp;&amp; osName.toLowerCase().indexOf('win') ==-1){
-			def wiperdog_path = '/home/wiperdog'
 			Properties props = System.getProperties();
 			def xwiki_dir = props.getProperty('user.dir');
 			def decidedWiperdog_path
@@ -484,13 +483,17 @@ try{
 			if(f.exists()){
 				def shell = new GroovyShell()
 				params = shell.evaluate(f)
-				if(params['wiperdog_path'] != null){
+				if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
 					decidedWiperdog_path = params['wiperdog_path']['path']
 				}else{
-					decidedWiperdog_path = wiperdog_path
+					println "Wiperdog home not found !"
+					println "Please config it !"
+					return
 				}
 			}else{
-				decidedWiperdog_path = wiperdog_path
+				println "Wiperdog home not found !"
+				println "Please config it !"
+				return
 			}
 
 			if(request.xpage == "plain") {
@@ -529,7 +532,7 @@ try{
 				println "&lt;p&gt; Checking status: ${proc.in.text}&lt;/p&gt;"
 				def paramObj = new GetServlet()
 				def consoleServlet = paramObj.getParam('console')
-				command = 'curl -Is  ' + consoleServlet
+				command = 'curl -is  ' + consoleServlet
 				proc = command.execute()
 				proc.waitFor()
 				errorStr = proc.err.text
@@ -560,8 +563,8 @@ try{
 				proc.waitFor()
 				def tmpHostPort = proc.in.text
 				def hostPort = ""
-				if(tmpHostPort != null &amp;&amp; tmpHostPort.indexOf("jetty.port=") != -1){
-					hostPort = tmpHostPort.split("jetty.port=")[1].split("\n")[0]
+				if(tmpHostPort != null &amp;&amp; tmpHostPort.indexOf("netty.port=") != -1){
+					hostPort = tmpHostPort.split("netty.port=")[1].split("\n")[0]
 				}
 				hostInfo['hostPort'] = hostPort
 				def builder = new JsonBuilder(hostInfo)
@@ -570,12 +573,11 @@ try{
 				command += 'cat ' + decidedWiperdog_path +'/etc/system.properties'
 				proc = command.execute()
 				proc.waitFor()
-				println proc.in.text.split("jetty.port=")[1].split("\n")[0]
+				println proc.in.text.split("netty.port=")[1].split("\n")[0]
 			}
 		}else{
 		    //Process for Windows
 			//-- Set wiperdog PATH
-			def wiperdog_path = 'E:\\wiperdog'
 			Properties props = System.getProperties();
 			def xwiki_dir = props.getProperty('user.dir');
 			def decidedWiperdog_path
@@ -583,13 +585,17 @@ try{
 			if(f.exists()){
 				def shell = new GroovyShell()
 				params = shell.evaluate(f)
-				if(params['wiperdog_path'] != null){
+				if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
 					decidedWiperdog_path = params['wiperdog_path']['path']
 				}else{
-					decidedWiperdog_path = wiperdog_path
+					println "Wiperdog home not found !"
+					println "Please config it !"
+					return
 				}
 			}else{
-				decidedWiperdog_path = wiperdog_path
+				println "Wiperdog home not found !"
+				println "Please config it !"
+				return
 			}
 			//-- END
 			//-- Set request content type
@@ -681,7 +687,7 @@ try{
 				listCmd = new ArrayList&lt;String&gt;()
 				listCmd = buildCmdList(isLocalhost,psExec,listCmd,false)
 				listCmd.add(decidedWiperdog_path + "\\service\\curl\\curl" )
-				listCmd.add("-Is")
+				listCmd.add("-is")
 				listCmd.add(consoleServlet)
 				output =  runProcClosure(listCmd,new File(System.getProperty("user.dir")),true)
 				if(output.exitVal != null &amp;&amp; output.exitVal == 0) {
@@ -723,7 +729,7 @@ try{
 									proc = cmdCopy.execute() 
 									File sysProps = new File(".\\system.properties")
 									if(sysProps.exists()){
-										hostInfo['hostPort'] = sysProps.getText().split("jetty.port=")[1].split("\n")[0]    
+										hostInfo['hostPort'] = sysProps.getText().split("netty.port=")[1].split("\n")[0]    
 										sysProps.delete() 
 									} else {
 										hostInfo['hostPort'] = ""
@@ -732,7 +738,7 @@ try{
 					Properties jettyProps = new Properties()
 					File propsFile = new File(decidedWiperdog_path +'/etc/system.properties')
 					jettyProps.load(propsFile.newDataInputStream())
-					def hostPort = jettyProps.getProperty('jetty.port')
+					def hostPort = jettyProps.getProperty('netty.port')
 							 
 					hostInfo['hostPort'] = hostPort
 				 }
@@ -745,7 +751,7 @@ try{
 				Properties jettyProps = new Properties()
 				File propsFile = new File(decidedWiperdog_path +'/etc/system.properties')
 				jettyProps.load(propsFile.newDataInputStream())
-				def hostPort = jettyProps.getProperty('jetty.port')
+				def hostPort = jettyProps.getProperty('netty.port')
 				println hostPort
 			}
 		}
