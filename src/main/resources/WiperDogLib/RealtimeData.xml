@@ -181,7 +181,7 @@ def drawChart(key,value,typeChart) {
 
 	//Prepare data, list container for draw chart and tags of hidden chart
         def mapDataToDraw = [:]
-        mapDataToDraw['value'] = value
+        //mapDataToDraw['value'] = value
         mapDataToDraw['typeChart'] = typeChart
         mapDataToDraw['jsonPie'] = jsonPie
         mapDataToDraw['jsonContainerPie'] = jsonContainerPie

@@ -4202,7 +4202,9 @@ require(['jquery'],function($){
 		    if(lastFetchAt == ''){
 			fromDate2Send = getParameterByName('toDate')
 		    } else {
-                        lastFetchAt = lastFetchAt.replace(' JST','')
+                //lastFetchAt = lastFetchAt.replace(' JST','')
+                //Because lastFetchAt to be gotten from categories,which has yyyy/MM/dd HH:mm:ss z format, so delete timezone to parse date
+                lastFetchAt = lastFetchAt.substring(0,19)
 		        fromDate2Send = (new Date(lastFetchAt)).toString('yyyy-MM-dd HH:mm:ss')
 		    }
 		    if(jobName2Send != null &amp;&amp; jobName2Send != '' &amp;&amp; istIid2Send != null &amp;&amp; istIid2Send != ''){

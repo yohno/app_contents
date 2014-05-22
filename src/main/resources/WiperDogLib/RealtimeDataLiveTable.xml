@@ -40,12 +40,20 @@ if (job != null &amp;&amp; istIid != null) {
 		retData = []
 		for(def i = result.size() - 1; i &gt;= 0; i--){
 			def res = result[i]
-                        res.data.each {
+            res.data.each {
 			    def retObj = [:]
-			    retObj = it
+			    //retObj = it
+			    it.each{key, value-&gt;
+                    if(value instanceof java.lang.String){
+                    	//Replace for parseJSON
+                        retObj[key] = value.replaceAll("\\\\","/") 
+                    } else {
+                         retObj[key] = value
+                    }
+                }
 			    retObj['Fetch At'] = (new Date().parse("yyyyMMddHHmmssz", res.fetchAt)).format('yyyy/MM/dd HH:mm:ss z')
 			    retData.add(retObj)
-                        }
+            }
 		}
 		println gson.toJson(retData)
 	} else {
@@ -63,6 +71,13 @@ if (job != null &amp;&amp; istIid != null) {
 			listKey.each{key-&gt;
 				def listData = res['data'][key]
 				listData.each{data-&gt;
+				    data.each{ datakey, datavalue-&gt;
+                        if(datavalue instanceof java.lang.String){
+                            data[datakey] = datavalue.replaceAll("\\\\","/") 
+                         } else {
+                            data[datakey] = datavalue
+                         }
+                    }
 					data['Fetch At'] = fetchAtValue
 					retData[key].add(data)
 				}
