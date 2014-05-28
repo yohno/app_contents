@@ -3739,7 +3739,7 @@ require(['jquery'], function($) {
         $("#resumeImg").click(function() {
             $("#pauseImg").show()
             $("#resumeImg").hide()
-            timer = setInterval(getData(false), timeInterval);
+            timer = setInterval(function(){getData(false)}, timeInterval);
             $("#loadingImg").show()
             $("#messages").text("Getting data...")
         });
@@ -3782,7 +3782,7 @@ require(['jquery'], function($) {
         if(timer != null){
             timer = clearInterval(timer)
         }
-        timer = setInterval(getData(false), timeInterval);
+        timer = setInterval(function(){getData(false)}, timeInterval);
 
         // CHANGE DATE MONITORING
         $("#monitoringDate").change(function() {
@@ -3790,7 +3790,7 @@ require(['jquery'], function($) {
             if(timer != null){
                 timer = clearInterval(timer)
             }
-            timer = setInterval(getData(false), timeInterval);
+            timer = setInterval(function(){getData(false)}, timeInterval);
             $("#loadingImg").css("display","block")
             $("#pauseImg").show()
             $("#resumeImg").hide()
@@ -3805,7 +3805,7 @@ require(['jquery'], function($) {
             if(timer != null){
                 timer = clearInterval(timer)
             }
-            timer = setInterval(getData(false), timeInterval);
+            timer = setInterval(function(){getData(false)}, timeInterval);
             $("#loadingImg").css("display","block")
             $("#pauseImg").show()
             $("#resumeImg").hide()
@@ -3820,7 +3820,7 @@ require(['jquery'], function($) {
             if(timer != null){
                 timer = clearInterval(timer)
             }
-            timer = setInterval(getData(false), timeInterval);
+            timer = setInterval(function(){getData(false)}, timeInterval);
             $("#loadingImg").css("display","block")
             $("#pauseImg").show()
             $("#resumeImg").hide()
@@ -4249,7 +4249,7 @@ $("#Monitor1day").click(function(){
 	if(timer != null){
 		timer = clearInterval(timer)
 	}
-	timer = setInterval(getData(false), timeInterval);
+	timer = setInterval(function(){getData(false)}, timeInterval);
 	$("#btnArea").show('clip')
 })
 
@@ -4264,7 +4264,7 @@ $("#Monitor3day").click(function(){
 	if(timer != null){
 		timer = clearInterval(timer)
 	}
-	timer = setInterval(getData(false), timeInterval);
+	timer = setInterval(function(){getData(false)}, timeInterval);
 	$("#btnArea").show('blind')
 })
 
@@ -4279,7 +4279,7 @@ $("#Monitor7day").click(function(){
 	if(timer != null){
 		timer = clearInterval(timer)
 	}
-	timer = setInterval(getData(false), timeInterval);
+	timer = setInterval(function(){getData(false)}, timeInterval);
 	$("#btnArea").show('blind')
 })
 
@@ -4293,7 +4293,7 @@ $("#MonitorOtherDay").click(function(){
 	if(timer != null){
 		timer = clearInterval(timer)
 	}
-	timer = setInterval(getData(false), timeInterval);
+	timer = setInterval(function(){getData(false)}, timeInterval);
 
 	$("#btnArea").show('blind')
 })
