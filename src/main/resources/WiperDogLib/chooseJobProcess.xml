@@ -466,7 +466,11 @@ try {
                  def mapSampleData = [:]
                  def mapSampleUnit = [:]
                  def resultJob = gmongoObject.getDataAllFields(eCollection)[0]
-                 def mapUnit = resultJob.KEYEXPR._unit
+                 def mapUnit = [:]
+                 try {
+                 	mapUnit = resultJob.KEYEXPR._unit
+                 } catch (Exception ex) {
+                 }
                  if(resultJob.type == "Store") {
                      def cloneSampleData = [:]
                      mapSampleData = resultJob.data[0]
