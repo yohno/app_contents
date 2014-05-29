@@ -1388,60 +1388,8 @@ require(['jquery'], function($) {
 
 
 	function drawMenu(result) {
-		var ul_open_r = false
-		var ul_open_c = false
-		var ul_open_j = false
-
 		var strMenu = "&lt;div id='nav'&gt;&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt;"
-		for (database in result) {
-			if (!ul_open_r) {
-				strMenu += "&lt;ul id='treemenu2' class='treeview'&gt;"
-				ul_open_r = true
-			}
-			strMenu += "&lt;li&gt;" + database
-			if (!(result[database] instanceof Array)) {
-				for (group in result[database]) {
-					if (!ul_open_c) {
-						strMenu += "&lt;ul&gt;"
-						ul_open_c = true
-					}
-					strMenu += "&lt;li&gt;" + group
-					for (var i = 0; i &lt; result[database][group].length; i++) {
-						if (!ul_open_j) {
-							strMenu += "&lt;ul&gt;"
-							ul_open_j = true
-						}
-						strMenu += "&lt;li&gt;&lt;a&gt;" + result[database][group][i] + "&lt;/a&gt;&lt;/li&gt;"
-					}
-					if (ul_open_j) {
-						strMenu += "&lt;/ul&gt;"
-						strMenu += "&lt;/li&gt;"
-						ul_open_j = false
-					} else {
-						strMenu += "&lt;/li&gt;"
-					}
-				}
-			} else {
-				for (var i = 0; i &lt; result[database].length; i++) {
-					if (!ul_open_c) {
-						strMenu += "&lt;ul&gt;"
-						ul_open_c = true
-					}
-					strMenu += "&lt;li&gt;&lt;a&gt;" + result[database][i] + "&lt;/a&gt;&lt;/li&gt;"
-				}
-			}
-			if (ul_open_c) {
-				strMenu += "&lt;/ul&gt;"
-				strMenu += "&lt;/li&gt;"
-				ul_open_c = false
-			} else {
-				strMenu += "&lt;/li&gt;"
-			}
-		}
-		if (ul_open_r) {
-			strMenu += "&lt;/ul&gt;"
-			ul_open_r = false
-		}
+		strMenu += result
 		strMenu += "&lt;/div&gt;"
 		$("#menu").html(strMenu)
 		ddtreemenu.createTree("treemenu2", true, 5)
@@ -2040,7 +1988,8 @@ font-size: 1.5em
 margin-left:15px
 }
 #instancesTable{
-width: 65%
+width: 65%;
+display: inline-table;
 }
 #formUpload{
 display:none
