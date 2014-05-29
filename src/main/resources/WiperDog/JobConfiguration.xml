@@ -910,8 +910,9 @@ require(['jquery'], function($) {
                 jobInstanceValue['schedule'] = instanceSchedule
             }
             if (!$.isEmptyObject(paramInstance)) {
-                jobInstanceValue['params'] = paramInstance
-
+				var paramInstStr = JSON.stringify(paramInstance)
+                paramInstStr = replaceAllString(paramInstStr, "\\", "")
+                jobInstanceValue['params'] = standardParams(paramInstStr)
             }
 
             if (checkKeyDupl(instanceName, jobInstance)) {
