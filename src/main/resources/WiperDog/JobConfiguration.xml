@@ -292,6 +292,7 @@ require(['jquery'], function($) {
                 resource = result.Job.RESOURCEID.replace("\"", "").replace("\n", "").replace("\"", "").replace(/^\s+|\s+$/g, '')
             }
             $("#resourceIdText").val(resource)
+            $("#osInfoText").val(result.Job.OSINFO)
             $("#destText").val(result.Job.DEST)
 
             // KEYEXPR
@@ -909,8 +910,9 @@ require(['jquery'], function($) {
                 jobInstanceValue['schedule'] = instanceSchedule
             }
             if (!$.isEmptyObject(paramInstance)) {
-                jobInstanceValue['params'] = paramInstance
-
+				var paramInstStr = JSON.stringify(paramInstance)
+                paramInstStr = replaceAllString(paramInstStr, "\\", "")
+                jobInstanceValue['params'] = standardParams(paramInstStr)
             }
 
             if (checkKeyDupl(instanceName, jobInstance)) {
@@ -1115,6 +1117,8 @@ require(['jquery'], function($) {
         for (var i = 0; i &lt; listDBType.length; i++) {
             dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
         }
+        $("#osInfoForm").hide();
+
         $("#dbTypeCbb").html(dbTypeSource)
         // ---- Choose monitoring type
         $("#listMonitoring").change(function() {
@@ -1122,6 +1126,13 @@ require(['jquery'], function($) {
             $("#listJob").empty()
             var type = $("#listMonitoring option:selected").val() // @DB, @SYS, @NET, @Others
             generateActionJob(type)
+
+            if (type == "@OS") {
+                $("#osInfoForm").show();
+            } else {
+                $("#osInfoForm").hide();
+            }
+
             if (type == "@DB") {
                 $("#dbTypeCbb").prop('disabled',false)
                 dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
@@ -1130,7 +1141,7 @@ require(['jquery'], function($) {
                 }
                 $("#dbTypeCbb").html(dbTypeSource)
                 $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
-            } else if (type == "@SYS" || type == "@NET" || type == "Others") {
+            } else if (type == "@SYS" || type == "@NET" || type == "@OS" || type == "Others") {
                 dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
                 $("#dbTypeCbb").html(dbTypeSource)
                 $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
@@ -1260,7 +1271,7 @@ require(['jquery'], function($) {
         // ---- ACCUMULATE, FINALLY
         getInputDataAccumulate();
 
-        // ---- SENDTYPE, RESOURCEID, DEST
+        // ---- SENDTYPE, RESOURCEID, OSINFO, DEST
         getInputDataSendDataInfo();
 
         // ---- KEYEXPR
@@ -1303,32 +1314,32 @@ require(['jquery'], function($) {
             checkValid = false
         }
         var jobName
-        if (document.getElementById('jobNameText').value != "") {
-            jobName = document.getElementById('jobNameText').value
+        if (document.getElementById('jobNameText').value.trim() != "") {
+            jobName = document.getElementById('jobNameText').value.trim()
             jobMap['jobName'] = jobName
         } else {
             htmlSourceValid += "&lt;p&gt;* Job Name can not be empty&lt;/p&gt;"
             checkValid = false
         }
         var jobFileName
-        if (document.getElementById('jobFileNameText').value != "") {
-            jobFileName = document.getElementById('jobFileNameText').value
+        if (document.getElementById('jobFileNameText').value.trim() != "") {
+            jobFileName = document.getElementById('jobFileNameText').value.trim()
             jobMap['jobFileName'] = jobFileName
         }
         var jobClassName
-        if (document.getElementById('jobClassNameText').value != "") {
-            jobClassName = document.getElementById('jobClassNameText').value
+        if (document.getElementById('jobClassNameText').value.trim() != "") {
+            jobClassName = document.getElementById('jobClassNameText').value.trim()
             jobMap['jobClassName'] = jobClassName
         }
         var commentForJob
-        if (document.getElementById('commentForJobText').value != "") {
-            commentForJob = document.getElementById('commentForJobText').value
+        if (document.getElementById('commentForJobText').value.trim() != "") {
+            commentForJob = document.getElementById('commentForJobText').value.trim()
             commentForJob = standardComment(commentForJob)
             jobMap['commentForJob'] = commentForJob
         }
         var groupKey
-        if (document.getElementById('groupkeyText').value != "") {
-            groupKey = document.getElementById('groupkeyText').value
+        if (document.getElementById('groupkeyText').value.trim() != "") {
+            groupKey = document.getElementById('groupkeyText').value.trim()
             groupKey = standardGroupKey(groupKey)
             jobMap['groupKey'] = groupKey
         }
@@ -1349,16 +1360,16 @@ require(['jquery'], function($) {
 
         if (actionOfJob == "runQuery") {
             var query
-            if (document.getElementById('queryText').value != "") {
-                query = document.getElementById('queryText').value
+            if (document.getElementById('queryText').value.trim() != "") {
+                query = document.getElementById('queryText').value.trim()
                 jobMap['query'] = query
             } else {
                 htmlSourceValid += "&lt;p&gt;* \"QUERY\" can not be empty&lt;/p&gt;"
                 checkValid = false
             }
             var queryVariable
-            if (document.getElementById('queryVariableText').value != "") {
-                queryVariable = document.getElementById('queryVariableText').value
+            if (document.getElementById('queryVariableText').value.trim() != "") {
+                queryVariable = document.getElementById('queryVariableText').value.trim()
                 queryVariable = standardGroupKey(queryVariable)
                 jobMap['queryVariable'] = queryVariable
             }
@@ -1366,16 +1377,16 @@ require(['jquery'], function($) {
 
         if (actionOfJob == "runOther") {
             var dbExec
-            if (document.getElementById('dbexecText').value != "") {
-                dbExec = document.getElementById('dbexecText').value
+            if (document.getElementById('dbexecText').value.trim() != "") {
+                dbExec = document.getElementById('dbexecText').value.trim()
                 jobMap['dbExec'] = dbExec
             } else {
                 htmlSourceValid += "&lt;p&gt;* \"DBEXEC\" can not be empty&lt;/p&gt;"
                 checkValid = false
             }
             var dbExecVariable
-            if (document.getElementById('dbexecVariableText').value != "") {
-                dbExecVariable = document.getElementById('dbexecVariableText').value
+            if (document.getElementById('dbexecVariableText').value.trim() != "") {
+                dbExecVariable = document.getElementById('dbexecVariableText').value.trim()
                 dbExecVariable = standardGroupKey(dbExecVariable)
                 jobMap['dbExecVariable'] = dbExecVariable
             }
@@ -1383,7 +1394,7 @@ require(['jquery'], function($) {
 
         if (actionOfJob == "runCommand") {
             var command
-            if (document.getElementById('commandText').value != "") {
+            if (document.getElementById('commandText').value.trim() != "") {
                 command = document.getElementById('commandText').value
                 jobMap['command'] = command
             } else {
@@ -1391,8 +1402,8 @@ require(['jquery'], function($) {
                 checkValid = false
             }
             var format
-            if (document.getElementById('formatText').value != "") {
-                format = document.getElementById('formatText').value
+            if (document.getElementById('formatText').value.trim() != "") {
+                format = document.getElementById('formatText').value.trim()
                 format = standardRoot(format)
                 if (format.indexOf(":") != -1) {
                     jobMap['format'] = format
@@ -1405,8 +1416,8 @@ require(['jquery'], function($) {
 
         if (actionOfJob == "runFetchAction") {
             var fetchAction
-            if (document.getElementById('fetchactionText').value != "") {
-                fetchAction = document.getElementById('fetchactionText').value
+            if (document.getElementById('fetchactionText').value.trim() != "") {
+                fetchAction = document.getElementById('fetchactionText').value.trim()
                 fetchAction = standardClosure(fetchAction)
                 jobMap['fetchAction'] = fetchAction
             } else {
@@ -1422,15 +1433,15 @@ require(['jquery'], function($) {
     */
     function getInputDataAccumulate() {
         var accumulate
-        if (document.getElementById('accumulateText').value != "") {
-            accumulate = document.getElementById('accumulateText').value
+        if (document.getElementById('accumulateText').value.trim() != "") {
+            accumulate = document.getElementById('accumulateText').value.trim()
             accumulate = standardClosure(accumulate)
             jobMap['accumulate'] = accumulate
         }
 
         var finallyClosure
-        if (document.getElementById('finallyText').value != "") {
-            finallyClosure = document.getElementById('finallyText').value
+        if (document.getElementById('finallyText').value.trim() != "") {
+            finallyClosure = document.getElementById('finallyText').value.trim()
             finallyClosure = standardClosure(finallyClosure)
             jobMap['finally'] = finallyClosure
             finallyClosure = null
@@ -1438,7 +1449,7 @@ require(['jquery'], function($) {
     }
 
     /**
-     * getInputDataSendDataInfo: get sendType, resourceId and dest from JobConfiguration monitor
+     * getInputDataSendDataInfo: get sendType, resourceId, osInfo and dest from JobConfiguration monitor
      * output: set these values into jobMap
     */
     function getInputDataSendDataInfo() {
@@ -1447,14 +1458,39 @@ require(['jquery'], function($) {
             jobMap['sendType'] = sendTypeTxt
         }
         var resourceId
-        if (document.getElementById('resourceIdText').value != "") {
-            resourceId = document.getElementById('resourceIdText').value
+        if (document.getElementById('resourceIdText').value.trim() != "") {
+            resourceId = document.getElementById('resourceIdText').value.trim()
             jobMap['resourceId'] = resourceId
         }
 
+        var osInfo
+        if (document.getElementById('osInfoText').value.trim() != "") {
+            osInfo = document.getElementById('osInfoText').value.trim()
+            if (osInfo != "parameters.osinfo") {
+                try {
+                    var osInfoMap
+                    var jsonStrOSInfo = standardRoot(osInfo)
+                    jsonStrOSInfo = replaceAllString(jsonStrOSInfo, "[", "{")
+                    jsonStrOSInfo = replaceAllString(jsonStrOSInfo, "]", "}")
+
+                    osInfoMap = $.parseJSON(jsonStrOSInfo)
+                    if ((osInfoMap['host'] == null) || (osInfoMap['os'] == null)) {
+                        checkValid = false
+                        htmlSourceValid += "&lt;p&gt;* \"OSINFO\" must be map like [host:'localhost',user:'',pass:'',os:'win'] or parameters.osinfo.&lt;/p&gt;"
+                    } else {
+                        osInfo = standardRoot(osInfo)
+                    }
+                } catch (ex) {
+                    checkValid = false
+                    htmlSourceValid += "&lt;p&gt;* \"OSINFO\" must be map like [host:'localhost',user:'',pass:'',os:'win'] or parameters.osinfo.&lt;/p&gt;"
+                }     
+            }
+            jobMap['osInfo'] = osInfo
+        }
+
         var dest
-        if (document.getElementById('destText').value != "") {
-            dest = document.getElementById('destText').value
+        if (document.getElementById('destText').value.trim() != "") {
+            dest = document.getElementById('destText').value.trim()
             if (dest != "parameters.dest") {
                 dest = standardDest(dest)
                 jobMap['dest'] = dest
@@ -1671,6 +1707,9 @@ require(['jquery'], function($) {
                 ouputRoot = "[" + ouputRoot + "]"
             }
         }
+        //If data null before edit
+        ouputRoot= replaceAllString(ouputRoot, ":[\",", ":\"\",")
+        ouputRoot= replaceAllString(ouputRoot, ":\"]\"", ":\"\"]")
         return ouputRoot
     }
 
@@ -1716,6 +1755,9 @@ require(['jquery'], function($) {
                 }
             }
         }
+        //If data null before edit
+        ouputParams = replaceAllString(ouputParams, ":[\",", ":\"\",")
+        ouputParams = replaceAllString(ouputParams, ":\"]\"", ":\"\"]")
         return ouputParams
     }    
 
@@ -2984,6 +3026,7 @@ overflow: auto;
 					&lt;option id="none" value="@DB"&gt;@DB&lt;/option&gt;
 					&lt;option id="none" value="@SYS"&gt;@SYS&lt;/option&gt;
 					&lt;option id="none" value="@NET"&gt;@NET&lt;/option&gt;
+					&lt;option id="none" value="@OS"&gt;@OS&lt;/option&gt;
                                         &lt;option id="none" value="Others"&gt;Others&lt;/option&gt;
 				&lt;/select&gt;
 			&lt;/td&gt;
@@ -3197,6 +3240,10 @@ overflow: auto;
 				&lt;tr id="resourceIdForm"&gt;
 					&lt;th&gt;&lt;p&gt;RESOURCEID:&lt;/p&gt;&lt;/th&gt;
 					&lt;td&gt;&lt;input type="text" style="width:50%" id="resourceIdText" tabindex="15"&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr id="osInfoForm"&gt;
+					&lt;th&gt;&lt;p&gt;OSINFO:&lt;/p&gt;&lt;/th&gt;
+					&lt;td&gt;&lt;input type="text" style="width:50%" id="osInfoText" tabindex="15"&gt;&lt;/td&gt;
 				&lt;/tr&gt;
 				&lt;tr id="destForm" &gt;
 					&lt;th&gt;&lt;p&gt;DEST:&lt;/p&gt;&lt;/th&gt;
