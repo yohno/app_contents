@@ -432,23 +432,24 @@ class GetServlet{
 		if(params == null) {
 			def xwiki_dir = System.getProperty('user.dir')
 			def shell = new GroovyShell()
+			def confData
 			File conf = new File(xwiki_dir + "/webapps/xwiki/resources/conf.params")
 			if(conf.exists()){
-				params = shell.evaluate(conf)['servlet_config']
-				if( params != null &amp;&amp; params != []){
-					defaultParams.each{ key,value -&gt;
-						def paramsKeys = params.keySet()
-						if(!paramsKeys.contains(key)){
-							params[key] = value
+				confData = shell.evaluate(conf)
+				if (confData != null) {
+					params = shell.evaluate(conf)['servlet_config']
+					if( params != null &amp;&amp; params != []){
+						defaultParams.each{ key,value -&gt;
+							def paramsKeys = params.keySet()
+							if(!paramsKeys.contains(key)){
+								params[key] = value
+							}
 						}
+	                    return params[name]['servlet']
 					}
-                                        return params[name]['servlet']
-				} else {
-					params = GetConstantConfig.getDefaultConfigByKey('servlet_config')
 				}
-			} else {
-			     params = GetConstantConfig.getDefaultConfigByKey('servlet_config')
-			} 
+			}
+			params = GetConstantConfig.getDefaultConfigByKey('servlet_config') 
 		}
 		if( (name != null) &amp;&amp; (name != "") ){
             return params[name]['servlet']
