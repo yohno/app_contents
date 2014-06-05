@@ -50,7 +50,8 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
 	def typeChart = result[0].type
 	if (result[0].type == "Subtyped") {
 		def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result)
-		dataSubtype.each {key,value -&gt;
+		for(def key in dataSubtype.keySet()){
+                        def value = dataSubtype[key]
 			finalMapData = drawChart(key, value, typeChart)
 			finalData.add(finalMapData)
 			finalMapData = [:]
@@ -75,10 +76,11 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
 	        chartData = getAdditionData(result, '')
             } else if (jobType == "Subtyped") {
                 def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result) 
-                dataSubtype.each {key,value -&gt;
+                for(key in dataSubtype.keySet()){
+                    def value = dataSubtype[key]
                     def chartDataSubtyped = getAdditionData(value, key)
-                    chartDataSubtyped.each {
-                        chartData.add(it)
+                    for(dat in chartDataSubtyped){
+                        chartData.add(dat)
                     }
 	        }
 	    }
@@ -92,7 +94,7 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
         } else {
             result = mongoDBConnectionObj.getDataAllFields(job,limit,istIid)
         }
-        result.each {item -&gt;
+        for(item in result){
             def newdate = new Date().parse("yyyyMMddHHmmssz", item['fetchAt'])
             item['fetchAt'] = newdate.format('yyyy/MM/dd HH:mm:ss z')
         }
@@ -116,7 +118,8 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
             } else if (jobType == "Subtyped") {
 		dataUpdateSubtyped = DataToDrawChart.getDataToDrawSubtype(result)
 		def finalMap = [:]
-		dataUpdateSubtyped.each {key,value -&gt;
+		for(key in dataUpdateSubtyped.keySet()){
+                        def value = dataUpdateSubtyped[key]
 			if(type == 'pie'){
 				dataUpdate = DataToDrawChart.getDataToDrawPie(value)
 			} else if(type == 'line'){
@@ -241,13 +244,13 @@ def getAdditionData(collection, key) {
         }
         //Convert format
         def lstDataForKey = []
-        key_chart.each{chart-&gt;
+        for(chart in key_chart){
             
            //Get declaration chart info
            def chartCollumns = chart.chart_columns
 	   def hintColumns = chart.chart_columns.clone()
 	   if(chart.hint_columns != null){
-	       chart.hint_columns.each{hintCol-&gt;
+	       for(hintCol in chart.hint_columns){
 	           if(!hintColumns.contains(hintCol)){
 	               hintColumns.add(hintCol)
 	           }
@@ -262,8 +265,8 @@ def getAdditionData(collection, key) {
                 lstDataForKey = getAdditionDataArea(collection, chartCollumns, hintColumns, key_root, key_unit, chartAreaNum, chart.name, key)
                 chartAreaNum ++
             }
-            lstDataForKey.each {
-                finalListData.add(it)
+            for(dat4key in lstDataForKey){
+                finalListData.add(dat4key)
             }
             lstDataForKey = []
         }
@@ -286,14 +289,14 @@ def getAdditionDataLine(collection, key = '', chartCollumns, hintColumns, key_ro
     def resultRecord = [:]
     //Chart name
     def chartName
-    chartCollumns.each{col-&gt;
+    for(col in chartCollumns){
         if(chartName != null){
             chartName += "_" + col
        }else {
            chartName = col
        }
     }
-    collection.each{record-&gt;
+    for(record in collection){
         //Type
         resultRecord["type"] = "line_"
         //Chart name
@@ -321,10 +324,10 @@ def getAdditionDataLine(collection, key = '', chartCollumns, hintColumns, key_ro
                          newCollection.add(record['data'][record['data'].size() - 1]) 
                          dataMonitor = newCollection
                      } 
-        dataMonitor.each{ dataRecord -&gt;
+        for(dataRecord in dataMonitor){
             //Get name key
 	    def chartKeyName
-	    key_root.each{keyRoot-&gt;
+	    for(keyRoot in key_root){
 	        if(chartKeyName == null){
 	            chartKeyName = dataRecord[keyRoot]
 		}else{
@@ -332,7 +335,7 @@ def getAdditionDataLine(collection, key = '', chartCollumns, hintColumns, key_ro
 		}
             }
             //Loop to get chart data
-            chartCollumns.each{ chartColumnItem -&gt;
+            for(chartColumnItem in chartCollumns){
                 chartRecord = [:]
                 hintRecord = [:]
                          
@@ -353,7 +356,7 @@ def getAdditionDataLine(collection, key = '', chartCollumns, hintColumns, key_ro
                 //Get hint data
                 def hintRecordDetail = [:]
                 def keyUnit
-                hintColumns.each{hintColumnRecord-&gt;
+                for(hintColumnRecord in hintColumns){
                     hintRecordDetail[hintColumnRecord] = dataRecord[hintColumnRecord]
                     if (key_unit != null &amp;&amp; key_unit[hintColumnRecord] != null &amp;&amp; key_unit[hintColumnRecord] != "") {
                         keyUnit = key_unit[hintColumnRecord]
@@ -394,7 +397,7 @@ def getAdditionDataLine(collection, key = '', chartCollumns, hintColumns, key_ro
 def getAdditionDataBar(collection, chartCollumns, hintColumns, key_root, key_unit, chart_Num, key = '') {
     def returnResult = []
     def resultRecord = [:]
-    chartCollumns.each{chartCol-&gt;
+    for(chartCol in chartCollumns){
                     // Chart data
                     def chartDataList = []
                     def chartRecord
@@ -406,7 +409,7 @@ def getAdditionDataBar(collection, chartCollumns, hintColumns, key_root, key_uni
                     //chart name
                     chartName = chart_Num + "_" + chartCol
 
-                    collection.each{record-&gt;
+                    for(record in collection){
                         resultRecord["type"] = "bar"
                         resultRecord["chartName"] = chartName
                         if (key != '') {
@@ -419,13 +422,13 @@ def getAdditionDataBar(collection, chartCollumns, hintColumns, key_root, key_uni
 
                         //Loop each data in one monitor data
                         def dataMonitor = record['data']
-                        dataMonitor.each{ dataRecord -&gt;
+                        for(dataRecord in dataMonitor){
                             chartRecord = [:]
                             hintRecord = [:]
 
                            //Get name key
 		           def chartKeyName
-		           key_root.each{keyRoot-&gt;
+		           for(keyRoot in key_root){
 		               if(chartKeyName == null){
 	                           chartKeyName = dataRecord[keyRoot]
 		               }else{
@@ -451,7 +454,7 @@ def getAdditionDataBar(collection, chartCollumns, hintColumns, key_root, key_uni
                            //Get hint data
                            def hintRecordDetail = [:]
                            def keyUnit
-                           hintColumns.each{hintColumnRecord-&gt;
+                           for(hintColumnRecord in hintColumns){
                                hintRecordDetail[hintColumnRecord] = dataRecord[hintColumnRecord]
                                if (key_unit != null &amp;&amp; key_unit[hintColumnRecord] != null &amp;&amp; key_unit[hintColumnRecord] != "") {
                                    keyUnit = key_unit[hintColumnRecord]
@@ -493,7 +496,7 @@ def getAdditionDataBar(collection, chartCollumns, hintColumns, key_root, key_uni
 def getAdditionDataArea(collection, chartCollumns, hintColumns, key_root, key_unit, chart_Num, nameOfChart, key = '') {
     def returnResult = []
     def resultRecord = [:]
-    collection.each{record-&gt;
+    for(record in collection){
                      // Chart data
                      def chartDataList = []
                      def chartRecord = [:]
@@ -511,7 +514,7 @@ def getAdditionDataArea(collection, chartCollumns, hintColumns, key_root, key_un
                          dataMonitor = newCollection
                      } 
            
-                     dataMonitor.each{ dataRecord -&gt;
+                     for(dataRecord in dataMonitor){
                          // type
                          resultRecord["type"] = "area" 
 
@@ -523,7 +526,7 @@ def getAdditionDataArea(collection, chartCollumns, hintColumns, key_root, key_un
                          def chartName = nameOfChart
                          def nameOfChartAddition = ""
                          
-                         key_root.each{col-&gt;
+                         for(col in key_root){
 	                     chartContainerName += "_" + dataRecord[col]
                              nameOfChartAddition += "." + dataRecord[col]
                          }
@@ -547,7 +550,7 @@ def getAdditionDataArea(collection, chartCollumns, hintColumns, key_root, key_un
                          resultRecord["nameOfChart"] = chartName
 
                          //Loop to get chart data
-                         chartCollumns.each{ chartColumnItem -&gt;                         
+                         for(chartColumnItem in chartCollumns){
                              //Get series name
                              chartRecord["seriesName"] = chartColumnItem
                              hintRecord["seriesName"] = chartColumnItem
@@ -564,7 +567,7 @@ def getAdditionDataArea(collection, chartCollumns, hintColumns, key_root, key_un
                              //Get hint data
                              def hintRecordDetail = [:]
                              def keyUnit
-                             hintColumns.each{hintColumnRecord-&gt;
+                             for(hintColumnRecord in hintColumns){
                                  hintRecordDetail[hintColumnRecord] = dataRecord[hintColumnRecord]
                                  if (key_unit != null &amp;&amp; key_unit[hintColumnRecord] != null &amp;&amp; key_unit[hintColumnRecord] != "") {
                                      keyUnit = key_unit[hintColumnRecord]

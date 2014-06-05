@@ -1140,7 +1140,7 @@ def ec = services.component.getInstance(Execution.class).getContext()
 def listDBType = ec.getProperty("listDBType")
 println "{{html clean=\"false\"}}"
 println '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
-listDBType.each{dbType-&gt;
+for(dbType in listDBType){
    println "&lt;option id=\"$dbType\" value=\"$dbType\"&gt;$dbType&lt;/option&gt;"
 }
 println "{{/html}}"
