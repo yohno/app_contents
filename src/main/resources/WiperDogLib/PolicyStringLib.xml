@@ -582,7 +582,7 @@ def generatePolicyString(data, listKey, type, mapConditionLevel){
                 if(valueData != [:]) {
                     policyStr += "\t\tif(key == \"" + keyData + "\") {\n"
                     policyStr += "\t\t\tvalue.each {data -&gt;\n"
-                    for(def key in valueData.keySet(){
+                    for(def key in valueData.keySet()){
                         def value = valueData[key]
                         // If
                         policyStr += "\t\t\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
