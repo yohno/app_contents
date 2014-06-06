@@ -8569,13 +8569,15 @@ println '{{html clean="false" wiki="false"}}'
 println '&lt;tr&gt;'
 println '&lt;th&gt;IstIid&lt;/th&gt;'
 println '&lt;td colspan=3&gt;'
-mapJobIstIid.each{jobEntry-&gt;
+//mapJobIstIid.each{jobEntry-&gt;
+for (jobEntry in mapJobIstIid) {
   def convertedJobKey = jobEntry.key.replaceAll("\\.","_")
   convertedJobKey = convertedJobKey.replaceAll("\\@","_")
   println "&lt;div id='listIstIid'&gt;"
   println "&lt;div id=IstIid${convertedJobKey} style='display:none'&gt;"
   println "&lt;select id=select_${convertedJobKey}&gt;"
-  jobEntry.value.each{
+  //jobEntry.value.each{
+  for (it in jobEntry.value) {
      println "&lt;option value=\"$it\"&gt;$it&lt;/option&gt;"
   }
   println "&lt;/select&gt;"
@@ -8679,7 +8681,8 @@ println '{{html clean="false" wiki="true"}}'
 println "&lt;div id='resultData' style='display:none'&gt;" + com.mongodb.util.JSON.serialize(result) + "&lt;/div&gt;"
 if( (result != null) &amp;&amp; (result.size() &gt; 0) &amp;&amp; (result[0].KEYEXPR != null)&amp;&amp;!(result[0].KEYEXPR instanceof List )){
   //Format data fetchAt
-  result.each {item -&gt;
+  //result.each {item -&gt;
+  for (item in result) {
     def newdate = new Date().parse("yyyyMMddHHmmssz", item['fetchAt'])
     item['fetchAt'] = newdate.format('yyyy/MM/dd HH:mm:ss z')
   }
@@ -8691,25 +8694,27 @@ if( (result != null) &amp;&amp; (result.size() &gt; 0) &amp;&amp; (result[0].KEY
 		//set data subtype for draw chart
 	    def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result)
 	    //get list key of data subtyped
-	    dataSubtype.each {key,value -&gt;
-	      listKey.add(key)
+	    //dataSubtype.each {key,value -&gt;
+	    for (e in dataSubtype) {
+	      listKey.add(e.key)
 	    }
 	    //parse data of list key to json data
 	    def jsonkey = com.mongodb.util.JSON.serialize(listKey)
 	    println "&lt;textarea style=\"display:none\" id='lstkey' &gt;$jsonkey&lt;/textarea&gt;"
 		println "&lt;div class = 'chart'&gt;"
-		dataSubtype.each {key,value -&gt;
+		//dataSubtype.each {key,value -&gt;
+		for (e in dataSubtype) {
 			//call function to draw chart
-			drawChart(key, value, typeChart, fromDate, toDate)
+			drawChart(e.key, e.value, typeChart, fromDate, toDate)
 			println "&lt;/div&gt;"
 			println "&amp;nbsp;"
 			/** Statistic data table **/
-			println "&lt;div class = 'liveTableContainer' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Statistics data for ${key}&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLiveTableContainer' id = 'show'&gt;Hide data table  &lt;/a&gt;&lt;/span&gt;"
+			println "&lt;div class = 'liveTableContainer' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Statistics data for ${e.key}&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLiveTableContainer' id = 'show'&gt;Hide data table  &lt;/a&gt;&lt;/span&gt;"
 			println "&lt;div class = 'liveTable'&gt;"
 			println "&lt;center&gt;"
-			println "&lt;div class=\"livetblContentClass\" id='livetblContent_"+key+"' style='width:98%;clear:both;align:middle;margin-top:10px'&gt;"
-			println "&lt;table id='livetableList_"+key+"' style='width:100%;align:center'&gt;&lt;/table&gt;"
-			println "&lt;div id='livetablePager_"+key+"' style='position:relative;width:100%'&gt;&lt;/div&gt;"
+			println "&lt;div class=\"livetblContentClass\" id='livetblContent_" + e.key + "' style='width:98%;clear:both;align:middle;margin-top:10px'&gt;"
+			println "&lt;table id='livetableList_" + e.key + "' style='width:100%;align:center'&gt;&lt;/table&gt;"
+			println "&lt;div id='livetablePager_" + e.key + "' style='position:relative;width:100%'&gt;&lt;/div&gt;"
 			println "&lt;/div&gt;"
 			println "&lt;/center&gt;"
 			println "&lt;/div&gt;"
@@ -8810,11 +8815,13 @@ def drawChart(key,value,typeChart,fromDate,toDate) {
 */
 def getChartColumns(data,typeChart) {
 	def chartColumns = []
-	data.each {itemData -&gt;
+	//data.each {itemData -&gt;
+	for (itemData in data) {
 		if(itemData.size() &gt; 0){
 			if(typeChart == "line") {
 				//get chart columns of data line
-				itemData.each{item-&gt;
+				//itemData.each{item-&gt;
+				for (item in itemData) {
 					chartColumns.add(item.chart_name)
 				} 
 			} else if(typeChart == "bar"){
@@ -8975,8 +8982,10 @@ def prepareContainerPie(jsonPie, lstName, typeChart, key) {
 		def chartPieComment = false
 		chartNumPie = 0
 		//for each data of list name
-		lstName.each{chartPieLst-&gt;
-			chartPieLst.each {
+		//lstName.each{chartPieLst-&gt;
+		for (chartPieLst in lstName) {
+			//chartPieLst.each {
+			for (it in chartPieLst) {
 				def tmp
 				//set container used to display chart of data pie
 				if(typeChart == "Subtyped") {
@@ -9016,7 +9025,8 @@ def prepareContainerLine(jsonLine, chartColumnsLine, fromDateFinal, toDateFinal,
 		def chartLineComment = false
 		def chartNumLine = 0
 		//for each data of list chart columns
-		chartColumnsLine.each{chartColumnsLineItem -&gt;
+		//chartColumnsLine.each{chartColumnsLineItem -&gt;
+		for (chartColumnsLineItem in chartColumnsLine) {
 			//show information of chart
 			if(!chartLineComment){
 				println "&lt;div id = 'lineChart' style = 'clear:both' &gt;&lt;span class = 'chartDesc'&gt;Line chart : This chart is monitoring data " +fromDateFinal + toDateFinal +"&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLine' id = 'show'&gt;Hide Line charts  &lt;/a&gt;&lt;/span&gt;"
@@ -9050,7 +9060,8 @@ def prepareContainerBar(jsonBar, chartColumnsBar, fromDateFinal, toDateFinal, ty
 		def chartBarComment = false
 		def chartNumBar = 0
 		//for each data of list chart columns
-		chartColumnsBar.each{chartColumnsBarItem -&gt;
+		//chartColumnsBar.each{chartColumnsBarItem -&gt;
+		for (chartColumnsBarItem in chartColumnsBar) {
 			//show information of chart
 			if(!chartBarComment){
 				println "&lt;div id = 'barChart'  style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Bar chart : This chart is monitoring data " + fromDateFinal + toDateFinal + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleBar' id = 'show'&gt;Hide bar charts  &lt;/a&gt;&lt;/span&gt;"
@@ -9060,12 +9071,14 @@ def prepareContainerBar(jsonBar, chartColumnsBar, fromDateFinal, toDateFinal, ty
 			}
 			//set container used to display chart of data bar
 			if(typeChart == "Subtyped") {
-				chartColumnsBarItem.each{
+				//chartColumnsBarItem.each{
+				for (it in chartColumnsBarItem) {
                                     createButton("start_containerbar${key}_${chartNumBar}_${it}", "stop_containerbar${key}_${chartNumBar}_${it}")
                                     println " &lt;div class=\"displayBlockBar\" id=\"containerbar${key}_${chartNumBar}_${it}\"&gt;&lt;/div&gt;"
                                 }
 			} else if (typeChart == "Store") {
-				chartColumnsBarItem.each{
+				//chartColumnsBarItem.each{
+				for (it in chartColumnsBarItem) {
                                     createButton("start_containerbar${chartNumBar}_${it}", "stop_containerbar${chartNumBar}_${it}")
                                     println " &lt;div class=\"displayBlockBar\" id=\"containerbar${chartNumBar}_${it}\"&gt;&lt;/div&gt;"
                                 }
@@ -9094,7 +9107,8 @@ def prepareContainerArea(jsonArea, chartColumnsArea, fromDateFinal, toDateFinal,
 		def chartAreaComment = false
 		def chartNumArea = 0
 		//for each data of list chart columns
-		chartColumnsArea.each{chartColumnsAreaItem -&gt;
+		//chartColumnsArea.each{chartColumnsAreaItem -&gt;
+		for (chartColumnsAreaItem in chartColumnsArea) {
 			//show information of chart
 			if(!chartAreaComment){
 		        println "&lt;div id = 'areaChart'  style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Area chart : This chart is monitoring data " + fromDateFinal + toDateFinal + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleArea' id = 'show'&gt;Hide area charts  &lt;/a&gt;&lt;/span&gt;"
@@ -9104,12 +9118,14 @@ def prepareContainerArea(jsonArea, chartColumnsArea, fromDateFinal, toDateFinal,
 			}
 			//set container used to display chart of data area
 			if(typeChart == "Subtyped") {
-				chartColumnsAreaItem.each{
+				//chartColumnsAreaItem.each{
+				for (it in chartColumnsAreaItem) {
                                     createButton("start_containerarea${key}_${chartNumArea}_${it}", "stop_containerarea${key}_${chartNumArea}_${it}")
                                     println " &lt;div class=\"displayBlockArea\" id=\"containerarea${key}_${chartNumArea}_${it}\"&gt;&lt;/div&gt;"
                                 }
 			} else if (typeChart == "Store") {
-				chartColumnsAreaItem.each{ 
+				//chartColumnsAreaItem.each{ 
+				for (it in chartColumnsAreaItem) {
                                     createButton("start_containerarea${chartNumArea}_${it}", "stop_containerarea${chartNumArea}_${it}")
                                     println " &lt;div class=\"displayBlockArea\" id=\"containerarea${chartNumArea}_${it}\"&gt;&lt;/div&gt;"
                                 }
@@ -9138,10 +9154,11 @@ result.find{rec-&gt;
 	}else{ //-- Subtype
 		def subData = rec['data']
 		//for each data of data subtyped
-		subData.each{key,value-&gt;
-			subtractData = value
+		//subData.each{key,value-&gt;
+		for (e in subData) {
+			subtractData = e.value
 			//set data live table for each key of data subtyped
-			subTypeURLMap[key] = liveTable(subtractData, rec.type, job, limit, istIid, fromDate, toDate, key)
+			subTypeURLMap[e.key] = liveTable(subtractData, rec.type, job, limit, istIid, fromDate, toDate, e.key)
 		}
 		def finalStr = (new JsonBuilder(subTypeURLMap)).toPrettyString()
 	    println "&lt;div id='livetableJson' style = \"display:none\"&gt;"
@@ -9177,7 +9194,8 @@ def createButton(startId, stopId) {
 def liveTable(data,type,job,limit,istIid,fromDate,toDate,key){
 	def dataModel = []
 	def dataUrl = ""
-	data.each{r2-&gt;
+	//data.each{r2-&gt;
+	for (r2 in data) {
       if(dataModel != null &amp;&amp; dataModel.size() &lt;=0){
         dataModel.add("Fetch At")
         dataModel.addAll(r2.keySet());
@@ -9191,7 +9209,8 @@ def liveTable(data,type,job,limit,istIid,fromDate,toDate,key){
     //-- Building data model
     def model = []
     def colSpec
-    dataModel.each{name-&gt;
+    //dataModel.each{name-&gt;
+    for (name in dataModel) {
       colSpec = [:]
       colSpec['name'] = name
       colSpec['index'] = name

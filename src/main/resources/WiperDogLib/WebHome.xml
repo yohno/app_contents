@@ -498,16 +498,18 @@ def getLevel(condition, mapConditionLevel, group = null){
     if(mapConditionLevel != null &amp;&amp; mapConditionLevel.size() &gt; 0){
        if(group == null){
            // Store
-           mapConditionLevel.each{key, value-&gt;
-               if(condition == key){
-                   ret = value
+           //mapConditionLevel.each{key, value-&gt;
+           for (e in mapConditionLevel) {
+               if(condition == e.key){
+                   ret = e.value
                }
            }
        }else{
            // Subtyped
-           mapConditionLevel[group].each{key, value-&gt;
-               if(condition == key){
-                   ret = value
+           //mapConditionLevel[group].each{key, value-&gt;
+           for (e in mapConditionLevel[group]) {
+               if(condition == e.key){
+                   ret = e.value
                }
            }
        }
@@ -536,8 +538,9 @@ def generatePolicyString(data, listKey, type, mapConditionLevel){
   policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
      def mapPolicy = data.mappolicy
      policyStr += "\tresultData.each{data-&gt;\n"
-     mapPolicy.each {key,value -&gt;
-      key = key.trim()
+     //mapPolicy.each {key,value -&gt;
+     for (e in mapPolicy) {
+      def key = e.key.trim()
       if(key[0] != "("){
            key = "(" + key
       }
@@ -548,7 +551,7 @@ def generatePolicyString(data, listKey, type, mapConditionLevel){
       // if statement
       policyStr += "\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
       // message print statement
-      policyStr += "\t\t\tlistMess.add([level: " + getLevel(key, mapConditionLevel) + ", message: \"\"\""+ value +"\"\"\"])\n\t\t}\n"
+      policyStr += "\t\t\tlistMess.add([level: " + getLevel(key, mapConditionLevel) + ", message: \"\"\""+ e.value +"\"\"\"])\n\t\t}\n"
          }
   policyStr += "\t}\n"
   policyStr += "\tret['message'] = listMess\n"
@@ -559,15 +562,17 @@ def generatePolicyString(data, listKey, type, mapConditionLevel){
             policyStr += "\tdef listMess = []\n"
             policyStr += "\tdef ret = ['jobName' : '" + data.jobName + "', 'istIid' : '" + data.instanceName + "']\n"
             policyStr += "\tresultData.each {key,value -&gt;\n"
-            data.mappolicy.each {keyData,valueData -&gt;
-                if(valueData != [:]) {
-                    policyStr += "\t\tif(key == \"" + keyData + "\") {\n"
+            //data.mappolicy.each {keyData,valueData -&gt;
+            for (e in data.mappolicy) {
+                if(e.value != [:]) {
+                    policyStr += "\t\tif(key == \"" + e.key + "\") {\n"
                     policyStr += "\t\t\tvalue.each {data -&gt;\n"
-                    valueData.each {key,value -&gt;
+                    //e.value.each {key,value -&gt;
+                    for (item in e.value) {
                         // If
-                        policyStr += "\t\t\t\tif(" + getDataConditionsAfterEdit(key, listKey) + "){\n"
+                        policyStr += "\t\t\t\tif(" + getDataConditionsAfterEdit(item.key, listKey) + "){\n"
                         // Message
-                        policyStr += "\t\t\t\t\tlistMess.add([level: " + getLevel(key, mapConditionLevel, keyData) + ", message: \"\"\""+ value +"\"\"\"])\n"
+                        policyStr += "\t\t\t\t\tlistMess.add([level: " + getLevel(item.key, mapConditionLevel, e.key) + ", message: \"\"\""+ item.value +"\"\"\"])\n"
                         policyStr += "\t\t\t\t}\n"
                     }
                     policyStr += "\t\t\t}\n"
@@ -646,7 +651,8 @@ def getDataMessageAfterEdit(String stringOfMessage, dataKey){
 }
 def convertListToString (List listData, String concatStr = "|"){
  def strRet = ""
-  listData.each {key-&gt;
+  //listData.each {key-&gt;
+  for (key in listData) {
     strRet += key + concatStr
   }
   if (strRet != "") {

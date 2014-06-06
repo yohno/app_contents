@@ -465,7 +465,7 @@
 					finalData['xAxis'] = mapCategories
 
                                         // chart_name
-					finalData['chart_name'] = chartColumn.name
+					finalData['chart_name'] = datChart.name
 
 					// Chart Column and Hint Column
 					finalData['chart_columns'] = chart_columns
