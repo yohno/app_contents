@@ -451,7 +451,7 @@ try {
         def mapFinal = [:]
         def lstJobName = []
         def lstIntIid = []
-        lstJobMongo.each {eCollection -&gt;
+        for(eCollection in lstJobMongo){
           if(eCollection != "system.indexes" &amp;&amp; eCollection != "policy_message") {
             if(eCollection.contains(".")) {
               def jobName = eCollection.substring(0, eCollection.lastIndexOf("."))
@@ -489,7 +489,7 @@ try {
         def milis
         Date date
         mapFinal['lstCollections'] = []
-        dataMongo.each{data-&gt;
+        for(data in dataMongo){
             milis = ((Long)data.fetchedAt_bin) * 1000
             String formatted = sdf.format(new Date(milis))
             data.fetchedAt_bin = formatted

@@ -463,8 +463,9 @@ def getMenuItemsStr(treeItem, mapCollection, parentList = []) {
      //If data isn't leaf, create node and call recursively function with sub data
      if (treeItem instanceof Map) {
          result += "&lt;ul id='treemenu2' class='treeview'&gt;"
-         treeItem.each{itemKey, itemVal -&gt; 
-             parentList.each{parentListItem-&gt;
+         for(def itemKey in treeItem.keySet()){
+             def itemVal = treeItem[itemKey]
+             for(def parentListItem in parentList){
                  parentLstforChild.add(parentListItem)
              }
              parentLstforChild.add(itemKey)
@@ -479,14 +480,14 @@ def getMenuItemsStr(treeItem, mapCollection, parentList = []) {
      //If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
      if (treeItem instanceof List) {
          result += "&lt;ul&gt;"
-         parentList.each{parentItem -&gt; 
+         for(def parentItem in parentList){
               if (parentStr != ""){
                   parentStr += "."
               }
               parentStr += parentItem
          }
          if (mapCollection[parentStr] != null) {
-             mapCollection[parentStr].each {item-&gt;
+             for(def item in mapCollection[parentStr]){
                  result += "&lt;li&gt;&lt;a&gt;" + item +"&lt;/a&gt;&lt;/li&gt;"
              }
          }
@@ -511,19 +512,19 @@ def getCollections(listJobGroup, services) {
 	    def ec = services.component.getInstance(Execution.class).getContext()
 
 	    def mongoDBConn = new MongoDBConnection()
-	    def conllections = mongoDBConn.db.getCollectionNames()
+	    def collections = mongoDBConn.db.getCollectionNames()
 	    
 	    def itemGroup
 	    def itemJob
 	    def itemIst
-	    conllections.each{
-		tmp = it.split("\\.")
+	    for(def collection in collections){
+		tmp = collection.split("\\.")
 	        tmpSize = tmp.size()
 	        
 	        if (tmpSize &gt;= 2) {
 	            itemIst = tmp[tmpSize - 1]
-	            itemJob = it - ("." + itemIst)
-	            itemGroup = it - ("." + tmp[tmpSize - 2] + "." + tmp[tmpSize - 1])
+	            itemJob = collection - ("." + itemIst)
+	            itemGroup = collection - ("." + tmp[tmpSize - 2] + "." + tmp[tmpSize - 1])
 	 
 	            //If this group is not contains in listJobGroup, put in Others group
 	            if (tmpSize &gt;= 3 &amp;&amp; !listJobGroup.contains(itemGroup)) {
@@ -571,21 +572,22 @@ def getListJobGroup(groupItems, parentList = []) {
     def chilData
 
     if (groupItems instanceof Map) {
-        groupItems.each{itemKey, itemVal -&gt; 
-             parentList.each{parentListItem-&gt;
+        for(def itemKey in groupItems.keySet()){
+             def itemVal = groupItems[itemKey]
+             for(def parentListItem in parentList){
                  parentLstforChild.add(parentListItem)
              }
              parentLstforChild.add(itemKey)
              chilData = getListJobGroup(itemVal, parentLstforChild)
-             chilData.each{
-                  returnList.add(it)
+             for(def cDat in chilData){
+                  returnList.add(cDat)
              }
              parentLstforChild = []
         }
     }
 
     if (groupItems instanceof List) {
-        parentList.each{parentItem -&gt; 
+        for(def parentItem in parentList){
             if (parentStr != ""){
                 parentStr += "."
             }

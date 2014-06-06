@@ -2177,7 +2177,8 @@ if(paramsServlet == null || paramsServlet == [:] ){
 	paramsServlet = defaultParams['servlet_config']
 } else {
 	def paramsKeys = paramsServlet.keySet()
-	defaultParams['servlet_config'].each{ key,value -&gt;
+	for(key in defaultParams['servlet_config'].keySet()){
+                def value = defaultParams['servlet_config'][key]
 		if(!paramsKeys.contains(key)){
 			paramsServlet[key] = {}
 			paramsServlet[key]['servlet'] = value.servlet
@@ -2204,7 +2205,8 @@ println "&lt;form action='#' method='POST'&gt;"
 println "&lt;div class= 'header'&gt;Servlet Configuration&lt;/div&gt;"
 println "&lt;table id='table_display'&gt;"
 println "&lt;tr style='text-align:center'&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Host name&lt;/th&gt;&lt;th&gt;Port&lt;/th&gt;&lt;th&gt;Servlet path&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Action&lt;/th&gt;&lt;/tr&gt;"
-	paramsServlet.each{key,value -&gt;
+	for(key in paramsServlet.keySet()){
+        def value = paramsServlet[key]
 	def arr_str = ""
 	def hostname = ""
 	def port = ""

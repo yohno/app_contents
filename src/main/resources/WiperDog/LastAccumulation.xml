@@ -1243,8 +1243,8 @@ jQuery.noConflict()
 		def db = mongoDBConn.getMongoDB()
 
 		def jobs = []
-		db.getCollectionNames().findAll({it != "system.indexes"}).each {
-			jobs.add(it)
+		for(job in db.getCollectionNames().findAll({it != "system.indexes"})){
+			jobs.add(job)
 		}
 
 		println('{{html  clean="false" wiki="false"}}')
@@ -1260,7 +1260,7 @@ jQuery.noConflict()
 		println '&lt;div id="chartArea"&gt;&lt;/div&gt;'
 		println '&lt;/div&gt;'
 		println '&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;'
-		jobs.each { jobName -&gt;
+		for(jobName in jobs){
 			def col = db[jobName]
 			def getStorageSize = col.getStats().size
 			def getCumCount = col.getStats().count
@@ -1268,7 +1268,7 @@ jQuery.noConflict()
 			
 
 			def nowDate = System.currentTimeMillis()
-			col.find().sort(_id:-1).limit(1).each { document -&gt;
+			for(document in col.find().sort(_id:-1).limit(1)){
 				def unixTime = (document['fetchedAt_bin'] != null)? document['fetchedAt_bin'].toLong()*1000 : 0
 				def diffTime = nowDate - unixTime
 				def unixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")

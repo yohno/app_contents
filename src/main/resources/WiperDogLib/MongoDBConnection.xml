@@ -533,11 +533,11 @@ class MongoDBConnection{
   def tmp = [:]
   while(result.hasNext()){
    def doc = result.next()
-   doc.data.each{
+   for(dat in doc.data){
     if( tmp["fetchAt"] == null){
      tmp["fetchAt"] = doc.fetchAt
     }
-    fields.each{item-&gt;
+    for(item in fields){
      tmp[item] = it[item]
     }
     list_data.add(tmp)
@@ -557,11 +557,11 @@ class MongoDBConnection{
   def tmp = [:]
   while(result.hasNext()){
    def doc = result.next()
-   doc.data.each{
+   for(dat in doc.data){
     if( tmp["fetchAt"] == null){
      tmp["fetchAt"] = doc.fetchAt
     }
-    fields.each{item-&gt;
+    for(item in fields){
      tmp[item] = it[item]
     }
     list_data.add(tmp)

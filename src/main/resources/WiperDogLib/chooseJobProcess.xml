@@ -448,7 +448,7 @@ try {
      if(jobName == null || jobName == "") {
          def mapNameAndType = [:]
          def type
-         lstJobMongo.each {eCollec -&gt;
+         for(eCollec in lstJobMongo){
              type = gmongoObject.getDataType(eCollec)
              mapNameAndType[eCollec] = type
          }
@@ -474,13 +474,15 @@ try {
                  if(resultJob.type == "Store") {
                      def cloneSampleData = [:]
                      mapSampleData = resultJob.data[0]
-                     mapSampleData.each {key,value -&gt;
+                     for(key in mapSampleData.keySet()){
+                         def value = mapSampleData[key]
                          if(value.toString().contains("\\")){
                              value = value.replaceAll("\\\\","/")
                          }
                          cloneSampleData[key] = value
                          def checkExits = false
-                         mapUnit.each {keyUnit, valueUnit -&gt;
+                         for(keyUnit in mapUnit.keySet()){
+                             def valueUnit = mapUnit[keyUnit]
                              if(key == keyUnit) {
                                  checkExits = true
                                  def keyResp = key + " (" + valueUnit + ")"
@@ -496,12 +498,14 @@ try {
                      mapFinalPolicy["TYPE"] = resultJob.type
                  } else if(resultJob.type == "Subtyped") {
                      def lstKey = resultJob.data.keySet()
-                     lstKey.each {eKey -&gt;
+                     for(eKey in lstKey){
                          def tmpMapUnit = [:]
                          mapSampleData[eKey] = resultJob.data[eKey][0]
-                         resultJob.data[eKey][0].each {key, value -&gt;
+                         for(key in resultJob.data[eKey][0].keySet()){
+                             def value = resultJob.data[eKey][0][key]
                              def checkExits = false
-                             mapUnit.each {keyUnit, valueUnit -&gt;
+                             for(keyUnit in mapUnit.keySet()){
+                                 def valueUnit = mapUnit[keyUnit]
                                  if(key == keyUnit) {
                                      checkExits = true
                                      def keyResp = key + " (" + valueUnit + ")"

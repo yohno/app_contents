@@ -40,17 +40,17 @@ if (job != null &amp;&amp; istIid != null) {
 		retData = []
 		for(def i = result.size() - 1; i &gt;= 0; i--){
 			def res = result[i]
-            res.data.each {
+                        for(def dat in res.data){
 			    def retObj = [:]
-			    //retObj = it
-			    it.each{key, value-&gt;
-                    if(value instanceof java.lang.String){
-                    	//Replace for parseJSON
-                        retObj[key] = value.replaceAll("\\\\","/") 
-                    } else {
-                         retObj[key] = value
-                    }
-                }
+			    //retObj = dat
+			    for(def key in dat.keySet()){
+                               if(dat[key] instanceof java.lang.String){
+                        	  //Replace for parseJSON
+                                  retObj[key] = dat[key].replaceAll("\\\\","/") 
+                               } else {
+                                  retObj[key] = dat[key]
+                               }
+                            }
 			    retObj['Fetch At'] = (new Date().parse("yyyyMMddHHmmssz", res.fetchAt)).format('yyyy/MM/dd HH:mm:ss z')
 			    retData.add(retObj)
             }
@@ -59,27 +59,27 @@ if (job != null &amp;&amp; istIid != null) {
 	} else {
 		def listKey = []
 		retData = [:]
-		result[0]['data'].each {
-			listKey.add(it.key)
+		for(def dat in result[0]['data']){
+			listKey.add(dat.key)
 		}
-		listKey.each{key-&gt;
+		for(def key in listKey){
 			retData[key] = []
 		}
 		for(def i = result.size() - 1; i &gt;= 0; i--){
 			def res = result[i]
 			def fetchAtValue = (new Date().parse("yyyyMMddHHmmssz", res.fetchAt)).format('yyyy/MM/dd HH:mm:ss z')
-			listKey.each{key-&gt;
+			for(def key in listKey){
 				def listData = res['data'][key]
-				listData.each{data-&gt;
-				    data.each{ datakey, datavalue-&gt;
-                        if(datavalue instanceof java.lang.String){
-                            data[datakey] = datavalue.replaceAll("\\\\","/") 
-                         } else {
-                            data[datakey] = datavalue
-                         }
-                    }
-					data['Fetch At'] = fetchAtValue
-					retData[key].add(data)
+				for(def data in listData){
+				    for(def datakey in data.keySet()){
+                                        if(data[datakey] instanceof java.lang.String){
+                                            data[datakey] = data[datakey].replaceAll("\\\\","/") 
+                                        } else {
+                                            data[datakey] = data[datakey]
+                                        }
+                                    }
+				    data['Fetch At'] = fetchAtValue
+				    retData[key].add(data)
 				}
 			}
 		}
