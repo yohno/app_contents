@@ -1758,6 +1758,7 @@ require(['jquery'], function($) {
         //If data null before edit
         ouputParams = replaceAllString(ouputParams, ":[\",", ":\"\",")
         ouputParams = replaceAllString(ouputParams, ":\"]\"", ":\"\"]")
+        ouputParams = replaceAllString(ouputParams, ":\"]]\"", ":\"\"]]")
         return ouputParams
     }    
 
