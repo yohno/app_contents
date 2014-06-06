@@ -456,13 +456,16 @@ target.attachEvent(tasktype, functionref)
 										$('#message_add').text("No data return from job.Check log if error occurring !")
 									}
 								}
-								$("#log").val(result.log)
-								$('#loading').hide()
+								
 							} else {
 								if (result.status == "failed") {
-									$('#message_add').text('Failed to run or save file .Reason : ' + result.result).addClass('message').removeClass('error')
+								  $('#message_add').text('Failed to run or save file .See log for more information .').addClass('error').removeClass('message')                   
+                                       if(result.log != null ) {
+                                           $("#log").val(result.log)
+                                        }
 								}
 							}
+                              $('#loading').hide()
 						},
 						error: function(xhr, status, error) {
 							console.log(error)
