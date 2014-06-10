@@ -488,7 +488,7 @@ require(['jquery'], function($) {
                     }
                 }
                 for (var key in mapKeyexpr) {
-                    resultRoot += key + ":[ " + mapKeyexpr[key] + "],"
+                    resultRoot += key + ": [" + mapKeyexpr[key] + "],"
                 }
                 resultRoot = resultRoot.substring(0, resultRoot.length - 1)
                 if (resultRoot != null &amp;&amp; resultRoot != "") {
