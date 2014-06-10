@@ -422,13 +422,17 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document='WiperDog.GetConstantConfig'/}}
+  <content>
 {{groovy}}
-class GetServlet{
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
+
+class GetServlet implements ScriptService{
 	def static params
 
 	Object getParam(def name){
-	    def defaultParams = GetConstantConfig.getDefaultConfigByKey('servlet_config')
+	    def defaultParams = services.GetConstantConfig.getDefaultConfigByKey('servlet_config')
 		if(params == null) {
 			def xwiki_dir = System.getProperty('user.dir')
 			def shell = new GroovyShell()
@@ -450,7 +454,7 @@ class GetServlet{
 					}
 				}
 			}
-			params = GetConstantConfig.getDefaultConfigByKey('servlet_config') 
+			params = services.GetConstantConfig.getDefaultConfigByKey('servlet_config') 
 		}
 		if( (name != null) &amp;&amp; (name != "") ){
             return params[name]['servlet']
@@ -458,5 +462,8 @@ class GetServlet{
 		return null
 	}
 }
-{{/groovy}}</content>
-</xwikidoc>
+
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: GetServlet.class, role: ScriptService.class, roleHint: 'GetServlet');
+Utils.getComponentManager().unregisterComponent(ScriptService.class, 'GetServlet');
+Utils.getComponentManager().registerComponent(descriptor);
+{{/groovy}}</content></xwikidoc>

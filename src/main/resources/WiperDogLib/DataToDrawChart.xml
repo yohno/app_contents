@@ -422,7 +422,12 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{groovy}}class DataToDrawChart {
+  <content>{{groovy}}
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
+
+class DataToDrawChart implements ScriptService{
 	// Get data to BAR chart
 	def static getDataToDrawBar(collection){
                 def result
@@ -964,5 +969,8 @@
 	  return mapForKey
   }
 }
-{{/groovy}}</content>
-</xwikidoc>
+
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: DataToDrawChart.class, role: ScriptService.class, roleHint: 'DataToDrawChart');
+Utils.getComponentManager().unregisterComponent(ScriptService.class, 'DataToDrawChart');
+Utils.getComponentManager().registerComponent(descriptor);
+{{/groovy}}</content></xwikidoc>

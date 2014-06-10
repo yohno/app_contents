@@ -422,7 +422,7 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
+  <content>
 {{groovy}}
 import com.gmongo.GMongo
 import java.text.SimpleDateFormat
@@ -436,7 +436,7 @@ import java.util.regex.Pattern
 import groovy.lang.GroovyShell
 def gmongoObject
 try {
-     gmongoObject = new MongoDBConnection()
+     gmongoObject = services.MongoDBConnection
      def dbConn = gmongoObject.getMongoDB()
      def lstJobMongo = dbConn.getCollectionNames()
      def slurper = new JsonSlurper()
@@ -542,7 +542,7 @@ try {
      println builder.toString()    
 } finally {
      if(gmongoObject != null){
-          gmongoObject.closeConnection()
+          //gmongoObject.closeConnection()
      }
 }
 {{/groovy}}</content>

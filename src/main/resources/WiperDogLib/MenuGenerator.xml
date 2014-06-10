@@ -1189,8 +1189,7 @@ margin-right:20px;
       <levels>comment,view</levels>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
-{{include document="WiperDogLib.MenuGeneratorLib"/}}
+  <content>
 {{groovy}}
 import com.gmongo.GMongo
 import java.text.SimpleDateFormat
@@ -1200,7 +1199,7 @@ import java.text.SimpleDateFormat
 def treeMapRoot = ["MySQL":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "SQL_Server":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "Postgres":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "OS":[]]
 
 try {
-   def supporter = new MenuGeneratorSupport()
+   def supporter = services.MenuGeneratorSupport
    //From menu tree map, get list of group of Job
    def listJobGroup= supporter.getListJobGroup(treeMapRoot)
 

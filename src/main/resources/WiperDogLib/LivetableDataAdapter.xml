@@ -422,7 +422,7 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
+  <content>
 {{groovy}}
     import groovy.json.*
     if(request.xpage == "plain") {
@@ -456,7 +456,7 @@
     if(job!="" &amp;&amp; job!=null &amp;&amp; istIid != null &amp;&amp; !istIid.equals("")){
         def mongoDBConn
         try{
-            mongoDBConn = new MongoDBConnection()
+            mongoDBConn = services.MongoDBConnection
             if(fromDate != "" || toDate != ""){
                 result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
             } else {
@@ -466,7 +466,7 @@
             println '{{error}}' + ex + '{{/error}}'
         } finally {
             if(mongoDBConn != null){
-                mongoDBConn.closeConnection()
+                //mongoDBConn.closeConnection()
             }
         }
 		def idx =0               

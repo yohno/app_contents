@@ -1227,7 +1227,7 @@ jQuery.noConflict()
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
+  <content>
 {{groovy}}
 	xwiki.jsx.use('WiperDogLib.JQueryUILib')
 	xwiki.ssx.use('WiperDogLib.JQueryUILib')
@@ -1239,7 +1239,7 @@ jQuery.noConflict()
 		
 	def mongoDBConn
 	try{
-		mongoDBConn = new MongoDBConnection()
+		mongoDBConn = services.MongoDBConnection
 		def db = mongoDBConn.getMongoDB()
 
 		def jobs = []
@@ -1300,7 +1300,7 @@ jQuery.noConflict()
 		println '{{error}}' + ex + '{{/error}}'
 	} finally {
 		if(mongoDBConn != null){
-			mongoDBConn.closeConnection()
+			//mongoDBConn.closeConnection()
 		}
 	}
 {{/groovy}}</content>

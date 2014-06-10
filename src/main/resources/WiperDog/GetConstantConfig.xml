@@ -423,7 +423,11 @@
     </property>
   </object>
   <content>{{groovy}}
- class GetConstantConfig{
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
+
+ class GetConstantConfig implements ScriptService{
      public static final DEFAULT_CONFIG = [
                   servlet_config:[
 		     dbinfo:[servlet:"http://localhost:13111/DBConfigServlet" ,desc:"Using for WiperDog/DBConfiguration page"],
@@ -442,5 +446,7 @@
              return GetConstantConfig.DEFAULT_CONFIG[key]
      }
  }
-{{/groovy}}</content>
-</xwikidoc>
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: GetConstantConfig.class, role: ScriptService.class, roleHint: 'GetConstantConfig');
+Utils.getComponentManager().unregisterComponent(ScriptService.class, 'GetConstantConfig');
+Utils.getComponentManager().registerComponent(descriptor);
+{{/groovy}}</content></xwikidoc>
