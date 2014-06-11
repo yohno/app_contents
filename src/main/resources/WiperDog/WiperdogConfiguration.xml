@@ -2113,7 +2113,7 @@ import groovy.json.*
 def shell = new GroovyShell()
 def servletData= request.getParameter('result')
 def dataMongo = request.getParameter('resultMongo')
-def defaultParams= services.GetConstantConfig.DEFAULT_CONFIG
+def defaultParams= services.GetServlet.DEFAULT_CONFIG
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
 File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
