@@ -1559,7 +1559,13 @@ h5 {
       <levels>comment,view</levels>
     </property>
   </object>
-  <content>{{html wiki="true" clean="false"}}
+  <content>{{include document="WiperDog.checkService"/}}
+
+{{velocity}}
+$xwiki.ssx.use('WiperDog.checkService')
+{{/velocity}}
+
+{{html wiki="true" clean="false"}}
 &lt;div id="menu"&gt;&lt;/div&gt;
 &lt;div id="viewer"&gt;
 &lt;table style="text-align:left;"&gt;

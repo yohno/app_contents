@@ -3015,7 +3015,13 @@ overflow: auto;
       <users/>
     </property>
   </object>
-  <content>{{html wiki="true" clean="false"}}
+  <content>{{include document="WiperDog.checkService"/}}
+
+{{velocity}}
+$xwiki.ssx.use('WiperDog.checkService')
+{{/velocity}}
+
+{{html wiki="true" clean="false"}}
 
 {{html clean="false"}}
 &lt;div id="messageValid"&gt;&lt;/div&gt;

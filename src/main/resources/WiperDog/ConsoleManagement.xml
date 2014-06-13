@@ -784,9 +784,11 @@ dAoAAAAASUVORK5CYII=
       <users/>
     </property>
   </object>
-  <content>{{velocity}}
+  <content>{{include document="WiperDog.checkService"/}}
+{{velocity}}
 $xwiki.jsx.use('WiperDogLib.JQueryUILib')
 $xwiki.ssx.use('WiperDogLib.JQueryUILib')
+$xwiki.ssx.use('WiperDog.checkService')
 {{/velocity}}
 {{tabs idsToLabels='tabId11=General, tabId12=System components' /}}
 

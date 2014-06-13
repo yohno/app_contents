@@ -3322,10 +3322,12 @@ font-size: 1.5em
       <levels>comment,view</levels>
     </property>
   </object>
-  <content>{{velocity}}
+  <content>{{include document="WiperDog.checkService"/}}
+
+{{velocity}}
  $xwiki.jsfx.use('uicomponents/widgets/upload.js')
  $xwiki.ssfx.use('uicomponents/widgets/upload.css')
-
+ $xwiki.ssx.use('WiperDog.checkService')
 {{html wiki="true" clean="false"}}
 
 &lt;div id="wrapper"&gt;

@@ -1111,7 +1111,13 @@ display: block
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{html wiki = 'false' clean = 'false'}}
+  <content>{{velocity}}
+$xwiki.ssx.use("WiperDog.checkService")
+{{/velocity}}
+
+{{include document="WiperDog.checkService"/}}
+
+{{html wiki = 'false' clean = 'false'}}
 &amp;nbsp;
 &lt;div id='wdServInstall' &gt;
 &lt;form action='#wdServInstall' method='POST' &gt;

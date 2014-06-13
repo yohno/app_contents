@@ -8535,7 +8535,11 @@ $xwiki.jsx.use('WiperDogLib.JqGridLib')
 $xwiki.ssx.use('WiperDogLib.JqGridLib')
 $xwiki.jsx.use('WiperDogLib.ExportPDFLib')
 $xwiki.jsx.use('WiperDogLib.jsPDF')
+$xwiki.ssx.use("WiperDog.checkService")
 {{/velocity}}
+
+{{include document="WiperDog.checkService"/}}
+
 {{html wiki="true" clean="false"}}
 &lt;div &gt;&lt;span class = 'showHideLink'&gt;&lt;a id='toggleJobSelect' id = 'show'&gt;Hide job selection&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
 

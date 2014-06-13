@@ -1228,6 +1228,8 @@ jQuery.noConflict()
     </property>
   </object>
   <content>
+{{include document="WiperDog.checkService"/}}
+
 {{groovy}}
 	xwiki.jsx.use('WiperDogLib.JQueryUILib')
 	xwiki.ssx.use('WiperDogLib.JQueryUILib')
@@ -1236,6 +1238,11 @@ jQuery.noConflict()
 	xwiki.jsx.use('WiperDogLib.Highcharts')
 	xwiki.jsx.use("LastAccumulation")
 	xwiki.ssx.use("LastAccumulation")
+    xwiki.ssx.use("WiperDog.checkService")
+
+    if(services.MongoDBConnection == null){
+            return
+        }
 		
 	def mongoDBConn
 	try{

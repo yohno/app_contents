@@ -5914,13 +5914,16 @@ return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Da
       <levels>comment,view</levels>
     </property>
   </object>
-  <content>{{groovy}}
+  <content>{{include document="WiperDog.checkService"/}}
+
+{{groovy}}
 xwiki.jsx.use('WiperDogLib.JQueryUILib')
 xwiki.ssx.use('WiperDogLib.JQueryUILib')
 xwiki.jsx.use('WiperDogLib.JqGridLib')
 xwiki.ssx.use('WiperDogLib.JqGridLib')
 xwiki.jsx.use('WiperDogLib.ExportPDFLib')
 xwiki.jsx.use('WiperDogLib.jsPDF')
+xwiki.ssx.use('WiperDog.checkService')
 {{/groovy}}
 {{html wiki="true" clean="false"}}
 &lt;body&gt;

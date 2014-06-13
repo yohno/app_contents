@@ -1494,7 +1494,13 @@ color: red
       <levels>comment,view</levels>
     </property>
   </object>
-  <content>{{html wiki="true" clean="false"}}
+  <content>{{velocity}}
+$xwiki.ssx.use("WiperDog.checkService")
+{{/velocity}}
+
+{{include document="WiperDog.checkService"/}}
+
+{{html wiki="true" clean="false"}}
 &lt;div id="menu"&gt;&lt;/div&gt;
 &lt;div id="headerMess"&gt; &lt;&lt;&lt;&lt; Select job from right menu to start&lt;/div&gt;
 &lt;div id="viewer" style="display:none"&gt;

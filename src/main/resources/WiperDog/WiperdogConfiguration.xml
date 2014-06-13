@@ -2106,7 +2106,10 @@ label{
       <users/>
     </property>
   </object>
-  <content>
+  <content>{{velocity}}
+$xwiki.ssx.use("WiperDog.checkService")
+{{/velocity}}
+{{include document="WiperDog.checkService"/}}
 
 {{groovy}}
 import groovy.json.*
