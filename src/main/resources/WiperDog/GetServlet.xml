@@ -422,12 +422,12 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document='WiperDog.GetServletClass'/}}
+  <content>
 {{groovy}}
 if(request.xpage == "plain") {
  response.setContentType('text')
 }
-def paramObj = new GetServlet()
+def paramObj = services.GetServlet
 def name = request.getParameter('name')
 if(name != null){
 println paramObj.getParam(name)

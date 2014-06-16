@@ -3317,9 +3317,12 @@ overflow:scroll;
       <users/>
     </property>
   </object>
-  <content>{{velocity}}
+  <content>{{include document="WiperDog.checkService"/}}
+
+{{velocity}}
 $xwiki.jsx.use('WiperDog.PolicyParams')
 $xwiki.ssx.use('WiperDog.PolicyParams')
+$xwiki.ssx.use('WiperDog.checkService')
 {{/velocity}}
 
 {{html wiki="true" clean="false"}}

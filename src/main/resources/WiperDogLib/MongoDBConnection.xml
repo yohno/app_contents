@@ -426,8 +426,11 @@
 import com.gmongo.GMongo
 import java.text.SimpleDateFormat
 import groovy.json.*
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
 
-class MongoDBConnection{
+class MongoDBConnection implements ScriptService {
  def static final dbName = 'wiperdog'
  def static final host= '127.0.0.1'
  def static final port = 27017
@@ -619,5 +622,8 @@ class MongoDBConnection{
   }
  }
 }
-{{/groovy}}</content>
-</xwikidoc>
+
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: MongoDBConnection.class, role: ScriptService.class, roleHint: 'MongoDBConnection');
+Utils.getComponentManager().unregisterComponent(ScriptService.class, 'MongoDBConnection');
+Utils.getComponentManager().registerComponent(descriptor);
+{{/groovy}}</content></xwikidoc>

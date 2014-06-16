@@ -1594,7 +1594,12 @@ disabled: disabled
       <levels>delete,edit</levels>
     </property>
   </object>
-  <content>{{html wiki="true" clean="false"}}
+  <content>{{include document="WiperDog.checkService"/}}
+{{velocity}}
+$xwiki.ssx.use("WiperDog.checkService")
+{{/velocity}}
+
+{{html wiki="true" clean="false"}}
 &lt;div id="container"&gt;
 &lt;table style="text-align:left;"&gt;
     &lt;tr&gt;

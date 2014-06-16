@@ -8525,8 +8525,7 @@ margin-bottom: 8px;
       <users/>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.DataToDrawChart"/}}
-{{include document="WiperDogLib.MongoDBConnection"/}}
+  <content>
 {{velocity}}
 $xwiki.jsx.use('WiperDogLib.JQueryUILib')
 $xwiki.ssx.use('WiperDogLib.MenuGenerator')
@@ -8536,7 +8535,11 @@ $xwiki.jsx.use('WiperDogLib.JqGridLib')
 $xwiki.ssx.use('WiperDogLib.JqGridLib')
 $xwiki.jsx.use('WiperDogLib.ExportPDFLib')
 $xwiki.jsx.use('WiperDogLib.jsPDF')
+$xwiki.ssx.use("WiperDog.checkService")
 {{/velocity}}
+
+{{include document="WiperDog.checkService"/}}
+
 {{html wiki="true" clean="false"}}
 &lt;div &gt;&lt;span class = 'showHideLink'&gt;&lt;a id='toggleJobSelect' id = 'show'&gt;Hide job selection&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
 
@@ -8658,7 +8661,7 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
   def mongoDBConn
   try{
      //open connection to mongoDB
-     mongoDBConn = new MongoDBConnection()
+     mongoDBConn = services.MongoDBConnection
      //get data from mongoDB
      if(fromDate != "" || toDate != ""){
        result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
@@ -8670,7 +8673,7 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
   } finally {
      //close connection to mongoDB
      if(mongoDBConn != null){
-         mongoDBConn.closeConnection()
+         //mongoDBConn.closeConnection()
      }
   }
 } else {
@@ -8692,7 +8695,7 @@ if( (result != null) &amp;&amp; (result.size() &gt; 0) &amp;&amp; (result[0].KEY
 		//set type for draw chart
 		def typeChart = result[0].type
 		//set data subtype for draw chart
-	    def dataSubtype = DataToDrawChart.getDataToDrawSubtype(result)
+	    def dataSubtype = services.DataToDrawChart.getDataToDrawSubtype(result)
 	    //get list key of data subtyped
 	    //dataSubtype.each {key,value -&gt;
 	    for (e in dataSubtype) {
@@ -8844,18 +8847,18 @@ def getChartColumns(data,typeChart) {
 */
 def getDataJson(value,type) {
 	def data = []
-	if(type == "line" &amp;&amp; DataToDrawChart.getDataToDrawLine(value) != []) {
+	if(type == "line" &amp;&amp; services.DataToDrawChart.getDataToDrawLine(value) != []) {
 		//get data draw line
-		data = DataToDrawChart.getDataToDrawLine(value)
-	} else if(type == "bar" &amp;&amp; DataToDrawChart.getDataToDrawBar(value) != []) {
+		data = services.DataToDrawChart.getDataToDrawLine(value)
+	} else if(type == "bar" &amp;&amp; services.DataToDrawChart.getDataToDrawBar(value) != []) {
 		//get data to draw bar
-		data = DataToDrawChart.getDataToDrawBar(value)
-	} else if(type == "pie" &amp;&amp; DataToDrawChart.getDataToDrawPie(value) != []) {
+		data = services.DataToDrawChart.getDataToDrawBar(value)
+	} else if(type == "pie" &amp;&amp; services.DataToDrawChart.getDataToDrawPie(value) != []) {
 		//get data to draw pie
-		data = DataToDrawChart.getDataToDrawPie(value)
-	} else if(type == "area" &amp;&amp; DataToDrawChart.getDataToDrawArea(value) != []) {
+		data = services.DataToDrawChart.getDataToDrawPie(value)
+	} else if(type == "area" &amp;&amp; services.DataToDrawChart.getDataToDrawArea(value) != []) {
 		//get data to draw area
-		data = DataToDrawChart.getDataToDrawArea(value)
+		data = services.DataToDrawChart.getDataToDrawArea(value)
 	}
 	return data
 }

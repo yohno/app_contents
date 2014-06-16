@@ -426,8 +426,11 @@
 {{groovy}}
 import com.gmongo.GMongo
 import org.xwiki.context.*
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
 
-class MenuGeneratorSupport {
+class MenuGeneratorSupport implements ScriptService {
 /**
  * Main function, used for create menu 
  * Input treeMap: Menu tree map (not leaf)
@@ -511,7 +514,7 @@ def getCollections(listJobGroup, services) {
 	    //The variable is used to save data for IstIid in  MonitoringData screen
 	    def ec = services.component.getInstance(Execution.class).getContext()
 
-	    def mongoDBConn = new MongoDBConnection()
+	    def mongoDBConn = services.MongoDBConnection
 	    def collections = mongoDBConn.db.getCollectionNames()
 	    
 	    def itemGroup
@@ -554,7 +557,7 @@ def getCollections(listJobGroup, services) {
 	    throw ex
 	} finally {
 	    if(mongoDBConn != null){
-	        mongoDBConn.closeConnection()
+	        //mongoDBConn.closeConnection()
 	    }
 	}
 }
@@ -598,5 +601,7 @@ def getListJobGroup(groupItems, parentList = []) {
     return returnList
 }
 }
-{{/groovy}}</content>
-</xwikidoc>
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: MenuGeneratorSupport.class, role: ScriptService.class, roleHint: 'MenuGeneratorSupport');
+Utils.getComponentManager().unregisterComponent(ScriptService.class, 'MenuGeneratorSupport');
+Utils.getComponentManager().registerComponent(descriptor);
+{{/groovy}}</content></xwikidoc>

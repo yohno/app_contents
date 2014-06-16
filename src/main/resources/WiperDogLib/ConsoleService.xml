@@ -422,7 +422,7 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document='WiperDog.GetServletClass'/}}
+  <content>
 {{groovy}}
 import groovy.json.*
 //Closure to run a process
@@ -530,7 +530,7 @@ try{
 				if(errorStr != null &amp;&amp; errorStr  != '')
 					println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;"
 				println "&lt;p&gt; Checking status: ${proc.in.text}&lt;/p&gt;"
-				def paramObj = new GetServlet()
+				def paramObj = services.GetServlet
 				def consoleServlet = paramObj.getParam('console')
 				command = 'curl -is  ' + consoleServlet
 				proc = command.execute()
@@ -682,7 +682,7 @@ try{
 				if(output.exitVal != null &amp;&amp; output.exitVal == 0)
 				println "&lt;p&gt; Information: ${output.in}&lt;/p&gt;"
 				//println "&lt;p&gt; Checking status: ${output.err}&lt;/p&gt;"
-				def paramObj = new GetServlet()
+				def paramObj = services.GetServlet
 				def consoleServlet = paramObj.getParam('console')
 				listCmd = new ArrayList&lt;String&gt;()
 				listCmd = buildCmdList(isLocalhost,psExec,listCmd,false)

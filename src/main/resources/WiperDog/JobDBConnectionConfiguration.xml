@@ -1113,7 +1113,13 @@ clear:both
       <users/>
     </property>
   </object>
-  <content>{{groovy}}
+  <content>
+{{include document="WiperDog.checkService"/}}
+{{velocity}}
+$xwiki.ssx.use('WiperDog.checkService')
+{{/velocity}}
+
+{{groovy}}
 import org.xwiki.context.*
 
 def ec = services.component.getInstance(Execution.class).getContext()

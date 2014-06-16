@@ -2852,7 +2852,11 @@ color: black !important
       <users/>
     </property>
   </object>
-  <content>{{velocity}}
+  <content>{{include document="WiperDog.checkService"/}}
+
+{{velocity}}
+$xwiki.ssx.use('WiperDog.checkService')
+
 {{html wiki="true" clean="false"}}
 
 &lt;div id="menu"&gt;&lt;/div&gt;

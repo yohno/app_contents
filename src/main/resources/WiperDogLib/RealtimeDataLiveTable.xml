@@ -22,8 +22,7 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
-{{include document="WiperDogLib.DataToDrawChart"/}}
+  <content>
 {{groovy}}
 import com.google.gson.*
 
@@ -31,8 +30,7 @@ def job = request.get("jobName")
 def istIid = request.get("IstIid")
 if (job != null &amp;&amp; istIid != null) {
     Gson gson = new GsonBuilder().setPrettyPrinting().create()
-    def mongoDBConnectionObj = new MongoDBConnection()
-    result = mongoDBConnectionObj.getDataAllFields(job, 50, istIid)
+    result = services.MongoDBConnection.getDataAllFields(job, 50, istIid)
     def retData
     if(result[0] != null){
 	def jobType = result[0]['type']
@@ -86,7 +84,7 @@ if (job != null &amp;&amp; istIid != null) {
 		println gson.toJson(retData)
 	}
     }
-    mongoDBConnectionObj.closeConnection()
+    //services.MongoDBConnection.closeConnection()
 }
 {{/groovy}}</content>
 </xwikidoc>

@@ -422,13 +422,31 @@
       <users>XWiki.XWikiGuest</users>
     </property>
   </object>
-  <content>{{include document='WiperDog.GetConstantConfig'/}}
+  <content>
 {{groovy}}
-class GetServlet{
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
+
+class GetServlet implements ScriptService{
 	def static params
+    static final DEFAULT_CONFIG = [
+                  servlet_config:[
+		     dbinfo:[servlet:"http://localhost:13111/DBConfigServlet" ,desc:"Using for WiperDog/DBConfiguration page"],
+		     dbcommon:[servlet:"http://localhost:13111/DBCommonConfig" ,desc:"Using for WiperDog/JobDBConnectionConfiguration page "],
+		     jobdoc:[servlet:"http://localhost:13111/JobDocInfoServlet",desc:"Using for WiperDog/JobDoc page"],
+		     console:[servlet:"http://localhost:13111/wiperdog/echo",desc:"Using for WiperDog/ConsoleManager page"],
+                     logfileinfo:[servlet:"http://localhost:13111/LogFileInfoServlet",desc:"Using for WiperDog/LogFileInfo page"],
+                     JobDeclared:[servlet:"http://localhost:13111/JobDeclared",desc:"Using for WiperDog/JobConfiguration page"],
+                     testjob:[servlet:"http://localhost:13111/TestJobServlet",desc:"Using for Using for WiperDog/TestJob page"],
+                     ProcessPolicy:[servlet:"http://localhost:13111/policyServlet",desc:"Using for WiperDog/processPolicy page"],
+                     importinstances:[servlet:"http://localhost:13111/ImportInstanceServlet",desc:"Using for Using for WiperDog/Import Instance Info page"]
+		  ],
+                  mongoDB:[host:"127.0.0.1",port:27017,dbName:"wiperdog"]
+                ]
 
 	Object getParam(def name){
-	    def defaultParams = GetConstantConfig.getDefaultConfigByKey('servlet_config')
+	    def defaultParams = getDefaultConfigByKey('servlet_config')
 		if(params == null) {
 			def xwiki_dir = System.getProperty('user.dir')
 			def shell = new GroovyShell()
@@ -450,13 +468,20 @@ class GetServlet{
 					}
 				}
 			}
-			params = GetConstantConfig.getDefaultConfigByKey('servlet_config') 
+			params = getDefaultConfigByKey('servlet_config') 
 		}
 		if( (name != null) &amp;&amp; (name != "") ){
             return params[name]['servlet']
 		}
 		return null
 	}
+
+     public static Object getDefaultConfigByKey(key){
+             return DEFAULT_CONFIG[key]
+     }
 }
-{{/groovy}}</content>
-</xwikidoc>
+
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: GetServlet.class, role: ScriptService.class, roleHint: 'GetServlet');
+Utils.getComponentManager().unregisterComponent(ScriptService.class, 'GetServlet');
+Utils.getComponentManager().registerComponent(descriptor);
+{{/groovy}}</content></xwikidoc>
