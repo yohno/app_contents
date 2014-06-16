@@ -1352,6 +1352,33 @@ if (targetInput) {
 require(['jquery'], function($) {
 	// DOCUMENT READY
 	$(document).ready(function() {
+                var dbtype = 'dbtype'
+                $.ajax({
+                  type: "GET",
+                  url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+dbtype,
+                  success : function(dbtypeUrl){
+                          processListDbtype(dbtypeUrl)
+                  },
+                  error: function(xhr,status,error){
+                  }
+                });
+
+                function processListDbtype(dbtypeUrl){
+                $.ajax({
+                  type: "POST",
+                  url:dbtypeUrl,
+                  success : function(mapDBType){
+                          for(dbtype in mapDBType){
+                               if(mapDBType.hasOwnProperty(dbtype)){
+                                    $("#dbtype").append('&lt;option value="' + mapDBType[dbtype] + '"&gt;' + dbtype + '&lt;/option&gt;')
+                               }
+                          }
+                  },
+                  error: function(xhr,status,error){
+                  }
+                });
+                }
+
 		// Show / hide tip for CSV file
 		$('#showCSVTip').click(function() {
 			$('#csvTip').toggle()
@@ -1575,17 +1602,18 @@ require(['jquery'], function($) {
 					$("#sid").removeAttr('readonly')
 					var map_db_info = {}
 					var map_db_info_inner = {}
-					var db_conn_str = ""
+					var db_conn_str = "jdbc:"
 					if (dbtype == "@MYSQL") {
-						db_conn_str = "jdbc:mysql://" + hostName + ":" + port
-					}
-					if (dbtype == "@PGSQL") {
-						db_conn_str = "jdbc:postgresql://" + hostName + ":" + port
-					}
-					if (dbtype == "@MSSQL") {
-						db_conn_str = "jdbc:sqlserver://" + hostName + ":" + port
-					}
-
+						db_conn_str += "mysql"
+					}else if (dbtype == "@PGSQL") {
+						db_conn_str += "postgresql"
+					}else if (dbtype == "@MSSQL") {
+						db_conn_str += "sqlserver"
+					}else{
+                                                var custom = window.prompt("Sorry for the inconvenience but please fill in the blank\n jdbc:___://" + hostName + ":" + port,"custom");
+                                                db_conn_str += custom
+                                        }
+                                        db_conn_str += "://" + hostName + ":" + port
 					map_db_info_inner["dbconnstr"] = db_conn_str
 					map_db_info_inner["user"] = userName
 					map_db_info_inner["dbHostId"] = hostID
@@ -2033,6 +2061,7 @@ require(['jquery'], function($) {
 				var arr_conn_str = result[key]['dbconnstr'].split(":")
 				var indexOfDoubleSlash = arr_conn_str[2].indexOf("//")
 				var hostName = arr_conn_str[2].substring(indexOfDoubleSlash + 2)
+                                $("#dbtype").val(key_remove)
 				if (key.indexOf('@MSSQL') != -1) {
 					$("#dbtype").val('@MSSQL')
 					if (key.charAt(key.indexOf('@MSSQL') - 1) == '-') {
@@ -3349,9 +3378,7 @@ font-size: 1.5em
                &lt;td&gt;
                   &lt;select id="dbtype"&gt;
                      &lt;option value=""&gt;...&lt;/option&gt;
-                     &lt;option value="@MYSQL"&gt;MYSQL&lt;/option&gt;
-                     &lt;option value="@MSSQL"&gt;SQL SERVER&lt;/option&gt;
-                     &lt;option value="@PGSQL"&gt;POSTGRES SQL&lt;/option&gt;
+
                   &lt;/select&gt;
                &lt;/td&gt;
             &lt;/tr&gt;

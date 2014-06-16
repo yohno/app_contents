@@ -1109,17 +1109,31 @@ require(['jquery'], function($) {
         // Get ImportInstanceServlet servlet
         ImportInstanceServlet = getServlet('importinstances')
 
+        DBTypeServlet = getServlet('dbtype')
+
         // Choose monitoring type =&gt; Fill data to select box &lt;DB's type&gt; and &lt;Actions of Job&gt;
         // ---- Default choose @DB and gend db type contains: SQL_Server, MySQL, Postgres
-        var listDBType = ['SQL_Server', 'MySQL', 'Postgres']
-        var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
-        var actionOfJob = ''
-        for (var i = 0; i &lt; listDBType.length; i++) {
-            dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
-        }
-        $("#osInfoForm").hide();
+       var listDBType
 
-        $("#dbTypeCbb").html(dbTypeSource)
+　  　　$.ajax({
+             type: "GET",
+             url:DBTypeServlet,
+             async: false,
+             success : function(result){
+                   listDBType = result
+                   var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+                   for (var i = 0; i &lt; result.length; i++) {
+                       dbTypeSource += "&lt;option id=\"" + result[i] + "\" value=\"" + result[i] + "\"&gt;" + result[i] + "&lt;/option&gt;"
+                   }
+                   $("#dbTypeCbb").html(dbTypeSource)
+             },
+                 error: function(xhr,status,error){
+             }
+        });
+        var actionOfJob = ''
+        
+        $("#osInfoForm").hide();
+        
         // ---- Choose monitoring type
         $("#listMonitoring").change(function() {
             resetControl()
