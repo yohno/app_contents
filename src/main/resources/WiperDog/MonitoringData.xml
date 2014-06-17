@@ -3679,6 +3679,62 @@ function getParameterByName(name) {
 };
 
 require(['jquery'],function($){
+
+processCreateMapIstIid()
+
+function processCreateMapIstIid(){
+		$.ajax({
+		type: "GET",
+		url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=dbtype",
+		async:false,
+		success : function(result){
+			  getRootTree(result)
+		},
+		error: function(xhr,status,error){
+		}
+	   });
+}
+
+function getRootTree(url){
+	  $.ajax({
+		type: "GET",
+		url:url + "?status=all",
+		async:false,
+		success : function(result){
+			  callCreateMapIstIid(result['TreeMenuInfo'])
+		},
+		error: function(xhr,status,error){
+		}
+	   });
+}
+
+function callCreateMapIstIid(treeRoot){
+	  $.ajax({
+		type: "GET",
+		url:"/xwiki/bin/get/WiperDogLib/MenuGeneratorLib?outputSyntax=plain",
+		async:false,
+		data:{'TreeMenuInfo':treeRoot},
+		success : function(result){
+                        var mapJobIstIid = JSON.parse(result)
+			for (jobEntry in mapJobIstIid) {
+                          if(mapJobIstIid.hasOwnProperty(jobEntry)){
+                              var convertedJobKey = replaceAllString(jobEntry,".","_")
+                              convertedJobKey = replaceAllString(convertedJobKey,"\\@","_")
+                              var html = "&lt;div id='listIstIid'&gt;"
+                              html += "&lt;div id=IstIid" + convertedJobKey + " style='display:none'&gt;"
+                              html += "&lt;select id=select_" + convertedJobKey + "&gt;"
+                              for(var idx = 0; idx &lt; mapJobIstIid[jobEntry].length; idx++){
+                                  html += "&lt;option value='" + mapJobIstIid[jobEntry][idx] + "'&gt;" +  mapJobIstIid[jobEntry][idx] + "&lt;/option&gt;"
+                              }
+                              $("#mapIstIid").append(html)
+                          }
+			} 
+		},
+		error: function(xhr,status,error){
+		}
+	   });
+}
+
 function replaceAllString(oriStr, strTarget, strSubString ){
    var strText = oriStr;
    var intIndexOfMatch = strText.indexOf( strTarget );
@@ -8562,31 +8618,12 @@ $xwiki.ssx.use("WiperDog.checkService")
   &lt;td colspan=3&gt;&lt;div id="jobname"&gt;&lt;/div&gt;&lt;/td&gt;
  &lt;/tr&gt;
 {{groovy}}
-import org.xwiki.context.*
-
-def ec = services.component.getInstance(Execution.class).getContext()
-def mapJobIstIid = ec.getProperty("mapJobIstIid")
 
 // Form List Job, Job name, IstIid, Data monitor from, Data monitor to, Data records limit
 println '{{html clean="false" wiki="false"}}'
 println '&lt;tr&gt;'
 println '&lt;th&gt;IstIid&lt;/th&gt;'
-println '&lt;td colspan=3&gt;'
-//mapJobIstIid.each{jobEntry-&gt;
-for (jobEntry in mapJobIstIid) {
-  def convertedJobKey = jobEntry.key.replaceAll("\\.","_")
-  convertedJobKey = convertedJobKey.replaceAll("\\@","_")
-  println "&lt;div id='listIstIid'&gt;"
-  println "&lt;div id=IstIid${convertedJobKey} style='display:none'&gt;"
-  println "&lt;select id=select_${convertedJobKey}&gt;"
-  //jobEntry.value.each{
-  for (it in jobEntry.value) {
-     println "&lt;option value=\"$it\"&gt;$it&lt;/option&gt;"
-  }
-  println "&lt;/select&gt;"
-  println "&lt;/div&gt;"
-  println "&lt;/div&gt;"
-}
+println '&lt;td colspan=3 id="mapIstIid"&gt;'
 println '&lt;/td&gt;'
 println '&lt;/tr&gt;'
 println '{{/html}}'

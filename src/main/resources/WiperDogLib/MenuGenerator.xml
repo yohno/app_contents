@@ -372,10 +372,43 @@ target.attachEvent(tasktype, functionref)
       <cache>default</cache>
     </property>
     <property>
-      <code>var treemenu2 = document.getElementById('treemenu2')
-if(treemenu2 != null) {
-ddtreemenu.createTree("treemenu2", true, 5)
-}</code>
+      <code>require(['jquery'],function($){
+var param = "menuGenerator"
+       
+                $.ajax({
+                type: "GET",
+                url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+param,
+                async:false,
+                success : function(result){
+                        processData(result)
+
+                },
+                error: function(xhr,status,error){
+                }
+               });
+       function processData(url){
+             $.ajax({
+                type: "GET",
+                url:url,
+                async:false,
+                success : function(result){
+                        drawMenu(result)
+                },
+                error: function(xhr,status,error){
+                }
+               });
+       }      
+
+       function drawMenu(result){
+			var strMenu = "&lt;div id='nav'&gt;&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt;"
+                        strMenu += result
+		        strMenu += "&lt;/div&gt;"
+			$("#menu").html(strMenu)
+                        ddtreemenu.createTree("treemenu2", true, 5)
+	}
+       
+jQuery.noConflict();
+});</code>
     </property>
     <property>
       <name>creatTreeMenu-js</name>
@@ -1189,25 +1222,30 @@ margin-right:20px;
       <levels>comment,view</levels>
     </property>
   </object>
-  <content>
+  <content>{{html}}
+&lt;div id="menu"&gt;
+&lt;/div&gt;
+{{/html}}
+
 {{groovy}}
 import com.gmongo.GMongo
 import java.text.SimpleDateFormat
 
 
 //Declare menu tree map (not leaf)
-def treeMapRoot = ["MySQL":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "SQL_Server":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "Postgres":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "OS":[]]
+//def treeMapRoot = ["MySQL":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "SQL_Server":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "Postgres":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]], "OS":[], "MariaDB":["Database_Area":[], "Database_Statistic":[], "Database_Structure":[], "FaultManagement":[], "Performance":[], "Proactive_Check":[], "Others":[]]]
 
 try {
-   def supporter = services.MenuGeneratorSupport
+   
+   //def supporter = services.MenuGeneratorSupport
    //From menu tree map, get list of group of Job
-   def listJobGroup= supporter.getListJobGroup(treeMapRoot)
+   //def listJobGroup= supporter.getListJobGroup(treeMapRoot)
 
    //Get list collection from MongoDB, need listJobGroup for Others group
-   def listCollection = supporter.getCollections(listJobGroup, services)
+   //def listCollection = supporter.getCollections(listJobGroup, services)
 
    //Get HTML menu string and println
-   println supporter.getMenuGenStr(treeMapRoot, listCollection)
+   //println supporter.getMenuGenStr(treeMapRoot, listCollection)
 } catch(com.mongodb.MongoException ex) {
   println "{{error}} Can not get data from MongoDB{{/error}}"
 } catch(Exception ex) {

@@ -422,82 +422,18 @@
       <levels>edit,delete</levels>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
+  <content>
 {{groovy}}
 import com.gmongo.GMongo
-import org.xwiki.context.*
-import org.xwiki.component.descriptor.*;
-import org.xwiki.script.service.*;
-import com.xpn.xwiki.web.*;
+import groovy.json.*
 
-class MenuGeneratorSupport implements ScriptService {
-/**
- * Main function, used for create menu 
- * Input treeMap: Menu tree map (not leaf)
- *       mapCollection: Map of collections, Item of map has key is a job group and value is list job which is applied for that group
- * Output: Source menu in HTML mode
- **/
-def getMenuGenStr(treeMap, mapCollection) {
-    def result = '{{html wiki = "true" clean="false"}}'
-    result += "&lt;div id='nav'&gt;"
-    result += "&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt; "
+def output = new JsonOutput()
+def groupItems = request.getParameter('TreeMenuInfo')
+def listJobGroup = getListJobGroup(groupItems)
+def mapJobIstIid = getCollections(listJobGroup, services)
+println output.toJson(mapJobIstIid)
 
-    result += getMenuItemsStr(treeMap, mapCollection)
-
-    result += "&lt;/div&gt;"
-    result += "{{/html}}"
-    return result
-}
-
-/**
- * Recursively function, used for gen tree menu data 
- * Input treeItem: root tree map of menu (not leaf)
- *       mapCollection: Map of collections, Item of map has key is a job group and value is list job which is applied for that group
- *       parentList: used for recursively to canculate key if data if leaf
- * Output: If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
- *         If data isn't leaf, create node and call recursively function with sub data
- **/
-def getMenuItemsStr(treeItem, mapCollection, parentList = []) {     
-     def ul_open = false
-     def result = ""
-     def parentStr = ""
-     def parentLstforChild = []
-
-     //If data isn't leaf, create node and call recursively function with sub data
-     if (treeItem instanceof Map) {
-         result += "&lt;ul id='treemenu2' class='treeview'&gt;"
-         for(def itemKey in treeItem.keySet()){
-             def itemVal = treeItem[itemKey]
-             for(def parentListItem in parentList){
-                 parentLstforChild.add(parentListItem)
-             }
-             parentLstforChild.add(itemKey)
-	     result += "&lt;li&gt;"+ itemKey
-             result += getMenuItemsStr(itemVal, mapCollection, parentLstforChild)
-             result +="&lt;/li&gt;"
-             parentLstforChild = []
-         } 
-         result += "&lt;/ul&gt;"
-     }
-     
-     //If data is leaf, create key of group data, get list of job which is applied for group from mapCollection and create menu Item
-     if (treeItem instanceof List) {
-         result += "&lt;ul&gt;"
-         for(def parentItem in parentList){
-              if (parentStr != ""){
-                  parentStr += "."
-              }
-              parentStr += parentItem
-         }
-         if (mapCollection[parentStr] != null) {
-             for(def item in mapCollection[parentStr]){
-                 result += "&lt;li&gt;&lt;a&gt;" + item +"&lt;/a&gt;&lt;/li&gt;"
-             }
-         }
-         result += "&lt;/ul&gt;"
-     }
-     return result
-}
+//println services.component.getInstance(Execution.class).getContext().getProperty("mapJobIstIid")
 
 /**
  * Get data from mongoDB and create map. Item of map has key is job group and value is list job which is applied for that group
@@ -512,7 +448,7 @@ def getCollections(listJobGroup, services) {
 	    def mapGroupJob = [:]
 
 	    //The variable is used to save data for IstIid in  MonitoringData screen
-	    def ec = services.component.getInstance(Execution.class).getContext()
+	    //def ec = services.component.getInstance(Execution.class).getContext()
 
 	    def mongoDBConn = services.MongoDBConnection
 	    def collections = mongoDBConn.db.getCollectionNames()
@@ -527,21 +463,7 @@ def getCollections(listJobGroup, services) {
 	        if (tmpSize &gt;= 2) {
 	            itemIst = tmp[tmpSize - 1]
 	            itemJob = collection - ("." + itemIst)
-	            itemGroup = collection - ("." + tmp[tmpSize - 2] + "." + tmp[tmpSize - 1])
-	 
-	            //If this group is not contains in listJobGroup, put in Others group
-	            if (tmpSize &gt;= 3 &amp;&amp; !listJobGroup.contains(itemGroup)) {
-	                 itemGroup = itemGroup - tmp[tmpSize - 3] + "Others"
-	            }
-
-	            //Init
-	            if(mapGroupJob[itemGroup] == null) {
-	                mapGroupJob[itemGroup] = []
-	            }
-	            //Add to list if not contains
-	            if (!mapGroupJob[itemGroup].contains(itemJob)) {
-	                mapGroupJob[itemGroup].add(itemJob)
-	            }
+	            //itemGroup = collection - ("." + tmp[tmpSize - 2] + "." + tmp[tmpSize - 1])
 	            
 	            //Init
 	            if(mapJobIstIid[itemJob] == null) {
@@ -551,8 +473,7 @@ def getCollections(listJobGroup, services) {
 	            mapJobIstIid[itemJob].add(itemIst)
 	        }
 	    }
-	    ec.setProperty("mapJobIstIid", mapJobIstIid)
-	    return mapGroupJob
+	    return mapJobIstIid
 	} catch (Exception ex){
 	    throw ex
 	} finally {
@@ -600,8 +521,4 @@ def getListJobGroup(groupItems, parentList = []) {
     }
     return returnList
 }
-}
-DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: MenuGeneratorSupport.class, role: ScriptService.class, roleHint: 'MenuGeneratorSupport');
-Utils.getComponentManager().unregisterComponent(ScriptService.class, 'MenuGeneratorSupport');
-Utils.getComponentManager().registerComponent(descriptor);
 {{/groovy}}</content></xwikidoc>
