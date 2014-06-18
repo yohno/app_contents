@@ -23,5 +23,4 @@
 <hidden>false</hidden>
 <content>{{include document="WiperDogLib.MongoDBConnection"/}}
 {{include document="WiperDogLib.DataToDrawChart"/}}
-{{include document="WiperDog.GetServletClass"/}}
-{{include document="WiperDogLib.MenuGeneratorLib"/}}</content></xwikidoc>
+{{include document="WiperDog.GetServletClass"/}}</content></xwikidoc>

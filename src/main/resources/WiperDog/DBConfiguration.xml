@@ -1335,6 +1335,8 @@ var checkMerge = false
 var originResult = null
 var fileName = ""
 var servlet = ""
+var mapDBConnFormat = {}
+var mapDBType = {}
 
 // UPLOAD FILE TO XWIKI
 var targetInput = document.getElementById("my_upload");
@@ -1356,23 +1358,27 @@ require(['jquery'], function($) {
                 $.ajax({
                   type: "GET",
                   url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+dbtype,
+                  async: false,
                   success : function(dbtypeUrl){
-                          processListDbtype(dbtypeUrl)
+                          processConfig(dbtypeUrl)
+                          
                   },
                   error: function(xhr,status,error){
                   }
                 });
 
-                function processListDbtype(dbtypeUrl){
+                function processConfig(dbtypeUrl){
                 $.ajax({
-                  type: "POST",
+                  type: "GET",
                   url:dbtypeUrl,
-                  success : function(mapDBType){
+                  success : function(result){
+                          mapDBType = result.DbType
                           for(dbtype in mapDBType){
                                if(mapDBType.hasOwnProperty(dbtype)){
                                     $("#dbtype").append('&lt;option value="' + mapDBType[dbtype] + '"&gt;' + dbtype + '&lt;/option&gt;')
                                }
                           }
+                          mapDBConnFormat = result.DbConnStrFormat
                   },
                   error: function(xhr,status,error){
                   }
@@ -1509,6 +1515,7 @@ require(['jquery'], function($) {
 
 			// Click "ADD" button
 			$("#add").click(function() {
+                                var dbTypeTrueIdentity
 				dbtype = $("#dbtype").val()
 				hostName = $("#hostName").val()
 				userName = $("#userName").val()
@@ -1602,37 +1609,49 @@ require(['jquery'], function($) {
 					$("#sid").removeAttr('readonly')
 					var map_db_info = {}
 					var map_db_info_inner = {}
-					var db_conn_str = "jdbc:"
-					if (dbtype == "@MYSQL") {
-						db_conn_str += "mysql"
-					}else if (dbtype == "@PGSQL") {
-						db_conn_str += "postgresql"
-					}else if (dbtype == "@MSSQL") {
-						db_conn_str += "sqlserver"
-					}else{
-                                                var custom = window.prompt("Sorry for the inconvenience but please fill in the blank\n jdbc:___://" + hostName + ":" + port,"custom");
-                                                db_conn_str += custom
+                                        for(dt in mapDBType){
+                                             if(mapDBType.hasOwnProperty(dt)){
+                                                  if(mapDBType[dt] == dbtype){
+                                                      dbTypeTrueIdentity = dt
+                                                  }
+                                             }
                                         }
-                                        db_conn_str += "://" + hostName + ":" + port
-					map_db_info_inner["dbconnstr"] = db_conn_str
-					map_db_info_inner["user"] = userName
-					map_db_info_inner["dbHostId"] = hostID
-					map_db_info_inner["dbSid"] = sid
-					map_db_info[key] = map_db_info_inner
-					var tr_node = document.createElement("tr")
-					var td_node_key = document.createElement("td")
-					var text_node_key = document.createTextNode(key)
-					td_node_key.appendChild(text_node_key)
-					tr_node.appendChild(td_node_key)
-					for (key_in_map_db in map_db_info_inner) {
-						var td_value = document.createElement("td")
-						var text_node_value = document.createTextNode(map_db_info_inner[key_in_map_db])
-						td_value.appendChild(text_node_value)
-						tr_node.appendChild(td_value)
-					}
+					var db_conn_str = mapDBConnFormat[dbTypeTrueIdentity]
+                                        if(db_conn_str != null &amp;&amp; db_conn_str != ''){
+                                            if(db_conn_str.indexOf('{host}') &gt; 0){
+                                                db_conn_str = db_conn_str.replace('{host}', hostName)
+                                            }
+                                            if(db_conn_str.indexOf('{port}') &gt; 0){
+                                                db_conn_str = db_conn_str.replace('{port}', port)
+                                            }
+                                            // Last check for leftover variable in dbconnStrFormat
+                                            if((db_conn_str.indexOf("{") &gt; 0 ) &amp;&amp; (db_conn_str.indexOf("}") &gt; 0)){
+                                                var targetStr = db_conn_str.substring(db_conn_str.indexOf("{"), db_conn_str.lastIndexOf("}")+1)
+                                                var custom = window.prompt("Sorry for the inconvenience but please fill in the connection string\n " + db_conn_str ,"custom");
+                                                db_conn_str = db_conn_str.replace(targetStr, custom)
+                                            }
+                                        }else{
+                                            db_conn_str = window.prompt("Look like Wiperdog configuration for " + dbTypeTrueIdentity + " is null or empty.\n Please insert manually for it or config Wiperdog.","custom");
+                                        }
+                                        if(db_conn_str != null &amp;&amp; db_conn_str != ''){
+    					    map_db_info_inner["dbconnstr"] = db_conn_str
+  					    map_db_info_inner["user"] = userName
+					    map_db_info_inner["dbHostId"] = hostID
+					    map_db_info_inner["dbSid"] = sid
+					    map_db_info[key] = map_db_info_inner
+					    var tr_node = document.createElement("tr")
+					    var td_node_key = document.createElement("td")
+					    var text_node_key = document.createTextNode(key)
+					    td_node_key.appendChild(text_node_key)
+					    tr_node.appendChild(td_node_key)
+					    for (key_in_map_db in map_db_info_inner) {
+					    	    var td_value = document.createElement("td")
+						    var text_node_value = document.createTextNode(map_db_info_inner[key_in_map_db])
+						    td_value.appendChild(text_node_value)
+						    tr_node.appendChild(td_value)
+					    }
 
-
-					if (update) {
+					    if (update) {
 						delete result[key]
 						var rows = document.getElementById('table_display').rows
 						for (var i = 0; i &lt; rows.length; i++) {
@@ -1641,7 +1660,7 @@ require(['jquery'], function($) {
 								bindDataToRow(rows[i], {1: db_conn_str, 2: userName, 3: hostID, 4: sid})
 							}
 						}
-					} else {
+					    } else {
 						var td_node_button = document.createElement("td");
 						var btn_delete = document.createElement("input") ;
 						var btn_edit = document.createElement("input");
@@ -1654,8 +1673,9 @@ require(['jquery'], function($) {
 						tr_node.setAttribute("style", "width:113px;align: center")
 
 						$("#table_display").append(tr_node)
-					}
-					result[key] = map_db_info_inner
+					    }
+					    result[key] = map_db_info_inner
+                                        }
 				} else {
 					if (!update) {
 						$("#dbtype").prop('disabled', false).removeClass('readonly').css('background-color', '#FFF').css('color', "#636B75")

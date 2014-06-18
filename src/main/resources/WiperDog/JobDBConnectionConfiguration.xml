@@ -216,11 +216,10 @@ require(['jquery'],function($){
       //Send request to get list dbtype and bind to selectbox
       $.ajax({
                 type: "GET",
-                url: dbtypeUrl,
-                success : function(listDBType){
-                        for(var i = 0; i &lt; listDBType.length ; i++){
-                           var dbType = listDBType[i]
-                           $("#dbTypeCbb").append("&lt;option id=\"" + dbType + "\" value=\"" + dbType + "\"&gt;" + dbType + "&lt;/option&gt;")
+                url: dbtypeUrl + "/DbType",
+                success : function(mapDBType){
+                        for(dbtype in mapDBType){
+                           $("#dbTypeCbb").append("&lt;option id=\"" + dbtype + "\" value=\"" + dbtype + "\"&gt;" + dbtype + "&lt;/option&gt;")
                         }
                 },
                 error: function(xhr,status,error){

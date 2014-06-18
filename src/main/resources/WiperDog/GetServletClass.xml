@@ -441,7 +441,7 @@ class GetServlet implements ScriptService{
                      testjob:[servlet:"http://localhost:13111/TestJobServlet",desc:"Using for Using for WiperDog/TestJob page"],
                      ProcessPolicy:[servlet:"http://localhost:13111/policyServlet",desc:"Using for WiperDog/processPolicy page"],
                      importinstances:[servlet:"http://localhost:13111/ImportInstanceServlet",desc:"Using for Using for WiperDog/Import Instance Info page"],
-                     dbtype:[servlet:"http://localhost:8089/getdbms",desc:"Using for getting dbtype and related information"],
+                     dbtype:[servlet:"http://localhost:8089/use_for_xwiki",desc:"Using for getting dbtype and related information"],
                      menuGenerator:[servlet:"http://localhost:8089/menuGenerator",desc:"Using for MenuGenerator page"]
 		  ],
                   mongoDB:[host:"127.0.0.1",port:27017,dbName:"wiperdog"]
