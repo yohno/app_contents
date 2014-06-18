@@ -1132,7 +1132,7 @@ require(['jquery'], function($) {
 
         // Choose monitoring type =&gt; Fill data to select box &lt;DB's type&gt; and &lt;Actions of Job&gt;
         // ---- Default choose @DB and gend db type contains: SQL_Server, MySQL, Postgres
-       var listDBType
+       var listDBType = []
 
 　  　　$.ajax({
              type: "GET",
@@ -1143,6 +1143,7 @@ require(['jquery'], function($) {
                    var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
                    for(dbtype in mapDBType){
                        if(mapDBType.hasOwnProperty(dbtype)){
+                            listDBType.push(dbtype)
                             dbTypeSource += "&lt;option id=\"" + dbtype + "\" value=\"" + dbtype + "\"&gt;" + dbtype + "&lt;/option&gt;"
                        }
                    }
