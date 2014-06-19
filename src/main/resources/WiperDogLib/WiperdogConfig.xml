@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WiperDogLib</web>
+  <name>WiperdogConfig</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WiperDogLib.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>2665456391000</creationDate>
+  <date>2665465153000</date>
+  <contentUpdateDate>2665465153000</contentUpdateDate>
+  <version>1.1</version>
+  <title>WiperdogConfig</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{groovy}}
+import org.xwiki.component.descriptor.*;
+import org.xwiki.script.service.*;
+import com.xpn.xwiki.web.*;
+import com.xpn.xwiki.api.*;
+import org.xwiki.context.*;
+import groovy.json.*
+
+class WiperdogConfig implements ScriptService{
+    org.xwiki.context.Execution e;
+    static final CONFIG_FILENAME = "conf.params"
+
+    def getDataFromConfig(){
+        def context = e.getContext().getProperty("xwikicontext");
+        def wiki = context.getWiki()
+        def xwiki = new com.xpn.xwiki.api.XWiki(wiki, context)
+        def doc = xwiki.getDocument("WiperDogLib", "WiperDogLib.WiperdogConfig") 
+
+        def attachment = doc.getAttachment(CONFIG_FILENAME);
+        if (attachment) {
+            def confStr = attachment.getContentAsString()
+            def shell = new GroovyShell()
+            return shell.evaluate(confStr)
+        } else {
+            return null
+        }
+    }
+
+    def setDataToConfig(Map data) {
+        def context = e.getContext().getProperty("xwikicontext");
+        def wiki = context.getWiki()
+        def xwiki = new com.xpn.xwiki.api.XWiki(wiki, context)
+        def doc = xwiki.getDocument("WiperDogLib", "WiperDogLib.WiperdogConfig") 
+
+        def confDataBuilder = new JsonBuilder(data)
+        def dataStr = confDataBuilder.toPrettyString().replaceAll("\\{", "\\[").replaceAll("\\}", "\\]")
+        def byteLst = dataStr.getBytes();
+        doc.addAttachment(CONFIG_FILENAME, byteLst );
+        doc.save();
+    }
+}
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: WiperdogConfig.class, role: ScriptService.class, roleHint: 'WiperdogConfig');
+DefaultComponentDependency dep = new DefaultComponentDependency( name: 'e', role: Execution.class, roleHint: 'default');
+descriptor.addComponentDependency(dep);
+
+Utils.getComponentManager().unregisterComponent(WiperdogConfig.class, 'WiperdogConfig');
+Utils.getComponentManager().registerComponent(descriptor);
+
+
+{{/groovy}}</content>
+</xwikidoc>

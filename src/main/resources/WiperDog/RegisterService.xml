@@ -5,7 +5,7 @@
 <language></language>
 <defaultLanguage></defaultLanguage>
 <translation>0</translation>
-<parent>Main.AllDocs</parent>
+  <parent>WiperDog.WebHome</parent>
 <creator>xwiki:XWiki.Admin</creator>
 <author>xwiki:XWiki.Admin</author>
 <customClass></customClass>
@@ -21,7 +21,8 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
-<content>{{include document="WiperDogLib.MongoDBConnection"/}}
+  <content>{{include document="WiperDogLib.WiperdogConfig"/}}
+{{include document="WiperDogLib.MongoDBConnection"/}}
 {{include document="WiperDogLib.DataToDrawChart"/}}
 {{include document="WiperDog.GetServletClass"/}}
 {{include document="WiperDogLib.MenuGeneratorLib"/}}</content></xwikidoc>

@@ -1247,6 +1247,7 @@ jQuery.noConflict()
 	def mongoDBConn
 	try{
 		mongoDBConn = services.MongoDBConnection
+                mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
 		def db = mongoDBConn.getMongoDB()
 
 		def jobs = []

@@ -6,7 +6,7 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.AllDocs</parent>
+  <parent>WiperDogLib.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
@@ -37,12 +37,14 @@ if(limit != null &amp;&amp; limit != ''){
 	limit = limit.toInteger()
 }
 def drawMethod = request.get("drawMethod")
+def mongoDBConnection = services.MongoDBConnection
+mongoDBConnection.getConnection(services.WiperdogConfig.getDataFromConfig())
 
 if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp; drawMethod != null) {
     def result
     Gson gson = new GsonBuilder().setPrettyPrinting().create()
     if (drawMethod == "overWrite") {
-        result = services.MongoDBConnection.getDataAllFields(job, 10, istIid)
+        result = mongoDBConnection.getDataAllFields(job, 10, istIid)
 	def finalData = []
 	def finalMapData = [:]
 	def typeChart = result[0].type
@@ -66,7 +68,7 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
 	    println gson.toJson(finalData)
 	}
     } else if (drawMethod == "addPoint") {
-        result = services.MongoDBConnection.getDataInPeriod(job, from_date, '', 10, istIid)
+        result = mongoDBConnection.getDataInPeriod(job, from_date, '', 10, istIid)
         def chartData = []
         if(result[0] != null){
             def jobType = result[0]['type']
@@ -88,9 +90,9 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
         }
     } else if(drawMethod == "updateChart"){
         if(from_date != "" || to_date != ""){
-            result = services.MongoDBConnection.getDataInPeriod(job,from_date,to_date,limit,istIid)
+            result = mongoDBConnection.getDataInPeriod(job,from_date,to_date,limit,istIid)
         } else {
-            result = services.MongoDBConnection.getDataAllFields(job,limit,istIid)
+            result = mongoDBConnection.getDataAllFields(job,limit,istIid)
         }
         for(item in result){
             def newdate = new Date().parse("yyyyMMddHHmmssz", item['fetchAt'])
@@ -133,7 +135,7 @@ if (job != null &amp;&amp; istIid != null &amp;&amp; from_date != null &amp;&amp
 	    }
         }
     }
-    //services.MongoDBConnection.closeConnection()
+    //mongoDBConnection.closeConnection()
 }
 
 /**

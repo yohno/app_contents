@@ -2113,35 +2113,29 @@ $xwiki.ssx.use("WiperDog.checkService")
 
 {{groovy}}
 import groovy.json.*
-def shell = new GroovyShell()
 def servletData= request.getParameter('result')
 def dataMongo = request.getParameter('resultMongo')
 def defaultParams= services.GetServlet.DEFAULT_CONFIG
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
-File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
 
-if(!f.exists()){
-	println "{{warning}}File conf.params not found ,new file created !.Create data to update to conf.params file {{/warning}}"
-	f.createNewFile()
-}
 def slurper = new JsonSlurper()
 def messServlet = null
 def messageMongo = null
 
+def oldData = services.WiperdogConfig.getDataFromConfig()
 if(servletData!= null ){
 	try{
-		servletDataObj = slurper.parseText(servletData)
-		def oldData = shell.evaluate(f)
 		if(oldData == null){
 			oldData = [:]
 		}
 		if(oldData['servlet_config'] == null){
 			oldData['servlet_config'] = [:]
 		}
-		oldData['servlet_config'] = servletDataObj
-		def oldDataBuilder = new JsonBuilder(oldData)
-		f.setText(oldDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
+		oldData['servlet_config'] = slurper.parseText(servletData)
+		
+                services.WiperdogConfig.setDataToConfig(oldData)
+
 		messServlet = "Create servlet information successfully !"
 	}catch(Exception ex){
 		messServlet = "{{error}}Failed to create servlet information!" + ex +"{{/error}}"
@@ -2150,18 +2144,17 @@ if(servletData!= null ){
 
 if(dataMongo != null){
 	try{
-		dataMongoObj = slurper.parseText(dataMongo)
-		def oldData = shell.evaluate(f)
 		if(oldData == null){
 			oldData = [:]
 		}
 		if(oldData['mongoDB'] == null){
 			oldData['mongoDB'] = [:]
 		}
-		oldData['mongoDB'] = dataMongoObj
+		oldData['mongoDB'] = slurper.parseText(dataMongo)
                 oldData['mongoDB']['port'] = Long.valueOf(oldData['mongoDB']['port'])
-		def oldDataBuilder = new JsonBuilder(oldData)
-		f.setText(oldDataBuilder.toPrettyString().replaceAll("\\{","\\[").replaceAll("\\}","\\]"))
+		
+                services.WiperdogConfig.setDataToConfig(oldData)
+
 		messageMongo = "Create mongoDB information successfully!"
 	}catch(Exception ex){
 		messageMongo = "{{error}}Failed to create mongoDB information!" + ex +"{{/error}}"
@@ -2169,8 +2162,8 @@ if(dataMongo != null){
 }
 
 
-def params = shell.evaluate(f)
-if(params == null || params == []) {
+def params = oldData
+if(params == null || params == [:]) {
 	params = defaultParams
 }
 def paramsServlet = params['servlet_config']

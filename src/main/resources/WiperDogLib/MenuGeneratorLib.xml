@@ -422,8 +422,7 @@
       <levels>edit,delete</levels>
     </property>
   </object>
-  <content>{{include document="WiperDogLib.MongoDBConnection"/}}
-{{groovy}}
+  <content>{{groovy}}
 import com.gmongo.GMongo
 import org.xwiki.context.*
 import org.xwiki.component.descriptor.*;
@@ -505,6 +504,7 @@ def getMenuItemsStr(treeItem, mapCollection, parentList = []) {
  * Input services: services API of XWiki for saving data to use later
  **/
 def getCollections(listJobGroup, services) {
+        def mongoDBConn
 	try{
 	    def tmp = new ArrayList&lt;String&gt;();
 	    def tmpSize
@@ -514,7 +514,9 @@ def getCollections(listJobGroup, services) {
 	    //The variable is used to save data for IstIid in  MonitoringData screen
 	    def ec = services.component.getInstance(Execution.class).getContext()
 
-	    def mongoDBConn = services.MongoDBConnection
+	    mongoDBConn = services.MongoDBConnection
+            mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
+
 	    def collections = mongoDBConn.db.getCollectionNames()
 	    
 	    def itemGroup
