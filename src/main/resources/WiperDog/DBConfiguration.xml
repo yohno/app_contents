@@ -1631,7 +1631,7 @@ require(['jquery'], function($) {
                                                 db_conn_str = db_conn_str.replace(targetStr, custom)
                                             }
                                         }else{
-                                            db_conn_str = window.prompt("Look like Wiperdog configuration for " + dbTypeTrueIdentity + " is null or empty.\n Please insert manually for it or config Wiperdog.","custom");
+                                            db_conn_str = window.prompt("Look like Wiperdog configuration for " + dbTypeTrueIdentity + " is null or empty.\n Please insert database connection string manually for it or config Wiperdog.\nIt should be something like jdbc://{host}:{port}/{something_else}","jdbc:" + dbTypeTrueIdentity + "://host:port");
                                         }
                                         if(db_conn_str != null &amp;&amp; db_conn_str != ''){
     					    map_db_info_inner["dbconnstr"] = db_conn_str
