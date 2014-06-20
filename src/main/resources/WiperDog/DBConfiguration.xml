@@ -2076,12 +2076,20 @@ require(['jquery'], function($) {
 	function editRow(r, result) {
 		var row = r.parentNode.parentNode
 		var key_remove = row.cells[0].innerText || row.cells[0].textContent
+		for(db_type in mapDBType){
+			if(mapDBType.hasOwnProperty(db_type)){
+				var compare_key = mapDBType[db_type]
+				if(key_remove.indexOf(compare_key) > 0){
+					$("#dbtype").val(compare_key)
+				}
+			}
+		}
+		
 		for (key in result) {
 			if (key === key_remove) {
 				var arr_conn_str = result[key]['dbconnstr'].split(":")
 				var indexOfDoubleSlash = arr_conn_str[2].indexOf("//")
 				var hostName = arr_conn_str[2].substring(indexOfDoubleSlash + 2)
-                                $("#dbtype").val(key_remove)
 				if (key.indexOf('@MSSQL') != -1) {
 					$("#dbtype").val('@MSSQL')
 					if (key.charAt(key.indexOf('@MSSQL') - 1) == '-') {
