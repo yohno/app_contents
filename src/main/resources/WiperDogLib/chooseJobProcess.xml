@@ -437,6 +437,8 @@ import groovy.lang.GroovyShell
 def gmongoObject
 try {
      gmongoObject = services.MongoDBConnection
+     gmongoObject.getConnection(services.WiperdogConfig.getDataFromConfig())
+
      def dbConn = gmongoObject.getMongoDB()
      def lstJobMongo = dbConn.getCollectionNames()
      def slurper = new JsonSlurper()

@@ -6,7 +6,7 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.SpaceIndex</parent>
+  <parent>WiperDog.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
@@ -430,7 +430,7 @@ if(request.xpage == "plain") {
 def paramObj = services.GetServlet
 def name = request.getParameter('name')
 if(name != null){
-println paramObj.getParam(name)
+println paramObj.getParam(name, services)
 }
 {{/groovy}}</content>
 </xwikidoc>

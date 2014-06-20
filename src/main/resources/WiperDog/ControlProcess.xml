@@ -445,16 +445,13 @@ def inMess = ''
 def resultSend = [:]
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
-def shell = new GroovyShell()
-File f = new File(xwiki_dir + "/webapps/xwiki/resources/conf.params")
 
-//update file conf.params
-def updateConfig(wiperdogPath, file) {
+//update config
+def updateConfig(wiperdogPath) {
   // Update file config no matter what
   def mapMess = [:]
   try {
-    def shell = new GroovyShell()
-    def confData = shell.evaluate(file)
+    def confData = services.WiperdogConfig.getDataFromConfig()
     if (confData == null) {
       confData = [:]
     }
@@ -462,8 +459,9 @@ def updateConfig(wiperdogPath, file) {
       confData['wiperdog_path'] = [:]
     }
     confData['wiperdog_path'] = wiperdogPath
-    def confDataBuilder = new JsonBuilder(confData)
-    file.setText(confDataBuilder.toPrettyString().replaceAll("\\{", "\\[").replaceAll("\\}", "\\]"))
+
+    services.WiperdogConfig.setDataToConfig(confData)
+
     mapMess['message'] = "Update wiperdog path succesfully !"
     mapMess['status'] = 0
   } catch (Exception ex) {
@@ -511,16 +509,14 @@ def runProcClosure(listCmd, dir, waitFor) {
 //action read data from file
 if (action == 'read') {
   try {
-    if (!f.exists()) {
-      println "{{warning}}File conf.params not found ,new file created !.Create data to update to conf.params file {{/warning}}"
-      f.createNewFile()
-    }
-    def params = shell.evaluate(f)
+    def params = services.WiperdogConfig.getDataFromConfig()
     if (params != null &amp;&amp; params != []) {
       if (params.wiperdog_path != []) {
         dataSend['status'] = 0
         dataSend['data'] = params.wiperdog_path
       }
+    } else {
+      println "{{warning}}No config data, use data default !{{/warning}}"
     }
   } catch (Exception ex) {
     dataSend['status'] = 1
@@ -556,7 +552,7 @@ if (datajson != null &amp;&amp; datajson != "") {
 
     if (wdHome != null &amp;&amp; wdHome != '') {
       if (cont == 'yes') {
-        resultSend = updateConfig(wiperdogPath, f)
+        resultSend = updateConfig(wiperdogPath)
         def builder = new JsonBuilder(resultSend)
         println builder.toString()
         return
@@ -655,7 +651,7 @@ if (datajson != null &amp;&amp; datajson != "") {
           }
         }
         //update config
-        resultSend = updateConfig(wiperdogPath, f)
+        resultSend = updateConfig(wiperdogPath)
         //install os service
         if (data.installSysService == true) {
           File wpPath = new File(wdHome)
