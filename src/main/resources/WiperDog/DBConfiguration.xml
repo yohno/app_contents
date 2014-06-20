@@ -2079,7 +2079,7 @@ require(['jquery'], function($) {
 		for(db_type in mapDBType){
 			if(mapDBType.hasOwnProperty(db_type)){
 				var compare_key = mapDBType[db_type]
-				if(key_remove.indexOf(compare_key) > 0){
+				if(key_remove.indexOf(compare_key) >= 0){
 					$("#dbtype").val(compare_key)
 				}
 			}
