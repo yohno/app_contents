@@ -877,7 +877,7 @@ if (datajson != null &amp;&amp; datajson != "") {
                     runRemote("ssh", remoteHost, "chmod 755 " + wdHome + "/install_service.sh", workDir)
 
                     //start wiperdog service
-                    output = runRemote("ssh", remoteHost, "sudo /bin/sh " + wdHome + "/install_service.sh", workDir)
+                    output = runRemote("ssh", remoteHost, "/bin/sh " + wdHome + "/install_service.sh", workDir)
                     if(output.exitVal == 0){
                       resultSend['message'] = "Update config successfully !!! The new Wiperdog has been started as system service."
                     } else {
