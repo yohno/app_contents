@@ -21,8 +21,7 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
-  <content>{{include document="WiperDogLib.WiperdogConfig"/}}
+<content>{{include document="WiperDogLib.WiperdogConfig"/}}
 {{include document="WiperDogLib.MongoDBConnection"/}}
 {{include document="WiperDogLib.DataToDrawChart"/}}
-{{include document="WiperDog.GetServletClass"/}}
-{{include document="WiperDogLib.MenuGeneratorLib"/}}</content></xwikidoc>
+{{include document="WiperDog.GetServletClass"/}}</content></xwikidoc>

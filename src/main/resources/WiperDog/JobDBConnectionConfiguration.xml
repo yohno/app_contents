@@ -189,9 +189,20 @@ require(['jquery'],function($){
    }
 
    $(document).ready(function(){
-           var params = 'dbcommon'
-		   
-               $.ajax({
+          var params = 'dbcommon'
+          var dbtypeServlet = 'dbtype'
+　　　　　　
+　　　　　　$.ajax({
+                type: "GET",
+                url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+dbtypeServlet,
+                success : function(dbtypeUrl){
+                        var dbtypeUrl
+                        processListDbtype(dbtypeUrl)
+                },
+                error: function(xhr,status,error){
+                }
+          });
+          $.ajax({
                 type: "GET",
                 url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name="+params,
                 success : function(result){
@@ -200,8 +211,23 @@ require(['jquery'],function($){
                 },
                 error: function(xhr,status,error){
                 }
-               });
-
+          });
+    function processListDbtype(dbtypeUrl){
+      //Send request to get list dbtype and bind to selectbox
+      $.ajax({
+                type: "GET",
+                url: dbtypeUrl + "/DbType",
+                success : function(mapDBType){
+                        for(dbtype in mapDBType){
+                           $("#dbTypeCbb").append("&lt;option id=\"" + dbtype + "\" value=\"" + dbtype + "\"&gt;" + dbtype + "&lt;/option&gt;")
+                        }
+                },
+                error: function(xhr,status,error){
+                        alert('Is Wiperdog agent on yet?')
+                }
+          });
+      
+    }
 
     function processData(domainURL) {
       $("#dbTypeCbb").change(function(){
@@ -1119,16 +1145,6 @@ clear:both
 $xwiki.ssx.use('WiperDog.checkService')
 {{/velocity}}
 
-{{groovy}}
-import org.xwiki.context.*
-
-def ec = services.component.getInstance(Execution.class).getContext()
-
-def listDBType = ['SQL_Server', 'MySQL', 'Postgres']
-
-ec.setProperty("listDBType", listDBType)
-{{/groovy}}
-
 {{html clean="false"}}
 &lt;body&gt;
  &lt;table id="configJobDBInfo"&gt;
@@ -1136,23 +1152,7 @@ ec.setProperty("listDBType", listDBType)
     &lt;th class=requiredField&gt;DB's type(*)&lt;/th&gt;
    &lt;td&gt;
     &lt;select style="width:100%" id="dbTypeCbb" tabindex="1"&gt;
-{{/html}}
-
-{{groovy}}
-import org.xwiki.context.*
-
-def ec = services.component.getInstance(Execution.class).getContext()
-
-def listDBType = ec.getProperty("listDBType")
-println "{{html clean=\"false\"}}"
-println '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
-for(dbType in listDBType){
-   println "&lt;option id=\"$dbType\" value=\"$dbType\"&gt;$dbType&lt;/option&gt;"
-}
-println "{{/html}}"
-{{/groovy}}
-
-{{html clean="false"}}
+       &lt;option id="none" value=""&gt;-select a db type-&lt;/option&gt;
     &lt;/select&gt;
    &lt;/td&gt;
   &lt;/tr&gt;

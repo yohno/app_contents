@@ -1361,6 +1361,32 @@ BrcAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTEtMDgtMjFUMTQ6NDA6MDQtMDY6MDD0tkdsAAAAJXRF
 WHRkYXRlOm1vZGlmeQAyMDExLTA4LTIxVDE0OjQwOjA0LTA2OjAwhev/0AAAAABJRU5ErkJggg==
 </content>
   </attachment>
+  <attachment>
+<filename>open.gif</filename>
+<filesize>570</filesize>
+<author>XWiki.Admin</author>
+<date>1403081930000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhEQAMAPYAABAQECAQECAYEDAgIDAwIEA4MGBIIFBIQF5ZWWBYQHZnSXBgUIBoIJBwIKB4
+IIBwUIB4YLCAEJCAYJKEa5CIcMCIEMCQAMyZANCQEOCgIOCgMPCoMPCwMNCoUNCwcPC4QPDAQP/A
+UP/IUP/QUP/MZv/YYP/QcP/YcJCIgJqQipmZmaCQgLCggLCgkLCokLm4w8CwkMC4kNDAgNDAkMfD
+usrGt+DIgPDQgPDYgP/YgODQoP/ggPDgkP/gkPDooP/ooPDwoP/woPDwsMbDyv///wAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5
+BAAAAAAALAAAAAARAAwAAAeXgERELoSENIKIiYM6QkJBPy01ioktQI4/PycqK5wrFJQ+jz85JaWm
+n4gqPpgwMIQsLJ0rKJ8rPD82Lju7vDsnJx0pRLY9LjEnpiUjIh8aCkPDOLk7JqYiIB8cDBOCKzcu
+MyckJCIh2RsYBi+CKDK65NccGxkYDAiIFC0eF/wWFRERHDQwMAOfBAgPFiQ4UIDAAAEAAiAKBAA7
+</content></attachment>
+<attachment>
+<filename>list.gif</filename>
+<filesize>63</filesize>
+<author>XWiki.Admin</author>
+<date>1403081929000</date>
+<version>1.1</version>
+<comment></comment><content>R0lGODlhDgAOAPAAAFRWVPz+/CH5BAAAAAAALAAAAAAOAA4AAAIWjI+py20AXYBAUnmu040nv4CK
+iJVHAQA7
+</content></attachment>
   <object>
     <class>
       <name>XWiki.JavaScriptExtension</name>
@@ -3679,6 +3705,53 @@ function getParameterByName(name) {
 };
 
 require(['jquery'],function($){
+
+drawMenu()
+
+function drawMenu(){
+     $.ajax({
+                type: "GET",
+                url:"/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=menuGenerator",
+                async:false,
+                success : function(url){
+                        $.ajax({
+                            type: "GET",
+                            url:url,
+                            async:false,
+                            success : function(result){
+                                  var strMenu = "&lt;div id='nav'&gt;&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt;"
+                                  strMenu += result.tree
+		                  strMenu += "&lt;/div&gt;"
+			          $("#menu").html(strMenu)
+                                  ddtreemenu.createTree("treemenu2", true, 5)
+
+                                  createMapIstIid(result.mapIstIid)
+                             },
+                            error: function(xhr,status,error){
+                            }
+                        });
+                },
+                error: function(xhr,status,error){
+                }
+               });
+}
+
+function createMapIstIid(mapJobIstIid){
+	for (jobEntry in mapJobIstIid) {
+		  if(mapJobIstIid.hasOwnProperty(jobEntry)){
+			  var convertedJobKey = replaceAllString(jobEntry,".","_")
+			  convertedJobKey = replaceAllString(convertedJobKey,"\\@","_")
+			  var html = "&lt;div id='listIstIid'&gt;"
+			  html += "&lt;div id=IstIid" + convertedJobKey + " style='display:none'&gt;"
+			  html += "&lt;select id=select_" + convertedJobKey + "&gt;"
+			  for(var idx = 0; idx &lt; mapJobIstIid[jobEntry].length; idx++){
+				  html += "&lt;option value='" + mapJobIstIid[jobEntry][idx] + "'&gt;" +  mapJobIstIid[jobEntry][idx] + "&lt;/option&gt;"
+			  }
+			  $("#mapIstIid").append(html)
+		  }
+	}
+}
+
 function replaceAllString(oriStr, strTarget, strSubString ){
    var strText = oriStr;
    var intIndexOfMatch = strText.indexOf( strTarget );
@@ -7117,6 +7190,230 @@ function confirmUpdate(xAxis) {
     </property>
   </object>
   <object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>14</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>77b0f0fe-27d3-4bd5-99c7-7caeaef63f01</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>var persisteduls=new Object()
+var ddtreemenu=new Object()
+
+ddtreemenu.closefolder = "/xwiki/bin/download/WiperDogLib/MenuGenerator/closed.gif"; //set image path to "closed" folder image
+ddtreemenu.openfolder = "/xwiki/bin/download/WiperDogLib/MenuGenerator/open.gif"; //set image path to "open" folder image
+
+//////////No need to edit beyond here///////////////////////////
+
+ddtreemenu.createTree=function(treeid, enablepersist, persistdays){
+var ultags=document.getElementById(treeid).getElementsByTagName("ul")
+if (typeof persisteduls[treeid]=="undefined")
+persisteduls[treeid]=(enablepersist==true &amp;&amp; ddtreemenu.getCookie(treeid)!="")? ddtreemenu.getCookie(treeid).split(",") : ""
+for (var i=0; i&lt;ultags.length; i++)
+ddtreemenu.buildSubTree(treeid, ultags[i], i)
+if (enablepersist==true){ //if enable persist feature
+var durationdays=(typeof persistdays=="undefined")? 1 : parseInt(persistdays)
+ddtreemenu.dotask(window, function(){ddtreemenu.rememberstate(treeid, durationdays)}, "unload") //save opened UL indexes on body unload
+}
+}
+
+ddtreemenu.buildSubTree=function(treeid, ulelement, index){
+ulelement.parentNode.className="submenu"
+if (typeof persisteduls[treeid]=="object"){ //if cookie exists (persisteduls[treeid] is an array versus "" string)
+if (ddtreemenu.searcharray(persisteduls[treeid], index)){
+ulelement.setAttribute("rel", "open")
+ulelement.style.display="block"
+ulelement.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
+}
+else
+ulelement.setAttribute("rel", "closed")
+} //end cookie persist code
+else if (ulelement.getAttribute("rel")==null || ulelement.getAttribute("rel")==false) //if no cookie and UL has NO rel attribute explicted added by user
+ulelement.setAttribute("rel", "closed")
+else if (ulelement.getAttribute("rel")=="open") //else if no cookie and this UL has an explicit rel value of "open"
+ddtreemenu.expandSubTree(treeid, ulelement) //expand this UL plus all parent ULs (so the most inner UL is revealed!)
+ulelement.parentNode.onclick=function(e){
+var submenu=this.getElementsByTagName("ul")[0]
+if (submenu.getAttribute("rel")=="closed"){
+submenu.style.display="block"
+submenu.setAttribute("rel", "open")
+ulelement.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
+}
+else if (submenu.getAttribute("rel")=="open"){
+submenu.style.display="none"
+submenu.setAttribute("rel", "closed")
+ulelement.parentNode.style.backgroundImage="url("+ddtreemenu.closefolder+")"
+}
+ddtreemenu.preventpropagate(e)
+}
+ulelement.onclick=function(e){
+ddtreemenu.preventpropagate(e)
+}
+}
+
+ddtreemenu.expandSubTree=function(treeid, ulelement){ //expand a UL element and any of its parent ULs
+var rootnode=document.getElementById(treeid)
+var currentnode=ulelement
+currentnode.style.display="block"
+currentnode.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
+while (currentnode!=rootnode){
+if (currentnode.tagName=="UL"){ //if parent node is a UL, expand it too
+currentnode.style.display="block"
+currentnode.setAttribute("rel", "open") //indicate it's open
+currentnode.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
+}
+currentnode=currentnode.parentNode
+}
+}
+
+ddtreemenu.flatten=function(treeid, action){ //expand or contract all UL elements
+var ultags=document.getElementById(treeid).getElementsByTagName("ul")
+for (var i=0; i&lt;ultags.length; i++){
+ultags[i].style.display=(action=="expand")? "block" : "none"
+var relvalue=(action=="expand")? "open" : "closed"
+ultags[i].setAttribute("rel", relvalue)
+ultags[i].parentNode.style.backgroundImage=(action=="expand")? "url("+ddtreemenu.openfolder+")" : "url("+ddtreemenu.closefolder+")"
+}
+}
+
+ddtreemenu.rememberstate=function(treeid, durationdays){ //store index of opened ULs relative to other ULs in Tree into cookie
+var ultags=document.getElementById(treeid).getElementsByTagName("ul")
+var openuls=new Array()
+for (var i=0; i&lt;ultags.length; i++){
+if (ultags[i].getAttribute("rel")=="open")
+openuls[openuls.length]=i //save the index of the opened UL (relative to the entire list of ULs) as an array element
+}
+if (openuls.length==0) //if there are no opened ULs to save/persist
+openuls[0]="none open" //set array value to string to simply indicate all ULs should persist with state being closed
+ddtreemenu.setCookie(treeid, openuls.join(","), durationdays) //populate cookie with value treeid=1,2,3 etc (where 1,2... are the indexes of the opened ULs)
+}
+
+////A few utility functions below//////////////////////
+
+ddtreemenu.getCookie=function(Name){ //get cookie value
+var re=new RegExp(Name+"=[^;]+", "i"); //construct RE to search for target name/value pair
+if (document.cookie.match(re)) //if cookie found
+return document.cookie.match(re)[0].split("=")[1] //return its value
+return ""
+}
+
+ddtreemenu.setCookie=function(name, value, days){ //set cookei value
+var expireDate = new Date()
+//set "expstring" to either future or past date, to set or delete cookie, respectively
+var expstring=expireDate.setDate(expireDate.getDate()+parseInt(days))
+document.cookie = name+"="+value+"; expires="+expireDate.toGMTString()+"; path=/";
+}
+
+ddtreemenu.searcharray=function(thearray, value){ //searches an array for the entered value. If found, delete value from array
+var isfound=false
+for (var i=0; i&lt;thearray.length; i++){
+if (thearray[i]==value){
+isfound=true
+thearray.shift() //delete this element from array for efficiency sake
+break
+}
+}
+return isfound
+}
+
+ddtreemenu.preventpropagate=function(e){ //prevent action from bubbling upwards
+if (typeof e!="undefined")
+e.stopPropagation()
+else
+event.cancelBubble=true
+}
+
+ddtreemenu.dotask=function(target, functionref, tasktype){ //assign a function to execute to an event handler (ie: onunload)
+var tasktype=(window.addEventListener)? tasktype : "on"+tasktype
+if (target.addEventListener)
+target.addEventListener(tasktype, functionref, false)
+else if (target.attachEvent)
+target.attachEvent(tasktype, functionref)
+}</code>
+</property>
+<property>
+<name>tree-menu.js</name>
+</property>
+<property>
+<parse></parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+  <object>
     <class>
       <name>XWiki.StyleSheetExtension</name>
       <customClass/>
@@ -7529,6 +7826,153 @@ margin-bottom: 8px;
       <users/>
     </property>
   </object>
+  <object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>WiperDog.MonitoringData</name>
+<number>3</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>7ec5a749-de1f-4451-8a9c-8393df0b9d7d</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>.treeview ul{ /*CSS for Simple Tree Menu*/
+margin: 0;
+padding: 0;
+
+display:inline-block;
+}
+.treeview a{
+ width:auto;
+ display: inline-block
+}
+#nav a:hover{
+ font-weight:bold;
+ text-decoration:none;
+ cursor:pointer;
+ color: #0089DC
+
+}
+.treeview li{ /*Style for LI elements in general (excludes an LI that contains sub lists)*/
+background: white url("/xwiki/bin/download/WiperDog/MonitoringData/list.gif") no-repeat left center;
+list-style-type: none;
+padding-left: 22px;
+margin-bottom: 3px;
+font-weight:bold
+
+}
+
+.treeview li.submenu{ /* Style for LI that contains sub lists (other ULs). */
+background: white url("/xwiki/bin/download/WiperDog/MonitoringData/closed.gif") no-repeat left 1px;
+cursor: hand !important;
+cursor: pointer !important;
+
+}
+.treeview .ui-state-disabled {
+background: white url("/xwiki/bin/download/WiperDog/MonitoringData/closed.gif") no-repeat left 1px;
+color:#DBD9DA
+}
+
+
+.treeview li.submenu ul{ /*Style for ULs that are children of LIs (submenu) */
+display: none; /*Hide them by default. Don't delete. */
+}
+
+.treeview .submenu ul li{ /*Style for LIs of ULs that are children of LIs (submenu) */
+cursor: default;
+font-weight:normal
+}
+#nav{
+ float:left;
+width:400px;
+margin-right:20px;
+}
+#viewer #jobname{
+  font-weight:bold;
+  color:#0089DC;
+  float :left;
+}</code>
+</property>
+<property>
+<name>tree-menu.css</name>
+</property>
+<property>
+<parse></parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
   <object>
     <class>
       <name>XWiki.XWikiRights</name>
@@ -8528,8 +8972,6 @@ margin-bottom: 8px;
   <content>
 {{velocity}}
 $xwiki.jsx.use('WiperDogLib.JQueryUILib')
-$xwiki.ssx.use('WiperDogLib.MenuGenerator')
-$xwiki.jsx.use('WiperDogLib.MenuGenerator')
 $xwiki.ssx.use('WiperDogLib.JQueryUILib')
 $xwiki.jsx.use('WiperDogLib.JqGridLib')
 $xwiki.ssx.use('WiperDogLib.JqGridLib')
@@ -8544,8 +8986,8 @@ $xwiki.ssx.use("WiperDog.checkService")
 &lt;div &gt;&lt;span class = 'showHideLink'&gt;&lt;a id='toggleJobSelect' id = 'show'&gt;Hide job selection&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
 
 {{/html}}
-{{include document="WiperDogLib.MenuGenerator"/}}
 {{html wiki="true" clean="false"}}
+&lt;div id='menu'&gt;&lt;/div&gt;
 &lt;div id="viewer"&gt;
 &lt;table style="text-align:left"&gt;
  &lt;tr&gt;
@@ -8562,31 +9004,12 @@ $xwiki.ssx.use("WiperDog.checkService")
   &lt;td colspan=3&gt;&lt;div id="jobname"&gt;&lt;/div&gt;&lt;/td&gt;
  &lt;/tr&gt;
 {{groovy}}
-import org.xwiki.context.*
-
-def ec = services.component.getInstance(Execution.class).getContext()
-def mapJobIstIid = ec.getProperty("mapJobIstIid")
 
 // Form List Job, Job name, IstIid, Data monitor from, Data monitor to, Data records limit
 println '{{html clean="false" wiki="false"}}'
 println '&lt;tr&gt;'
 println '&lt;th&gt;IstIid&lt;/th&gt;'
-println '&lt;td colspan=3&gt;'
-//mapJobIstIid.each{jobEntry-&gt;
-for (jobEntry in mapJobIstIid) {
-  def convertedJobKey = jobEntry.key.replaceAll("\\.","_")
-  convertedJobKey = convertedJobKey.replaceAll("\\@","_")
-  println "&lt;div id='listIstIid'&gt;"
-  println "&lt;div id=IstIid${convertedJobKey} style='display:none'&gt;"
-  println "&lt;select id=select_${convertedJobKey}&gt;"
-  //jobEntry.value.each{
-  for (it in jobEntry.value) {
-     println "&lt;option value=\"$it\"&gt;$it&lt;/option&gt;"
-  }
-  println "&lt;/select&gt;"
-  println "&lt;/div&gt;"
-  println "&lt;/div&gt;"
-}
+println '&lt;td colspan=3 id="mapIstIid"&gt;'
 println '&lt;/td&gt;'
 println '&lt;/tr&gt;'
 println '{{/html}}'
@@ -8662,6 +9085,7 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
   try{
      //open connection to mongoDB
      mongoDBConn = services.MongoDBConnection
+     
      mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
 
      //get data from mongoDB

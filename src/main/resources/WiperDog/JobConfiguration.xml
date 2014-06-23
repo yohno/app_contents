@@ -1109,17 +1109,53 @@ require(['jquery'], function($) {
         // Get ImportInstanceServlet servlet
         ImportInstanceServlet = getServlet('importinstances')
 
+        DBTypeServlet = getServlet('dbtype')
+
+        //Get MonitoringType and binding into control
+        $.ajax({
+             type: "GET",
+             url:DBTypeServlet,
+             async: false,
+             success : function(result){
+                   listMonitoringType = result['MonitoringType']
+                   if(listMonitoringType != null){
+                       var monitoringTypeSource = ''
+                       for (var i = 0; i &lt; listMonitoringType.length; i++) {
+                           monitoringTypeSource += "&lt;option id=\"" + listMonitoringType[i] + "\" value=\"" + listMonitoringType[i] + "\"&gt;" + listMonitoringType[i] + "&lt;/option&gt;"
+                       }
+                       $("#listMonitoring").append(monitoringTypeSource)
+                   }
+             },
+                 error: function(xhr,status,error){
+             }
+        });
+
         // Choose monitoring type =&gt; Fill data to select box &lt;DB's type&gt; and &lt;Actions of Job&gt;
         // ---- Default choose @DB and gend db type contains: SQL_Server, MySQL, Postgres
-        var listDBType = ['SQL_Server', 'MySQL', 'Postgres']
-        var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
-        var actionOfJob = ''
-        for (var i = 0; i &lt; listDBType.length; i++) {
-            dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\"&gt;" + listDBType[i] + "&lt;/option&gt;"
-        }
-        $("#osInfoForm").hide();
+       var listDBType = []
 
-        $("#dbTypeCbb").html(dbTypeSource)
+　  　　$.ajax({
+             type: "GET",
+             url:DBTypeServlet + "/DbType",
+             async: false,
+             success : function(result){
+                   mapDBType = result
+                   var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
+                   for(dbtype in mapDBType){
+                       if(mapDBType.hasOwnProperty(dbtype)){
+                            listDBType.push(dbtype)
+                            dbTypeSource += "&lt;option id=\"" + dbtype + "\" value=\"" + dbtype + "\"&gt;" + dbtype + "&lt;/option&gt;"
+                       }
+                   }
+                   $("#dbTypeCbb").html(dbTypeSource)
+             },
+                 error: function(xhr,status,error){
+             }
+        });
+        var actionOfJob = ''
+        
+        $("#osInfoForm").hide();
+        
         // ---- Choose monitoring type
         $("#listMonitoring").change(function() {
             resetControl()
@@ -1141,7 +1177,7 @@ require(['jquery'], function($) {
                 }
                 $("#dbTypeCbb").html(dbTypeSource)
                 $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
-            } else if (type == "@SYS" || type == "@NET" || type == "@OS" || type == "Others") {
+            } else {
                 dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
                 $("#dbTypeCbb").html(dbTypeSource)
                 $("#listJob").html("&lt;option id='noChoice' value='noChoice'&gt;-select a job-&lt;/option&gt;")
@@ -1152,8 +1188,10 @@ require(['jquery'], function($) {
                     url: JobDeclared + "?morType=" + type,
                     dataType: 'json',
                     success: function(result) {
-                        for (var i = 0; i &lt; result.listJob.length; i++) {
-                            $("#listJob").append("&lt;option id=" + result.listJob[i] + " value=" + result.listJob[i] + "&gt;" + result.listJob[i] + "&lt;/option&gt;")
+                        if(result.status != 'fail'){
+                            for (var i = 0; i &lt; result.listJob.length; i++) {
+                                $("#listJob").append("&lt;option id=" + result.listJob[i] + " value=" + result.listJob[i] + "&gt;" + result.listJob[i] + "&lt;/option&gt;")
+                            }
                         }
                     },
                     error: function(xhr, status, error) {
@@ -3030,11 +3068,6 @@ $xwiki.ssx.use('WiperDog.checkService')
 			&lt;th style="width:20%"&gt;MONITORINGTYPE&lt;span&gt;(*)&lt;/span&gt;&lt;/th&gt;
 			&lt;td colspan=4&gt;
 				&lt;select style="width:30%" id="listMonitoring" tabindex="1"&gt;
-					&lt;option id="none" value="@DB"&gt;@DB&lt;/option&gt;
-					&lt;option id="none" value="@SYS"&gt;@SYS&lt;/option&gt;
-					&lt;option id="none" value="@NET"&gt;@NET&lt;/option&gt;
-					&lt;option id="none" value="@OS"&gt;@OS&lt;/option&gt;
-                                        &lt;option id="none" value="Others"&gt;Others&lt;/option&gt;
 				&lt;/select&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
