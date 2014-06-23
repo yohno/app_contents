@@ -6,7 +6,7 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.AllDocs</parent>
+  <parent>WiperDogLib.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
@@ -28,9 +28,12 @@ import com.google.gson.*
 
 def job = request.get("jobName")
 def istIid = request.get("IstIid")
+def mongoDBConnection = services.MongoDBConnection
+mongoDBConnection.getConnection(services.WiperdogConfig.getDataFromConfig())
+
 if (job != null &amp;&amp; istIid != null) {
     Gson gson = new GsonBuilder().setPrettyPrinting().create()
-    result = services.MongoDBConnection.getDataAllFields(job, 50, istIid)
+    result = mongoDBConnection.getDataAllFields(job, 50, istIid)
     def retData
     if(result[0] != null){
 	def jobType = result[0]['type']
@@ -84,7 +87,7 @@ if (job != null &amp;&amp; istIid != null) {
 		println gson.toJson(retData)
 	}
     }
-    //services.MongoDBConnection.closeConnection()
+    //mongoDBConnection.closeConnection()
 }
 {{/groovy}}</content>
 </xwikidoc>

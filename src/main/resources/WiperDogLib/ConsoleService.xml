@@ -476,20 +476,11 @@ try{
 	if(cmd != null &amp;&amp; cmd != ""){
 		def osName = System.getProperty('os.name')
 		if(osName != null &amp;&amp; osName.toLowerCase().indexOf('win') ==-1){
-			Properties props = System.getProperties();
-			def xwiki_dir = props.getProperty('user.dir');
 			def decidedWiperdog_path
-			File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
-			if(f.exists()){
-				def shell = new GroovyShell()
-				params = shell.evaluate(f)
-				if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
-					decidedWiperdog_path = params['wiperdog_path']['path']
-				}else{
-					println "Wiperdog home not found !"
-					println "Please config it !"
-					return
-				}
+			def params = services.WiperdogConfig.getDataFromConfig()
+
+			if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
+				decidedWiperdog_path = params['wiperdog_path']['path']
 			}else{
 				println "Wiperdog home not found !"
 				println "Please config it !"
@@ -531,7 +522,7 @@ try{
 					println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;"
 				println "&lt;p&gt; Checking status: ${proc.in.text}&lt;/p&gt;"
 				def paramObj = services.GetServlet
-				def consoleServlet = paramObj.getParam('console')
+				def consoleServlet = paramObj.getParam('console', services)
 				command = 'curl -is  ' + consoleServlet
 				proc = command.execute()
 				proc.waitFor()
@@ -581,17 +572,9 @@ try{
 			Properties props = System.getProperties();
 			def xwiki_dir = props.getProperty('user.dir');
 			def decidedWiperdog_path
-			File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
-			if(f.exists()){
-				def shell = new GroovyShell()
-				params = shell.evaluate(f)
-				if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
+			def params = services.WiperdogConfig.getDataFromConfig()
+			if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
 					decidedWiperdog_path = params['wiperdog_path']['path']
-				}else{
-					println "Wiperdog home not found !"
-					println "Please config it !"
-					return
-				}
 			}else{
 				println "Wiperdog home not found !"
 				println "Please config it !"
@@ -683,7 +666,7 @@ try{
 				println "&lt;p&gt; Information: ${output.in}&lt;/p&gt;"
 				//println "&lt;p&gt; Checking status: ${output.err}&lt;/p&gt;"
 				def paramObj = services.GetServlet
-				def consoleServlet = paramObj.getParam('console')
+				def consoleServlet = paramObj.getParam('console', services)
 				listCmd = new ArrayList&lt;String&gt;()
 				listCmd = buildCmdList(isLocalhost,psExec,listCmd,false)
 				listCmd.add(decidedWiperdog_path + "\\service\\curl\\curl" )

@@ -438,6 +438,8 @@ import java.util.*;
 import java.text.*;
 
 def gmongoObject = services.MongoDBConnection
+gmongoObject.getConnection(services.WiperdogConfig.getDataFromConfig())
+
 def dbConn = gmongoObject.getMongoDB()
 
 def slurper = new JsonSlurper()

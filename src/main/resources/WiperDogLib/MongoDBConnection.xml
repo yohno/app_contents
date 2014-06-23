@@ -439,41 +439,24 @@ class MongoDBConnection implements ScriptService {
  def db
  def gmongo
 
- def MongoDBConnection(){
-    this.getConnection()
- }
-
  //Get new connection
- def getConnection(){
-   Properties props = System.getProperties();
-   def xwiki_dir = props.getProperty('user.dir');
-   def params
+ def getConnection(params){
    def decidedHost
    def decidedPort
    def decidedDbName
    def decidedUser
    def decidedPass
-   File f = new File(xwiki_dir +"/webapps/xwiki/resources/conf.params")
-   if(f.exists()){
-	   def shell = new GroovyShell()
-	   params = shell.evaluate(f)
-	   def declaredMongoDB 
-	   if (params != null) {
-                   declaredMongoDB = params['mongoDB']
-           }
-	   if(declaredMongoDB != null){
-	   	   decidedDbName = (declaredMongoDB['dbName'] != null)?declaredMongoDB['dbName'] : dbName
-	   	   decidedHost = (declaredMongoDB['host'] != null)?declaredMongoDB['host'] : host
-	   	   decidedPort = (declaredMongoDB['port'] != null)?declaredMongoDB['port'] : port
-	   	   decidedUser = (declaredMongoDB['user'] != null)?declaredMongoDB['user'] : user
-	   	   decidedPass = (declaredMongoDB['pass'] != null)?declaredMongoDB['pass'] : pass
-	   }else{
-	   	   decidedHost = host
-	   	   decidedPort = port
-	   	   decidedDbName = dbName
-                   decidedUser = user
-                   decidedPass = pass
-	   }
+   def declaredMongoDB 
+   
+   if (params != null) {
+           declaredMongoDB = params['mongoDB']
+   }
+   if(declaredMongoDB != null){
+	   decidedDbName = (declaredMongoDB['dbName'] != null)?declaredMongoDB['dbName'] : dbName
+	   decidedHost = (declaredMongoDB['host'] != null)?declaredMongoDB['host'] : host
+	   decidedPort = (declaredMongoDB['port'] != null)?declaredMongoDB['port'] : port
+	   decidedUser = (declaredMongoDB['user'] != null)?declaredMongoDB['user'] : user
+	   decidedPass = (declaredMongoDB['pass'] != null)?declaredMongoDB['pass'] : pass
    }else{
            decidedHost = host
            decidedPort= port 
