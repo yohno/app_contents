@@ -6,7 +6,7 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.SpaceIndex</parent>
+  <parent>WiperDog.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
@@ -447,35 +447,19 @@ class GetServlet implements ScriptService{
                   mongoDB:[host:"127.0.0.1",port:27017,dbName:"wiperdog"]
                 ]
 
-	Object getParam(def name){
-	    def defaultParams = getDefaultConfigByKey('servlet_config')
-		if(params == null) {
-			def xwiki_dir = System.getProperty('user.dir')
-			def shell = new GroovyShell()
-			def confData
-			File conf = new File(xwiki_dir + "/webapps/xwiki/resources/conf.params")
-			if(conf.exists()){
-				confData = shell.evaluate(conf)
-				if (confData != null) {
-					params = shell.evaluate(conf)['servlet_config']
-					if( params != null &amp;&amp; params != []){
-						for(key in defaultParams.keySet()){
-                            def value = defaultParams[key]
-							def paramsKeys = params.keySet()
-							if(!paramsKeys.contains(key)){
-								params[key] = value
-							}
-						}
-	                    return params[name]['servlet']
-					}
-				}
-			}
-			params = getDefaultConfigByKey('servlet_config') 
+	Object getParam(def name, services){
+            if( (name != null) &amp;&amp; (name != "") ){
+	        def defaultParams = getDefaultConfigByKey('servlet_config')
+		def confData = services.WiperdogConfig.getDataFromConfig()
+		if (confData != null) {
+	            def servletCfg = confData['servlet_config']
+	            if( servletCfg != null &amp;&amp; servletCfg != []){
+	                return servletCfg[name]['servlet']
+		    }
 		}
-		if( (name != null) &amp;&amp; (name != "") ){
-            return params[name]['servlet']
-		}
-		return null
+                return defaultParams[name]['servlet']
+	    }
+	    return null
 	}
 
      public static Object getDefaultConfigByKey(key){

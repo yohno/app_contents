@@ -9085,6 +9085,9 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
   try{
      //open connection to mongoDB
      mongoDBConn = services.MongoDBConnection
+
+     mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
+
      //get data from mongoDB
      if(fromDate != "" || toDate != ""){
        result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
