@@ -665,11 +665,7 @@ try{
 				if(output.exitVal != null &amp;&amp; output.exitVal == 0)
 				println "&lt;p&gt; Information: ${output.in}&lt;/p&gt;"
 				//println "&lt;p&gt; Checking status: ${output.err}&lt;/p&gt;"
-<<<<<<< HEAD
 				def paramObj = services.GetServlet
-=======
-				def paramObj = services.GetServlet
->>>>>>> b10691ed8d97959495d2d366d322367500c46950
 				def consoleServlet = paramObj.getParam('console', services)
 				listCmd = new ArrayList&lt;String&gt;()
 				listCmd = buildCmdList(isLocalhost,psExec,listCmd,false)

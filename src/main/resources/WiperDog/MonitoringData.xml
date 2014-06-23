@@ -9085,10 +9085,7 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
   try{
      //open connection to mongoDB
      mongoDBConn = services.MongoDBConnection
-<<<<<<< HEAD
-
-=======
->>>>>>> b10691ed8d97959495d2d366d322367500c46950
+     
      mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
 
      //get data from mongoDB
