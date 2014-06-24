@@ -23,6 +23,15 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <attachment>
+    <filename>closed.gif</filename>
+    <author>XWiki.Admin</author>
+    <date>1403580617000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>R0lGODlhEQAMAPUAACAQECAgEDAoIEA4MFBAQFBQQGBQUGBgUHBgUHBwYJBwIKB4IIBwYIB4cLCAEL2UELCAIJCIcMCIENCQEMCYINCYINCgIOCYIOCgIOCgMOCoMOCwMPCoMOC4UPCwQPC4QPC4UPDAUPDAYPDIYPDIcPDQYPDQcP/QcP/YcJCIgJmZmaCQgLCgkLCokNfTv//YgP/ggPDgkP/gkP/okPDgoP/ooPDosP/woPDwsP/wsNXSyf/wwOvp4/bx5P///wAAACH5BAAAAAAALAAAAAARAAwAAAaKQF+vRSTyfMiksmXL5XAxlktJZVmv1pV2q0OyduCdszaTvU4kEQOpEj9vZdipFAJV1r6VmyyDoUojIBoPCEh6ODc1fX+BHhoSBoZjiyYjIR4cGA4EhjZkfpUhHxwZFw4DSCk2M6CWoxoXEwsCSBE0Jh0bGhYUFBAQDgsKAbUNCQcFAwIBAM3OAD5BADs=</content>
+    <filesize>365</filesize>
+  </attachment>
+  <attachment>
     <filename>pause.png</filename>
     <filesize>51901</filesize>
     <author>XWiki.phamtienthanh</author>
@@ -7272,8 +7281,8 @@ function confirmUpdate(xAxis) {
 <code>var persisteduls=new Object()
 var ddtreemenu=new Object()
 
-ddtreemenu.closefolder = "/xwiki/bin/download/WiperDogLib/MenuGenerator/closed.gif"; //set image path to "closed" folder image
-ddtreemenu.openfolder = "/xwiki/bin/download/WiperDogLib/MenuGenerator/open.gif"; //set image path to "open" folder image
+ddtreemenu.closefolder = "/xwiki/bin/download/WiperDog/MonitoringData/closed.gif"; //set image path to "closed" folder image
+ddtreemenu.openfolder = "/xwiki/bin/download/WiperDog/MonitoringData/open.gif"; //set image path to "open" folder image
 
 //////////No need to edit beyond here///////////////////////////
 
