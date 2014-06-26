@@ -9391,7 +9391,10 @@ def prepareDataAndListContainer(value, typeChart, jsonPie, jsonLine, jsonBar, js
 		println "&amp;nbsp;"
 	} else if(typeChart == "Subtyped") {
 		//get description
-		def description = value.KEYEXPR._description[0][key]
+		def description
+        if (value.KEYEXPR._description[0] != null) {
+            description = value.KEYEXPR._description[0][key]
+        }
 		println "&lt;div id = 'chartContainer'  style = 'clear:both' &gt;"
 		println "&amp;nbsp;"
 		//set header of chart and link for hide/show all chart
