@@ -149,7 +149,7 @@ def drawChart(key,value,typeChart) {
 	def lstName
 	
 	//get list name of data pie
-	if(dataPie.size() &gt; 0 ){
+	if(dataPie != null &amp;&amp; dataPie.size() &gt; 0 ){
 		lstName = dataPie['name']
 	}
 	//convert name of list name of data pie to format number_name

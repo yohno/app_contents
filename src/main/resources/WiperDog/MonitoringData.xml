@@ -6091,11 +6091,15 @@ function processLivetable(jobName2Send, istIid2Send){
 	require(['jquery'],function($){
 	// Ajax process for livetable
 	var jsonObjLiveTable
-	if($("#livetableJson").text() != null &amp;&amp; $("#livetableJson").text() != "") {
+	if($("#livetableJson").text() != null &amp;&amp; $("#livetableJson").text() != '') {
 		jsonObjLiveTable = $.parseJSON($("#livetableJson").text()); 
 	}
-	var subtypedKeys = $.parseJSON($("#lstkey").text())
-	if(subtypedKeys.length &gt; 0){
+        var subtypedKeys = []
+        if($("#lstkey").text() != null &amp;&amp; $("#lstkey").text() != ""){
+                subtypedKeys = $.parseJSON($("#lstkey").text())
+        }
+        
+	if(subtypedKeys != null &amp;&amp; subtypedKeys.length &gt; 0){
 		// Subtyped
 		for(var keyIdx = 0; keyIdx &lt; subtypedKeys.length; keyIdx++){
 			$("#livetableList" + '_' + subtypedKeys[keyIdx]).jqGrid('clearGridData');
@@ -6126,7 +6130,7 @@ function processLivetable(jobName2Send, istIid2Send){
 */
 function processChartSuccessor(result){
 	require(['jquery'],function($){
-	if (result != null &amp;&amp; result != "") {
+	if (result != null &amp;&amp; result != "" &amp;&amp; result != 'null') {
 		var limitChart
 		var listData = JSON.parse(result)
 		for(var i = 0; i &lt; listData.length; i++){
@@ -6315,15 +6319,18 @@ function processPieChartSuccessor(result) {
 		    if (result[i]['jsonPie'] != null &amp;&amp; result[i]['jsonPie'] != "") {
 		        listJsonPie = JSON.parse(result[i]['jsonPie'])
 		    }
-                    if (listJsonPie.length &gt; 0) {
+                    if (listJsonPie != null &amp;&amp; listJsonPie.length &gt; 0) {
                         numberOfDataPie += listJsonPie.length * listJsonPie[0].length
                     }
                 }
 		for(var i = 0; i &lt; result.length; i++) {
 			var jobType = result[i].typeChart
 			var lstJsonPie = []
-			    if (result[i]['jsonPie'] != null &amp;&amp; result[i]['jsonPie'] != "") {
+			if (result[i]['jsonPie'] != null &amp;&amp; result[i]['jsonPie'] != "") {
 				lstJsonPie = JSON.parse(result[i]['jsonPie'])
+                                if(lstJsonPie == null){
+                                     lstJsonPie = []
+                                }
 			}
                         var checkUpdateData = false
 			for (var pieIdx = 0 ; pieIdx &lt; lstJsonPie.length; pieIdx++) {
@@ -6491,7 +6498,7 @@ function processPieChartSuccessor(result) {
 */
 function processLivetableSuccessor(result, subtypedKeys){
 	require(['jquery'],function($){
-	if (result != null &amp;&amp; result != "") {
+	if ((subtypedKeys != null || subtypedKeys != '') &amp;&amp; (result != null || result != "")) {
 		var resultObj = $.parseJSON(result)
 		if(subtypedKeys.length &gt; 0){
 			for(var keyIdx = 0; keyIdx &lt; subtypedKeys.length; keyIdx++){
