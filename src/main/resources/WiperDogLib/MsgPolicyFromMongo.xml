@@ -485,7 +485,7 @@ try {
     } else if(action == "GETDATA") {
         // Data response
         def mapFinal = [:]
-        def dataMongo = dbConn['policy_message'].find().limit(100)
+        def dataMongo = dbConn['policy_message'].find().sort( fetchedAt_bin : -1 ).limit(100)
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
         //sdf.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         def milis

@@ -736,6 +736,9 @@ class DataToDrawChart implements ScriptService{
 	// Get data to PIE chart
 	def static getDataToDrawPie(collection){
 		def result = collection[collection.size() - 1]
+                if(result.KEYEXPR == null){
+                      return null
+                }
 		def dataChart = result.KEYEXPR._chart
 		def type
 		def resultData
