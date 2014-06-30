@@ -2128,7 +2128,7 @@ function processChooseJob(jobName) {
           logError(xhr, status, error)
         }
       });
-    } else {
+    } else if(jobName != 'noChoice'){
       data2send = {
         'jobName': jobName
       }
@@ -2236,11 +2236,14 @@ function generateIstIidAndJobList(result) {
     for (var i = 0; i &lt;= result.length - 1; i++) {
       var collectionName = result[i]
       var jobName = collectionName.substr(0, collectionName.lastIndexOf("."))
-      if (mapIstIid[jobName] == null) {
-        mapIstIid[jobName] = []
+      // We need to check if jobname is null or empty. Or is system collection of mongodb
+      if(jobName != null &amp;&amp; jobName != '' &amp;&amp; jobName != 'system'){
+         if (mapIstIid[jobName] == null) {
+           mapIstIid[jobName] = []
+         }
+         var istIid = collectionName.substr(collectionName.lastIndexOf(".") + 1, collectionName.length)
+         mapIstIid[jobName].push(istIid)
       }
-      var istIid = collectionName.substr(collectionName.lastIndexOf(".") + 1, collectionName.length)
-      mapIstIid[jobName].push(istIid)
     }
     // Generate select box
     for (key in mapIstIid) {
