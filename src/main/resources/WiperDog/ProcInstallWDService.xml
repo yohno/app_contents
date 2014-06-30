@@ -442,331 +442,405 @@ def runProcClosure(listCmd,dir,waitFor){
 	def line = null
 	StringBuffer stdin = new StringBuffer()
 	while((line = br.readLine()) != null){
-		stdin.append(line + "\n")
+                if(! (line =~ /Connection .* closed/)) {
+		  stdin.append(line + "\n")
+                }
 	}
 	output["message"] = stdin.toString()
 	return output
 }
+def checkRemoteOS (remoteHost) {
+	List&lt;String&gt; lstCmd = new ArrayList&lt;String&gt;()
+	lstCmd.add("ssh")
+	lstCmd.add(remoteHost)
+	lstCmd.add("-o");
+	lstCmd.add("PasswordAuthentication=no");
+	lstCmd.add("uname")
+	lstCmd.add("-a")
+	lstCmd.add("|")
+	lstCmd.add("grep")
+	lstCmd.add("buntu")
+	def uname = runProcClosure(lstCmd,new File("."),true)
+	if(uname.message != null &amp;&amp; !"".equals(uname.message)) {
+		//Return true if OS is *Buntu
+		return true
+	} else {
+		//Return false if OS is other Linux distribution
+		return false
+	}
+}
 //Get program in linux : java,maven ,service ...etc
 def whichProgram(program,remoteHost){
 	List&lt;String&gt; lstCmdWhich = new ArrayList&lt;String&gt;()
-       if(remoteHost != "local") {
-	lstCmdWhich.add("ssh")
-	lstCmdWhich.add(remoteHost)
-	lstCmdWhich.add("-o");
-	lstCmdWhich.add("PasswordAuthentication=no");
-	lstCmdWhich.add("source")
-	lstCmdWhich.add("~/.bash_profile")
-	lstCmdWhich.add(";")
-       }
+	if(remoteHost != "local") {
+		lstCmdWhich.add("ssh")
+		lstCmdWhich.add("-t")
+		lstCmdWhich.add("-t")
+		lstCmdWhich.add(remoteHost)
+		lstCmdWhich.add("-o");
+		lstCmdWhich.add("PasswordAuthentication=no");
+		lstCmdWhich.add("source")
+		if(checkRemoteOS(remoteHost)) {
+			lstCmdWhich.add("~/.bashrc")
+		} else {
+			lstCmdWhich.add("~/.bash_profile")
+		}
+		lstCmdWhich.add(";")
+	}
 	lstCmdWhich.add("which")
 	lstCmdWhich.add(program)
 	return runProcClosure(lstCmdWhich,new File("."),true)
 }
 if(data != null &amp;&amp; data != ""){
-def objData = (new JsonSlurper()).parseText(data);
+	def objData = (new JsonSlurper()).parseText(data);
 
-def respMess = [:];
-def remoteHost = ""
-//Location of PsExec.exe
-InetAddress hostAddr = null
-if(objData.host != 'local'){
-    hostAddr = InetAddress.getByName(objData.host);
-}
-
-File workDir = new File(System.getProperty("user.dir"));
-try {
-	if(hostAddr != null &amp;&amp; !hostAddr.isReachable(30000)){
-		respMess['status'] = 'false'
-		respMess['message'] = 'Can not connect to: ' + objData.host
-	} else {
-		File wdHomeDir = new File(objData.wdHome)
-		def psExec = null
-		//Get PsExec location
-		if(objData.host != 'local' &amp;&amp; objData.os == 'win'){
-			List&lt;String&gt; listCmdPSExec = new LinkedList&lt;String&gt;();
-			listCmdPSExec.add("cmd")
-			listCmdPSExec.add("/c")
-			listCmdPSExec.add("echo")
-			listCmdPSExec.add("%PSTOOLS%")
-			psExec = runProcClosure(listCmdPSExec,workDir,true).message.trim()+"\\PsExec.exe"
-			psExec = psExec.replace("\\\\","\\")
-		}
-		if(wdHomeDir.isAbsolute()) {
-
-			def fileSavedLoc = null
-			def javaPath = null
-			def mavenPath = null
-			def servicePath = null
-			def checkProg = true
-			//Check java and maven on remote host
-			if(objData.os == 'linux'){
-                                if(objData.userName != null &amp;&amp; objData.userName != ""){
-                                    remoteHost = objData.userName + "@" + objData.host
-                                } else {
-                                    remoteHost = objData.host
-                                }
-				javaPath = whichProgram("java",remoteHost).message.trim()
-				mavenPath = whichProgram("mvn",remoteHost).message.trim()
-				servicePath = whichProgram("service",remoteHost).message.trim()
-				if(javaPath.contains("no java in")){
-					respMess['status'] = 'false'
-					respMess['message'] = 'Java not found on: ' + objData.host
-					checkProg = false
-				}
-				if(mavenPath.contains("no mvn in")){
-					respMess['status'] = 'false'
-					respMess['message'] = 'Maven not found on: ' + objData.host
-					checkProg = false
-				}
-			}
-			if(checkProg){
-				if(action == 'doDownload' &amp;&amp; objData!= null ) {
-					if(objData.os == 'linux'){
-						//Process download Wiperdog for Linux
-						fileSavedLoc = (objData.wdHome + "//wiperdog-assembly.jar").replace("//","/")
-
-						List&lt;String&gt; listCmd= new LinkedList&lt;String&gt;();
-						if(objData.host != "local"){
-							listCmd.add("ssh");
-							listCmd.add(remoteHost);
-							listCmd.add("-o");
-							listCmd.add("PasswordAuthentication=no");
-							listCmd.add(mavenPath)
-						} else {
-							listCmd.add("mvn")
-						}
-						listCmd.add("org.apache.maven.plugins:maven-dependency-plugin:2.4:get")
-						listCmd.add("-Dartifact=org.wiperdog:wiperdog-assembly:"+objData.version+":jar:unix")
-						listCmd.add("-Ddest="+ fileSavedLoc)
-						listCmd.add("-Dmdep.useBaseVersion=true")
-
-						def output = runProcClosure(listCmd,workDir,false)
-						if(output.message.contains("[INFO] BUILD SUCCESS")) {
-							respMess["status"] = "success"
-							respMess['message'] = "Download wiperdog installer completed."
-						} else {
-							respMess['status'] = 'failed'
-							respMess['message'] = "Failed to download wiperdog installer." + output.message
-						}
-					} else {
-						//Process download Wiperdog for Windows
-						List&lt;String&gt; listCmd = new ArrayList&lt;String&gt;()
-						// Location to save downloaded file
-						fileSavedLoc = (objData.wdHome + "\\wiperdog-assembly.jar").replace("\\\\","\\")
-						if(objData.host != "local"){
-							listCmd.add(psExec)
-							listCmd.add("\\\\" + objData.host)
-							listCmd.add("-i")
-							listCmd.add("-u")
-							def userName = objData.userName.replace("/", "\\")
-							listCmd.add('"'+ userName +'"')
-							listCmd.add("-p")
-							listCmd.add('"'+ objData.password +'"')
-							listCmd.add('cmd')
-							listCmd.add('/C')
-							listCmd.add('mvn')
-						}else {
-							listCmd.add('cmd')
-							listCmd.add('/C')
-							listCmd.add('start')
-							listCmd.add('cmd.exe')
-							listCmd.add('/C')
-							listCmd.add("mvn")
-						}
-						listCmd.add("org.apache.maven.plugins:maven-dependency-plugin:2.4:get")
-						listCmd.add("-Dartifact=org.wiperdog:wiperdog-assembly:"+objData.version+":jar:win")
-						listCmd.add("-Ddest="+ fileSavedLoc)
-						listCmd.add("-Dmdep.useBaseVersion=true")
-						def output = runProcClosure(listCmd,workDir,true )
-						if(output.exitVal == 0) {
-							respMess['status'] = 'success'
-							respMess['message'] = "Download wiperdog installer completed."
-						} else {
-							respMess['status'] = 'failed'
-							respMess['message'] = "Failed to download wiperdog installer." + output.message
-
-						}
-
-					}
-				}
-				if(action == 'doInstall' &amp;&amp; objData!= null ) {
-
-					if(objData.os == 'linux'){
-						// -- Install wiperdog service for Linux
-
-						List&lt;String&gt; listCmd = new LinkedList&lt;String&gt;();
-						if(objData.host != "local"){
-							listCmd.add("ssh");
-							listCmd.add(remoteHost);
-							listCmd.add("-o");
-							listCmd.add("PasswordAuthentication=no");
-							listCmd.add(javaPath)
-						} else {
-							listCmd.add("java")
-						}
-						listCmd.add("-jar")
-						def jarPath = (objData.wdHome+"/wiperdog-assembly.jar").replace("//", "/")
-						listCmd.add(jarPath)
-						listCmd.add("-d")
-						listCmd.add(objData.wdHome)
-						listCmd.add("-j")
-						listCmd.add(objData.jettyPort)
-						listCmd.add("-m")
-						listCmd.add(objData.mongoHost)
-						listCmd.add("-p")
-						listCmd.add(objData.mongoPort)
-                                                if(objData.mongoUser.trim() != "") {
-						  listCmd.add("-u")
-						  listCmd.add(objData.mongoUser)
-                                                }
-                                                if(objData.mongoPass.trim() != "") {
-						  listCmd.add("-pw")
-						  listCmd.add(objData.mongoPass)
-                                                }
-						listCmd.add("-n")
-						listCmd.add(objData.dbName)
-						listCmd.add("-mp")
-						listCmd.add(objData.pEmail)
-						listCmd.add("-s")
-						listCmd.add(objData.sysServ)
-						def output = runProcClosure(listCmd, workDir,true)
-						if(output.exitVal == 0) {
-							respMess["status"] = "success"
-						} else {
-							respMess["status"] = "failed"
-						}
-						respMess["message"] = output["message"]
-                                                
-						// Start service
-                                                if(objData.sysServ == "yes") {
-						  listCmd = new LinkedList&lt;String&gt;();
-						  if(objData.host != 'local'){
-							listCmd.add("ssh");
-							listCmd.add(remoteHost);
-							listCmd.add("-o");
-							listCmd.add("PasswordAuthentication=no");
-							listCmd.add(servicePath)
-						  } else {
-							listCmd.add("service")
-						  }
-						  listCmd.add('wiperdog')
-						  listCmd.add('start')
-                                                }
-						output = runProcClosure(listCmd, workDir,true)
-						if(output.exitVal == 0) {
-							respMess["status"] = "success"
-						} else {
-							respMess["status"] = "failed"
-						}
-						respMess["message"] = respMess["message"] + "\n" +output["message"]
-
-					} else {
-						// -- Install wiperdog service for Windows
-						List&lt;String&gt; listCmd = new LinkedList&lt;String&gt;();
-						listCmd = new LinkedList&lt;String&gt;();
-						if(objData.host != "local"){
-							listCmd.add(psExec)
-							listCmd.add("\\\\" + objData.host)
-							listCmd.add("-i")
-							listCmd.add("-u")
-							def userName = objData.userName.replace("/", "\\")
-							listCmd.add('"'+ userName +'"')
-							listCmd.add("-p")
-							listCmd.add('"'+ objData.password +'"')
-						} else {
-							listCmd.add('cmd')
-							listCmd.add('/C')
-							listCmd.add('start')
-							listCmd.add('cmd.exe')
-							listCmd.add('/C')
-						}
-
-						listCmd.add("java")
-						listCmd.add("-jar")
-						def jarPath = (objData.wdHome+"\\wiperdog-assembly.jar").replace("\\\\", "\\").replace("/","\\")
-						listCmd.add(jarPath)
-						listCmd.add("-d")
-						def wdHome = objData.wdHome.replace("/", "\\")
-						listCmd.add(wdHome)
-						listCmd.add("-p")
-						listCmd.add(objData.mongoPort)
-						listCmd.add("-j")
-						listCmd.add(objData.jettyPort)
-						listCmd.add("-m")
-						listCmd.add(objData.mongoHost)
-                                                if(objData.mongoUser.trim() != "") {
-						  listCmd.add("-u")
-						  listCmd.add(objData.mongoUser)
-                                                }
-                                                if(objData.mongoPass.trim() != "") {
-						  listCmd.add("-pw")
-						  listCmd.add(objData.mongoPass)
-                                                }
-						listCmd.add("-n")
-						listCmd.add(objData.dbName)
-						listCmd.add("-mp")
-						listCmd.add(objData.pEmail)
-						listCmd.add("-s")
-						listCmd.add(objData.sysServ)
-						def output = runProcClosure(listCmd,workDir,true)
-						if(output.exitVal == 0) {
-							respMess["status"] = "success"
-							def strBuilder = new StringBuilder()
-							strBuilder.append("Wiperdog installed at: " + objData.wdHome+ "\n")
-							strBuilder.append("Server port: " + objData.jettyPort+ "\n")
-							strBuilder.append("Mongo host: " + objData.mongoHost + "\n")
-							strBuilder.append("Mongo user: " + objData.mongoUser+ "\n")
-							strBuilder.append("Mongo port : " + objData.mongoPort+ "\n")
-							strBuilder.append("Email to sent policy message to : " + objData.pEmail+ "\n")
-							strBuilder.append("Install wiperdog as system service : " + objData.sysServ+ "\n")
-
-							respMess['message'] = strBuilder.toString() 
-						} else {
-							respMess["status"] = "failed"
-							respMess['message'] = "Failed to install wiperdog at :" + objData.host +"\n"+ output.message
-						}
-
-                                               //Start service
-
-                                                if(objData.sysServ == "yes") {
-						  listCmd = new LinkedList&lt;String&gt;();
-						  if(objData.host != 'local'){
-							listCmd.add(psExec)
-							listCmd.add("\\\\" + objData.host)
-							listCmd.add("-i")
-							listCmd.add("-u")
-							def userName = objData.userName.replace("/", "\\")
-							listCmd.add('"'+ userName +'"')
-							listCmd.add("-p")
-							listCmd.add('"'+ objData.password +'"')
-						  } 
-						  listCmd.add('net')
-						  listCmd.add('start')
-						  listCmd.add('wiperdog')
-                                                }
-                                                output = runProcClosure(listCmd,workDir,true)
-						if(output.exitVal == 0) {
-							respMess["status"] = "success"
-							respMess['message'] = "Start wiperdog service successfully !"
-						} else {
-							respMess["status"] = "failed"
-							respMess['message'] = "Failed to start wiperdog service !"
-						}
-					}
-				}
-			}
-		} else {
-			respMess["status"] = "failed"
-			respMess['message'] = " Wiperdog Home must be absolute path :" + objData.wdHome
-		}
+	def respMess = [:];
+	def remoteHost = ""
+	//Location of PsExec.exe
+	InetAddress hostAddr = null
+	if(objData.host != 'local'){
+		hostAddr = InetAddress.getByName(objData.host);
 	}
-} catch (Exception ex) {
-	respMess["status"] = "failed";
-	respMess["message"] = ex.toString();
+
+	File workDir = new File(System.getProperty("user.dir"));
+	try {
+		if(hostAddr != null &amp;&amp; !hostAddr.isReachable(30000)){
+			respMess['status'] = 'false'
+			respMess['message'] = 'Can not connect to: ' + objData.host
+		} else {
+			File wdHomeDir = new File(objData.wdHome)
+			def psExec = null
+			//Get PsExec location
+			if(objData.host != 'local' &amp;&amp; objData.os == 'win'){
+				List&lt;String&gt; listCmdPSExec = new LinkedList&lt;String&gt;();
+				listCmdPSExec.add("cmd")
+				listCmdPSExec.add("/c")
+				listCmdPSExec.add("echo")
+				listCmdPSExec.add("%PSTOOLS%")
+				psExec = runProcClosure(listCmdPSExec,workDir,true).message.trim()+"\\PsExec.exe"
+				psExec = psExec.replace("\\\\","\\")
+			}
+			if(wdHomeDir.isAbsolute()) {
+
+				def fileSavedLoc = null
+				def javaPath = null
+				def mavenPath = null
+				def servicePath = null
+				def checkProg = true
+				//Check java and maven on remote host
+				if(objData.os == 'linux'){
+					if(objData.userName != null &amp;&amp; objData.userName != ""){
+						remoteHost = objData.userName + "@" + objData.host
+					} else {
+						remoteHost = objData.host
+					}
+					javaPath = whichProgram("java",remoteHost).message.trim()
+					mavenPath = whichProgram("mvn",remoteHost).message.trim()
+					servicePath = whichProgram("service",remoteHost).message.trim()
+					if("".equals(javaPath.trim()) || javaPath.contains("no java in")){
+						respMess['status'] = 'false'
+						respMess['message'] = 'Java not found on: ' + objData.host
+						checkProg = false
+					}
+                                        
+					if("".equals(mavenPath.trim()) || mavenPath.contains("no mvn in")){
+						respMess['status'] = 'false'
+						respMess['message'] = 'Maven not found on: ' + objData.host
+						checkProg = false
+					}
+				}
+				if(checkProg){
+					if(action == 'doDownload' &amp;&amp; objData!= null ) {
+						if(objData.os == 'linux'){
+							//Process download Wiperdog for Linux
+							fileSavedLoc = (objData.wdHome + "//wiperdog-assembly.jar").replace("//","/")
+
+							List&lt;String&gt; listCmd= new LinkedList&lt;String&gt;();
+							if(objData.host != "local"){
+								listCmd.add("ssh");
+                                                                        listCmd.add("-t")
+                                                                        listCmd.add("-t")
+								listCmd.add(remoteHost);
+								listCmd.add("-o");
+								listCmd.add("PasswordAuthentication=no");
+		                                                listCmd.add("source")
+		                                                if(checkRemoteOS(remoteHost)) {
+		                                        	 listCmd.add("~/.bashrc")
+		                                                } else {
+			                                         listCmd.add("~/.bash_profile")
+		                                                }
+		                                                listCmd.add(";")
+							} 
+							listCmd.add("mvn")
+							listCmd.add("org.apache.maven.plugins:maven-dependency-plugin:2.4:get")
+							listCmd.add("-Dartifact=org.wiperdog:wiperdog-assembly:"+objData.version+":jar:unix")
+							listCmd.add("-Ddest="+ fileSavedLoc)
+							listCmd.add("-Dmdep.useBaseVersion=true")
+							def cmdStr = ""
+							listCmd.each { cmdStr += it + " " }
+							def output = runProcClosure(listCmd,workDir,false)
+							if(output.message.contains("[INFO] BUILD SUCCESS")) {
+								respMess["status"] = "success"
+								respMess['message'] = "Download wiperdog installer completed."
+							} else {
+								respMess['status'] = 'failed'
+								respMess['message'] = "Failed to download wiperdog installer." + output.message +" " + mavenPath
+							}
+						} else {
+							//Process download Wiperdog for Windows
+							List&lt;String&gt; listCmd = new ArrayList&lt;String&gt;()
+							// Location to save downloaded file
+							fileSavedLoc = (objData.wdHome + "\\wiperdog-assembly.jar").replace("\\\\","\\")
+							if(objData.host != "local"){
+								listCmd.add(psExec)
+								listCmd.add("\\\\" + objData.host)
+								listCmd.add("-i")
+								listCmd.add("-u")
+								def userName = objData.userName.replace("/", "\\")
+								listCmd.add('"'+ userName +'"')
+								listCmd.add("-p")
+								listCmd.add('"'+ objData.password +'"')
+								listCmd.add('cmd')
+								listCmd.add('/C')
+								listCmd.add('mvn')
+							}else {
+								listCmd.add('cmd')
+								listCmd.add('/C')
+								listCmd.add('start')
+								listCmd.add('cmd.exe')
+								listCmd.add('/C')
+								listCmd.add("mvn")
+							}
+							listCmd.add("org.apache.maven.plugins:maven-dependency-plugin:2.4:get")
+							listCmd.add("-Dartifact=org.wiperdog:wiperdog-assembly:"+objData.version+":jar:win")
+							listCmd.add("-Ddest="+ fileSavedLoc)
+							listCmd.add("-Dmdep.useBaseVersion=true")
+							def output = runProcClosure(listCmd,workDir,true )
+							if(output.exitVal == 0) {
+								respMess['status'] = 'success'
+								respMess['message'] = "Download wiperdog installer completed." 
+							} else {
+								respMess['status'] = 'failed'
+								respMess['message'] = "Failed to download wiperdog installer." + output.message
+
+							}
+
+						}
+					}
+					if(action == 'doInstall' &amp;&amp; objData!= null ) {
+						if(objData.os == 'linux'){
+							// -- Install wiperdog service for Linux
+
+							List&lt;String&gt; listCmd = new LinkedList&lt;String&gt;();
+							if(objData.host != "local"){
+								listCmd.add("ssh");
+                                                                        listCmd.add("-t")
+                                                                        listCmd.add("-t")
+								listCmd.add(remoteHost);
+								listCmd.add("-o");
+								listCmd.add("PasswordAuthentication=no");
+		                                                listCmd.add("source")
+		                                                if(checkRemoteOS(remoteHost)) {
+		                                        	 listCmd.add("~/.bashrc")
+		                                                } else {
+			                                         listCmd.add("~/.bash_profile")
+		                                                }
+		                                                listCmd.add(";")
+							}
+						        if(objData.sysServ == "yes") {
+								listCmd.add("sudo")
+							}
+							listCmd.add("java")
+							listCmd.add("-jar")
+							def jarPath = (objData.wdHome+"/wiperdog-assembly.jar").replace("//", "/")
+							listCmd.add(jarPath)
+							listCmd.add("-d")
+							listCmd.add(objData.wdHome)
+							listCmd.add("-j")
+							listCmd.add(objData.nettyPort)
+							listCmd.add("-jd")
+							listCmd.add(objData.jobdir)
+							listCmd.add("-id")
+							listCmd.add(objData.instdir)
+							listCmd.add("-cd")
+							listCmd.add(objData.jobclsdir)
+							listCmd.add("-td")
+							listCmd.add(objData.trigdir)
+							listCmd.add("-m")
+							listCmd.add(objData.mongoHost)
+							listCmd.add("-p")
+							listCmd.add(objData.mongoPort)
+							if(objData.mongoUser.trim() != "") {
+								listCmd.add("-u")
+								listCmd.add(objData.mongoUser)
+							}
+							if(objData.mongoPass.trim() != "") {
+								listCmd.add("-pw")
+								listCmd.add(objData.mongoPass)
+							}
+							listCmd.add("-n")
+							listCmd.add(objData.dbName)
+							listCmd.add("-mp")
+							listCmd.add(objData.pEmail)
+							listCmd.add("-s")
+							listCmd.add(objData.sysServ)
+							def output = runProcClosure(listCmd, workDir,true)
+							if(output.exitVal == 0) {
+								respMess["status"] = "success"
+							} else {
+								respMess["status"] = "failed"
+							}
+							respMess["message"] = output["message"]
+
+							// Start service
+							if(objData.sysServ == "yes") {
+								listCmd = new LinkedList&lt;String&gt;();
+								if(objData.host != 'local'){
+									listCmd.add("ssh");
+                                                                        listCmd.add("-t")
+                                                                        listCmd.add("-t")
+									listCmd.add(remoteHost);
+									listCmd.add("-o");
+									listCmd.add("PasswordAuthentication=no");
+		                                                        listCmd.add("source")
+		                                                       if(checkRemoteOS(remoteHost)) {
+		                                        	      listCmd.add("~/.bashrc")
+		                                                         } else {
+			                                            listCmd.add("~/.bash_profile")
+		                                                   }
+		                                                    listCmd.add(";")
+
+								} 
+								listCmd.add("sudo")
+								listCmd.add("service")
+								listCmd.add('wiperdog')
+								listCmd.add('start')
+							}
+							output = runProcClosure(listCmd, workDir,true)
+							if(output.exitVal == 0) {
+								respMess["status"] = "success"
+							} else {
+								respMess["status"] = "failed"
+							}
+							respMess["message"] = respMess["message"] + "\n" +output["message"]
+
+						} else {
+							// -- Install wiperdog service for Windows
+							List&lt;String&gt; listCmd = new LinkedList&lt;String&gt;();
+							listCmd = new LinkedList&lt;String&gt;();
+							if(objData.host != "local"){
+								listCmd.add(psExec)
+								listCmd.add("\\\\" + objData.host)
+								listCmd.add("-i")
+								listCmd.add("-u")
+								def userName = objData.userName.replace("/", "\\")
+								listCmd.add('"'+ userName +'"')
+								listCmd.add("-p")
+								listCmd.add('"'+ objData.password +'"')
+							} else {
+								listCmd.add('cmd')
+								listCmd.add('/C')
+								listCmd.add('start')
+								listCmd.add('cmd.exe')
+								listCmd.add('/C')
+							}
+
+							listCmd.add("java")
+							listCmd.add("-jar")
+							def jarPath = (objData.wdHome+"\\wiperdog-assembly.jar").replace("\\\\", "\\").replace("/","\\")
+							listCmd.add(jarPath)
+							listCmd.add("-d")
+							def wdHome = objData.wdHome.replace("/", "\\")
+							listCmd.add(wdHome)
+							listCmd.add("-j")
+							listCmd.add(objData.nettyPort)
+							listCmd.add("-jd")
+							listCmd.add(objData.jobdir)
+							listCmd.add("-id")
+							listCmd.add(objData.instdir)
+							listCmd.add("-cd")
+							listCmd.add(objData.jobclsdir)
+							listCmd.add("-td")
+							listCmd.add(objData.trigdir)
+							listCmd.add("-m")
+							listCmd.add(objData.mongoHost)
+							listCmd.add("-p")
+							listCmd.add(objData.mongoPort)
+							if(objData.mongoUser.trim() != "") {
+								listCmd.add("-u")
+								listCmd.add(objData.mongoUser)
+							}
+							if(objData.mongoPass.trim() != "") {
+								listCmd.add("-pw")
+								listCmd.add(objData.mongoPass)
+							}
+							listCmd.add("-n")
+							listCmd.add(objData.dbName)
+							listCmd.add("-mp")
+							listCmd.add(objData.pEmail)
+							listCmd.add("-s")
+							listCmd.add(objData.sysServ)
+							def output = runProcClosure(listCmd,workDir,true)
+							if(output.exitVal == 0) {
+								respMess["status"] = "success"
+								def strBuilder = new StringBuilder()
+								strBuilder.append("Wiperdog installed at: " + objData.wdHome+ "\n")
+								strBuilder.append("Server port: " + objData.jettyPort+ "\n")
+								strBuilder.append("Job directory: " + objData.jobdir+ "\n")
+								strBuilder.append("Instances directory: " + objData.instdir+ "\n")
+								strBuilder.append("Job class directory: " + objData.jobclsdir+ "\n")
+								strBuilder.append("Trigger directory: " + objData.trigdir+ "\n")
+								strBuilder.append("Mongo host: " + objData.mongoHost + "\n")
+								strBuilder.append("Mongo user: " + objData.mongoUser+ "\n")
+								strBuilder.append("Mongo port : " + objData.mongoPort+ "\n")
+								strBuilder.append("Email to sent policy message to : " + objData.pEmail+ "\n")
+								strBuilder.append("Install wiperdog as system service : " + objData.sysServ+ "\n")
+
+								respMess['message'] = strBuilder.toString()
+							} else {
+								respMess["status"] = "failed"
+								respMess['message'] = "Failed to install wiperdog at :" + objData.host +"\n"+ output.message
+							}
+
+							//Start service
+
+							if(objData.sysServ == "yes") {
+								listCmd = new LinkedList&lt;String&gt;();
+								if(objData.host != 'local'){
+									listCmd.add(psExec)
+									listCmd.add("\\\\" + objData.host)
+									listCmd.add("-i")
+									listCmd.add("-u")
+									def userName = objData.userName.replace("/", "\\")
+									listCmd.add('"'+ userName +'"')
+									listCmd.add("-p")
+									listCmd.add('"'+ objData.password +'"')
+								}
+								listCmd.add('net')
+								listCmd.add('start')
+								listCmd.add('wiperdog')
+							}
+							output = runProcClosure(listCmd,workDir,true)
+							if(output.exitVal == 0) {
+								respMess["status"] = "success"
+								respMess['message'] += "\nStart wiperdog service successfully !"
+							} else {
+								respMess["status"] = "failed"
+								respMess['message'] = "Failed to start wiperdog service !"
+							}
+						}
+					}
+				}
+			} else {
+				respMess["status"] = "failed"
+				respMess['message'] = " Wiperdog Home must be absolute path :" + objData.wdHome
+			}
+		}
+	} catch (Exception ex) {
+		respMess["status"] = "failed";
+		respMess["message"] = ex.toString();
+	}
+	def builder = new JsonBuilder(respMess)
+	println builder.toString()
 }
-def builder = new JsonBuilder(respMess)
-println builder.toString()
-}
-{{/groovy}}</content>
-</xwikidoc>
+{{/groovy}}</content></xwikidoc>

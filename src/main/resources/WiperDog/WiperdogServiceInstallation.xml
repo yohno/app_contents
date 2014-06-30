@@ -102,14 +102,14 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>require(['jquery'], function($) {
+<code>require(['jquery'], function($) {
 	//Check all values of text fields
 	function checkDirtyAll() {
 		var host = $.trim($("#host").val())
 		var userName = $.trim($("#uName").val())
 		var password = $.trim($("#passwd").val())
 		var wdHome = $.trim($("#wdHome").val())
-		var jport = $.trim($("#jport").val())
+		var nport = $.trim($("#nport").val())
 		var mongoHost = $.trim($("#mongoHost").val())
 		var mongoPort = $.trim($("#mongoPort").val())
 		var mongoUser = $.trim($("#mongoUser").val())
@@ -118,7 +118,7 @@
 
 		var dbName = $.trim($("#dbName").val())
 
-		if (host != "" || userName != "" || password != "" || wdHome != "" || jport != "" || mongoHost != "" || mongoPort != "" || mongoUser != "" || dbName != "" || pEmail != "") {
+		if (host != "" || userName != "" || password != "" || wdHome != "" || nport != "" || mongoHost != "" || mongoPort != "" || mongoUser != "" || dbName != "" || pEmail != "") {
 			return true
 		} else {
 			return false
@@ -127,11 +127,11 @@
 	//Check some values of text fields
 
 	function checkDirtyManual() {
-		var jport = $.trim($("#jport").val())
+		var nport = $.trim($("#nport").val())
 		var mongoHost = $.trim($("#mongoHost").val())
 		var mongoPort = $.trim($("#mongoPort").val())
 		var dbName = $.trim($("#dbName").val())
-		if (jport != "" || mongoHost != "" || mongoPort != "" || dbName != "") {
+		if (nport != "" || mongoHost != "" || mongoPort != "" || dbName != "") {
 			return true
 		} else {
 			return false
@@ -152,7 +152,11 @@
 	// Reset field when select install type
 
 	function resetManual() {
-		$("#jport").val("")
+		$("#nport").val("")
+                $("#jobdir").val("")
+                $("#instdir").val("")
+                $("#jobclsdir").val("")
+                $("#trigdir").val("")
 		$("#mongoHost").val("")
 		$("#mongoPort").val("")
 		$("#dbName").val("")
@@ -175,7 +179,11 @@
 	}
 
 	function setDefault() {
-		$("#jport").val(13111).prop('readonly', true)
+		$("#nport").val(13111).prop('readonly', true)
+		$("#jobdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
+		$("#instdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
+		$("#jobclsdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
+		$("#trigdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
 		$("#mongoHost").val("127.0.0.1").prop('readonly', true)
 		$("#mongoPort").val(27017).prop('readonly', true)
 		$("#dbName").val("wiperdog").prop('readonly', true)
@@ -190,19 +198,6 @@
         var beforeOS = $("input:radio[name=os]:checked").val()
 	$("input:radio[name=os]").click(function() {
 		var value = $(this).val()
-		if (beforeOS != value  &amp;&amp; checkDirtyAll()) {
-			var conf = confirm("Your data input will be reset ! Continue ?")
-			if (conf) {
-				resetAll()
-			} else {
-				if (value == 'win') {
-					$("input:radio[name=os][value='linux']").prop("checked", true)
-				} else {
-					$("input:radio[name=os][value='win']").prop("checked", true)
-				}
-				return
-			}
-		}
 		var host = $("input[name=hostSelect]:checked").val()
 		if (value == 'win' &amp;&amp; host == 'other' &amp;&amp; beforeOS != value ) {
 			$("label[for='uName']").show(400)
@@ -240,20 +235,9 @@
         var beforeHost = $("input:radio[name=hostSelect]:checked").val()
 	$("input:radio[name=hostSelect]").click(function() {
 		var value = $(this).val()
-		if (beforeHost != value &amp;&amp; checkDirtyAll()) {
-			var conf = confirm("Your data input will be reset ! Continue ?")
-			if (conf) {
-				resetAll()
-			} else {
-				if (value == 'local') {
-					$("input:radio[name=hostSelect][value='other']").prop("checked", true)
-				} else {
-					$("input:radio[name=hostSelect][value='local']").prop("checked", true)
-				}
-				return
-			}
-		}
+
 		if (beforeHost != value &amp;&amp; value == 'other') {
+                        $("#warning").show(400)
 			$("label[for='host']").show(400)
 			$("#host").show(400);
 			var os = $("input:radio:checked[name=os]").val()
@@ -268,6 +252,10 @@
 				$("#uName").show(400)
 			}
 		} else {
+                       
+                      if(value == 'local') {
+                        $("#warning").hide(400)
+                      }
                       if(beforeHost != value){
 			$("label[for='host']").hide(400)
 			$("#host").hide(400);
@@ -287,30 +275,40 @@
 			setDefault()
 
 		} else {
-			$("#jport").prop('readonly', false)
+			$("#nport").prop('readonly', false)
+			$("#jobdir").prop('readonly', false)
+			$("#instdir").prop('readonly', false)
+			$("#jobclsdir").prop('readonly', false)
+			$("#trigdir").prop('readonly', false)
 			$("#mongoHost").prop('readonly', false)
 			$("#mongoPort").prop('readonly', false)
 			$("#dbName").prop('readonly', false)
 			$("#mongoUser").prop('readonly', false)
 			$("#mongoPass").prop('readonly', false)
 			$("#pEmail").prop('readonly', false)
-			$("#jport").focus()
+			$("#nport").focus()
 
 		}
 
 	});
-
+ 
+        //Select install wiperdog as system service
 	function getErrMess(name) {
 		return name + " can not be empty !"
 	}
 	$("#install").click(function() {
 		var regexIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
 		var regexEmail = /^(([^&lt;&gt;()[\]\\.,;:\s@\"]+(\.[^&lt;&gt;()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                //Get setting information from input f
 		var host = $.trim($("#host").val())
 		var userName = $.trim($("#uName").val())
 		var password = $.trim($("#passwd").val())
 		var wdHome = $.trim($("#wdHome").val())
-		var jport = $.trim($("#jport").val())
+		var nport = $.trim($("#nport").val())
+		var jobdir = $.trim($("#jobdir").val())
+		var instdir = $.trim($("#instdir").val())
+		var jobclsdir = $.trim($("#jobclsdir").val())
+		var trigdir = $.trim($("#trigdir").val())
 		var mongoHost = $.trim($("#mongoHost").val())
 		var mongoPort = $.trim($("#mongoPort").val())
 		var mongoUser = $.trim($("#mongoUser").val())
@@ -319,7 +317,7 @@
 		var pEmail = $.trim($("#pEmail").val())
 
 
-
+                // Valid setting 
 		var os = $("input[name=os]:checked").val()
 		$("#log").val("")
 		var hostType = $("input:radio[name=hostSelect]:checked").val()
@@ -374,17 +372,62 @@
 		}
 		//Valid if install type selected
 		var instType = $("input[name=instType]:checked").val()
-		if (jport == "") {
-			$("#message").text(getErrMess("Jetty port ")).addClass("error").removeClass("message")
+		if (nport == "") {
+			$("#message").text(getErrMess("Netty port ")).addClass("error").removeClass("message")
 			return
 		} else {
-			if (!($.isNumeric(jport))) {
-				$("#message").text("Jetty port must be numeric").addClass("error").removeClass("message")
+			if (!($.isNumeric(nport))) {
+				$("#message").text("Netty port must be numeric").addClass("error").removeClass("message")
 				return
 			} else {
 				$("#message").text("").addClass("message").removeClass("error")
 			}
 		}
+
+
+		if (jobdir == "") {
+			$("#message").text(getErrMess("Job directory")).addClass("error").removeClass("message")
+			return
+		} else {
+                       if(jobdir.match("^\\$INSTALLATION_DIR")) {                           
+                           jobdir = wdHome + "/var/job"
+                        }
+			$("#message").text("").addClass("message").removeClass("error")
+		}
+
+		if (instdir == "") {
+			$("#message").text(getErrMess("Instance directory")).addClass("error").removeClass("message")
+			return
+		} else {
+                        if(instdir.match("^\\$INSTALLATION_DIR")) {                           
+                           instdir = wdHome + "/var/job"
+                        }
+
+			$("#message").text("").addClass("message").removeClass("error")
+		}
+
+		if (jobclsdir == "") {
+			$("#message").text(getErrMess("Job class directory")).addClass("error").removeClass("message")
+			return
+		} else {
+                        if(jobclsdir.match("^\\$INSTALLATION_DIR")) {                           
+                           jobclsdir = wdHome + "/var/job"
+                        }
+			$("#message").text("").addClass("message").removeClass("error")
+
+		}
+
+		if (trigdir == "") {
+			$("#message").text(getErrMess("Tr directory")).addClass("error").removeClass("message")
+			return 
+		} else {
+                        if(trigdir.match("^\\$INSTALLATION_DIR")) {                           
+                           trigdir = wdHome + "/var/job"
+                        }
+
+			$("#message").text("").addClass("message").removeClass("error")
+		}
+
 		if (mongoHost == "") {
 			$("#message").text(getErrMess("Mongo host ")).addClass("error").removeClass("message")
 			return
@@ -433,6 +476,7 @@
 		} else {
 			sysServ = "no"
 		}
+                
 
 		//Provide information about remote host to download wiperdog installer
 		var mapData2Download = {
@@ -449,7 +493,11 @@
 			userName: userName,
 			password: password,
 			wdHome: wdHome,
-			jettyPort: jport,
+			nettyPort: nport,
+                        jobdir: jobdir,
+                        instdir: instdir,
+                        jobclsdir: jobclsdir,
+                        trigdir: trigdir,
 			mongoHost: mongoHost,
 			mongoPort: mongoPort,
 			dbName: dbName,
@@ -542,7 +590,8 @@
 	})
 
 	jQuery.noConflict()
-})</code>
+ })</code>
+
     </property>
     <property>
       <name>JSprocess</name>
@@ -634,7 +683,7 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>label{
+<code>label{
 display: block;
 font-weight: bold
 
@@ -684,7 +733,17 @@ display: block
 }
 #version{
  display: none
+}
+h4 {
+ color : #2173AF
+}
+#warning {
+ width : 400px
+}
+#warning2 {
+ width : 400px
 }</code>
+
     </property>
     <property>
       <name>stylesheet</name>
@@ -1120,74 +1179,84 @@ $xwiki.ssx.use("WiperDog.checkService")
 {{html wiki = 'false' clean = 'false'}}
 &amp;nbsp;
 &lt;div id='wdServInstall' &gt;
-&lt;form action='#wdServInstall' method='POST' &gt;
-&lt;label &gt;Operating System&lt;/label&gt;
-&lt;input type='radio' name='os' value='linux' checked = 'true'/&gt;Linux
-&lt;input type='radio' name='os' value='win'/&gt;Windows
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;label&gt;Host&lt;/label&gt;
-&lt;input type='radio' name='hostSelect' value='local' /&gt;Local host
-&lt;input type='radio' name='hostSelect' value='other' checked = 'true'/&gt;Other host
-&lt;br/&gt;
-&lt;label for='host' &gt;Host IP&lt;/label&gt;
-&lt;input type='text' value='' id='host' name='host' /&gt;
-&lt;label for='uName' &gt;Username&lt;/label&gt;
-&lt;input type='text'  id='uName' name='usName' autocomplete = 'false' /&gt;
-&lt;br/&gt;
-&lt;label for='passwd' style = "display: none"&gt;Password&lt;/label&gt;
-&lt;input type='password'  id='passwd' name='pswd' autocomplete = 'false' style = "display: none"/&gt;
-&lt;br/&gt;
-&lt;label for='host'&gt;Version&lt;/label&gt;
-&lt;input type='radio' name='verSelect' value='lastest' checked = 'true'/&gt;Lastest version
-&lt;input type='radio' name='verSelect' value='other' /&gt;Other version
-&lt;br/&gt;
-&lt;a href=http://mvnrepository.com/artifact/org.wiperdog target="_blank"&gt;Check available version&lt;/a&gt;
-&lt;br/&gt;
-&lt;input type='text' value='' id='version' name='version' /&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;label for='wdHome'&gt;Installation wiperdog directory: &lt;/label&gt;
-&lt;input type='text' value='' id='wdHome' name='wdHome' /&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;label &gt;Select install type: &lt;/label&gt;
-&lt;input type='radio' name='instType' value='default' checked = 'true' /&gt;Default install 
-&lt;input type='radio' name='instType' value='manual' /&gt;Manual install
-
-&lt;div id = "manual"&gt;
-&lt;br/&gt;
-&lt;label for='jport'&gt;Jetty port : &lt;/label&gt;
-&lt;input type='text' value='' id='jport' name='jport' /&gt;
-&lt;label for='mongoHost'&gt;Mongo host :&lt;/label&gt;
-&lt;input type='text' value='' id='mongoHost' name='mongoHost' /&gt;
-&lt;label for='mongoPort'&gt;Mongo port :&lt;/label&gt;
-&lt;input type='text' value='' id='mongoPort' name='mongoPort' /&gt;
-&lt;label for='mongoUser'&gt;Mongo User :&lt;/label&gt;
-&lt;input type='text' value='' id='mongoUser' name='mongoUser' /&gt;
-&lt;label for='mongoPass'&gt;Mongo password :&lt;/label&gt;
-&lt;input type='password' value='' id='mongoPass' name='mongoPass' /&gt;
-&lt;label for='dbName'&gt;Mongo Database name : &lt;/label&gt;
-&lt;input type='text' value='' id='dbName' name='dbName' /&gt;
-&lt;label for='pEmail'&gt;Email to sent policy message to : &lt;/label&gt;
-&lt;input type='text' value='' id='pEmail' name='pEmail' /&gt;
-
-&lt;/div&gt;
-&lt;br/&gt;
-&lt;label for='sysServ'&gt;&lt;input type='checkbox'  id='sysServ' name='sysServ' /&gt;Install wiperdog as system service&lt;/label&gt;
-
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;input type="button" value = 'Install' id="install" class = 'button'/&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;div id="message"&gt;&lt;/div&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;div id='logDiv'&gt;&lt;label for='log' &gt;Log:&lt;/label&gt;&lt;textarea id='log'&gt;&lt;/textarea&gt;&lt;/div&gt;
-
-&lt;/form&gt;
+   &lt;form action='#wdServInstall' method='POST' &gt;
+      &lt;h4 class="header" &gt;Operating System&lt;/h4&gt;
+      &lt;input type='radio' name='os' value='linux' checked = 'true'/&gt;Linux
+      &lt;input type='radio' name='os' value='win'/&gt;Windows
+      &lt;br/&gt;
+      &lt;br/&gt;
+      &lt;label&gt;Host&lt;/label&gt;
+      &lt;input type='radio' name='hostSelect' value='local' /&gt;Local host
+      &lt;input type='radio' name='hostSelect' value='other' checked = 'true'/&gt;Other host
+      &lt;br/&gt;
+      &lt;p id='warning'&gt;
+        **** To installing wiperdog on remote host , you need to using ssh keys to accessing to remote host without password require.
+       Please refere to &lt;a href="http://sshmenu.sourceforge.net/articles/key-setup.html"&gt;this link&lt;/a&gt;
+      &lt;/p&gt;
+      
+      &lt;label for='host' &gt;Host IP&lt;/label&gt;
+      &lt;input type='text' value='' id='host' name='host' /&gt;
+      &lt;label for='uName' &gt;Username&lt;/label&gt;
+      &lt;input type='text'  id='uName' name='usName' autocomplete = 'false' /&gt;
+      &lt;br/&gt;
+      &lt;label for='passwd' style = "display: none"&gt;Password&lt;/label&gt;
+      &lt;input type='password'  id='passwd' name='pswd' autocomplete = 'false' style = "display: none"/&gt;
+      &lt;br/&gt;
+      &lt;label for='host'&gt;Version&lt;/label&gt;
+      &lt;input type='radio' name='verSelect' value='lastest' checked = 'true'/&gt;Lastest version
+      &lt;input type='radio' name='verSelect' value='other' /&gt;Other version
+      &lt;br/&gt;
+      &lt;a href=http://mvnrepository.com/artifact/org.wiperdog target="_blank"&gt;Check available version&lt;/a&gt;
+      &lt;br/&gt;
+      &lt;input type='text' value='' id='version' name='version' /&gt;
+      &lt;h4 for='wdHome' class="header"&gt;Installation wiperdog directory: &lt;/h4&gt;
+      &lt;input type='text' value='' id='wdHome' name='wdHome' /&gt;
+      &lt;br/&gt;
+      &lt;br/&gt;
+      &lt;h4 class="header"&gt;Select install type: &lt;/h4&gt;
+      &lt;input type='radio' name='instType' value='default' checked = 'true' /&gt;Default install 
+      &lt;input type='radio' name='instType' value='manual' /&gt;Manual install
+      &lt;h4 class="header"&gt;Setting Information  &lt;/h4&gt;
+      &lt;div id = "manual"&gt;
+         &lt;label for='nport'&gt;Netty port : &lt;/label&gt;
+         &lt;input type='text' value='' id='nport' name='nport' /&gt;
+         &lt;label for='jobdir'&gt;Job directory : &lt;/label&gt;
+         &lt;input type='text' value='' id='jobdir' name='jobdir' /&gt;
+         &lt;label for='instdir'&gt;Instances directory : &lt;/label&gt;
+         &lt;input type='text' value='' id='instdir' name='instdir' /&gt;
+         &lt;label for='jobclsdir'&gt;Job class directory : &lt;/label&gt;
+         &lt;input type='text' value='' id='jobclsdir' name='jobclsdir' /&gt;
+         &lt;label for='trigdir'&gt;Trigger directory : &lt;/label&gt;
+         &lt;input type='text' value='' id='trigdir' name='trigdir' /&gt;
+         &lt;label for='mongoHost'&gt;MongoDB host :&lt;/label&gt;
+         &lt;input type='text' value='' id='mongoHost' name='mongoHost' /&gt;
+         &lt;label for='mongoPort'&gt;MongoDB port :&lt;/label&gt;
+         &lt;input type='text' value='' id='mongoPort' name='mongoPort' /&gt;
+         &lt;label for='mongoUser'&gt;MongoDB user :&lt;/label&gt;
+         &lt;input type='text' value='' id='mongoUser' name='mongoUser' /&gt;
+         &lt;label for='mongoPass'&gt;MongoDB password :&lt;/label&gt;
+         &lt;input type='password' value='' id='mongoPass' name='mongoPass' /&gt;
+         &lt;label for='dbName'&gt;Mongo Database name : &lt;/label&gt;
+         &lt;input type='text' value='' id='dbName' name='dbName' /&gt;
+         &lt;label for='pEmail'&gt;Email to sent policy message to : &lt;/label&gt;
+         &lt;input type='text' value='' id='pEmail' name='pEmail' /&gt;
+      &lt;/div&gt;
+      &lt;br/&gt;
+      &lt;label for='sysServ'&gt;&lt;input type='checkbox'  id='sysServ' name='sysServ' /&gt;Install wiperdog as system service&lt;/label&gt;
+      &lt;p id="warning2" &gt;
+        *** To install wiperdog as service ,user must be root or using "sudo" command without password prompt
+        To do that ,please refere to &lt;a href="http://jeromejaglale.com/doc/unix/ubuntu_sudo_without_password"&gt;this link &lt;/a&gt;
+      &lt;p&gt;
+      &lt;br/&gt;
+      &lt;br/&gt;
+      &lt;input type="button" value = 'Install' id="install" class = 'button'/&gt;
+      &lt;br/&gt;
+      &lt;br/&gt;
+      &lt;div id="message"&gt;&lt;/div&gt;
+      &lt;br/&gt;
+      &lt;br/&gt;
+      &lt;div id='logDiv'&gt;&lt;label for='log' &gt;Log:&lt;/label&gt;&lt;textarea id='log'&gt;&lt;/textarea&gt;&lt;/div&gt;
+   &lt;/form&gt;
 &lt;/div&gt;
 &amp;nbsp;
-{{/html}}</content>
-</xwikidoc>
+{{/html}}</content></xwikidoc>
