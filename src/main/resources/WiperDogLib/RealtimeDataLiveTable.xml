@@ -87,7 +87,9 @@ if (job != null &amp;&amp; istIid != null) {
 		println gson.toJson(retData)
 	}
     }
-    //mongoDBConnection.closeConnection()
+    if (mongoDBConnection != null) {
+    	mongoDBConnection.closeConnection()
+    }
 }
 {{/groovy}}</content>
 </xwikidoc>

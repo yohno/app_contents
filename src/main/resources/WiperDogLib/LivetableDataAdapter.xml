@@ -467,7 +467,7 @@
             println '{{error}}' + ex + '{{/error}}'
         } finally {
             if(mongoDBConn != null){
-                //mongoDBConn.closeConnection()
+                mongoDBConn.closeConnection()
             }
         }
 		def idx =0               
