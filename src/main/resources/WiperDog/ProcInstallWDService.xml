@@ -820,7 +820,7 @@ if(data != null &amp;&amp; data != ""){
 								listCmd.add('net')
 								listCmd.add('start')
 								listCmd.add('wiperdog')
-							}
+							
 							output = runProcClosure(listCmd,workDir,true)
 							if(output.exitVal == 0) {
 								respMess["status"] = "success"
@@ -829,6 +829,7 @@ if(data != null &amp;&amp; data != ""){
 								respMess["status"] = "failed"
 								respMess['message'] += "Failed to start wiperdog service !"
 							}
+             }
 						}
 					}
 				}
