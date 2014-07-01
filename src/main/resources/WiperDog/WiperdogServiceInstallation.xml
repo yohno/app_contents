@@ -1223,10 +1223,10 @@ $xwiki.ssx.use("WiperDog.checkService")
        &lt;br/&gt; 5. Restart Xwiki and comeback to this page for your installation
       
       &lt;/p&gt;
-      &lt;label for='host' &gt;Host IP&lt;/label&gt;
-      &lt;input type='text' value='' id='host' name='host' /&gt;
-      &lt;label for='uName' &gt;Username&lt;/label&gt;
-      &lt;input type='text'  id='uName' name='usName' autocomplete = 'false' /&gt;
+      &lt;label for='host' style="display:none" &gt;Host IP&lt;/label&gt;
+      &lt;input type='text' value='' id='host' name='host' style="display:none" /&gt;
+      &lt;label for='uName' style="display:none" &gt;Username&lt;/label&gt;
+      &lt;input type='text'  id='uName' name='usName' autocomplete = 'false' style="display:none"/&gt;
       &lt;br/&gt;
       &lt;label for='passwd' style = "display: none"&gt;Password&lt;/label&gt;
       &lt;input type='password'  id='passwd' name='pswd' autocomplete = 'false' style = "display: none"/&gt;
