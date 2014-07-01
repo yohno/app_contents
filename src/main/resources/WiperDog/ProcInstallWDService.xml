@@ -786,7 +786,7 @@ if(data != null &amp;&amp; data != ""){
 								respMess["status"] = "success"
 								def strBuilder = new StringBuilder()
 								strBuilder.append("Wiperdog installed at: " + objData.wdHome+ "\n")
-								strBuilder.append("Server port: " + objData.jettyPort+ "\n")
+								strBuilder.append("Server port: " + objData.nettyPort+ "\n")
 								strBuilder.append("Job directory: " + objData.jobdir+ "\n")
 								strBuilder.append("Instances directory: " + objData.instdir+ "\n")
 								strBuilder.append("Job class directory: " + objData.jobclsdir+ "\n")
