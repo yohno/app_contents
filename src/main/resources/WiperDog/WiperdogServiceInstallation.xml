@@ -412,7 +412,7 @@
 			return
 		} else {
                        if(jobdir.match("^\\$INSTALLATION_DIR")) {                           
-                           jobdir = jobdir.replace("\\$INSTALLATION_DIR",wdHome)
+                           jobdir = jobdir.replace("$INSTALLATION_DIR",wdHome)
                         }
 			$("#message").text("").addClass("message").removeClass("error")
 		}
@@ -422,7 +422,7 @@
 			return
 		} else {
                         if(instdir.match("^\\$INSTALLATION_DIR")) {                           
-                           instdir = instdir.replace("\\$INSTALLATION_DIR",wdHome)
+                           instdir = instdir.replace("$INSTALLATION_DIR",wdHome)
                         }
 
 			$("#message").text("").addClass("message").removeClass("error")
@@ -433,7 +433,7 @@
 			return
 		} else {
                         if(jobclsdir.match("^\\$INSTALLATION_DIR")) {                           
-                           jobclsdir = jobclsdir.replace("\\$INSTALLATION_DIR",wdHome)
+                           jobclsdir = jobclsdir.replace("$INSTALLATION_DIR",wdHome)
                         }
 			$("#message").text("").addClass("message").removeClass("error")
 
@@ -444,7 +444,7 @@
 			return 
 		} else {
                         if(trigdir.match("^\\$INSTALLATION_DIR")) {                           
-                           trigdir = trigdir.replace("\\$INSTALLATION_DIR",wdHome)
+                           trigdir = trigdir.replace("$INSTALLATION_DIR",wdHome)
                         }
 
 			$("#message").text("").addClass("message").removeClass("error")
