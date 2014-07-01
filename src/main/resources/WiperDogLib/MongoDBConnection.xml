@@ -606,7 +606,7 @@ class MongoDBConnection implements ScriptService {
  }
 }
 
-DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: MongoDBConnection.class, role: ScriptService.class, roleHint: 'MongoDBConnection');
+DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(instantiationStrategy: ComponentInstantiationStrategy.PER_LOOKUP,implementation: MongoDBConnection.class, role: ScriptService.class, roleHint: 'MongoDBConnection');
 Utils.getComponentManager().unregisterComponent(ScriptService.class, 'MongoDBConnection');
 Utils.getComponentManager().registerComponent(descriptor);
 {{/groovy}}</content></xwikidoc>

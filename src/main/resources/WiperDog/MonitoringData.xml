@@ -9115,7 +9115,7 @@ if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid 
   } finally {
      //close connection to mongoDB
      if(mongoDBConn != null){
-         //mongoDBConn.closeConnection()
+         mongoDBConn.closeConnection()
      }
   }
 } else {

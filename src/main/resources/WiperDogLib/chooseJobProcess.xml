@@ -544,7 +544,7 @@ try {
      println builder.toString()    
 } finally {
      if(gmongoObject != null){
-          //gmongoObject.closeConnection()
+          gmongoObject.closeConnection()
      }
 }
 {{/groovy}}</content>

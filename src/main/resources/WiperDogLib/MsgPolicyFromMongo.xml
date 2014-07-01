@@ -516,7 +516,7 @@ try {
     mapErrorMsg = null
 } finally {
     if(gmongoObject != null){
-         //gmongoObject.closeConnection()
+         gmongoObject.closeConnection()
     }
 }
 
