@@ -593,6 +593,7 @@ if(data != null &amp;&amp; data != ""){
 							fileSavedLoc = (objData.wdHome + "\\wiperdog-assembly.jar").replace("\\\\","\\")
 							if(objData.host != "local"){
 								listCmd.add(psExec)
+								listCmd.add("-accepteula")
 								listCmd.add("\\\\" + objData.host)
 								listCmd.add("-i")
 								listCmd.add("-u")
@@ -826,7 +827,7 @@ if(data != null &amp;&amp; data != ""){
 								respMess['message'] += "\nStart wiperdog service successfully !"
 							} else {
 								respMess["status"] = "failed"
-								respMess['message'] = "Failed to start wiperdog service !"
+								respMess['message'] += "Failed to start wiperdog service !"
 							}
 						}
 					}

@@ -200,11 +200,20 @@
 		var value = $(this).val()
 		var host = $("input[name=hostSelect]:checked").val()
 		if (value == 'win' &amp;&amp; host == 'other' &amp;&amp; beforeOS != value ) {
+            $("#warning_pstools").show(400)
+            $("#warning_sshkey").hide(400)
+            $("#warning_sysser").hide(400)
 			$("label[for='uName']").show(400)
 			$("#uName").show(400)
 			$("label[for='passwd']").show(400)
 			$("#passwd").show(400)
 		} else if (value == 'linux' &amp;&amp; host == 'other' &amp;&amp; beforeOS != value) {
+            $("#warning_pstools").hide(400)
+            $("#warning_sshkey").show(400)
+            if($("#sysServ").is(":checked")) {
+              $("#warning_sysser").show(400)
+            }
+
 			$("label[for='uName']").show()
 			$("#uName").show(400)
 			$("label[for='passwd']").hide(400)
@@ -237,24 +246,28 @@
 		var value = $(this).val()
 
 		if (beforeHost != value &amp;&amp; value == 'other') {
-                        $("#warning").show(400)
 			$("label[for='host']").show(400)
 			$("#host").show(400);
 			var os = $("input:radio:checked[name=os]").val()
 			$("#host").show(400)
 			if (os == 'win') {
+                $("#warning_pstools").show(400)
+                $("#warning_sshkey").hide(400)
 				$("label[for='uName']").show(400)
 				$("#uName").show(400)
 				$("label[for='passwd']").show(400)
 				$("#passwd").show(400)
 			} else {
+                $("#warning_pstools").hide(400)
+                $("#warning_sshkey").show(400)
 				$("label[for='uName']").show(400)
 				$("#uName").show(400)
 			}
 		} else {
                        
                       if(value == 'local') {
-                        $("#warning").hide(400)
+                         $("#warning_pstools").hide(400)
+                         $("#warning_sshkey").hide(400)
                       }
                       if(beforeHost != value){
 			$("label[for='host']").hide(400)
@@ -291,7 +304,16 @@
 		}
 
 	});
- 
+        //Enhance for check box system service
+        $("#sysServ").click( function(){
+           if( $(this).is(':checked') ) {
+               if($("input[name=os]:checked").val() == 'linux') {
+                 $("#warning_sysser").show(400)
+               }
+           } else {
+               $("#warning_sysser").hide(400)
+           }
+        });
         //Select install wiperdog as system service
 	function getErrMess(name) {
 		return name + " can not be empty !"
@@ -390,7 +412,7 @@
 			return
 		} else {
                        if(jobdir.match("^\\$INSTALLATION_DIR")) {                           
-                           jobdir = wdHome + "/var/job"
+                           jobdir = jobdir.replace("\\$INSTALLATION_DIR",wdHome)
                         }
 			$("#message").text("").addClass("message").removeClass("error")
 		}
@@ -400,7 +422,7 @@
 			return
 		} else {
                         if(instdir.match("^\\$INSTALLATION_DIR")) {                           
-                           instdir = wdHome + "/var/job"
+                           instdir = instdir.replace("\\$INSTALLATION_DIR",wdHome)
                         }
 
 			$("#message").text("").addClass("message").removeClass("error")
@@ -411,7 +433,7 @@
 			return
 		} else {
                         if(jobclsdir.match("^\\$INSTALLATION_DIR")) {                           
-                           jobclsdir = wdHome + "/var/job"
+                           jobclsdir = jobclsdir.replace("\\$INSTALLATION_DIR",wdHome)
                         }
 			$("#message").text("").addClass("message").removeClass("error")
 
@@ -422,7 +444,7 @@
 			return 
 		} else {
                         if(trigdir.match("^\\$INSTALLATION_DIR")) {                           
-                           trigdir = wdHome + "/var/job"
+                           trigdir = trigdir.replace("\\$INSTALLATION_DIR",wdHome)
                         }
 
 			$("#message").text("").addClass("message").removeClass("error")
@@ -737,12 +759,11 @@ display: block
 h4 {
  color : #2173AF
 }
-#warning {
- width : 400px
+.warning {
+ width : 400px;
+ display: none;
 }
-#warning2 {
- width : 400px
-}</code>
+</code>
 
     </property>
     <property>
@@ -1186,14 +1207,22 @@ $xwiki.ssx.use("WiperDog.checkService")
       &lt;br/&gt;
       &lt;br/&gt;
       &lt;label&gt;Host&lt;/label&gt;
-      &lt;input type='radio' name='hostSelect' value='local' /&gt;Local host
-      &lt;input type='radio' name='hostSelect' value='other' checked = 'true'/&gt;Other host
+      &lt;input type='radio' name='hostSelect' value='local' checked = 'true' /&gt;Local host
+      &lt;input type='radio' name='hostSelect' value='other' /&gt;Other host
       &lt;br/&gt;
-      &lt;p id='warning'&gt;
-        **** To installing wiperdog on remote host , you need to using ssh keys to accessing to remote host without password require.
+      &lt;p class="warning" id='warning_sshkey'&gt;
+        **** To installing wiperdog on Linux remote host , you need to using ssh keys to accessing to remote host without password require.
        Please refere to &lt;a href="http://sshmenu.sourceforge.net/articles/key-setup.html"&gt;this link&lt;/a&gt;
       &lt;/p&gt;
+      &lt;p class="warning" id='warning_pstools'&gt;
+        **** To installing wiperdog on Windows remote host , you need to using PSTools as a system environment program to accessing remote host.
+       &lt;br/&gt; Step to do: 
+       &lt;br/&gt; 1. Download &lt;a href="http://technet.microsoft.com/en-us/sysinternals/bb896649.aspx"&gt;PSTools&lt;/a&gt; 
+       &lt;br/&gt; 2. Extract to somewhere on machine which Xwiki installed
+       &lt;br/&gt; 4. Set an environment variable named is "PSTOOLS" to extracted folder 
+       &lt;br/&gt; 5. Restart Xwiki and comeback to this page for your installation
       
+      &lt;/p&gt;
       &lt;label for='host' &gt;Host IP&lt;/label&gt;
       &lt;input type='text' value='' id='host' name='host' /&gt;
       &lt;label for='uName' &gt;Username&lt;/label&gt;
@@ -1243,7 +1272,7 @@ $xwiki.ssx.use("WiperDog.checkService")
       &lt;/div&gt;
       &lt;br/&gt;
       &lt;label for='sysServ'&gt;&lt;input type='checkbox'  id='sysServ' name='sysServ' /&gt;Install wiperdog as system service&lt;/label&gt;
-      &lt;p id="warning2" &gt;
+      &lt;p class="warning" id="warning_sysser" &gt;
         *** To install wiperdog as service ,user must be root or using "sudo" command without password prompt
         To do that ,please refere to &lt;a href="http://jeromejaglale.com/doc/unix/ubuntu_sudo_without_password"&gt;this link &lt;/a&gt;
       &lt;p&gt;
