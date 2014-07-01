@@ -1116,6 +1116,7 @@ require(['jquery'], function($) {
              type: "GET",
              url:DBTypeServlet,
              async: false,
+             dataType: 'json',
              success : function(result){
                    listMonitoringType = result['MonitoringType']
                    if(listMonitoringType != null){
@@ -1138,6 +1139,7 @@ require(['jquery'], function($) {
              type: "GET",
              url:DBTypeServlet + "/DbType",
              async: false,
+             dataType: 'json',
              success : function(result){
                    mapDBType = result
                    var dbTypeSource = '&lt;option id=\"none\" value=\"\"&gt;-select a db type-&lt;/option&gt;'
