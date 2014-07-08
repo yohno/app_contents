@@ -660,6 +660,8 @@ if(data != null &amp;&amp; data != ""){
 							listCmd.add(objData.wdHome)
 							listCmd.add("-j")
 							listCmd.add(objData.nettyPort)
+							listCmd.add("-r")
+							listCmd.add(objData.restPort)
 							listCmd.add("-jd")
 							listCmd.add(objData.jobdir)
 							listCmd.add("-id")
@@ -725,6 +727,35 @@ if(data != null &amp;&amp; data != ""){
 								respMess["status"] = "failed"
 							}
 							respMess["message"] = respMess["message"] + "\n" +output["message"]
+                                //Remove wiperdog installer jar file
+								listCmd = new LinkedList&lt;String&gt;();
+								if(objData.host != 'local'){
+									listCmd.add("ssh");
+		                            listCmd.add("-t")
+		                            listCmd.add("-t")
+									listCmd.add(remoteHost);
+									listCmd.add("-o");
+									listCmd.add("PasswordAuthentication=no");
+                                    listCmd.add("source")
+                                   if(checkRemoteOS(remoteHost)) {
+						        	      listCmd.add("~/.bashrc")
+						           } else {
+						                listCmd.add("~/.bash_profile")
+						           }
+                                 listCmd.add(";")
+
+								} 
+								listCmd.add("rm")
+								listCmd.add("-rf")
+								listCmd.add(jarPath)
+							output = runProcClosure(listCmd, workDir,true)
+							if(output.exitVal == 0) {
+								respMess["status"] = "success"
+							} else {
+								respMess["status"] = "failed"
+							}
+							respMess["message"] = respMess["message"] + "\n" +output["message"]
+
 
 						} else {
 							// -- Install wiperdog service for Windows
@@ -757,6 +788,8 @@ if(data != null &amp;&amp; data != ""){
 							listCmd.add(wdHome)
 							listCmd.add("-j")
 							listCmd.add(objData.nettyPort)
+							listCmd.add("-r")
+							listCmd.add(objData.restPort)
 							listCmd.add("-jd")
 							listCmd.add(objData.jobdir)
 							listCmd.add("-id")
@@ -789,6 +822,7 @@ if(data != null &amp;&amp; data != ""){
 								def strBuilder = new StringBuilder()
 								strBuilder.append("Wiperdog installed at: " + objData.wdHome+ "\n")
 								strBuilder.append("Server port: " + objData.nettyPort+ "\n")
+								strBuilder.append("RESTful port: " + objData.restPort+ "\n")
 								strBuilder.append("Job directory: " + objData.jobdir+ "\n")
 								strBuilder.append("Instances directory: " + objData.instdir+ "\n")
 								strBuilder.append("Job class directory: " + objData.jobclsdir+ "\n")
@@ -831,6 +865,28 @@ if(data != null &amp;&amp; data != ""){
 								respMess["status"] = "failed"
 								respMess['message'] += "Failed to start wiperdog service !"
 							}
+                           //Remove wiperdog installer jar file
+								listCmd = new LinkedList&lt;String&gt;();
+								if(objData.host != 'local'){
+									listCmd.add(psExec)
+									listCmd.add("\\\\" + objData.host)
+									listCmd.add("-i")
+									listCmd.add("-u")
+									def userName = objData.userName.replace("/", "\\")
+									listCmd.add('"'+ userName +'"')
+									listCmd.add("-p")
+									listCmd.add('"'+ objData.password +'"')
+								}
+								listCmd.add('cmd')
+								listCmd.add('/C')
+								listCmd.add('start')
+								listCmd.add('cmd.exe')
+								listCmd.add('/C')
+								listCmd.add('del')
+								listCmd.add('/f')
+								listCmd.add(jarPath)
+								output = runProcClosure(listCmd,workDir,true)
+
              }
 						}
 					}

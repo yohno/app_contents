@@ -180,6 +180,7 @@
 
 	function setDefault() {
 		$("#nport").val(13111).prop('readonly', true)
+		$("#rport").val(8089).prop('readonly', true)
 		$("#jobdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
 		$("#instdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
 		$("#jobclsdir").val("$INSTALLATION_DIR/var/job").prop('readonly', true)
@@ -289,6 +290,7 @@
 
 		} else {
 			$("#nport").prop('readonly', false)
+			$("#rport").prop('readonly', false)
 			$("#jobdir").prop('readonly', false)
 			$("#instdir").prop('readonly', false)
 			$("#jobclsdir").prop('readonly', false)
@@ -327,6 +329,7 @@
 		var password = $.trim($("#passwd").val())
 		var wdHome = $.trim($("#wdHome").val())
 		var nport = $.trim($("#nport").val())
+		var rport = $.trim($("#rport").val())
 		var jobdir = $.trim($("#jobdir").val())
 		var instdir = $.trim($("#instdir").val())
 		var jobclsdir = $.trim($("#jobclsdir").val())
@@ -406,7 +409,17 @@
 			}
 		}
 
-
+		if (rport == "") {
+			$("#message").text(getErrMess("RESTful port ")).addClass("error").removeClass("message")
+			return
+		} else {
+			if (!($.isNumeric(nport))) {
+				$("#message").text("RESTful port must be numeric").addClass("error").removeClass("message")
+				return
+			} else {
+				$("#message").text("").addClass("message").removeClass("error")
+			}
+		}
 		if (jobdir == "") {
 			$("#message").text(getErrMess("Job directory")).addClass("error").removeClass("message")
 			return
@@ -516,10 +529,11 @@
 			password: password,
 			wdHome: wdHome,
 			nettyPort: nport,
-                        jobdir: jobdir,
-                        instdir: instdir,
-                        jobclsdir: jobclsdir,
-                        trigdir: trigdir,
+			restPort: rport,
+            jobdir: jobdir,
+            instdir: instdir,
+            jobclsdir: jobclsdir,
+            trigdir: trigdir,
 			mongoHost: mongoHost,
 			mongoPort: mongoPort,
 			dbName: dbName,
@@ -1249,6 +1263,8 @@ $xwiki.ssx.use("WiperDog.checkService")
       &lt;div id = "manual"&gt;
          &lt;label for='nport'&gt;Netty port : &lt;/label&gt;
          &lt;input type='text' value='' id='nport' name='nport' /&gt;
+         &lt;label for='nport'&gt;RESTful port : &lt;/label&gt;
+         &lt;input type='text' value='' id='rport' name='rport' /&gt;
          &lt;label for='jobdir'&gt;Job directory : &lt;/label&gt;
          &lt;input type='text' value='' id='jobdir' name='jobdir' /&gt;
          &lt;label for='instdir'&gt;Instances directory : &lt;/label&gt;
