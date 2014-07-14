@@ -23,7 +23,7 @@ to make xar package.
 Download binary package
 ---------------------------------------------------
 You can download pre built package from  
-[WiperDog xwiki app](http://demo.wiperdog.org/jenkins/job/wiperdog-xwiki-app/lastSuccessfulBuild/artifact/target/wiperdog-xwiki-app-0.1.0.xar).
+[WiperDog xwiki app](http://demo.wiperdog.org/jenkins/job/wiperdog-ui-v0.2.3/lastSuccessfulBuild/artifact/target/wiperdog-ui.xar).
 
 Authors
 --------------------------------------------------
