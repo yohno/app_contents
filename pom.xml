@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.wiperdog</groupId>
   <artifactId>wiperdog-ui</artifactId>
-  <version>0.2.3</version>
+  <version>0.2.4-SNAPSHOT</version>
   <packaging>xar</packaging>
   <name>XWiki Application - Wiperdog</name>
   <description>XWiki Application - Wiperdog</description>
@@ -82,8 +82,4 @@
       <url>http://maven.xwiki.org/releases</url>
     </pluginRepository>
   </pluginRepositories>
-
-  <scm>
-    <tag>v0.2.3</tag>
-  </scm>
 </project>
