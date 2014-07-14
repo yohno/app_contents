@@ -34,3 +34,7 @@ Lisense
 --------------------------------------------------
 This module is distributed under the Apache 2.0 lisense.
 
+Version history
+--------------------------------------------------
+* Version 0.2.3 : xwiki-ui for WiperDog 0.2.5  
+* Version 0.1.0 : First release
