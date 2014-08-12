@@ -6702,7 +6702,7 @@ function errorFunc(xhr, status, error){
 	doc.text("To: " + toDate, 80, 15)
 
 	if(result_KEYEXPR != null){
-		if(keys != null &amp;&amp; keys != "[ ]"){
+		if(keys != null &amp;&amp; keys != "[ ]" &amp;&amp; keys != ""){
 			// Subtyped job
 			isStored = false
 			var tmpListKeys = keys.split(',')
