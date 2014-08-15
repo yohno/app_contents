@@ -1,74 +1,104 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<xwikidoc>
+<?xml version='1.0' encoding='UTF-8'?>
+<xwikidoc version="1.1">
   <web>WiperDog</web>
   <name>ImportInstance</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>WiperDog.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1408067443000</creationDate>
+  <parent>WiperDog.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
-  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1382327522000</creationDate>
-  <date>1387526082000</date>
-  <contentUpdateDate>1387526082000</contentUpdateDate>
+  <date>1408070443000</date>
+  <contentUpdateDate>1408070443000</contentUpdateDate>
   <version>1.1</version>
   <title>Import Instance Info</title>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
+  <comment></comment>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
+  <content>{{include document="WiperDog.checkService"/}}&#xd;
+{{include document="WiperDogLib.GetJobInfo"/}}&#xd;
+&#xd;
+{{velocity}}&#xd;
+$xwiki.ssx.use('WiperDog.checkService')&#xd;
+$xwiki.jsx.use("WiperDogLib.GetJobInfo")&#xd;
+$xwiki.ssx.use("WiperDogLib.GetJobInfo")&#xd;
+&#xd;
+{{html wiki="true" clean="false"}}&#xd;
+&lt;div id="dropdownlist">&#xd;
+ &lt;table>&#xd;
+  &lt;tr>&#xd;
+   &lt;th>Monitoring Type(*)&lt;/th>&#xd;
+   &lt;td>&lt;select id="listMonitoring" tabindex="1">&lt;/select>&lt;/td>&#xd;
+  &lt;/tr>&#xd;
+  &lt;tr>&#xd;
+   &lt;th>DB Type&lt;/th>&#xd;
+   &lt;td>&lt;select id="dbTypeCbb" tabindex="2">&lt;/select>&lt;br/>choose if Monitoring Type is @DB&lt;/td>&#xd;
+  &lt;/tr>&#xd;
+  &lt;tr>&#xd;
+   &lt;th>Job File&lt;/th>&#xd;
+   &lt;td>&lt;select id="listJob" tabindex="3">&lt;option id="noChoice" value="noChoice">-select a job-&lt;/option>&lt;/select>&lt;br/>choose if edit existed job&lt;/td>&#xd;
+  &lt;/tr>&#xd;
+ &lt;/table>&#xd;
+&lt;/div>&#xd;
+&#xd;
+&lt;div id="viewer" >&#xd;
+ &lt;input type="text" name="jobName" id="jobNameText" readonly style="display: none;"/>&#xd;
+ &lt;div id='formUpload'>&#xd;
+  &lt;form action="${doc.getURL('upload')}" enctype="mutipart/form-data" method="post">&#xd;
+  &lt;input type="file" name="filepath_11" id="my_upload" />&#xd;
+  &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" />&#xd;
+  &lt;div id="fileName" style = "display: none">&lt;/div>&#xd;
+  &lt;div id="my_upload_results" >&#xd;
+   #template('attachmentslist.vm')&#xd;
+  &lt;/div>&#xd;
+  &lt;textarea id='fileContent'> &lt;/textarea>&#xd;
+  &lt;div id="btnLoadFile">&lt;input type='button' id='loadFromFile' class = 'button' value="Add to List Instances"/>&lt;/div>&#xd;
+  &lt;/form>&#xd;
+ &lt;/div>&#xd;
+ &lt;div id='messageLoadFile'>&lt;/div>&#xd;
+&lt;/div>&#xd;
+&#xd;
+&lt;div id="instancesTableViewer">&#xd;
+ &lt;table id = 'instancesTable'>&#xd;
+  &lt;tr>&#xd;
+   &lt;th>Instance Name&lt;/th>&lt;th>Schedule&lt;/th>&lt;th>Params&lt;/th>&#xd;
+  &lt;/tr>&#xd;
+ &lt;/table>&#xd;
+&lt;/div>&#xd;
+&#xd;
+|&lt;input type='button' value="Save to instances file" id='saveToInstFile' class = 'button'/>|&lt;input type='button' value="Export to CSV file" id='exportToCSV' class = 'button'/>&#xd;
+&#xd;
+&lt;br/>&lt;br/>&#xd;
+&#xd;
+{{/html}}&#xd;
+{{/velocity}}&#xd;
+</content>
   <attachment>
-    <filename>closed.gif</filename>
-    <filesize>365</filesize>
-    <author>XWiki.Admin</author>
-    <date>1383184629000</date>
+    <filename>instance_nodata.csv</filename>
+    <author>xwiki:XWiki.Admin</author>
+    <date>1408070443000</date>
     <version>1.1</version>
     <comment/>
-    <content>R0lGODlhEQAMAPUAACAQECAgEDAoIEA4MFBAQFBQQGBQUGBgUHBgUHBwYJBwIKB4IIBwYIB4cLCA
-EL2UELCAIJCIcMCIENCQEMCYINCYINCgIOCYIOCgIOCgMOCoMOCwMPCoMOC4UPCwQPC4QPC4UPDA
-UPDAYPDIYPDIcPDQYPDQcP/QcP/YcJCIgJmZmaCQgLCgkLCokNfTv//YgP/ggPDgkP/gkP/okPDg
-oP/ooPDosP/woPDwsP/wsNXSyf/wwOvp4/bx5P///wAAACH5BAAAAAAALAAAAAARAAwAAAaKQF+v
-RSTyfMiksmXL5XAxlktJZVmv1pV2q0OyduCdszaTvU4kEQOpEj9vZdipFAJV1r6VmyyDoUojIBoP
-CEh6ODc1fX+BHhoSBoZjiyYjIR4cGA4EhjZkfpUhHxwZFw4DSCk2M6CWoxoXEwsCSBE0Jh0bGhYU
-FBAQDgsKAbUNCQcFAwIBAM3OAD5BADs=
-</content>
+    <content>SU5TVF9OQU1FLFNDSEVEVUxFDQo=</content>
+    <filesize>20</filesize>
   </attachment>
   <attachment>
-    <filename>list.gif</filename>
-    <filesize>63</filesize>
-    <author>XWiki.Admin</author>
-    <date>1383184634000</date>
+    <filename>sample.csv</filename>
+    <author>xwiki:XWiki.Admin</author>
+    <date>1408069840000</date>
     <version>1.1</version>
     <comment/>
-    <content>R0lGODlhDgAOAPAAAFRWVPz+/CH5BAAAAAAALAAAAAAOAA4AAAIWjI+py20AXYBAUnmu040nv4CK
-iJVHAQA7
-</content>
-  </attachment>
-  <attachment>
-    <filename>open.gif</filename>
-    <filesize>570</filesize>
-    <author>XWiki.Admin</author>
-    <date>1383184643000</date>
-    <version>1.1</version>
-    <comment/>
-    <content>R0lGODlhEQAMAPYAABAQECAQECAYEDAgIDAwIEA4MGBIIFBIQF5ZWWBYQHZnSXBgUIBoIJBwIKB4
-IIBwUIB4YLCAEJCAYJKEa5CIcMCIEMCQAMyZANCQEOCgIOCgMPCoMPCwMNCoUNCwcPC4QPDAQP/A
-UP/IUP/QUP/MZv/YYP/QcP/YcJCIgJqQipmZmaCQgLCggLCgkLCokLm4w8CwkMC4kNDAgNDAkMfD
-usrGt+DIgPDQgPDYgP/YgODQoP/ggPDgkP/gkPDooP/ooPDwoP/woPDwsMbDyv///wAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5
-BAAAAAAALAAAAAARAAwAAAeXgERELoSENIKIiYM6QkJBPy01ioktQI4/PycqK5wrFJQ+jz85JaWm
-n4gqPpgwMIQsLJ0rKJ8rPD82Lju7vDsnJx0pRLY9LjEnpiUjIh8aCkPDOLk7JqYiIB8cDBOCKzcu
-MyckJCIh2RsYBi+CKDK65NccGxkYDAiIFC0eF/wWFRERHDQwMAOfBAgPFiQ4UIDAAAEAAiAKBAA7
-</content>
+    <content>SU5TVF9OQU1FLFNDSEVEVUxFLEhPU1RfSUQsU0lELFBBUkFNMSxQQVJBTTIsUEFSQU0zDQppbnN0XzEsMTBpLGhvc3RfaWQxLHNpZDEsdmFsX3BhcmFtMSx2YWxfcGFyYW0yLHZhbF9wYXJhbXMzDQppbnN0XzIsMjBpLGhvc3RfaWQyLHNpZDIsdmFsX3BhcmFtMjEsdmFsX3BhcmFtMjIsdmFsX3BhcmFtczIzDQppbnN0XzMsMzBpLGhvc3RfaWQzLHNpZDMsdmFsX3BhcmFtMzEsdmFsX3BhcmFtMzIsdmFsX3BhcmFtMzM=</content>
+    <filesize>236</filesize>
   </attachment>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>15dc7d2c-dc16-4683-a93e-bd6ec72b49a8</guid>
     <class>
       <name>XWiki.JavaScriptExtension</name>
       <customClass/>
@@ -140,697 +170,556 @@ MyckJCIh2RsYBi+CKDK65NccGxkYDAiIFC0eF/wWFRERHDQwMAOfBAgPFiQ4UIDAAAEAAiAKBAA7
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>0</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>15dc7d2c-dc16-4683-a93e-bd6ec72b49a8</guid>
     <property>
       <cache>default</cache>
     </property>
     <property>
-      <code>var persisteduls=new Object()
-var ddtreemenu=new Object()
-
-ddtreemenu.closefolder="/xwiki/bin/download/WiperDog/ImportInstance/closed.gif" //set image path to "closed" folder image
-ddtreemenu.openfolder="/xwiki/bin/download/WiperDog/ImportInstance/open.gif" //set image path to "open" folder image
-
-//////////No need to edit beyond here///////////////////////////
-
-ddtreemenu.createTree=function(treeid, enablepersist, persistdays){
-var ultags=document.getElementById(treeid).getElementsByTagName("ul")
-if (typeof persisteduls[treeid]=="undefined")
-persisteduls[treeid]=(enablepersist==true &amp;&amp; ddtreemenu.getCookie(treeid)!="")? ddtreemenu.getCookie(treeid).split(",") : ""
-for (var i=0; i&lt;ultags.length; i++)
-ddtreemenu.buildSubTree(treeid, ultags[i], i)
-if (enablepersist==true){ //if enable persist feature
-var durationdays=(typeof persistdays=="undefined")? 1 : parseInt(persistdays)
-ddtreemenu.dotask(window, function(){ddtreemenu.rememberstate(treeid, durationdays)}, "unload") //save opened UL indexes on body unload
-}
-}
-
-ddtreemenu.buildSubTree=function(treeid, ulelement, index){
-ulelement.parentNode.className="submenu"
-if (typeof persisteduls[treeid]=="object"){ //if cookie exists (persisteduls[treeid] is an array versus "" string)
-if (ddtreemenu.searcharray(persisteduls[treeid], index)){
-ulelement.setAttribute("rel", "open")
-ulelement.style.display="block"
-ulelement.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
-}
-else
-ulelement.setAttribute("rel", "closed")
-} //end cookie persist code
-else if (ulelement.getAttribute("rel")==null || ulelement.getAttribute("rel")==false) //if no cookie and UL has NO rel attribute explicted added by user
-ulelement.setAttribute("rel", "closed")
-else if (ulelement.getAttribute("rel")=="open") //else if no cookie and this UL has an explicit rel value of "open"
-ddtreemenu.expandSubTree(treeid, ulelement) //expand this UL plus all parent ULs (so the most inner UL is revealed!)
-ulelement.parentNode.onclick=function(e){
-var submenu=this.getElementsByTagName("ul")[0]
-if (submenu.getAttribute("rel")=="closed"){
-submenu.style.display="block"
-submenu.setAttribute("rel", "open")
-ulelement.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
-}
-else if (submenu.getAttribute("rel")=="open"){
-submenu.style.display="none"
-submenu.setAttribute("rel", "closed")
-ulelement.parentNode.style.backgroundImage="url("+ddtreemenu.closefolder+")"
-}
-ddtreemenu.preventpropagate(e)
-}
-ulelement.onclick=function(e){
-ddtreemenu.preventpropagate(e)
-}
-}
-
-ddtreemenu.expandSubTree=function(treeid, ulelement){ //expand a UL element and any of its parent ULs
-var rootnode=document.getElementById(treeid)
-var currentnode=ulelement
-currentnode.style.display="block"
-currentnode.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
-while (currentnode!=rootnode){
-if (currentnode.tagName=="UL"){ //if parent node is a UL, expand it too
-currentnode.style.display="block"
-currentnode.setAttribute("rel", "open") //indicate it's open
-currentnode.parentNode.style.backgroundImage="url("+ddtreemenu.openfolder+")"
-}
-currentnode=currentnode.parentNode
-}
-}
-
-ddtreemenu.flatten=function(treeid, action){ //expand or contract all UL elements
-var ultags=document.getElementById(treeid).getElementsByTagName("ul")
-for (var i=0; i&lt;ultags.length; i++){
-ultags[i].style.display=(action=="expand")? "block" : "none"
-var relvalue=(action=="expand")? "open" : "closed"
-ultags[i].setAttribute("rel", relvalue)
-ultags[i].parentNode.style.backgroundImage=(action=="expand")? "url("+ddtreemenu.openfolder+")" : "url("+ddtreemenu.closefolder+")"
-}
-}
-
-ddtreemenu.rememberstate=function(treeid, durationdays){ //store index of opened ULs relative to other ULs in Tree into cookie
-var ultags=document.getElementById(treeid).getElementsByTagName("ul")
-var openuls=new Array()
-for (var i=0; i&lt;ultags.length; i++){
-if (ultags[i].getAttribute("rel")=="open")
-openuls[openuls.length]=i //save the index of the opened UL (relative to the entire list of ULs) as an array element
-}
-if (openuls.length==0) //if there are no opened ULs to save/persist
-openuls[0]="none open" //set array value to string to simply indicate all ULs should persist with state being closed
-ddtreemenu.setCookie(treeid, openuls.join(","), durationdays) //populate cookie with value treeid=1,2,3 etc (where 1,2... are the indexes of the opened ULs)
-}
-
-////A few utility functions below//////////////////////
-
-ddtreemenu.getCookie=function(Name){ //get cookie value
-var re=new RegExp(Name+"=[^;]+", "i"); //construct RE to search for target name/value pair
-if (document.cookie.match(re)) //if cookie found
-return document.cookie.match(re)[0].split("=")[1] //return its value
-return ""
-}
-
-ddtreemenu.setCookie=function(name, value, days){ //set cookei value
-var expireDate = new Date()
-//set "expstring" to either future or past date, to set or delete cookie, respectively
-var expstring=expireDate.setDate(expireDate.getDate()+parseInt(days))
-document.cookie = name+"="+value+"; expires="+expireDate.toGMTString()+"; path=/";
-}
-
-ddtreemenu.searcharray=function(thearray, value){ //searches an array for the entered value. If found, delete value from array
-var isfound=false
-for (var i=0; i&lt;thearray.length; i++){
-if (thearray[i]==value){
-isfound=true
-thearray.shift() //delete this element from array for efficiency sake
-break
-}
-}
-return isfound
-}
-
-ddtreemenu.preventpropagate=function(e){ //prevent action from bubbling upwards
-if (typeof e!="undefined")
-e.stopPropagation()
-else
-event.cancelBubble=true
-}
-
-ddtreemenu.dotask=function(target, functionref, tasktype){ //assign a function to execute to an event handler (ie: onunload)
-var tasktype=(window.addEventListener)? tasktype : "on"+tasktype
-if (target.addEventListener)
-target.addEventListener(tasktype, functionref, false)
-else if (target.attachEvent)
-target.attachEvent(tasktype, functionref)
-}
-require(['jquery'],function($){
-RegExp.escape = function(s) {
-	return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
-};
-(function($) {
-	'use strict'
-	$.csv = {
-		defaults: {
-			separator: ',',
-			delimiter: '"',
-			headers: true
-		},
-		hooks: {
-			castToScalar: function(value, state) {
-				var hasDot = /\./;
-				if (isNaN(value)) {
-					return value;
-				} else {
-					if (hasDot.test(value)) {
-						return parseFloat(value);
-					} else {
-						var integer = parseInt(value);
-						if (isNaN(integer)) {
-							return null;
-						} else {
-							return integer;
-						}
-					}
-				}
-			}
-		},
-		parsers: {
-			parse: function(csv, options) {
-				var separator = options.separator;
-				var delimiter = options.delimiter;
-				if (!options.state.rowNum) {
-					options.state.rowNum = 1;
-				}
-				if (!options.state.colNum) {
-					options.state.colNum = 1;
-				}
-				var data = [];
-				var entry = [];
-				var state = 0;
-				var value = ''
-				var exit = false;
-
-				function endOfEntry() {
-					state = 0;
-					value = '';
-					if (options.start &amp;&amp; options.state.rowNum &lt; options.start) {
-						entry = [];
-						options.state.rowNum++;
-						options.state.colNum = 1;
-						return;
-					}
-					if (options.onParseEntry === undefined) {
-						data.push(entry);
-					} else {
-						var hookVal = options.onParseEntry(entry, options.state);
-						if (hookVal !== false) {
-							data.push(hookVal);
-						}
-					}
-					entry = [];
-					if (options.end &amp;&amp; options.state.rowNum &gt;= options.end) {
-						exit = true;
-					}
-					options.state.rowNum++;
-					options.state.colNum = 1;
-				}
-
-				function endOfValue() {
-					if (options.onParseValue === undefined) {
-						entry.push(value);
-					} else {
-						var hook = options.onParseValue(value, options.state);
-						if (hook !== false) {
-							entry.push(hook);
-						}
-					}
-					value = '';
-					state = 0;
-					options.state.colNum++;
-				}
-				var escSeparator = RegExp.escape(separator);
-				var escDelimiter = RegExp.escape(delimiter);
-				var match = /(D|S|\n|\r|[^DS\r\n]+)/;
-				var matchSrc = match.source;
-				matchSrc = matchSrc.replace(/S/g, escSeparator);
-				matchSrc = matchSrc.replace(/D/g, escDelimiter);
-				match = RegExp(matchSrc, 'gm');
-				csv.replace(match, function(m0) {
-					if (exit) {
-						return;
-					}
-					switch (state) {
-						case 0:
-							if (m0 === separator) {
-								value += '';
-								endOfValue();
-								break;
-							}
-							if (m0 === delimiter) {
-								state = 1;
-								break;
-							}
-							if (m0 === '\n') {
-								endOfValue();
-								endOfEntry();
-								break;
-							}
-							if (/^\r$/.test(m0)) {
-								break;
-							}
-							value += m0;
-							state = 3;
-							break;
-						case 1:
-							if (m0 === delimiter) {
-								state = 2;
-								break;
-							}
-							value += m0;
-							state = 1;
-							break;
-						case 2:
-							if (m0 === delimiter) {
-								value += m0;
-								state = 1;
-								break;
-							}
-							if (m0 === separator) {
-								endOfValue();
-								break;
-							}
-							if (m0 === '\n') {
-								endOfValue();
-								endOfEntry();
-								break;
-							}
-							if (/^\r$/.test(m0)) {
-								break;
-							}
-							throw new Error('CSVDataError: Illegal State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-						case 3:
-							if (m0 === separator) {
-								endOfValue();
-								break;
-							}
-							if (m0 === '\n') {
-								endOfValue();
-								endOfEntry();
-								break;
-							}
-							if (/^\r$/.test(m0)) {
-								break;
-							}
-							if (m0 === delimiter) {
-								throw new Error('CSVDataError: Illegal Quote [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-							}
-							throw new Error('CSVDataError: Illegal Data [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-						default:
-							throw new Error('CSVDataError: Unknown State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-					}
-				});
-				if (entry.length !== 0) {
-					endOfValue();
-					endOfEntry();
-				}
-				return data;
-			},
-			splitLines: function(csv, options) {
-				var separator = options.separator;
-				var delimiter = options.delimiter;
-				if (!options.state.rowNum) {
-					options.state.rowNum = 1;
-				}
-				var entries = [];
-				var state = 0;
-				var entry = '';
-				var exit = false;
-
-				function endOfLine() {
-					state = 0;
-					if (options.start &amp;&amp; options.state.rowNum &lt; options.start) {
-						entry = '';
-						options.state.rowNum++;
-						return;
-					}
-					if (options.onParseEntry === undefined) {
-						entries.push(entry);
-					} else {
-						var hookVal = options.onParseEntry(entry, options.state);
-						if (hookVal !== false) {
-							entries.push(hookVal);
-						}
-					}
-					entry = '';
-					if (options.end &amp;&amp; options.state.rowNum &gt;= options.end) {
-						exit = true;
-					}
-					options.state.rowNum++;
-				}
-				var escSeparator = RegExp.escape(separator);
-				var escDelimiter = RegExp.escape(delimiter);
-				var match = /(D|S|\n|\r|[^DS\r\n]+)/;
-				var matchSrc = match.source;
-				matchSrc = matchSrc.replace(/S/g, escSeparator);
-				matchSrc = matchSrc.replace(/D/g, escDelimiter);
-				match = RegExp(matchSrc, 'gm');
-				csv.replace(match, function(m0) {
-					if (exit) {
-						return;
-					}
-					switch (state) {
-						case 0:
-							if (m0 === separator) {
-								entry += m0;
-								state = 0;
-								break;
-							}
-							if (m0 === delimiter) {
-								entry += m0;
-								state = 1;
-								break;
-							}
-							if (m0 === '\n') {
-								endOfLine();
-								break;
-							}
-							if (/^\r$/.test(m0)) {
-								break;
-							}
-							entry += m0;
-							state = 3;
-							break;
-						case 1:
-							if (m0 === delimiter) {
-								entry += m0;
-								state = 2;
-								break;
-							}
-							entry += m0;
-							state = 1;
-							break;
-						case 2:
-							var prevChar = entry.substr(entry.length - 1);
-							if (m0 === delimiter &amp;&amp; prevChar === delimiter) {
-								entry += m0;
-								state = 1;
-								break;
-							}
-							if (m0 === separator) {
-								entry += m0;
-								state = 0;
-								break;
-							}
-							if (m0 === '\n') {
-								endOfLine();
-								break;
-							}
-							if (m0 === '\r') {
-								break;
-							}
-							throw new Error('CSVDataError: Illegal state [Row:' + options.state.rowNum + ']');
-						case 3:
-							if (m0 === separator) {
-								entry += m0;
-								state = 0;
-								break;
-							}
-							if (m0 === '\n') {
-								endOfLine();
-								break;
-							}
-							if (m0 === '\r') {
-								break;
-							}
-							if (m0 === delimiter) {
-								throw new Error('CSVDataError: Illegal quote [Row:' + options.state.rowNum + ']');
-							}
-							throw new Error('CSVDataError: Illegal state [Row:' + options.state.rowNum + ']');
-						default:
-							throw new Error('CSVDataError: Unknown state [Row:' + options.state.rowNum + ']');
-					}
-				});
-				if (entry !== '') {
-					endOfLine();
-				}
-				return entries;
-			},
-			parseEntry: function(csv, options) {
-				var separator = options.separator;
-				var delimiter = options.delimiter;
-				if (!options.state.rowNum) {
-					options.state.rowNum = 1;
-				}
-				if (!options.state.colNum) {
-					options.state.colNum = 1;
-				}
-				var entry = [];
-				var state = 0;
-				var value = '';
-
-				function endOfValue() {
-					if (options.onParseValue === undefined) {
-						entry.push(value);
-					} else {
-						var hook = options.onParseValue(value, options.state);
-						if (hook !== false) {
-							entry.push(hook);
-						}
-					}
-					value = '';
-					state = 0;
-					options.state.colNum++;
-				}
-				if (!options.match) {
-					var escSeparator = RegExp.escape(separator);
-					var escDelimiter = RegExp.escape(delimiter);
-					var match = /(D|S|\n|\r|[^DS\r\n]+)/;
-					var matchSrc = match.source;
-					matchSrc = matchSrc.replace(/S/g, escSeparator);
-					matchSrc = matchSrc.replace(/D/g, escDelimiter);
-					options.match = RegExp(matchSrc, 'gm');
-				}
-				csv.replace(options.match, function(m0) {
-					switch (state) {
-						case 0:
-							if (m0 === separator) {
-								value += '';
-								endOfValue();
-								break;
-							}
-							if (m0 === delimiter) {
-								state = 1;
-								break;
-							}
-							if (m0 === '\n' || m0 === '\r') {
-								break;
-							}
-							value += m0;
-							state = 3;
-							break;
-						case 1:
-							if (m0 === delimiter) {
-								state = 2;
-								break;
-							}
-							value += m0;
-							state = 1;
-							break;
-						case 2:
-							if (m0 === delimiter) {
-								value += m0;
-								state = 1;
-								break;
-							}
-							if (m0 === separator) {
-								endOfValue();
-								break;
-							}
-							if (m0 === '\n' || m0 === '\r') {
-								break;
-							}
-							throw new Error('CSVDataError: Illegal State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-						case 3:
-							if (m0 === separator) {
-								endOfValue();
-								break;
-							}
-							if (m0 === '\n' || m0 === '\r') {
-								break;
-							}
-							if (m0 === delimiter) {
-								throw new Error('CSVDataError: Illegal Quote [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-							}
-							throw new Error('CSVDataError: Illegal Data [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-						default:
-							throw new Error('CSVDataError: Unknown State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');
-					}
-				});
-				endOfValue();
-				return entry;
-			}
-		},
-		toArray: function(csv, options, callback) {
-			var options = (options !== undefined ? options : {});
-			var config = {};
-			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);
-			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;
-			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;
-			var state = (options.state !== undefined ? options.state : {});
-			var options = {
-				delimiter: config.delimiter,
-				separator: config.separator,
-				onParseEntry: options.onParseEntry,
-				onParseValue: options.onParseValue,
-				state: state
-			}
-			var entry = $.csv.parsers.parseEntry(csv, options);
-			if (!config.callback) {
-				return entry;
-			} else {
-				config.callback('', entry);
-			}
-		},
-		toArrays: function(csv, options, callback) {
-			var options = (options !== undefined ? options : {});
-			var config = {};
-			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);
-			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;
-			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;
-			var data = [];
-			var options = {
-				delimiter: config.delimiter,
-				separator: config.separator,
-				onParseEntry: options.onParseEntry,
-				onParseValue: options.onParseValue,
-				start: options.start,
-				end: options.end,
-				state: {
-					rowNum: 1,
-					colNum: 1
-				}
-			};
-			data = $.csv.parsers.parse(csv, options);
-			if (!config.callback) {
-				return data;
-			} else {
-				config.callback('', data);
-			}
-		},
-		toObjects: function(csv, options, callback) {
-			var options = (options !== undefined ? options : {});
-			var config = {};
-			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);
-			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;
-			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;
-			config.headers = 'headers' in options ? options.headers : $.csv.defaults.headers;
-			options.start = 'start' in options ? options.start : 1;
-			if (config.headers) {
-				options.start++;
-			}
-			if (options.end &amp;&amp; config.headers) {
-				options.end++;
-			}
-			var lines = [];
-			var data = [];
-			var options = {
-				delimiter: config.delimiter,
-				separator: config.separator,
-				onParseEntry: options.onParseEntry,
-				onParseValue: options.onParseValue,
-				start: options.start,
-				end: options.end,
-				state: {
-					rowNum: 1,
-					colNum: 1
-				},
-				match: false
-			};
-			var headerOptions = {
-				delimiter: config.delimiter,
-				separator: config.separator,
-				start: 1,
-				end: 1,
-				state: {
-					rowNum: 1,
-					colNum: 1
-				}
-			}
-			var headerLine = $.csv.parsers.splitLines(csv, headerOptions);
-			var headers = $.csv.toArray(headerLine[0], options);
-			var lines = $.csv.parsers.splitLines(csv, options);
-			options.state.colNum = 1;
-			if (headers) {
-				options.state.rowNum = 2;
-			} else {
-				options.state.rowNum = 1;
-			}
-			for (var i = 0, len = lines.length; i &lt; len; i++) {
-				var entry = $.csv.toArray(lines[i], options);
-				var object = {};
-				for (var j in headers) {
-					object[headers[j]] = entry[j];
-				}
-				data.push(object);
-				options.state.rowNum++;
-			}
-			if (!config.callback) {
-				return data;
-			} else {
-				config.callback('', data);
-			}
-		},
-		fromArrays: function(arrays, options, callback) {
-			var options = (options !== undefined ? options : {});
-			var config = {};
-			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);
-			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;
-			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;
-			config.escaper = 'escaper' in options ? options.escaper : $.csv.defaults.escaper;
-			config.experimental = 'experimental' in options ? options.experimental : false;
-			if (!config.experimental) {
-				throw new Error('not implemented');
-			}
-			var output = [];
-			for (i in arrays) {
-				output.push(arrays[i]);
-			}
-			if (!config.callback) {
-				return output;
-			} else {
-				config.callback('', output);
-			}
-		},
-		fromObjects2CSV: function(objects, options, callback) {
-			var options = (options !== undefined ? options : {});
-			var config = {};
-			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);
-			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;
-			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;
-			config.experimental = 'experimental' in options ? options.experimental : false;
-			if (!config.experimental) {
-				throw new Error('not implemented');
-			}
-			var output = [];
-			for (i in objects) {
-				output.push(arrays[i]);
-			}
-			if (!config.callback) {
-				return output;
-			} else {
-				config.callback('', output);
-			}
-		}
-	};
-	$.csvEntry2Array = $.csv.toArray;
-	$.csv2Array = $.csv.toArrays;
-	$.csv2Dictionary = $.csv.toObjects;
-})(jQuery);
-jQuery.noConflict()
-})
-
-
-
-
-
+      <code>require(['jquery'],function($){&#xd;
+RegExp.escape = function(s) {&#xd;
+	return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');&#xd;
+};&#xd;
+(function($) {&#xd;
+	'use strict'&#xd;
+	$.csv = {&#xd;
+		defaults: {&#xd;
+			separator: ',',&#xd;
+			delimiter: '"',&#xd;
+			headers: true&#xd;
+		},&#xd;
+		hooks: {&#xd;
+			castToScalar: function(value, state) {&#xd;
+				var hasDot = /\./;&#xd;
+				if (isNaN(value)) {&#xd;
+					return value;&#xd;
+				} else {&#xd;
+					if (hasDot.test(value)) {&#xd;
+						return parseFloat(value);&#xd;
+					} else {&#xd;
+						var integer = parseInt(value);&#xd;
+						if (isNaN(integer)) {&#xd;
+							return null;&#xd;
+						} else {&#xd;
+							return integer;&#xd;
+						}&#xd;
+					}&#xd;
+				}&#xd;
+			}&#xd;
+		},&#xd;
+		parsers: {&#xd;
+			parse: function(csv, options) {&#xd;
+				var separator = options.separator;&#xd;
+				var delimiter = options.delimiter;&#xd;
+				if (!options.state.rowNum) {&#xd;
+					options.state.rowNum = 1;&#xd;
+				}&#xd;
+				if (!options.state.colNum) {&#xd;
+					options.state.colNum = 1;&#xd;
+				}&#xd;
+				var data = [];&#xd;
+				var entry = [];&#xd;
+				var state = 0;&#xd;
+				var value = ''&#xd;
+				var exit = false;&#xd;
+&#xd;
+				function endOfEntry() {&#xd;
+					state = 0;&#xd;
+					value = '';&#xd;
+					if (options.start &amp;&amp; options.state.rowNum &lt; options.start) {&#xd;
+						entry = [];&#xd;
+						options.state.rowNum++;&#xd;
+						options.state.colNum = 1;&#xd;
+						return;&#xd;
+					}&#xd;
+					if (options.onParseEntry === undefined) {&#xd;
+						data.push(entry);&#xd;
+					} else {&#xd;
+						var hookVal = options.onParseEntry(entry, options.state);&#xd;
+						if (hookVal !== false) {&#xd;
+							data.push(hookVal);&#xd;
+						}&#xd;
+					}&#xd;
+					entry = [];&#xd;
+					if (options.end &amp;&amp; options.state.rowNum >= options.end) {&#xd;
+						exit = true;&#xd;
+					}&#xd;
+					options.state.rowNum++;&#xd;
+					options.state.colNum = 1;&#xd;
+				}&#xd;
+&#xd;
+				function endOfValue() {&#xd;
+					if (options.onParseValue === undefined) {&#xd;
+						entry.push(value);&#xd;
+					} else {&#xd;
+						var hook = options.onParseValue(value, options.state);&#xd;
+						if (hook !== false) {&#xd;
+							entry.push(hook);&#xd;
+						}&#xd;
+					}&#xd;
+					value = '';&#xd;
+					state = 0;&#xd;
+					options.state.colNum++;&#xd;
+				}&#xd;
+				var escSeparator = RegExp.escape(separator);&#xd;
+				var escDelimiter = RegExp.escape(delimiter);&#xd;
+				var match = /(D|S|\n|\r|[^DS\r\n]+)/;&#xd;
+				var matchSrc = match.source;&#xd;
+				matchSrc = matchSrc.replace(/S/g, escSeparator);&#xd;
+				matchSrc = matchSrc.replace(/D/g, escDelimiter);&#xd;
+				match = RegExp(matchSrc, 'gm');&#xd;
+				csv.replace(match, function(m0) {&#xd;
+					if (exit) {&#xd;
+						return;&#xd;
+					}&#xd;
+					switch (state) {&#xd;
+						case 0:&#xd;
+							if (m0 === separator) {&#xd;
+								value += '';&#xd;
+								endOfValue();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === delimiter) {&#xd;
+								state = 1;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n') {&#xd;
+								endOfValue();&#xd;
+								endOfEntry();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (/^\r$/.test(m0)) {&#xd;
+								break;&#xd;
+							}&#xd;
+							value += m0;&#xd;
+							state = 3;&#xd;
+							break;&#xd;
+						case 1:&#xd;
+							if (m0 === delimiter) {&#xd;
+								state = 2;&#xd;
+								break;&#xd;
+							}&#xd;
+							value += m0;&#xd;
+							state = 1;&#xd;
+							break;&#xd;
+						case 2:&#xd;
+							if (m0 === delimiter) {&#xd;
+								value += m0;&#xd;
+								state = 1;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === separator) {&#xd;
+								endOfValue();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n') {&#xd;
+								endOfValue();&#xd;
+								endOfEntry();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (/^\r$/.test(m0)) {&#xd;
+								break;&#xd;
+							}&#xd;
+							throw new Error('CSVDataError: Illegal State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+						case 3:&#xd;
+							if (m0 === separator) {&#xd;
+								endOfValue();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n') {&#xd;
+								endOfValue();&#xd;
+								endOfEntry();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (/^\r$/.test(m0)) {&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === delimiter) {&#xd;
+								throw new Error('CSVDataError: Illegal Quote [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+							}&#xd;
+							throw new Error('CSVDataError: Illegal Data [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+						default:&#xd;
+							throw new Error('CSVDataError: Unknown State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+					}&#xd;
+				});&#xd;
+				if (entry.length !== 0) {&#xd;
+					endOfValue();&#xd;
+					endOfEntry();&#xd;
+				}&#xd;
+				return data;&#xd;
+			},&#xd;
+			splitLines: function(csv, options) {&#xd;
+				var separator = options.separator;&#xd;
+				var delimiter = options.delimiter;&#xd;
+				if (!options.state.rowNum) {&#xd;
+					options.state.rowNum = 1;&#xd;
+				}&#xd;
+				var entries = [];&#xd;
+				var state = 0;&#xd;
+				var entry = '';&#xd;
+				var exit = false;&#xd;
+&#xd;
+				function endOfLine() {&#xd;
+					state = 0;&#xd;
+					if (options.start &amp;&amp; options.state.rowNum &lt; options.start) {&#xd;
+						entry = '';&#xd;
+						options.state.rowNum++;&#xd;
+						return;&#xd;
+					}&#xd;
+					if (options.onParseEntry === undefined) {&#xd;
+						entries.push(entry);&#xd;
+					} else {&#xd;
+						var hookVal = options.onParseEntry(entry, options.state);&#xd;
+						if (hookVal !== false) {&#xd;
+							entries.push(hookVal);&#xd;
+						}&#xd;
+					}&#xd;
+					entry = '';&#xd;
+					if (options.end &amp;&amp; options.state.rowNum >= options.end) {&#xd;
+						exit = true;&#xd;
+					}&#xd;
+					options.state.rowNum++;&#xd;
+				}&#xd;
+				var escSeparator = RegExp.escape(separator);&#xd;
+				var escDelimiter = RegExp.escape(delimiter);&#xd;
+				var match = /(D|S|\n|\r|[^DS\r\n]+)/;&#xd;
+				var matchSrc = match.source;&#xd;
+				matchSrc = matchSrc.replace(/S/g, escSeparator);&#xd;
+				matchSrc = matchSrc.replace(/D/g, escDelimiter);&#xd;
+				match = RegExp(matchSrc, 'gm');&#xd;
+				csv.replace(match, function(m0) {&#xd;
+					if (exit) {&#xd;
+						return;&#xd;
+					}&#xd;
+					switch (state) {&#xd;
+						case 0:&#xd;
+							if (m0 === separator) {&#xd;
+								entry += m0;&#xd;
+								state = 0;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === delimiter) {&#xd;
+								entry += m0;&#xd;
+								state = 1;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n') {&#xd;
+								endOfLine();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (/^\r$/.test(m0)) {&#xd;
+								break;&#xd;
+							}&#xd;
+							entry += m0;&#xd;
+							state = 3;&#xd;
+							break;&#xd;
+						case 1:&#xd;
+							if (m0 === delimiter) {&#xd;
+								entry += m0;&#xd;
+								state = 2;&#xd;
+								break;&#xd;
+							}&#xd;
+							entry += m0;&#xd;
+							state = 1;&#xd;
+							break;&#xd;
+						case 2:&#xd;
+							var prevChar = entry.substr(entry.length - 1);&#xd;
+							if (m0 === delimiter &amp;&amp; prevChar === delimiter) {&#xd;
+								entry += m0;&#xd;
+								state = 1;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === separator) {&#xd;
+								entry += m0;&#xd;
+								state = 0;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n') {&#xd;
+								endOfLine();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\r') {&#xd;
+								break;&#xd;
+							}&#xd;
+							throw new Error('CSVDataError: Illegal state [Row:' + options.state.rowNum + ']');&#xd;
+						case 3:&#xd;
+							if (m0 === separator) {&#xd;
+								entry += m0;&#xd;
+								state = 0;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n') {&#xd;
+								endOfLine();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\r') {&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === delimiter) {&#xd;
+								throw new Error('CSVDataError: Illegal quote [Row:' + options.state.rowNum + ']');&#xd;
+							}&#xd;
+							throw new Error('CSVDataError: Illegal state [Row:' + options.state.rowNum + ']');&#xd;
+						default:&#xd;
+							throw new Error('CSVDataError: Unknown state [Row:' + options.state.rowNum + ']');&#xd;
+					}&#xd;
+				});&#xd;
+				if (entry !== '') {&#xd;
+					endOfLine();&#xd;
+				}&#xd;
+				return entries;&#xd;
+			},&#xd;
+			parseEntry: function(csv, options) {&#xd;
+				var separator = options.separator;&#xd;
+				var delimiter = options.delimiter;&#xd;
+				if (!options.state.rowNum) {&#xd;
+					options.state.rowNum = 1;&#xd;
+				}&#xd;
+				if (!options.state.colNum) {&#xd;
+					options.state.colNum = 1;&#xd;
+				}&#xd;
+				var entry = [];&#xd;
+				var state = 0;&#xd;
+				var value = '';&#xd;
+&#xd;
+				function endOfValue() {&#xd;
+					if (options.onParseValue === undefined) {&#xd;
+						entry.push(value);&#xd;
+					} else {&#xd;
+						var hook = options.onParseValue(value, options.state);&#xd;
+						if (hook !== false) {&#xd;
+							entry.push(hook);&#xd;
+						}&#xd;
+					}&#xd;
+					value = '';&#xd;
+					state = 0;&#xd;
+					options.state.colNum++;&#xd;
+				}&#xd;
+				if (!options.match) {&#xd;
+					var escSeparator = RegExp.escape(separator);&#xd;
+					var escDelimiter = RegExp.escape(delimiter);&#xd;
+					var match = /(D|S|\n|\r|[^DS\r\n]+)/;&#xd;
+					var matchSrc = match.source;&#xd;
+					matchSrc = matchSrc.replace(/S/g, escSeparator);&#xd;
+					matchSrc = matchSrc.replace(/D/g, escDelimiter);&#xd;
+					options.match = RegExp(matchSrc, 'gm');&#xd;
+				}&#xd;
+				csv.replace(options.match, function(m0) {&#xd;
+					switch (state) {&#xd;
+						case 0:&#xd;
+							if (m0 === separator) {&#xd;
+								value += '';&#xd;
+								endOfValue();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === delimiter) {&#xd;
+								state = 1;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n' || m0 === '\r') {&#xd;
+								break;&#xd;
+							}&#xd;
+							value += m0;&#xd;
+							state = 3;&#xd;
+							break;&#xd;
+						case 1:&#xd;
+							if (m0 === delimiter) {&#xd;
+								state = 2;&#xd;
+								break;&#xd;
+							}&#xd;
+							value += m0;&#xd;
+							state = 1;&#xd;
+							break;&#xd;
+						case 2:&#xd;
+							if (m0 === delimiter) {&#xd;
+								value += m0;&#xd;
+								state = 1;&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === separator) {&#xd;
+								endOfValue();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n' || m0 === '\r') {&#xd;
+								break;&#xd;
+							}&#xd;
+							throw new Error('CSVDataError: Illegal State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+						case 3:&#xd;
+							if (m0 === separator) {&#xd;
+								endOfValue();&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === '\n' || m0 === '\r') {&#xd;
+								break;&#xd;
+							}&#xd;
+							if (m0 === delimiter) {&#xd;
+								throw new Error('CSVDataError: Illegal Quote [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+							}&#xd;
+							throw new Error('CSVDataError: Illegal Data [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+						default:&#xd;
+							throw new Error('CSVDataError: Unknown State [Row:' + options.state.rowNum + '][Col:' + options.state.colNum + ']');&#xd;
+					}&#xd;
+				});&#xd;
+				endOfValue();&#xd;
+				return entry;&#xd;
+			}&#xd;
+		},&#xd;
+		toArray: function(csv, options, callback) {&#xd;
+			var options = (options !== undefined ? options : {});&#xd;
+			var config = {};&#xd;
+			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);&#xd;
+			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;&#xd;
+			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;&#xd;
+			var state = (options.state !== undefined ? options.state : {});&#xd;
+			var options = {&#xd;
+				delimiter: config.delimiter,&#xd;
+				separator: config.separator,&#xd;
+				onParseEntry: options.onParseEntry,&#xd;
+				onParseValue: options.onParseValue,&#xd;
+				state: state&#xd;
+			}&#xd;
+			var entry = $.csv.parsers.parseEntry(csv, options);&#xd;
+			if (!config.callback) {&#xd;
+				return entry;&#xd;
+			} else {&#xd;
+				config.callback('', entry);&#xd;
+			}&#xd;
+		},&#xd;
+		toArrays: function(csv, options, callback) {&#xd;
+			var options = (options !== undefined ? options : {});&#xd;
+			var config = {};&#xd;
+			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);&#xd;
+			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;&#xd;
+			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;&#xd;
+			var data = [];&#xd;
+			var options = {&#xd;
+				delimiter: config.delimiter,&#xd;
+				separator: config.separator,&#xd;
+				onParseEntry: options.onParseEntry,&#xd;
+				onParseValue: options.onParseValue,&#xd;
+				start: options.start,&#xd;
+				end: options.end,&#xd;
+				state: {&#xd;
+					rowNum: 1,&#xd;
+					colNum: 1&#xd;
+				}&#xd;
+			};&#xd;
+			data = $.csv.parsers.parse(csv, options);&#xd;
+			if (!config.callback) {&#xd;
+				return data;&#xd;
+			} else {&#xd;
+				config.callback('', data);&#xd;
+			}&#xd;
+		},&#xd;
+		toObjects: function(csv, options, callback) {&#xd;
+			var options = (options !== undefined ? options : {});&#xd;
+			var config = {};&#xd;
+			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);&#xd;
+			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;&#xd;
+			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;&#xd;
+			config.headers = 'headers' in options ? options.headers : $.csv.defaults.headers;&#xd;
+			options.start = 'start' in options ? options.start : 1;&#xd;
+			if (config.headers) {&#xd;
+				options.start++;&#xd;
+			}&#xd;
+			if (options.end &amp;&amp; config.headers) {&#xd;
+				options.end++;&#xd;
+			}&#xd;
+			var lines = [];&#xd;
+			var data = [];&#xd;
+			var options = {&#xd;
+				delimiter: config.delimiter,&#xd;
+				separator: config.separator,&#xd;
+				onParseEntry: options.onParseEntry,&#xd;
+				onParseValue: options.onParseValue,&#xd;
+				start: options.start,&#xd;
+				end: options.end,&#xd;
+				state: {&#xd;
+					rowNum: 1,&#xd;
+					colNum: 1&#xd;
+				},&#xd;
+				match: false&#xd;
+			};&#xd;
+			var headerOptions = {&#xd;
+				delimiter: config.delimiter,&#xd;
+				separator: config.separator,&#xd;
+				start: 1,&#xd;
+				end: 1,&#xd;
+				state: {&#xd;
+					rowNum: 1,&#xd;
+					colNum: 1&#xd;
+				}&#xd;
+			}&#xd;
+			var headerLine = $.csv.parsers.splitLines(csv, headerOptions);&#xd;
+			var headers = $.csv.toArray(headerLine[0], options);&#xd;
+			var lines = $.csv.parsers.splitLines(csv, options);&#xd;
+			options.state.colNum = 1;&#xd;
+			if (headers) {&#xd;
+				options.state.rowNum = 2;&#xd;
+			} else {&#xd;
+				options.state.rowNum = 1;&#xd;
+			}&#xd;
+			for (var i = 0, len = lines.length; i &lt; len; i++) {&#xd;
+				var entry = $.csv.toArray(lines[i], options);&#xd;
+				var object = {};&#xd;
+				for (var j in headers) {&#xd;
+					object[headers[j]] = entry[j];&#xd;
+				}&#xd;
+				data.push(object);&#xd;
+				options.state.rowNum++;&#xd;
+			}&#xd;
+			if (!config.callback) {&#xd;
+				return data;&#xd;
+			} else {&#xd;
+				config.callback('', data);&#xd;
+			}&#xd;
+		},&#xd;
+		fromArrays: function(arrays, options, callback) {&#xd;
+			var options = (options !== undefined ? options : {});&#xd;
+			var config = {};&#xd;
+			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);&#xd;
+			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;&#xd;
+			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;&#xd;
+			config.escaper = 'escaper' in options ? options.escaper : $.csv.defaults.escaper;&#xd;
+			config.experimental = 'experimental' in options ? options.experimental : false;&#xd;
+			if (!config.experimental) {&#xd;
+				throw new Error('not implemented');&#xd;
+			}&#xd;
+			var output = [];&#xd;
+			for (i in arrays) {&#xd;
+				output.push(arrays[i]);&#xd;
+			}&#xd;
+			if (!config.callback) {&#xd;
+				return output;&#xd;
+			} else {&#xd;
+				config.callback('', output);&#xd;
+			}&#xd;
+		},&#xd;
+		fromObjects2CSV: function(objects, options, callback) {&#xd;
+			var options = (options !== undefined ? options : {});&#xd;
+			var config = {};&#xd;
+			config.callback = ((callback !== undefined &amp;&amp; typeof(callback) === 'function') ? callback : false);&#xd;
+			config.separator = 'separator' in options ? options.separator : $.csv.defaults.separator;&#xd;
+			config.delimiter = 'delimiter' in options ? options.delimiter : $.csv.defaults.delimiter;&#xd;
+			config.experimental = 'experimental' in options ? options.experimental : false;&#xd;
+			if (!config.experimental) {&#xd;
+				throw new Error('not implemented');&#xd;
+			}&#xd;
+			var output = [];&#xd;
+			for (i in objects) {&#xd;
+				output.push(arrays[i]);&#xd;
+			}&#xd;
+			if (!config.callback) {&#xd;
+				return output;&#xd;
+			} else {&#xd;
+				config.callback('', output);&#xd;
+			}&#xd;
+		}&#xd;
+	};&#xd;
+	$.csvEntry2Array = $.csv.toArray;&#xd;
+	$.csv2Array = $.csv.toArrays;&#xd;
+	$.csv2Dictionary = $.csv.toObjects;&#xd;
+})(jQuery);&#xd;
+jQuery.noConflict()&#xd;
+})&#xd;
+&#xd;
 </code>
     </property>
     <property>
@@ -844,6 +733,10 @@ jQuery.noConflict()
     </property>
   </object>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>931b5f39-133d-45a5-8775-96ed94a31b0a</guid>
     <class>
       <name>XWiki.JavaScriptExtension</name>
       <customClass/>
@@ -915,887 +808,775 @@ jQuery.noConflict()
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>1</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>931b5f39-133d-45a5-8775-96ed94a31b0a</guid>
     <property>
       <cache>default</cache>
     </property>
     <property>
-      <code>var dataFromFile = null
-var XWikiUploader = (function(d) {
-	if (typeof(File) === "undefined" || typeof(FormData) === "undefined" || typeof(XMLHttpRequest) === "undefined") {
-		return d
-	}
-	var b = {
-		secondsToTime: function(h) {
-			var g = Math.floor(h / 3600);
-			var e = Math.floor((h - (g * 3600)) / 60);
-			var f = Math.floor(h - (g * 3600) - (e * 60));
-			if (g &lt; 10) {
-				g = "0" + g
-			}
-			if (e &lt; 10) {
-				e = "0" + e
-			}
-			if (f &lt; 10) {
-				f = "0" + f
-			}
-			return g + ":" + e + ":" + f
-		},
-		bytesToSize: function(e) {
-			var g = ["b", "Kb", "Mb"];
-			if (e == 0) {
-				return "n/a"
-			}
-			var f = parseInt(Math.floor(Math.log(e) / Math.log(1024)));
-			if (f &gt;= g.length) {
-				f = g.length - 1
-			}
-			return (e / Math.pow(1024, f)).toFixed(1) + " " + g[f]
-		},
-		createDiv: function(e, f) {
-			return new Element("div", {
-				"class": e || ""
-			}).update(f || "")
-		},
-		createSpan: function(e, f) {
-			return new Element("span", {
-				"class": e || ""
-			}).update(f || "")
-		},
-		createButton: function(f, e) {
-			return new Element("a", {
-				"class": "button secondary",
-				href: "#"
-			}).update(f || "").wrap("span", {
-				"class": "buttonwrapper"
-			}).observe("click", e || Prototype.emptyFunction)
-		}
-	};
-	var c = Class.create({
-		initialize: function(g, e, h, f) {
-			this.file = g;
-			this.container = e;
-			this.formData = h;
-			this.options = f;
-			this.validate();
-			this.initProgressParameters();
-			this.generateStatusUI()
-		},
-		validate: function() {
-			if (!this.options.fileFilter.test(this.file.type)) {
-				throw "INVALID_FILE_TYPE"
-			}
-			if (this.file.size &gt; this.options.maxFilesize) {
-				throw "UPLOAD_LIMIT_EXCEEDED"
-			}
-		},
-		generateStatusUI: function() {
-			var e = this.statusUI = {};
-			e.UPLOAD_STATUS = b.createDiv("upload-status upload-inprogress");
-			if (this.options.enableFileInfo) {
-				e.FILE_INFO = b.createDiv("file-info");
-				(e.FILE_NAME = b.createSpan("file-name", this.file.name)).title = this.file.type;
-				e.FILE_SIZE = b.createSpan("file-size", " (" + b.bytesToSize(this.file.size) + ")");
-				e.FILE_CANCEL = b.createButton("$services.localization.render('core.widgets.html5upload.item.cancel')", this.cancelUpload.bindAsEventListener(this));
-				e.FILE_INFO.insert(e.FILE_NAME).insert(e.FILE_SIZE).insert(e.FILE_CANCEL);
-				e.UPLOAD_STATUS.insert(e.FILE_INFO)
-			}
-			if (this.options.enableProgressInfo) {
-				e.PROGRESS_INFO = b.createDiv("progress-info");
-				e.PROGRESS_CONTAINER = b.createDiv("progress-container");
-				e.PROGRESS = b.createDiv("progress");
-				e.PROGRESS_PERCENTAGE = b.createSpan("progress-percentage", "&amp;nbsp;");
-				e.PROGRESS_SPEED = b.createSpan("progress-speed", "&amp;nbsp;");
-				e.PROGRESS_REMAINING = b.createSpan("progress-remaining", "&amp;nbsp;");
-				e.PROGRESS_TRANSFERED = b.createSpan("progress-transfered", "&amp;nbsp;");
-				e.PROGRESS_INFO.insert(e.PROGRESS_CONTAINER.insert(e.PROGRESS)).insert(e.PROGRESS_PERCENTAGE).insert(e.PROGRESS_TRANSFERED).insert(b.createDiv("progress-time").insert(e.PROGRESS_SPEED).insert(e.PROGRESS_REMAINING).insert(b.createDiv("clearfloats")));
-				e.UPLOAD_STATUS.insert(e.PROGRESS_INFO)
-			}
-			if (this.options.responseContainer) {
-				e.UPLOAD_RESPONSE = this.options.responseContainer
-			} else {
-				e.UPLOAD_RESPONSE = b.createDiv("upload-response");
-				e.UPLOAD_STATUS.insert(e.UPLOAD_RESPONSE)
-			}
-			this.container.insert(e.UPLOAD_STATUS);
-			return e
-		},
-		initProgressParameters: function() {
-			this.progressData = {
-				bytesUploaded: 0,
-				bytesTotal: 0,
-				previousBytesUploaded: 0,
-				resultFileSize: "",
-				latestSpeed: 0,
-				updatesPerSecond: 2,
-				updatesDone: 0
-			}
-		},
-		startUploading: function(g) {
-			if (this.canceled) {
-				this.onUploadAbort();
-				return
-			}
-			if (g) {
-				g.stop()
-			}
-			var h = new FormData();
-			h.append(this.formData.input.name, this.file);
-			var e = this.formData.additionalFields;
-			Object.keys(e).each(function(i) {
-				e[i] &amp;&amp; h.append(i, e[i])
-			});
-			var f = this.request = new XMLHttpRequest();
-			if (this.options.enableProgressInfo) {
-				f.upload.addEventListener("progress", this.onUploadProgress.bindAsEventListener(this), false);
-				this.timer = setInterval(this.doInnerUpdates.bind(this), Math.round(1000 / this.progressData.updatesPerSecond))
-			}
-			f.upload.addEventListener("load", this.onUploadFinish.bindAsEventListener(this), false);
-			f.addEventListener("load", this.onRequestDone.bindAsEventListener(this), false);
-			f.addEventListener("error", this.onUploadError.bindAsEventListener(this), false);
-			f.addEventListener("abort", this.onUploadAbort.bindAsEventListener(this), false);
-			f.open("POST", this.formData.action);
-			f.send(h)
-		},
-		cancelUpload: function(e) {
-			e &amp;&amp; e.stop();
-			if (this.completed) {
-				return
-			}
-			this.request &amp;&amp; this.request.abort();
-			this.canceled = true;
-			clearInterval(this.timer);
-			this.statusUI.FILE_CANCEL.addClassName("upload-canceled-label").removeClassName("buttonwrapper").update("$services.localization.render('core.widgets.html5upload.item.canceled')");
-			this.statusUI.UPLOAD_STATUS.removeClassName("upload-inprogress").addClassName("upload-canceled")
-		},
-		doInnerUpdates: function() {
-			this.progressData.updatesDone = this.progressData.updatesDone + 1;
-			var g = this.progressData.updatesDone / this.progressData.updatesPerSecond;
-			var e = this.progressData.bytesUploaded;
-			var k = e - this.progressData.previousBytesUploaded;
-			if (k === 0) {
-				return
-			}
-			this.progressData.previousBytesUploaded = e;
-			var f = e / g;
-			var j = this.progressData.bytesTotal - this.progressData.previousBytesUploaded;
-			var h = j / f;
-			var l = k * this.progressData.updatesPerSecond;
-			var i = b.bytesToSize(l) + "/s";
-			this.progressData.latestSpeed = i;
-			this.statusUI.PROGRESS_SPEED.update(i);
-			this.statusUI.PROGRESS_REMAINING.update(" | " + b.secondsToTime(h))
-		},
-		onUploadProgress: function(g) {
-			if (g.lengthComputable) {
-				this.progressData.bytesUploaded = g.loaded;
-				this.progressData.bytesTotal = g.total;
-				var f = Math.round(g.loaded * 100 / g.total);
-				var e = b.bytesToSize(this.progressData.bytesUploaded);
-				this.statusUI.PROGRESS_PERCENTAGE.update(f + "%");
-				this.statusUI.PROGRESS.style.width = f + "%";
-				this.statusUI.PROGRESS_TRANSFERED.update("(" + e + ")")
-			} else {
-				this.statusUI.PROGRESS.update("n/a")
-			}
-		},
-		onUploadFinish: function(e) {
-			this.completed = true;
-			clearInterval(this.timer);
-			if (this.statusUI.FILE_CANCEL) {
-				this.statusUI.FILE_CANCEL.addClassName("hidden")
-			}
-			this.formData.input.fire("xwiki:html5upload:message", {
-				content: "UPLOAD_FINISHING",
-				type: "inprogress",
-				source: this,
-				parameters: {
-					name: this.file.name
-				}
-			})
-		},
-		onRequestDone: function(e) {
-			if (e &amp;&amp; e.target &amp;&amp; typeof e.target.status === "number") {
-				if (e.target.status &gt;= 200 &amp;&amp; e.target.status &lt; 300) {
-					this.statusUI.UPLOAD_RESPONSE.update(e.target.responseText)
-					document.getElementById("fileName").innerText = this.file.name + "__"+ new Date()
-					document.getElementById("fileName").textContent = this.file.name + "__"+ new Date()
-
-				} else {
-					this.onUploadError();
-					return
-				}
-			}
-			if (this.options.enableProgressInfo) {
-				this.statusUI.PROGRESS_PERCENTAGE.update("100%");
-				this.statusUI.PROGRESS.style.width = "100%";
-				this.statusUI.PROGRESS_REMAINING.update(" | 00:00:00");
-				this.statusUI.PROGRESS_TRANSFERED.update("(" + b.bytesToSize(this.file.size) + ")");
-				if (this.progressData.latestSpeed === 0) {
-					this.statusUI.PROGRESS_SPEED.update(b.bytesToSize(this.file.size) + "/s")
-				}
-			}
-			this.formData.input.fire("xwiki:html5upload:message", {
-				content: "UPLOAD_FINISHED",
-				type: "done",
-				source: this,
-				parameters: {
-					name: this.file.name,
-					size: b.bytesToSize(this.file.size)
-				}
-			});
-			this.formData.input.fire("xwiki:html5upload:fileFinished", {
-				source: this
-			});
-			clearInterval(this.timer);
-			this.statusUI.UPLOAD_STATUS.removeClassName("upload-inprogress").addClassName("upload-done")
-		},
-		onUploadError: function() {
-			this.statusUI.FILE_CANCEL.remove();
-			this.statusUI.UPLOAD_STATUS.removeClassName("upload-inprogress").addClassName("upload-error");
-			this.abnormalUploadFinish("UNKNOWN_ERROR")
-		},
-		onUploadAbort: function() {
-			this.abnormalUploadFinish("UPLOAD_ABORTED")
-		},
-		abnormalUploadFinish: function(e) {
-			clearInterval(this.timer);
-			this.formData.input.fire("xwiki:html5upload:message", {
-				content: e,
-				type: "error",
-				source: this,
-				parameters: {
-					name: this.file.name
-				}
-			});
-			this.formData.input.fire("xwiki:html5upload:fileFinished", {
-				source: this
-			})
-		}
-	});
-	var a = '$!escapetool.javascript($xwiki.getSpacePreference("upload_maxsize"))';
-	a = parseInt(a || 33554432);
-	d.FileUploader = Class.create({
-		options: {
-			maxFilesize: a,
-			fileFilter: /.*/i,
-			enableFileInfo: true,
-			enableProgressInfo: true,
-			progressAutohide: false,
-			autoUpload: true,
-			targetURL: null,
-			responseContainer: null,
-			responseURL: null
-		},
-		messages: {
-			UNKNOWN_ERROR: new Template("$services.localization.render('core.widgets.html5upload.error.unknown', ['#{name}'])"),
-			INVALID_FILE_TYPE: new Template("$services.localization.render('core.widgets.html5upload.error.invalidType', ['#{name}'])"),
-			UPLOAD_LIMIT_EXCEEDED: new Template("$services.localization.render('core.widgets.html5upload.error.invalidSize', ['#{name}', '#{size}'])"),
-			UPLOAD_ABORTED: new Template("$services.localization.render('core.widgets.html5upload.error.aborted', ['#{name}'])"),
-			UPLOAD_FINISHING: new Template("$services.localization.render('core.widgets.html5upload.status.finishing', ['#{name}'])"),
-			UPLOAD_FINISHED: new Template("$services.localization.render('core.widgets.html5upload.status.finished', ['#{name}', '#{size}'])")
-		},
-		initialize: function(e, f) {
-			this.options = Object.extend(Object.clone(this.options), f || {});
-			if (e.__x_html5uploader) {
-				return
-			} else {
-				e.__x_html5uploader = this
-			} if (e.type != "file") {
-				return
-			}
-			this.input = e;
-			this.inputContainer = this.input.up(".fileupload-field") || this.input;
-			this.form = e.form;
-			if (!this.form) {
-				return
-			}
-			var g = this.form.down("input[type=hidden][name=" + e.name + "__filter]");
-			if (!this.options.fileFilter &amp;&amp; g &amp;&amp; g.value != "") {
-				this.options.fileFilter = new RegExp(g.value, "i")
-			}
-			this.options.targetURL = this.options.targetURL || this.form.action;
-			this.formData = {
-				input: this.input,
-				action: this.options.targetURL,
-				additionalFields: {}
-			};
-			var i = this.form.down("input[name=xredirect]");
-			this.formData.additionalFields.xredirect = this.options.responseURL || i &amp;&amp; i.value;
-			var h = this.form.down("input[name=form_token]");
-			h &amp;&amp; (this.formData.additionalFields.form_token = h.value);
-			this.onUploadNextFile = this.onUploadNextFile.bindAsEventListener(this);
-			this.input.observe("change", this.onFilesSelected.bindAsEventListener(this));
-			this.input.observe("xwiki:html5upload:start", this.showUploadStatus.bindAsEventListener(this));
-			this.input.observe("xwiki:html5upload:start", this.onUploadNextFile);
-			this.input.observe("xwiki:html5upload:fileFinished", this.onUploadNextFile);
-			this.input.observe("xwiki:html5upload:message", this.onMessage.bindAsEventListener(this));
-			this.input.observe("xwiki:html5upload:done", this.onUploadDone.bindAsEventListener(this));
-			this.generateStatusUI()
-		},
-		generateStatusUI: function() {
-			var e = this.statusUI = {};
-			e.CONTAINER = b.createDiv("upload-status-container");
-			e.LIST = b.createDiv("upload-status-list");
-			e.CANCEL = b.createButton("$services.localization.render('core.widgets.html5upload.cancelAll')", this.cancelUpload.bindAsEventListener(this));
-			e.HIDE = b.createButton("$services.localization.render('core.widgets.html5upload.hideStatus')", this.hideUploadStatus.bindAsEventListener(this));
-			e.HIDE.hide();
-			e.CONTAINER.insert(e.LIST).insert(e.CANCEL).insert(e.HIDE)
-		},
-		showUploadStatus: function() {
-			this.inputContainer.insert({
-				after: this.statusUI.CONTAINER
-			});
-			this.statusUI.HIDE.hide();
-			this.statusUI.CANCEL.show()
-		},
-		hideUploadStatus: function(e) {
-			e &amp;&amp; e.stop();
-			this.input.value = "";
-			this.statusUI.CONTAINER.up() &amp;&amp; this.statusUI.CONTAINER.remove();
-			this.statusUI.LIST.update("")
-		},
-		onFilesSelected: function() {
-			var h = this.input.files.length;
-			this.fileUploadItems = [];
-			for (var g = 0; g &lt; h; ++g) {
-				var f = this.input.files[g];
-				try {
-					this.fileUploadItems.push(new c(f, this.statusUI.LIST, this.formData, this.options))
-				} catch (e) {
-					this.showMessage(e, "error", {
-						size: b.bytesToSize(this.options &amp;&amp; this.options.maxFilesize),
-						name: f.name,
-						type: f.type
-					})
-				}
-			}
-			Event.fire(this.input, "xwiki:html5upload:start")
-		},
-		onUploadNextFile: function() {
-			var e = this.currentUpload = this.fileUploadItems.shift();
-			if (e) {
-				e.startUploading()
-			} else {
-				Event.fire(this.input, "xwiki:html5upload:done")
-			}
-		},
-		cancelUpload: function(e) {
-			e &amp;&amp; e.stop();
-			this.fileUploadItems.invoke("cancelUpload");
-			this.currentUpload &amp;&amp; this.currentUpload.cancelUpload();
-			this.input.fire("xwiki:html5upload:done")
-		},
-		onUploadDone: function() {
-			this.statusUI.CANCEL.hide();
-			if (this.options.progressAutohide) {
-				setTimeout(this.hideUploadStatus.bind(this), 2000)
-			} else {
-				this.statusUI.HIDE.show()
-			}
-		},
-		onMessage: function(e) {
-			if (!(e.memo &amp;&amp; e.memo.source &amp;&amp; e.memo.content)) {
-				return
-			}
-			if (e.memo.source._currentMessage) {
-				e.memo.source._currentMessage.hide()
-			}
-			e.memo.source._currentMessage = this.showMessage(e.memo.content, e.memo.type, e.memo.parameters)
-		},
-		showMessage: function(h, f, g) {
-			var e = this.messages[h] || h;
-			if (e instanceof Template) {
-				e = e.evaluate(g || {})
-			}
-			return new d.widgets.Notification(e, f || "plain")
-		},
-		hideFormButtons: function() {
-			if (!this.form.hasClassName("html5upload-initialized")) {
-				this.form.addClassName("html5upload-initialized");
-				if (this.options.autoUpload) {
-					this.form.select("input[type=submit]").invoke("hide")
-				}
-				var e = this.form.down(".cancel");
-				if (e) {
-					e.hide()
-				}
-			}
-		}
-	});
-	return d
-}(XWikiUploader || {}));
-var targetInput = document.getElementById("my_upload");
-if (targetInput) {
-	new XWikiUploader.FileUploader(targetInput, {
-		autoUpload: true,
-		progressAutohide: true,
-		responseURL: '/xwiki/bin/get/WiperDog/ImportInstance?xpage=attachmentslist',
-		responseContainer: $('my_upload_results'),
-		fileFilter: /^.*\.(?!csv).*$/
-
-	})
-}
-
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	var regex = new RegExp("[\\?&amp;]" + name + "=([^&amp;#]*)"),
-		results = regex.exec(location.search);
-	return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-require(['jquery'], function($) {
-
-	$(function() {
-		var lastResult = null
-		var jobFileName = getParameterByName('jobFileName')
-		var param = 'importinstances'
-		var servlet = null
-		$.ajax({
-			type: "GET",
-			url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + param,
-			async: false,
-			success: function(result) {
-				if (result == null || result == "") {
-					//$('#messageLoadFile').text('Can not get data from server ! Wiperdog is on yet ? ')
-
-					return
-				} else {
-					servlet = result
-				}
-				getDataToDrawMenu(servlet, jobFileName, lastResult)
-
-			},
-			error: function(xhr, status, error) {}
-		})
-
-		$('#loadFromFile').click(function(event) {
-			$('#messageLoadFile').text('')
-			var data = $('#fileContent').val().trim();
-			if ($.trim(data) == "") {
-				$('#messageLoadFile').text('No data from file to load: ')
-				return
-			}
-		})
-		$('#showCSVTip').click(function() {
-			$('#csvTip').toggle()
-		})
-
-
-	});
-
-
-	function drawMenu(result) {
-		var strMenu = "&lt;div id='nav'&gt;&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'expand')\"&gt;Expand All&lt;/a&gt; ||&lt;a href=\"javascript:ddtreemenu.flatten('treemenu2', 'contact')\"&gt;Collapse All&lt;/a&gt;"
-		strMenu += result
-		strMenu += "&lt;/div&gt;"
-		$("#menu").html(strMenu)
-		ddtreemenu.createTree("treemenu2", true, 5)
-
-
-	}
-
-	function convertData(data) {
-		var listInstances = []
-		for (var key in data) {
-			var tmpMapInstance = {}
-			tmpMapInstance["INST_NAME"] = key
-			tmpMapInstance["SCHEDULE"] = data[key]["schedule"]
-			tmpMapInstance["PARAMS"] = data[key]["params"]
-			listInstances.push(tmpMapInstance)
-
-		}
-		return listInstances
-	}
-
-	function validCSV(data, headers) {
-		var message = ""
-		var status = true
-		for (var i = 0; i &lt; data.length; i++) {
-			for (var key in data[i]) {
-				if (data[i][key] == null) {
-					message = "Missing params : Params must be contains " + headers + " element(s)! - Line : " + (i + 2)
-					status = false
-					break
-				}
-				if (data[i]["INST_NAME"] == "") {
-					message = "Missing required params : Instance name must be required  - Line : " + (i + 2)
-					status = false
-					break
-				}
-			}
-			if (!status) {
-				break
-			}
-			for (var j = i + 1; j &lt; data.length; j++) {
-				if (data[i]['INST_NAME'] == data[j]['INST_NAME']) {
-					message = "Dubplicate instance name at line  " + (i + 2) + " and " + (j + 2)
-					status = false
-					break
-				}
-			}
-		}
-		return {
-			status: status,
-			message: message
-		}
-	}
-
-	function createInstance(data) {
-		var instance = {}
-		instance["INST_NAME"] = data['INST_NAME']
-		instance["SCHEDULE"] = data['SCHEDULE']
-		var params = {}
-
-		for (var key in data) {
-			if (key != "INST_NAME" &amp;&amp; key != "SCHEDULE" &amp;&amp; !key.startsWith('function ')) {
-				if (data[key] != "") {
-					params[key] = data[key]
-				}
-			}
-		}
-		instance['PARAMS'] = params
-		return instance
-	}
-
-	function fillCSVToTable(data, tableId) {
-		var table_display = document.getElementById(tableId)
-		var tr_node = document.createElement("tr")
-		//fill instance name
-		var td_instName = document.createElement("td")
-		var text_node_instName = document.createTextNode(data['INST_NAME'])
-		td_instName.appendChild(text_node_instName)
-		tr_node.appendChild(td_instName)
-		//fill schedule
-		var td_schedule = document.createElement("td")
-		var text_node_schedule = ""
-		if (data['SCHEDULE'] != null) {
-			text_node_schedule = data['SCHEDULE']
-		}
-
-		var text_node_schedule = document.createTextNode(text_node_schedule)
-		td_schedule.appendChild(text_node_schedule)
-		tr_node.appendChild(td_schedule)
-		//fill params
-		var td_params = document.createElement("td")
-		var text_node_params = ""
-		if (data['PARAMS'] != null) {
-			text_node_params = JSON.stringify(data['PARAMS'])
-		}
-		var text_node_params = document.createTextNode(text_node_params)
-		td_params.appendChild(text_node_params)
-		tr_node.appendChild(td_params)
-		//append tr to table
-		table_display.appendChild(tr_node)
-	}
-
-	function getDataToDrawInstTable(getInstanceUrl, domainURL, jobFileName, lastResult) {
-		$.ajax({
-			type: "GET",
-			crossDomain: true,
-			url: getInstanceUrl,
-			dataType: 'json',
-			async: false,
-			success: function(result) {
-				if (result.data != null &amp;&amp; result.data != "") {
-					// Load data from .instances file
-					var data = convertData(result.data)
-					if (lastResult == null) {
-						lastResult = data
-					} else {
-						for (var i = 0; i &lt; lastResult.length; i++) {
-							var check = false
-							for (var j = 0; j &lt; data.length; j++) {
-								if (lastResult[i]['INST_NAME'] == data[j]['INST_NAME']) {
-									var conf = confirm("Dubplicate data at line " + (i + 1) + " .Overwrite it ?")
-									if (conf) {
-										check = true
-										break;
-									} else {
-										return
-									}
-								}
-							};
-							if (check) {
-								break
-							}
-						}
-						for (var i = 0; i &lt; data.length; i++) {
-							var dubplicate = false
-							for (var j = 0; j &lt; lastResult.length; j++) {
-								if (data[i]['INST_NAME'] == lastResult[j]['INST_NAME']) {
-									lastResult[j]['SCHEDULE'] = data[i]['SCHEDULE']
-									lastResult[j]['PARAMS'] = data[i]['PARAMS']
-									dubplicate = true
-									break;
-								}
-							};
-							if (!dubplicate) {
-								lastResult.push(data[i])
-							}
-						};
-					}
-					for (var i = 0; i &lt; lastResult.length; i++) {
-						fillCSVToTable(data[i], 'instancesTable')
-					};
-
-					//Load data from csv file
-
-				} else {
-					if (result.data == "") {
-						$("#messageLoadFile").text("No instances found for this job: " + jobFileName).addClass('error')
-					}
-					if (result.data == null) {
-						$("#messageLoadFile").text("Error while retreiving instances for this job :" + jobFileName).addClass('error')
-					}
-				}
-				$('#fileName').bind("DOMSubtreeModified", function() {
-					$('#messageLoadFile').text('')
-					fileName =   $(this).text().substring(0,$(this).text().lastIndexOf("__"))
-					$.ajax({
-						type: "GET",
-						url: "/xwiki/bin/download/WiperDog/ImportInstance/" + fileName,
-						dataType: "text",
-						async: false,
-						success: function(data) {
-							$('#fileContent').show()
-							$('#fileContent').val(data)
-							$('#messageLoadFile').text('File ' + fileName +" loaded !").removeClass("error").addClass('message')
-						},
-						error: function(xhr, status, error) {
-							alert(error)
-						}
-					});
-				});
-
-				$(document).on('click', '#formUpload .attachment', function() {
-					$(this).click(function() {
-						fileName = $(this).find('.name').children().text()
-						$.ajax({
-							type: "GET",
-							url: "/xwiki/bin/download/WiperDog/ImportInstance/" + fileName,
-							dataType: "text",
-							async: false,
-							success: function(data) {
-								$('#fileContent').show()
-								$('#fileContent').val(data)
-								$('#messageLoadFile').text('File ' + fileName +" loaded !").removeClass("error").addClass('message')
-							},
-							error: function(xhr, status, error) {
-								alert(error)
-							}
-						});
-					})
-				});
-
-				$('#loadFromFile').unbind('click')
-				$('#loadFromFile').click(function(event) {
-
-					var data = $('#fileContent').val().trim();
-
-					var listObject = []
-					var headers = 0
-					var listInstance = []
-					if (data != null &amp;&amp; data != "") {
-						listObject = $.csv.toObjects(data)
-						var arrStr = data.split("\n")
-						for (var i = 0; i &lt; arrStr.length; i++) {
-							var tmpHeaders = arrStr[i].split(",")
-
-							for (var j = 0; j &lt; tmpHeaders.length; j++) {
-								if (tmpHeaders[j] == "") {
-									$('#messageLoadFile').text("Incorrect header format ,header element can not be empty string !\nCheck tip to correct it").addClass('error').removeClass('message')
-									return
-								}
-
-							}
-							if (($.inArray('INST_NAME', tmpHeaders) == -1) || ($.inArray('SCHEDULE', tmpHeaders) == -1)) {
-								$('#messageLoadFile').text("Incorrect header format ,header must be contain following params : INST_NAME,SCHEDULE !\nCheck tip to correct it").addClass('error').removeClass('message')
-								return
-
-							}
-							headers = tmpHeaders.length
-							break;
-						}
-						var valid = validCSV(listObject, headers)
-						if (valid['status'] == false) {
-							$('#messageLoadFile').text('Failed to load data Reason: ' + valid['message']).addClass('error')
-							return
-						} else {
-							$('#messageLoadFile').text("").removeClass('error');
-							for (var i = 0; i &lt; listObject.length; i++) {
-								listInstance.push(createInstance(listObject[i]))
-							}
-						}
-					}
-					if (lastResult == null) {
-						lastResult = listInstance
-					} else {
-						for (var i = 0; i &lt; lastResult.length; i++) {
-							var check = false
-							for (var j = 0; j &lt; listInstance.length; j++) {
-								if (lastResult[i]['INST_NAME'].trim() == listInstance[j]['INST_NAME'].trim()) {
-									var conf = confirm("Dubplicate data at line " + (i + 1) + " .Overwrite it ?")
-									if (conf) {
-										check = true
-										break;
-									} else {
-										return
-									}
-								}
-							};
-							if (check) {
-								break
-							}
-						}
-						for (var i = 0; i &lt; listInstance.length; i++) {
-							var dubplicate = false
-							for (var j = 0; j &lt; lastResult.length; j++) {
-								if (listInstance[i]['INST_NAME'].trim() == lastResult[j]['INST_NAME'].trim()) {
-									lastResult[j]['SCHEDULE'] = listInstance[i]['SCHEDULE']
-									lastResult[j]['PARAMS'] = listInstance[i]['PARAMS']
-									dubplicate = true
-									break;
-								}
-							};
-							if (!dubplicate) {
-								lastResult.push(listInstance[i])
-							}
-						};
-					}
-					$('#instancesTable').find('tr:gt(0)').remove()
-					for (var i = 0; i &lt; lastResult.length; i++) {
-						fillCSVToTable(lastResult[i], 'instancesTable')
-					}
-					if(listObject.length &gt; 0 ) {
-						$('#messageLoadFile').text('Load from file successfully  ').removeClass("error").addClass('message')
-					} else {
-						$('#messageLoadFile').text('No data from file to load !  ').removeClass("message").addClass('error')
-					}
-					$('#fileContent').val("");
-					//$('#fileContent').hide()
-
-
-				});;
-				//Save to .instances file
-				$("#saveToInstFile").unbind('click')
-				$("#saveToInstFile").click(function(event) {
-					jobFileName = $("#jobFileName").val()
-					if (jobFileName == null || jobFileName == "") {
-						$('#messageLoadFile').text('No job specific for instances !.Select job at left menu to continue').addClass('error')
-						return
-					} else {
-						$('#messageLoadFile').text('')
-					}
-					if (lastResult != null) {
-						$.ajax({
-							url: getInstanceUrl,
-							type: 'POST',
-							crossDomain: true,
-							dataType: 'json',
-							data: JSON.stringify(lastResult),
-							success: function(result) {
-								if (result.status == "success") {
-									$('#messageLoadFile').html("Save to instances file successfully ! &lt;/br&gt;" + result.filePath).addClass('message').removeClass('error')
-
-								} else {
-									if (result.status == "failed") {
-										$('#messageLoadFile').text("Failed to save to instances file !").addClass('error').removeClass('message')
-									}
-								}
-							},
-							error: function(xhr, status, error) {
-								console.log(status)
-								console.log(error)
-								// body...
-							}
-						})
-
-
-					} else {
-						$('#messageLoadFile').text('No data to save to instances file  ').addClass('error')
-
-					}
-				});
-
-				// Export to CSV file
-				$("#exportToCSV").unbind('click')
-				$("#exportToCSV").click(function(event) {
-					jobFileName = $("#jobFileName").val()
-					$.ajax({
-						url: domainURL + "?action=exportCSV&amp;jobFileName=" + jobFileName,
-						type: 'POST',
-						dataType: 'json',
-						data: JSON.stringify(lastResult),
-						success: function(result) {
-							if (result.status == "success") {
-								$('#messageLoadFile').html("Export file successfully ! &lt;/br&gt;" + result.filePath).addClass('message').removeClass('error')
-							} else {
-								if (result.status == "failed") {
-									$('#messageLoadFile').text("Failed to export csv file !").addClass('error').removeClass('message')
-								}
-							}
-						},
-						error: function(xhr, status, error) {
-							console.log(error)
-						}
-					})
-
-				});
-			},
-			error: function(xhr, status, error) {
-				console.log(error)
-				$("#messageLoadFile").text("Can not get data !.Wiperdog is on yet ?").addClass('error')
-			}
-
-		});
-	}
-
-	function getDataToDrawMenu(domainURL, jobFileName, lastResult) {
-		var urlGetJobs = domainURL + "?action=getListJob"
-		$.ajax({
-			type: "GET",
-			crossDomain: true,
-			url: urlGetJobs,
-			dataType: 'json',
-			async: false,
-			success: function(result) {
-				if (result.status == "success" &amp;&amp; result.data != null) {
-					drawMenu(result.data)
-					$("#messageLoadFile").text("Select job from menu to continue !").addClass('message').removeClass('error')
-				} else {
-					$("#messageLoadFile").text("Can not get jobs from wiperdog !")
-				}
-				if (jobFileName != null &amp;&amp; jobFileName != "") {
-					$('#viewer').show()
-					$('#jobFileName').val(jobFileName);
-					$("#messageLoadFile").text("")
-				}
-
-				$("#treemenu2 a").click(function() {
-					$("#formUpload").show()
-					$("#messageLoadFile").text("")
-					$("#fileContent").val("")
-					//$("#fileContent").hide()
-					$("#instancesTable").find("tr:gt(0)").remove()
-					jobFileName = $(this).text()
-					$('#jobFileName').val(jobFileName);
-					var urlGetInst = domainURL + "?action=getInstance&amp;jobFileName=" + jobFileName
-					lastResult = null
-					getDataToDrawInstTable(urlGetInst, domainURL, jobFileName, lastResult)
-				});
-			},
-			error: function(xhr, status, error) {
-				console.log(error)
-				$("#messageLoadFile").text("Can not get data !.Wiperdog is on yet ?").addClass('error')
-			}
-
-		});
-	}
-
-	jQuery.noConflict();
+      <code>      &#xd;
+var dataFromFile = null&#xd;
+var XWikiUploader = (function(d) {&#xd;
+&#xd;
+	if (typeof(File) === "undefined" || typeof(FormData) === "undefined" || typeof(XMLHttpRequest) === "undefined") {&#xd;
+		return d&#xd;
+	}&#xd;
+	var b = {&#xd;
+		secondsToTime: function(h) {&#xd;
+			var g = Math.floor(h / 3600);&#xd;
+			var e = Math.floor((h - (g * 3600)) / 60);&#xd;
+			var f = Math.floor(h - (g * 3600) - (e * 60));&#xd;
+			if (g &lt; 10) {&#xd;
+				g = "0" + g&#xd;
+			}&#xd;
+			if (e &lt; 10) {&#xd;
+				e = "0" + e&#xd;
+			}&#xd;
+			if (f &lt; 10) {&#xd;
+				f = "0" + f&#xd;
+			}&#xd;
+			return g + ":" + e + ":" + f&#xd;
+		},&#xd;
+		bytesToSize: function(e) {&#xd;
+			var g = ["b", "Kb", "Mb"];&#xd;
+			if (e == 0) {&#xd;
+				return "n/a"&#xd;
+			}&#xd;
+			var f = parseInt(Math.floor(Math.log(e) / Math.log(1024)));&#xd;
+			if (f >= g.length) {&#xd;
+				f = g.length - 1&#xd;
+			}&#xd;
+			return (e / Math.pow(1024, f)).toFixed(1) + " " + g[f]&#xd;
+		},&#xd;
+		createDiv: function(e, f) {&#xd;
+			return new Element("div", {&#xd;
+				"class": e || ""&#xd;
+			}).update(f || "")&#xd;
+		},&#xd;
+		createSpan: function(e, f) {&#xd;
+			return new Element("span", {&#xd;
+				"class": e || ""&#xd;
+			}).update(f || "")&#xd;
+		},&#xd;
+		createButton: function(f, e) {&#xd;
+			return new Element("a", {&#xd;
+				"class": "button secondary",&#xd;
+				href: "#"&#xd;
+			}).update(f || "").wrap("span", {&#xd;
+				"class": "buttonwrapper"&#xd;
+			}).observe("click", e || Prototype.emptyFunction)&#xd;
+		}&#xd;
+	};&#xd;
+	var c = Class.create({&#xd;
+		initialize: function(g, e, h, f) {&#xd;
+			this.file = g;&#xd;
+			this.container = e;&#xd;
+			this.formData = h;&#xd;
+			this.options = f;&#xd;
+			this.validate();&#xd;
+			this.initProgressParameters();&#xd;
+			this.generateStatusUI()&#xd;
+		},&#xd;
+		validate: function() {&#xd;
+			if (!this.options.fileFilter.test(this.file.type)) {&#xd;
+				throw "INVALID_FILE_TYPE"&#xd;
+			}&#xd;
+			if (this.file.size > this.options.maxFilesize) {&#xd;
+				throw "UPLOAD_LIMIT_EXCEEDED"&#xd;
+			}&#xd;
+		},&#xd;
+		generateStatusUI: function() {&#xd;
+			var e = this.statusUI = {};&#xd;
+			e.UPLOAD_STATUS = b.createDiv("upload-status upload-inprogress");&#xd;
+			if (this.options.enableFileInfo) {&#xd;
+				e.FILE_INFO = b.createDiv("file-info");&#xd;
+				(e.FILE_NAME = b.createSpan("file-name", this.file.name)).title = this.file.type;&#xd;
+				e.FILE_SIZE = b.createSpan("file-size", " (" + b.bytesToSize(this.file.size) + ")");&#xd;
+				e.FILE_CANCEL = b.createButton("$services.localization.render('core.widgets.html5upload.item.cancel')", this.cancelUpload.bindAsEventListener(this));&#xd;
+				e.FILE_INFO.insert(e.FILE_NAME).insert(e.FILE_SIZE).insert(e.FILE_CANCEL);&#xd;
+				e.UPLOAD_STATUS.insert(e.FILE_INFO)&#xd;
+			}&#xd;
+			if (this.options.enableProgressInfo) {&#xd;
+				e.PROGRESS_INFO = b.createDiv("progress-info");&#xd;
+				e.PROGRESS_CONTAINER = b.createDiv("progress-container");&#xd;
+				e.PROGRESS = b.createDiv("progress");&#xd;
+				e.PROGRESS_PERCENTAGE = b.createSpan("progress-percentage", "&amp;nbsp;");&#xd;
+				e.PROGRESS_SPEED = b.createSpan("progress-speed", "&amp;nbsp;");&#xd;
+				e.PROGRESS_REMAINING = b.createSpan("progress-remaining", "&amp;nbsp;");&#xd;
+				e.PROGRESS_TRANSFERED = b.createSpan("progress-transfered", "&amp;nbsp;");&#xd;
+				e.PROGRESS_INFO.insert(e.PROGRESS_CONTAINER.insert(e.PROGRESS)).insert(e.PROGRESS_PERCENTAGE).insert(e.PROGRESS_TRANSFERED).insert(b.createDiv("progress-time").insert(e.PROGRESS_SPEED).insert(e.PROGRESS_REMAINING).insert(b.createDiv("clearfloats")));&#xd;
+				e.UPLOAD_STATUS.insert(e.PROGRESS_INFO)&#xd;
+			}&#xd;
+			if (this.options.responseContainer) {&#xd;
+				e.UPLOAD_RESPONSE = this.options.responseContainer&#xd;
+			} else {&#xd;
+				e.UPLOAD_RESPONSE = b.createDiv("upload-response");&#xd;
+				e.UPLOAD_STATUS.insert(e.UPLOAD_RESPONSE)&#xd;
+			}&#xd;
+			this.container.insert(e.UPLOAD_STATUS);&#xd;
+			return e&#xd;
+		},&#xd;
+		initProgressParameters: function() {&#xd;
+			this.progressData = {&#xd;
+				bytesUploaded: 0,&#xd;
+				bytesTotal: 0,&#xd;
+				previousBytesUploaded: 0,&#xd;
+				resultFileSize: "",&#xd;
+				latestSpeed: 0,&#xd;
+				updatesPerSecond: 2,&#xd;
+				updatesDone: 0&#xd;
+			}&#xd;
+		},&#xd;
+		startUploading: function(g) {&#xd;
+			if (this.canceled) {&#xd;
+				this.onUploadAbort();&#xd;
+				return&#xd;
+			}&#xd;
+			if (g) {&#xd;
+				g.stop()&#xd;
+			}&#xd;
+			var h = new FormData();&#xd;
+			h.append(this.formData.input.name, this.file);&#xd;
+			var e = this.formData.additionalFields;&#xd;
+			Object.keys(e).each(function(i) {&#xd;
+				e[i] &amp;&amp; h.append(i, e[i])&#xd;
+			});&#xd;
+			var f = this.request = new XMLHttpRequest();&#xd;
+			if (this.options.enableProgressInfo) {&#xd;
+				f.upload.addEventListener("progress", this.onUploadProgress.bindAsEventListener(this), false);&#xd;
+				this.timer = setInterval(this.doInnerUpdates.bind(this), Math.round(1000 / this.progressData.updatesPerSecond))&#xd;
+			}&#xd;
+			f.upload.addEventListener("load", this.onUploadFinish.bindAsEventListener(this), false);&#xd;
+			f.addEventListener("load", this.onRequestDone.bindAsEventListener(this), false);&#xd;
+			f.addEventListener("error", this.onUploadError.bindAsEventListener(this), false);&#xd;
+			f.addEventListener("abort", this.onUploadAbort.bindAsEventListener(this), false);&#xd;
+			f.open("POST", this.formData.action);&#xd;
+			f.send(h)&#xd;
+		},&#xd;
+		cancelUpload: function(e) {&#xd;
+			e &amp;&amp; e.stop();&#xd;
+			if (this.completed) {&#xd;
+				return&#xd;
+			}&#xd;
+			this.request &amp;&amp; this.request.abort();&#xd;
+			this.canceled = true;&#xd;
+			clearInterval(this.timer);&#xd;
+			this.statusUI.FILE_CANCEL.addClassName("upload-canceled-label").removeClassName("buttonwrapper").update("$services.localization.render('core.widgets.html5upload.item.canceled')");&#xd;
+			this.statusUI.UPLOAD_STATUS.removeClassName("upload-inprogress").addClassName("upload-canceled")&#xd;
+		},&#xd;
+		doInnerUpdates: function() {&#xd;
+			this.progressData.updatesDone = this.progressData.updatesDone + 1;&#xd;
+			var g = this.progressData.updatesDone / this.progressData.updatesPerSecond;&#xd;
+			var e = this.progressData.bytesUploaded;&#xd;
+			var k = e - this.progressData.previousBytesUploaded;&#xd;
+			if (k === 0) {&#xd;
+				return&#xd;
+			}&#xd;
+			this.progressData.previousBytesUploaded = e;&#xd;
+			var f = e / g;&#xd;
+			var j = this.progressData.bytesTotal - this.progressData.previousBytesUploaded;&#xd;
+			var h = j / f;&#xd;
+			var l = k * this.progressData.updatesPerSecond;&#xd;
+			var i = b.bytesToSize(l) + "/s";&#xd;
+			this.progressData.latestSpeed = i;&#xd;
+			this.statusUI.PROGRESS_SPEED.update(i);&#xd;
+			this.statusUI.PROGRESS_REMAINING.update(" | " + b.secondsToTime(h))&#xd;
+		},&#xd;
+		onUploadProgress: function(g) {&#xd;
+			if (g.lengthComputable) {&#xd;
+				this.progressData.bytesUploaded = g.loaded;&#xd;
+				this.progressData.bytesTotal = g.total;&#xd;
+				var f = Math.round(g.loaded * 100 / g.total);&#xd;
+				var e = b.bytesToSize(this.progressData.bytesUploaded);&#xd;
+				this.statusUI.PROGRESS_PERCENTAGE.update(f + "%");&#xd;
+				this.statusUI.PROGRESS.style.width = f + "%";&#xd;
+				this.statusUI.PROGRESS_TRANSFERED.update("(" + e + ")")&#xd;
+			} else {&#xd;
+				this.statusUI.PROGRESS.update("n/a")&#xd;
+			}&#xd;
+		},&#xd;
+		onUploadFinish: function(e) {&#xd;
+			this.completed = true;&#xd;
+			clearInterval(this.timer);&#xd;
+			if (this.statusUI.FILE_CANCEL) {&#xd;
+				this.statusUI.FILE_CANCEL.addClassName("hidden")&#xd;
+			}&#xd;
+			this.formData.input.fire("xwiki:html5upload:message", {&#xd;
+				content: "UPLOAD_FINISHING",&#xd;
+				type: "inprogress",&#xd;
+				source: this,&#xd;
+				parameters: {&#xd;
+					name: this.file.name&#xd;
+				}&#xd;
+			})&#xd;
+		},&#xd;
+		onRequestDone: function(e) {&#xd;
+			if (e &amp;&amp; e.target &amp;&amp; typeof e.target.status === "number") {&#xd;
+				if (e.target.status >= 200 &amp;&amp; e.target.status &lt; 300) {&#xd;
+					this.statusUI.UPLOAD_RESPONSE.update(e.target.responseText)&#xd;
+					document.getElementById("fileName").innerText = this.file.name + "__"+ new Date()&#xd;
+					document.getElementById("fileName").textContent = this.file.name + "__"+ new Date()&#xd;
+&#xd;
+				} else {&#xd;
+					this.onUploadError();&#xd;
+					return&#xd;
+				}&#xd;
+			}&#xd;
+			if (this.options.enableProgressInfo) {&#xd;
+				this.statusUI.PROGRESS_PERCENTAGE.update("100%");&#xd;
+				this.statusUI.PROGRESS.style.width = "100%";&#xd;
+				this.statusUI.PROGRESS_REMAINING.update(" | 00:00:00");&#xd;
+				this.statusUI.PROGRESS_TRANSFERED.update("(" + b.bytesToSize(this.file.size) + ")");&#xd;
+				if (this.progressData.latestSpeed === 0) {&#xd;
+					this.statusUI.PROGRESS_SPEED.update(b.bytesToSize(this.file.size) + "/s")&#xd;
+				}&#xd;
+			}&#xd;
+			this.formData.input.fire("xwiki:html5upload:message", {&#xd;
+				content: "UPLOAD_FINISHED",&#xd;
+				type: "done",&#xd;
+				source: this,&#xd;
+				parameters: {&#xd;
+					name: this.file.name,&#xd;
+					size: b.bytesToSize(this.file.size)&#xd;
+				}&#xd;
+			});&#xd;
+			this.formData.input.fire("xwiki:html5upload:fileFinished", {&#xd;
+				source: this&#xd;
+			});&#xd;
+			clearInterval(this.timer);&#xd;
+			this.statusUI.UPLOAD_STATUS.removeClassName("upload-inprogress").addClassName("upload-done")&#xd;
+		},&#xd;
+		onUploadError: function() {&#xd;
+			this.statusUI.FILE_CANCEL.remove();&#xd;
+			this.statusUI.UPLOAD_STATUS.removeClassName("upload-inprogress").addClassName("upload-error");&#xd;
+			this.abnormalUploadFinish("UNKNOWN_ERROR")&#xd;
+		},&#xd;
+		onUploadAbort: function() {&#xd;
+			this.abnormalUploadFinish("UPLOAD_ABORTED")&#xd;
+		},&#xd;
+		abnormalUploadFinish: function(e) {&#xd;
+			clearInterval(this.timer);&#xd;
+			this.formData.input.fire("xwiki:html5upload:message", {&#xd;
+				content: e,&#xd;
+				type: "error",&#xd;
+				source: this,&#xd;
+				parameters: {&#xd;
+					name: this.file.name&#xd;
+				}&#xd;
+			});&#xd;
+			this.formData.input.fire("xwiki:html5upload:fileFinished", {&#xd;
+				source: this&#xd;
+			})&#xd;
+		}&#xd;
+	});&#xd;
+	var a = '$!escapetool.javascript($xwiki.getSpacePreference("upload_maxsize"))';&#xd;
+	a = parseInt(a || 33554432);&#xd;
+	d.FileUploader = Class.create({&#xd;
+		options: {&#xd;
+			maxFilesize: a,&#xd;
+			fileFilter: /.*/i,&#xd;
+			enableFileInfo: true,&#xd;
+			enableProgressInfo: true,&#xd;
+			progressAutohide: false,&#xd;
+			autoUpload: true,&#xd;
+			targetURL: null,&#xd;
+			responseContainer: null,&#xd;
+			responseURL: null&#xd;
+		},&#xd;
+		messages: {&#xd;
+			UNKNOWN_ERROR: new Template("$services.localization.render('core.widgets.html5upload.error.unknown', ['#{name}'])"),&#xd;
+			INVALID_FILE_TYPE: new Template("$services.localization.render('core.widgets.html5upload.error.invalidType', ['#{name}'])"),&#xd;
+			UPLOAD_LIMIT_EXCEEDED: new Template("$services.localization.render('core.widgets.html5upload.error.invalidSize', ['#{name}', '#{size}'])"),&#xd;
+			UPLOAD_ABORTED: new Template("$services.localization.render('core.widgets.html5upload.error.aborted', ['#{name}'])"),&#xd;
+			UPLOAD_FINISHING: new Template("$services.localization.render('core.widgets.html5upload.status.finishing', ['#{name}'])"),&#xd;
+			UPLOAD_FINISHED: new Template("$services.localization.render('core.widgets.html5upload.status.finished', ['#{name}', '#{size}'])")&#xd;
+		},&#xd;
+		initialize: function(e, f) {&#xd;
+			this.options = Object.extend(Object.clone(this.options), f || {});&#xd;
+			if (e.__x_html5uploader) {&#xd;
+				return&#xd;
+			} else {&#xd;
+				e.__x_html5uploader = this&#xd;
+			} if (e.type != "file") {&#xd;
+				return&#xd;
+			}&#xd;
+			this.input = e;&#xd;
+			this.inputContainer = this.input.up(".fileupload-field") || this.input;&#xd;
+			this.form = e.form;&#xd;
+			if (!this.form) {&#xd;
+				return&#xd;
+			}&#xd;
+			var g = this.form.down("input[type=hidden][name=" + e.name + "__filter]");&#xd;
+			if (!this.options.fileFilter &amp;&amp; g &amp;&amp; g.value != "") {&#xd;
+				this.options.fileFilter = new RegExp(g.value, "i")&#xd;
+			}&#xd;
+			this.options.targetURL = this.options.targetURL || this.form.action;&#xd;
+			this.formData = {&#xd;
+				input: this.input,&#xd;
+				action: this.options.targetURL,&#xd;
+				additionalFields: {}&#xd;
+			};&#xd;
+			var i = this.form.down("input[name=xredirect]");&#xd;
+			this.formData.additionalFields.xredirect = this.options.responseURL || i &amp;&amp; i.value;&#xd;
+			var h = this.form.down("input[name=form_token]");&#xd;
+			h &amp;&amp; (this.formData.additionalFields.form_token = h.value);&#xd;
+			this.onUploadNextFile = this.onUploadNextFile.bindAsEventListener(this);&#xd;
+			this.input.observe("change", this.onFilesSelected.bindAsEventListener(this));&#xd;
+			this.input.observe("xwiki:html5upload:start", this.showUploadStatus.bindAsEventListener(this));&#xd;
+			this.input.observe("xwiki:html5upload:start", this.onUploadNextFile);&#xd;
+			this.input.observe("xwiki:html5upload:fileFinished", this.onUploadNextFile);&#xd;
+			this.input.observe("xwiki:html5upload:message", this.onMessage.bindAsEventListener(this));&#xd;
+			this.input.observe("xwiki:html5upload:done", this.onUploadDone.bindAsEventListener(this));&#xd;
+			this.generateStatusUI()&#xd;
+		},&#xd;
+		generateStatusUI: function() {&#xd;
+			var e = this.statusUI = {};&#xd;
+			e.CONTAINER = b.createDiv("upload-status-container");&#xd;
+			e.LIST = b.createDiv("upload-status-list");&#xd;
+			e.CANCEL = b.createButton("$services.localization.render('core.widgets.html5upload.cancelAll')", this.cancelUpload.bindAsEventListener(this));&#xd;
+			e.HIDE = b.createButton("$services.localization.render('core.widgets.html5upload.hideStatus')", this.hideUploadStatus.bindAsEventListener(this));&#xd;
+			e.HIDE.hide();&#xd;
+			e.CONTAINER.insert(e.LIST).insert(e.CANCEL).insert(e.HIDE)&#xd;
+		},&#xd;
+		showUploadStatus: function() {&#xd;
+			this.inputContainer.insert({&#xd;
+				after: this.statusUI.CONTAINER&#xd;
+			});&#xd;
+			this.statusUI.HIDE.hide();&#xd;
+			this.statusUI.CANCEL.show()&#xd;
+		},&#xd;
+		hideUploadStatus: function(e) {&#xd;
+			e &amp;&amp; e.stop();&#xd;
+			this.input.value = "";&#xd;
+			this.statusUI.CONTAINER.up() &amp;&amp; this.statusUI.CONTAINER.remove();&#xd;
+			this.statusUI.LIST.update("")&#xd;
+		},&#xd;
+		onFilesSelected: function() {&#xd;
+			var h = this.input.files.length;&#xd;
+			this.fileUploadItems = [];&#xd;
+			for (var g = 0; g &lt; h; ++g) {&#xd;
+				var f = this.input.files[g];&#xd;
+				try {&#xd;
+					this.fileUploadItems.push(new c(f, this.statusUI.LIST, this.formData, this.options))&#xd;
+				} catch (e) {&#xd;
+					this.showMessage(e, "error", {&#xd;
+						size: b.bytesToSize(this.options &amp;&amp; this.options.maxFilesize),&#xd;
+						name: f.name,&#xd;
+						type: f.type&#xd;
+					})&#xd;
+				}&#xd;
+			}&#xd;
+			Event.fire(this.input, "xwiki:html5upload:start")&#xd;
+		},&#xd;
+		onUploadNextFile: function() {&#xd;
+			var e = this.currentUpload = this.fileUploadItems.shift();&#xd;
+			if (e) {&#xd;
+				e.startUploading()&#xd;
+			} else {&#xd;
+				Event.fire(this.input, "xwiki:html5upload:done")&#xd;
+			}&#xd;
+		},&#xd;
+		cancelUpload: function(e) {&#xd;
+			e &amp;&amp; e.stop();&#xd;
+			this.fileUploadItems.invoke("cancelUpload");&#xd;
+			this.currentUpload &amp;&amp; this.currentUpload.cancelUpload();&#xd;
+			this.input.fire("xwiki:html5upload:done")&#xd;
+		},&#xd;
+		onUploadDone: function() {&#xd;
+			this.statusUI.CANCEL.hide();&#xd;
+			if (this.options.progressAutohide) {&#xd;
+				setTimeout(this.hideUploadStatus.bind(this), 2000)&#xd;
+			} else {&#xd;
+				this.statusUI.HIDE.show()&#xd;
+			}&#xd;
+		},&#xd;
+		onMessage: function(e) {&#xd;
+			if (!(e.memo &amp;&amp; e.memo.source &amp;&amp; e.memo.content)) {&#xd;
+				return&#xd;
+			}&#xd;
+			if (e.memo.source._currentMessage) {&#xd;
+				e.memo.source._currentMessage.hide()&#xd;
+			}&#xd;
+			e.memo.source._currentMessage = this.showMessage(e.memo.content, e.memo.type, e.memo.parameters)&#xd;
+		},&#xd;
+		showMessage: function(h, f, g) {&#xd;
+			var e = this.messages[h] || h;&#xd;
+			if (e instanceof Template) {&#xd;
+				e = e.evaluate(g || {})&#xd;
+			}&#xd;
+			return new d.widgets.Notification(e, f || "plain")&#xd;
+		},&#xd;
+		hideFormButtons: function() {&#xd;
+			if (!this.form.hasClassName("html5upload-initialized")) {&#xd;
+				this.form.addClassName("html5upload-initialized");&#xd;
+				if (this.options.autoUpload) {&#xd;
+					this.form.select("input[type=submit]").invoke("hide")&#xd;
+				}&#xd;
+				var e = this.form.down(".cancel");&#xd;
+				if (e) {&#xd;
+					e.hide()&#xd;
+				}&#xd;
+			}&#xd;
+		}&#xd;
+	});&#xd;
+	return d&#xd;
+}(XWikiUploader || {}));&#xd;
+var targetInput = document.getElementById("my_upload");&#xd;
+if (targetInput) {&#xd;
+	new XWikiUploader.FileUploader(targetInput, {&#xd;
+		autoUpload: true,&#xd;
+		progressAutohide: true,&#xd;
+		responseURL: '/xwiki/bin/get/WiperDog/ImportInstance?xpage=attachmentslist',&#xd;
+		responseContainer: $('my_upload_results'),&#xd;
+		fileFilter: /^.*\.(?!csv).*$/&#xd;
+&#xd;
+	})&#xd;
+}&#xd;
+&#xd;
+require(['jquery'], function($) {&#xd;
+	&#xd;
+	/**&#xd;
+	 * Execute when page is displayed&#xd;
+	**/&#xd;
+	$(function() {&#xd;
+		var param = 'importinstances'&#xd;
+		var servlet = null&#xd;
+&#xd;
+		$.ajax({&#xd;
+			type: "GET",&#xd;
+			url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + param,&#xd;
+			async: false,&#xd;
+			success: function(result) {&#xd;
+				if (result == null || result == "") {&#xd;
+					//$('#messageLoadFile').text('Can not get data from server ! Wiperdog is on yet ? ')&#xd;
+					return&#xd;
+				} else {&#xd;
+					servlet = result&#xd;
+				}&#xd;
+				setUploadButtonEvent(servlet)&#xd;
+				setClickFileEvent(servlet)&#xd;
+				setAddToListButtonEvent()&#xd;
+				setSaveButtonEvent(servlet)&#xd;
+				setExportButtonEvent(servlet)&#xd;
+			},&#xd;
+			error: function(xhr, status, error) {}&#xd;
+		})&#xd;
+	});&#xd;
+&#xd;
+	/**&#xd;
+	 * setUploadButtonEvent: set Upload Button's Event&#xd;
+	 * @param domainURL:  &#xd;
+	 * @return &#xd;
+	**/&#xd;
+	function setUploadButtonEvent(domainURL){&#xd;
+		$('#fileName').bind("DOMSubtreeModified", function() {&#xd;
+			$('#messageLoadFile').text('')&#xd;
+			fileName =   $(this).text().substring(0,$(this).text().lastIndexOf("__"))&#xd;
+			$.ajax({&#xd;
+				type: "GET",&#xd;
+				url: "/xwiki/bin/download/WiperDog/ImportInstance/" + fileName,&#xd;
+				dataType: "text",&#xd;
+				async: false,&#xd;
+				success: function(data) {&#xd;
+					$('#fileContent').val(data)&#xd;
+					$('#messageLoadFile').text('File ' + fileName +" loaded !").removeClass("error").addClass('message')&#xd;
+				},&#xd;
+				error: function(xhr, status, error) {&#xd;
+					alert(error)&#xd;
+				}&#xd;
+			});&#xd;
+		});&#xd;
+	}&#xd;
+&#xd;
+	/**&#xd;
+	 * setClickFileEvent: set Click Existed File Event&#xd;
+	 * @param domainURL:  &#xd;
+	 * @return &#xd;
+	**/&#xd;
+	function setClickFileEvent(domainURL){&#xd;
+		$(document).on('click', '#formUpload .attachment', function() {&#xd;
+			$(this).click(function() {&#xd;
+				fileName = $(this).find('.name').children().text()&#xd;
+				$.ajax({&#xd;
+					type: "GET",&#xd;
+					url: "/xwiki/bin/download/WiperDog/ImportInstance/" + fileName,&#xd;
+					dataType: "text",&#xd;
+					async: false,&#xd;
+					success: function(data) {&#xd;
+						$('#fileContent').val(data)&#xd;
+						$('#messageLoadFile').text('File ' + fileName +" loaded !").removeClass("error").addClass('message')&#xd;
+					},&#xd;
+					error: function(xhr, status, error) {&#xd;
+						alert(error)&#xd;
+					}&#xd;
+				});&#xd;
+			})&#xd;
+		});&#xd;
+	}&#xd;
+&#xd;
+	/**&#xd;
+	 * setAddToListButtonEvent: set Add to List Button Event&#xd;
+	 * @param :  &#xd;
+	 * @return &#xd;
+	**/&#xd;
+	function setAddToListButtonEvent(){&#xd;
+&#xd;
+		$('#loadFromFile').unbind('click')&#xd;
+		$('#loadFromFile').click(function(event) {&#xd;
+			var listInstance = []&#xd;
+			var data = $('#fileContent').val().trim();&#xd;
+			var listObject = []&#xd;
+			var headers = 0&#xd;
+			&#xd;
+			if ( null != data &amp;&amp; "" != data ) {&#xd;
+				var listObject = $.csv.toObjects(data)&#xd;
+				var arrStr = data.split("\n")&#xd;
+				for (var i = 0; i &lt; arrStr.length; i++) {&#xd;
+					var tmpHeaders = arrStr[i].split(",")&#xd;
+&#xd;
+					for (var j = 0; j &lt; tmpHeaders.length; j++) {&#xd;
+						if (tmpHeaders[j] == "") {&#xd;
+							$('#messageLoadFile').text("Incorrect header format ,header element can not be empty string !\nCheck tip to correct it").addClass('error').removeClass('message')&#xd;
+							return&#xd;
+						}&#xd;
+					}&#xd;
+					if (($.inArray('INST_NAME', tmpHeaders) == -1) || ($.inArray('SCHEDULE', tmpHeaders) == -1)) {&#xd;
+						$('#messageLoadFile').text("Incorrect header format ,header must be contain following params : INST_NAME,SCHEDULE !\nCheck tip to correct it").addClass('error').removeClass('message')&#xd;
+						return&#xd;
+					}&#xd;
+					headers = tmpHeaders.length&#xd;
+					break;&#xd;
+				}&#xd;
+				var valid = validCSV(listObject, headers)&#xd;
+				if (valid['status'] == false) {&#xd;
+					$('#messageLoadFile').text('Failed to load data Reason: ' + valid['message']).addClass('error')&#xd;
+					return&#xd;
+				} else {&#xd;
+					$('#messageLoadFile').text("").removeClass('error');&#xd;
+					for (var i = 0; i &lt; listObject.length; i++) {&#xd;
+						listInstance.push(createInstance(listObject[i]))&#xd;
+					}&#xd;
+				}&#xd;
+				&#xd;
+			}&#xd;
+			&#xd;
+			var displayedInstances = getDisplayedInstances()&#xd;
+			if (displayedInstances == null || displayedInstances == "") {&#xd;
+				setDisplayedInstances(listInstance)&#xd;
+			} else {&#xd;
+				for (var i = 0; i &lt; displayedInstances.length; i++) {&#xd;
+					var check = false&#xd;
+					for (var j = 0; j &lt; listInstance.length; j++) {&#xd;
+						if (displayedInstances[i]['INST_NAME'].trim() == listInstance[j]['INST_NAME'].trim()) {&#xd;
+							var conf = confirm("Dubplicate data at line " + (i + 1) + " .Overwrite it ?")&#xd;
+							if (conf) {&#xd;
+								check = true&#xd;
+								break;&#xd;
+							} else {&#xd;
+								return&#xd;
+							}&#xd;
+						}&#xd;
+					};&#xd;
+					if (check) {&#xd;
+						break&#xd;
+					}&#xd;
+				}&#xd;
+				for (var i = 0; i &lt; listInstance.length; i++) {&#xd;
+					var dubplicate = false&#xd;
+					for (var j = 0; j &lt; displayedInstances.length; j++) {&#xd;
+						if (listInstance[i]['INST_NAME'].trim() == displayedInstances[j]['INST_NAME'].trim()) {&#xd;
+							displayedInstances[j]['SCHEDULE'] = listInstance[i]['SCHEDULE']&#xd;
+							displayedInstances[j]['PARAMS'] = listInstance[i]['PARAMS']&#xd;
+							dubplicate = true&#xd;
+							break;&#xd;
+						}&#xd;
+					};&#xd;
+					if (!dubplicate) {&#xd;
+						pushDisplayedInstances(listInstance[i])&#xd;
+					}&#xd;
+				};&#xd;
+			}&#xd;
+&#xd;
+			displayedInstances = getDisplayedInstances()&#xd;
+			$('#instancesTable').find('tr:gt(0)').remove()&#xd;
+			$("#instancesTable").append(getExistedInstances)&#xd;
+			for (var i = 0; i &lt; displayedInstances.length; i++) {&#xd;
+				addCsvToInstancesTable(displayedInstances[i], 'instancesTable')&#xd;
+			}&#xd;
+&#xd;
+			if(listObject.length > 0 ) {&#xd;
+				$('#messageLoadFile').text('Load from file successfully  ').removeClass("error").addClass('message')&#xd;
+			} else {&#xd;
+				$('#messageLoadFile').text('No data from file to load !  ').removeClass("message").addClass('error')&#xd;
+			}&#xd;
+&#xd;
+			$('#fileContent').val("");&#xd;
+		});&#xd;
+	}&#xd;
+&#xd;
+	function createInstance(data) {&#xd;
+		var instance = {}&#xd;
+		instance["INST_NAME"] = data['INST_NAME']&#xd;
+		instance["SCHEDULE"] = data['SCHEDULE']&#xd;
+		var params = {}&#xd;
+		for (var key in data) {&#xd;
+			if (key != "INST_NAME" &amp;&amp; key != "SCHEDULE" &amp;&amp; !key.startsWith('function ')) {&#xd;
+				if (data[key] != "") {&#xd;
+					params[key] = data[key]&#xd;
+				}&#xd;
+			}&#xd;
+		}&#xd;
+		instance['PARAMS'] = params&#xd;
+		return instance&#xd;
+	}&#xd;
+&#xd;
+	/**&#xd;
+	 * addCsvToInstancesTable: add each column of csv file to instances table&#xd;
+	 * @param data: column of csv file&#xd;
+	 * @param tableId: instances table's id&#xd;
+	 * @return &#xd;
+	**/&#xd;
+	function addCsvToInstancesTable(data, tableId){&#xd;
+&#xd;
+		var instancesTable = document.getElementById(tableId)&#xd;
+		var schedule = ""&#xd;
+		if (data['SCHEDULE'] != null) {&#xd;
+			schedule = data['SCHEDULE']&#xd;
+		}&#xd;
+		var params = ""&#xd;
+		if (data['PARAMS'] != null) {&#xd;
+			params = JSON.stringify(data['PARAMS'])&#xd;
+		}&#xd;
+		$('#instancesTable').append('&lt;tr>&lt;td>'+data['INST_NAME']+'&lt;/td>&lt;td>'+schedule+'&lt;/td>&lt;td>'+params+'&lt;/td>&lt;/tr>')&#xd;
+	}&#xd;
+&#xd;
+&#xd;
+	function validCSV(data, headers) {&#xd;
+		var message = ""&#xd;
+		var status = true&#xd;
+		for (var i = 0; i &lt; data.length; i++) {&#xd;
+			for (var key in data[i]) {&#xd;
+				if (data[i][key] == null) {&#xd;
+					message = "Missing params : Params must be contains " + headers + " element(s)! - Line : " + (i + 2)&#xd;
+					status = false&#xd;
+					break&#xd;
+				}&#xd;
+				if (data[i]["INST_NAME"] == "") {&#xd;
+					message = "Missing required params : Instance name must be required  - Line : " + (i + 2)&#xd;
+					status = false&#xd;
+					break&#xd;
+				}&#xd;
+			}&#xd;
+			if (!status) {&#xd;
+				break&#xd;
+			}&#xd;
+			for (var j = i + 1; j &lt; data.length; j++) {&#xd;
+				if (data[i]['INST_NAME'] == data[j]['INST_NAME']) {&#xd;
+					message = "Dubplicate instance name at line  " + (i + 2) + " and " + (j + 2)&#xd;
+					status = false&#xd;
+					break&#xd;
+				}&#xd;
+			}&#xd;
+		}&#xd;
+		return {&#xd;
+			status: status,&#xd;
+			message: message&#xd;
+		}&#xd;
+	}&#xd;
+&#xd;
+	/**&#xd;
+	 * setSaveButtonEvent: set Save Button's Event&#xd;
+	 * @param domainURL:  &#xd;
+	 * @return &#xd;
+	**/&#xd;
+	function setSaveButtonEvent(domainURL){&#xd;
+		$("#saveToInstFile").unbind('click')&#xd;
+		$("#saveToInstFile").click(function(event) {&#xd;
+&#xd;
+			var jobFileName = getJobFileName()&#xd;
+			if(""==jobFileName){&#xd;
+				return&#xd;
+			}&#xd;
+&#xd;
+			if (null != getDisplayedInstances()) {&#xd;
+				$.ajax({&#xd;
+					url: domainURL + "?action=getInstance&amp;jobFileName=" + jobFileName + ".job",&#xd;
+					type: 'POST',&#xd;
+					crossDomain: true,&#xd;
+					dataType: 'json',&#xd;
+					data: JSON.stringify(getDisplayedInstances()),&#xd;
+					success: function(result) {&#xd;
+						if (result.status == "success") {&#xd;
+							$('#messageLoadFile').html("Save to instances file successfully ! &lt;/br>" + result.filePath).addClass('message').removeClass('error')&#xd;
+						} else {&#xd;
+							if (result.status == "failed") {&#xd;
+								$('#messageLoadFile').text("Failed to save to instances file !").addClass('error').removeClass('message')&#xd;
+							}&#xd;
+						}&#xd;
+					},&#xd;
+					error: function(xhr, status, error) {&#xd;
+						console.log(error)&#xd;
+					}&#xd;
+				})&#xd;
+			} else {&#xd;
+				$('#messageLoadFile').text('No data to save to instances file  ').addClass('error')&#xd;
+			}&#xd;
+		});&#xd;
+	}&#xd;
+	&#xd;
+	/**&#xd;
+	 * setImportButtonEvent: set Export Button's Event&#xd;
+	 * @param domainURL:  &#xd;
+	 * @return &#xd;
+	**/&#xd;
+	function setExportButtonEvent(domainURL){&#xd;
+		$("#exportToCSV").unbind('click')&#xd;
+		$("#exportToCSV").click(function(event) {&#xd;
+&#xd;
+			var jobFileName = getJobFileName()&#xd;
+			if(""==jobFileName){&#xd;
+				return&#xd;
+			}&#xd;
+			&#xd;
+			$.ajax({&#xd;
+				url: domainURL + "?action=exportCSV&amp;jobFileName=" + jobFileName + ".job",&#xd;
+				type: 'POST',&#xd;
+				dataType: 'json',&#xd;
+				data: JSON.stringify(getDisplayedInstances()),&#xd;
+				success: function(result) {&#xd;
+					if (result.status == "success") {&#xd;
+						$('#messageLoadFile').html("Export file successfully ! &lt;/br>" + result.filePath).addClass('message').removeClass('error')&#xd;
+					} else {&#xd;
+						if (result.status == "failed") {&#xd;
+							$('#messageLoadFile').text("Failed to export csv file !").addClass('error').removeClass('message')&#xd;
+						}&#xd;
+					}&#xd;
+				},&#xd;
+				error: function(xhr, status, error) {&#xd;
+					console.log(error)&#xd;
+				}&#xd;
+			})&#xd;
+		});&#xd;
+&#xd;
+	}&#xd;
+&#xd;
+	/**&#xd;
+	 * getJobFileName: get Job File name. if no job is specified, display error message.&#xd;
+	 * @param&#xd;
+	 * @return jobFileName&#xd;
+	**/&#xd;
+	function getJobFileName(){&#xd;
+		var jobFileName = $("#jobNameText").val()&#xd;
+		&#xd;
+		if (null == jobFileName || "" == jobFileName ) {&#xd;
+			jobFileName = ""&#xd;
+			$('#messageLoadFile').text('No job specific for instances !.Select job at left menu to continue').addClass('error')&#xd;
+		} else {&#xd;
+			$('#messageLoadFile').text('')&#xd;
+		}&#xd;
+&#xd;
+		return jobFileName&#xd;
+	}&#xd;
+&#xd;
+	jQuery.noConflict();&#xd;
 });</code>
     </property>
     <property>
@@ -1809,6 +1590,450 @@ require(['jquery'], function($) {
     </property>
   </object>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>2</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>e8c78688-b154-4efe-b465-1445d319de0b</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>function bindingData(result) {&#xd;
+&#xd;
+require(['jquery'], function($) {&#xd;
+        /**&#xd;
+         * bindingData: binding data into elements&#xd;
+         * @params result: data response from servlet&#xd;
+         */&#xd;
+            // JOB NAME&#xd;
+            $("[id=jobNameText]").val(result.Job.JOB)&#xd;
+&#xd;
+&#xd;
+            // INSTANCES&#xd;
+            var jobInstance = {}&#xd;
+            var jobInstanceValue = {}&#xd;
+            var htmlInstancesSource = ""&#xd;
+            var mapInstances = result.instances&#xd;
+			var existedInstancesList = []&#xd;
+            if (mapInstances != null) {&#xd;
+                var lstKeyInst = Object.keys(mapInstances)&#xd;
+                for (var i = 0; i &lt; lstKeyInst.length; i++) {&#xd;
+					&#xd;
+					var existedInstance = {}&#xd;
+                    var instName = lstKeyInst[i]&#xd;
+                    var params = ""&#xd;
+                    var schedule = ""&#xd;
+&#xd;
+                    if (mapInstances[lstKeyInst[i]]['params'] != null) {&#xd;
+                        params = JSON.stringify(mapInstances[lstKeyInst[i]]['params'])&#xd;
+                        jobInstanceValue['params'] = standardParams(params)&#xd;
+                    }&#xd;
+                    if (mapInstances[lstKeyInst[i]]['schedule'] != null) {&#xd;
+                        schedule = mapInstances[lstKeyInst[i]]['schedule']&#xd;
+                        jobInstanceValue['schedule'] = schedule&#xd;
+&#xd;
+                    }&#xd;
+                    jobInstance[instName] = jobInstanceValue&#xd;
+                    jobInstanceValue = {}&#xd;
+                    htmlInstancesSource += "&lt;tr>&lt;td>" + instName + "&lt;/td>&lt;td>" + schedule + "&lt;/td>&lt;td>" + params + "&lt;/td>&lt;/tr>"&#xd;
+&#xd;
+					existedInstance['INST_NAME'] = instName&#xd;
+					existedInstance['SCHEDULE'] = schedule&#xd;
+					existedInstance['PARAMS'] = jobInstanceValue['params']&#xd;
+                }&#xd;
+&#xd;
+				if( null!=existedInstance &amp;&amp; ""!=existedInstance ){&#xd;
+					existedInstancesList.push(existedInstance)&#xd;
+				}&#xd;
+&#xd;
+            }&#xd;
+            &#xd;
+            $("#instancesTable").append(htmlInstancesSource)&#xd;
+            setExistedInstances(existedInstancesList)&#xd;
+            setDisplayedInstances(existedInstancesList)&#xd;
+});&#xd;
+&#xd;
+}&#xd;
+&#xd;
+/**&#xd;
+ * standardParams:&#xd;
+ *  - edit paramsText text to standard before send to servlet&#xd;
+ * @param paramsText: string data receive from input "value" of JOB PARAMS form&#xd;
+ * @return standard paramsText&#xd;
+*/&#xd;
+function standardParams(paramsText) {&#xd;
+    paramsText = replaceAllString(paramsText, "\"", "")&#xd;
+    paramsText = replaceAllString(paramsText, "'", "")&#xd;
+&#xd;
+    var ouputParams = ""&#xd;
+    var lstRoot = paramsText.split(",")&#xd;
+    if ((lstRoot.length == 1) &amp;&amp; (paramsText.indexOf("{") == -1)&amp;&amp; (paramsText.indexOf("}") == -1)&amp;&amp; (paramsText.indexOf("[") == -1)&amp;&amp; (paramsText.indexOf("]") == -1)) {&#xd;
+        ouputParams = "\"" + paramsText + "\""&#xd;
+    } else {&#xd;
+        paramsText = replaceAllString(paramsText, "{", "\"")&#xd;
+        paramsText = replaceAllString(paramsText, "}", "\"\"")&#xd;
+        paramsText = replaceAllString(paramsText, "[", "\"")&#xd;
+        paramsText = replaceAllString(paramsText, "]", "\"\"")&#xd;
+&#xd;
+        if (paramsText.indexOf(":") == -1) {&#xd;
+            ouputParams = standardGroupKey(paramsText)&#xd;
+        } else {&#xd;
+            lstRoot = paramsText.split(",")&#xd;
+            for (var i = 0; i &lt; lstRoot.length; i++) {&#xd;
+                var lstColon = lstRoot[i].split(":")&#xd;
+                for (var j = 0; j &lt; lstColon.length; j++) {&#xd;
+                    ouputParams += "\"" + lstColon[j].trim() + "\"" + ":"&#xd;
+                }&#xd;
+                ouputParams = ouputParams.substring(0, ouputParams.length - 1)&#xd;
+                ouputParams += ","&#xd;
+            }&#xd;
+            ouputParams = ouputParams.substring(0, ouputParams.length - 1)&#xd;
+            ouputParams = replaceAllString(ouputParams, "\"\"\"\"\"", "\"]]")&#xd;
+            ouputParams = replaceAllString(ouputParams, "\"\"\"", "\"]")&#xd;
+            ouputParams = replaceAllString(ouputParams, "\"\"", "[\"")&#xd;
+&#xd;
+            if (ouputParams.indexOf("[") != 0) {&#xd;
+                ouputParams = "[" + ouputParams + "]"&#xd;
+            }&#xd;
+        }&#xd;
+    }&#xd;
+    //If data null before edit&#xd;
+    ouputParams = replaceAllString(ouputParams, ":[\",", ":\"\",")&#xd;
+    ouputParams = replaceAllString(ouputParams, ":\"]\"", ":\"\"]")&#xd;
+    ouputParams = replaceAllString(ouputParams, ":\"]]\"", ":\"\"]]")&#xd;
+    return ouputParams&#xd;
+}    &#xd;
+&#xd;
+/**&#xd;
+ * replaceAllString: replace all character to an other character&#xd;
+ * @param oriStr: original string&#xd;
+ * @param strTarget: original character&#xd;
+ * @param strSubString: change character&#xd;
+ * @return standard oriStr&#xd;
+*/&#xd;
+function replaceAllString(oriStr, strTarget, strSubString) {&#xd;
+    var strText = oriStr;&#xd;
+    var intIndexOfMatch = strText.indexOf(strTarget);&#xd;
+    while (intIndexOfMatch != -1) {&#xd;
+        strText = strText.replace(strTarget, strSubString)&#xd;
+        intIndexOfMatch = strText.indexOf(strTarget);&#xd;
+    }&#xd;
+    return (strText);&#xd;
+}&#xd;
+</code>
+    </property>
+    <property>
+      <name>bindingData</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>3</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>13d9c4fc-6f38-4ff8-a95c-ad471b82aff0</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>function resetControl(type) {&#xd;
+	require(['jquery'], function($) {&#xd;
+		if("MONITORINGTYPE"==type){&#xd;
+			$("#listJob").html("&lt;option id='noChoice' value='noChoice'>-select a job-&lt;/option>")&#xd;
+			$("#jobNameText").val("")&#xd;
+			$("#instancesTable").html("&lt;tr>&lt;th>Instance Name&lt;/th>&lt;th>Schedule&lt;/th>&lt;th>Params&lt;/th>&lt;/tr>")&#xd;
+		}else if ("DBTYPE"==type){&#xd;
+			$("#listJob").html("&lt;option id='noChoice' value='noChoice'>-select a job-&lt;/option>")&#xd;
+			$("#jobNameText").val("")&#xd;
+			$("#instancesTable").html("&lt;tr>&lt;th>Instance Name&lt;/th>&lt;th>Schedule&lt;/th>&lt;th>Params&lt;/th>&lt;/tr>")&#xd;
+		}else if ("JOBFILE"==type){&#xd;
+			$("#jobNameText").val("")&#xd;
+			$("#instancesTable").html("&lt;tr>&lt;th>Instance Name&lt;/th>&lt;th>Schedule&lt;/th>&lt;th>Params&lt;/th>&lt;/tr>")&#xd;
+		}&#xd;
+	});&#xd;
+}&#xd;
+</code>
+    </property>
+    <property>
+      <name>resetControl</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>4</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>f2228ed6-e17f-4395-a9a4-daace08fbfa8</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>/**&#xd;
+ * displayedInstances: displayed instances. &#xd;
+ * This will be saved to .instances file.&#xd;
+**/&#xd;
+displayedInstances= []&#xd;
+function setDisplayedInstances(value){&#xd;
+	displayedInstances= value&#xd;
+}&#xd;
+function pushDisplayedInstances(value){&#xd;
+	displayedInstances.push(value)&#xd;
+}&#xd;
+function getDisplayedInstances(){&#xd;
+	return displayedInstances&#xd;
+}&#xd;
+&#xd;
+/**&#xd;
+ * existedInstances: existed instances.&#xd;
+ * This keep existed instances and be used when add imported instances.&#xd;
+**/&#xd;
+existedInstances = []&#xd;
+function setExistedInstances(value){&#xd;
+	existedInstances = value&#xd;
+}&#xd;
+function getExistedInstances(){&#xd;
+	return existedInstances&#xd;
+}&#xd;
+</code>
+    </property>
+    <property>
+      <name>variables</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>b325f341-057d-4cbc-978f-ba1968b9df3f</guid>
     <class>
       <name>XWiki.StyleSheetExtension</name>
       <customClass/>
@@ -1880,140 +2105,103 @@ require(['jquery'], function($) {
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>0</number>
-    <className>XWiki.StyleSheetExtension</className>
-    <guid>b325f341-057d-4cbc-978f-ba1968b9df3f</guid>
     <property>
       <cache>long</cache>
     </property>
     <property>
-      <code>.treeview ul{ /*CSS for Simple Tree Menu*/
-margin: 0;
-padding: 0;
-
-display:inline-block;
-}
-.treeview a{
- width:auto;
- display: inline-block
-}
-#nav a:hover{
- font-weight:bold;
- text-decoration:none;
- cursor:pointer;
- color: #0089DC
-
-}
-.treeview li{ /*Style for LI elements in general (excludes an LI that contains sub lists)*/
-background: white url("/xwiki/bin/download/WiperDog/ImportInstance/list.gif") no-repeat left center;
-list-style-type: none;
-padding-left: 22px;
-margin-bottom: 3px;
-font-weight:bold
-}
-
-.treeview li.submenu{ /* Style for LI that contains sub lists (other ULs). */
-background: white url("/xwiki/bin/download/WiperDog/ImportInstance/closed.gif") no-repeat left 1px;
-cursor: hand !important;
-cursor: pointer !important;
-}
-
-.treeview .ui-state-disabled {
-background: white url("/xwiki/bin/download/WiperDog/ImportInstance/closed.gif") no-repeat left 1px;
-color:#DBD9DA
-}
-
-
-.treeview li.submenu ul{ /*Style for ULs that are children of LIs (submenu) */
-display: none; /*Hide them by default. Don't delete. */
-}
-
-.treeview .submenu ul li{ /*Style for LIs of ULs that are children of LIs (submenu) */
-cursor: default;
-font-weight:normal
-}
-#nav{
- float:left;
-width:30%;
-margin-right:20px;
-}
-#viewer #displayTable{
-  font-weight:bold;
-  color:#0089DC;
-  float :left;
-  width:65%;
-}
-
-h6 {
-    margin-left: 20px;
-    color:black;
-    font-family:arial;
-    font-size:14px;
-}
-
-h5 {
-    color:black;
-    font-family:arial;
-    font-size:16px;
-}
-
-#message_add {
-    float: right;
-    font-size: 1.5em;
-    margin-right: 200px
-}
-#xwikicontent input[type='text'],textarea{
-  background: #FFFFD6!important;
- width:100%;
-}
-#xwikicontent textarea{
-  min-height:100px
-}
-.editable{
-  color : #000; 
-}
-.readonly {
- color: #636B75
-}
-#viewer .button {
- margin:10px
-}
-#headerMess{
-text-align: center;
-font-weight: bold;
-font-size: 1.5em
-}
-#imgLoader{
-margin-left:15px
-}
-#instancesTable{
-width: 65%;
-display: inline-table;
-}
-#formUpload{
-display:none
-}
-.message {
-color: green
-}
-.error {
-color: red
-}
-#showCSVTip{
-background-color: #157ABE;
-color: #F3F3F3;
-font-weight: bold
-}
-
-#csvTip{
-font-size: 0.8em !important,
-font-weight: normal !important,
-color: black !important
+      <code>#nav a:hover{&#xd;
+ font-weight:bold;&#xd;
+ text-decoration:none;&#xd;
+ cursor:pointer;&#xd;
+ color: #0089DC&#xd;
+&#xd;
+}&#xd;
+&#xd;
+#nav{&#xd;
+ float:left;&#xd;
+width:30%;&#xd;
+margin-right:20px;&#xd;
+}&#xd;
+#viewer #displayTable{&#xd;
+  font-weight:bold;&#xd;
+  color:#0089DC;&#xd;
+  float :left;&#xd;
+  width:65%;&#xd;
+}&#xd;
+&#xd;
+h6 {&#xd;
+    margin-left: 20px;&#xd;
+    color:black;&#xd;
+    font-family:arial;&#xd;
+    font-size:14px;&#xd;
+}&#xd;
+&#xd;
+h5 {&#xd;
+    color:black;&#xd;
+    font-family:arial;&#xd;
+    font-size:16px;&#xd;
+}&#xd;
+&#xd;
+#message_add {&#xd;
+    float: right;&#xd;
+    font-size: 1.5em;&#xd;
+    margin-right: 200px&#xd;
+}&#xd;
+#xwikicontent input[type='text'],textarea{&#xd;
+  background: #FFFFD6!important;&#xd;
+ width:100%;&#xd;
+}&#xd;
+#xwikicontent textarea{&#xd;
+  min-height:100px&#xd;
+}&#xd;
+.editable{&#xd;
+  color : #000; &#xd;
+}&#xd;
+.readonly {&#xd;
+ color: #636B75&#xd;
+}&#xd;
+#viewer .button {&#xd;
+ margin:10px&#xd;
+}&#xd;
+#headerMess{&#xd;
+text-align: center;&#xd;
+font-weight: bold;&#xd;
+font-size: 1.5em&#xd;
+}&#xd;
+#imgLoader{&#xd;
+margin-left:15px&#xd;
+}&#xd;
+#instancesTable{&#xd;
+width: 65%;&#xd;
+display: inline-table;&#xd;
+}&#xd;
+#formUpload{&#xd;
+}&#xd;
+/* 2014/08/01 koyuri delete&#xd;
+#formUpload{&#xd;
+display:none&#xd;
+}&#xd;
+*/&#xd;
+.message {&#xd;
+color: green&#xd;
+}&#xd;
+.error {&#xd;
+color: red&#xd;
+}&#xd;
+#showCSVTip{&#xd;
+background-color: #157ABE;&#xd;
+color: #F3F3F3;&#xd;
+font-weight: bold&#xd;
+}&#xd;
+&#xd;
+#csvTip{&#xd;
+font-size: 0.8em !important,&#xd;
+font-weight: normal !important,&#xd;
+color: black !important&#xd;
 }</code>
     </property>
     <property>
-      <name/>
+      <name></name>
     </property>
     <property>
       <parse/>
@@ -2023,89 +2211,10 @@ color: black !important
     </property>
   </object>
   <object>
-    <class>
-      <name>XWiki.XWikiRights</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <allow>
-        <defaultValue>1</defaultValue>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>allow</displayType>
-        <name>allow</name>
-        <number>4</number>
-        <prettyName>Allow/Deny</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </allow>
-      <groups>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>groups</name>
-        <number>1</number>
-        <picker>1</picker>
-        <prettyName>Groups</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
-      </groups>
-      <levels>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>1</multiSelect>
-        <name>levels</name>
-        <number>2</number>
-        <prettyName>Levels</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>3</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
-      </levels>
-      <users>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>input</displayType>
-        <multiSelect>1</multiSelect>
-        <name>users</name>
-        <number>3</number>
-        <picker>1</picker>
-        <prettyName>Users</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <size>5</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
-      </users>
-    </class>
     <name>WiperDog.ImportInstance</name>
     <number>0</number>
     <className>XWiki.XWikiRights</className>
     <guid>dd5f0985-b00f-47fb-b955-48ad4d9d30e4</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-    </property>
-    <property>
-      <levels>view,edit,delete,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2171,24 +2280,24 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users></users>
+    </property>
+  </object>
+  <object>
     <name>WiperDog.ImportInstance</name>
     <number>1</number>
     <className>XWiki.XWikiRights</className>
     <guid>993ff15a-b669-47c0-99f4-7b2a8f9baf92</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2254,24 +2363,24 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users></users>
+    </property>
+  </object>
+  <object>
     <name>WiperDog.ImportInstance</name>
     <number>4</number>
     <className>XWiki.XWikiRights</className>
     <guid>3b2f9b48-a53e-4f96-8d56-65aa7e3e7f4a</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups/>
-    </property>
-    <property>
-      <levels>view,comment</levels>
-    </property>
-    <property>
-      <users>XWiki.XWikiGuest</users>
-    </property>
-  </object>
-  <object>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2337,24 +2446,24 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups></groups>
+    </property>
+    <property>
+      <levels>view,comment</levels>
+    </property>
+    <property>
+      <users>xwiki:XWiki.Admin</users>
+    </property>
+  </object>
+  <object>
     <name>WiperDog.ImportInstance</name>
     <number>5</number>
     <className>XWiki.XWikiRights</className>
     <guid>ed0d0706-ebd1-4b0e-96aa-b7ca2e146cad</guid>
-    <property>
-      <allow>0</allow>
-    </property>
-    <property>
-      <groups/>
-    </property>
-    <property>
-      <levels>edit,delete</levels>
-    </property>
-    <property>
-      <users>XWiki.XWikiGuest</users>
-    </property>
-  </object>
-  <object>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2420,24 +2529,24 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups></groups>
+    </property>
+    <property>
+      <levels>edit,delete</levels>
+    </property>
+    <property>
+      <users>xwiki:XWiki.Admin</users>
+    </property>
+  </object>
+  <object>
     <name>WiperDog.ImportInstance</name>
     <number>6</number>
     <className>XWiki.XWikiRights</className>
     <guid>ff9e8bd7-f15a-4a37-8de2-f0b562f09428</guid>
-    <property>
-      <allow>1</allow>
-    </property>
-    <property>
-      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
-    </property>
-    <property>
-      <levels>view,edit,delete,comment</levels>
-    </property>
-    <property>
-      <users/>
-    </property>
-  </object>
-  <object>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2503,10 +2612,89 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup,</groups>
+    </property>
+    <property>
+      <levels>view,edit,delete,comment</levels>
+    </property>
+    <property>
+      <users></users>
+    </property>
+  </object>
+  <object>
     <name>WiperDog.ImportInstance</name>
     <number>7</number>
     <className>XWiki.XWikiRights</className>
     <guid>f034d9ce-bda7-4b99-aa5e-345babe901c3</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
     <property>
       <allow>1</allow>
     </property>
@@ -2517,10 +2705,14 @@ color: black !important
       <levels>view,comment</levels>
     </property>
     <property>
-      <users/>
+      <users></users>
     </property>
   </object>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>8</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>f0289aa3-e8af-4dc3-89ed-4b1ebbeee52e</guid>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2586,10 +2778,6 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>8</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>f0289aa3-e8af-4dc3-89ed-4b1ebbeee52e</guid>
     <property>
       <allow>0</allow>
     </property>
@@ -2600,10 +2788,14 @@ color: black !important
       <levels>edit,delete</levels>
     </property>
     <property>
-      <users/>
+      <users></users>
     </property>
   </object>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>9</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>780a282f-ccb9-44f1-9a94-9e202032a49c</guid>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2669,10 +2861,6 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>9</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>780a282f-ccb9-44f1-9a94-9e202032a49c</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -2683,10 +2871,14 @@ color: black !important
       <levels>view,edit,delete,comment</levels>
     </property>
     <property>
-      <users/>
+      <users></users>
     </property>
   </object>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>11</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>0ee04336-f5cf-41ba-a77a-afaf6893dbc1</guid>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2752,10 +2944,6 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>11</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>0ee04336-f5cf-41ba-a77a-afaf6893dbc1</guid>
     <property>
       <allow>0</allow>
     </property>
@@ -2766,10 +2954,14 @@ color: black !important
       <levels>edit,delete</levels>
     </property>
     <property>
-      <users/>
+      <users></users>
     </property>
   </object>
   <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>12</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>1f054517-9dc6-41f5-81d7-4e46a2118bea</guid>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -2835,10 +3027,6 @@ color: black !important
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>WiperDog.ImportInstance</name>
-    <number>12</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>1f054517-9dc6-41f5-81d7-4e46a2118bea</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -2849,60 +3037,173 @@ color: black !important
       <levels>view,comment</levels>
     </property>
     <property>
-      <users/>
+      <users></users>
     </property>
   </object>
-  <content>{{include document="WiperDog.checkService"/}}
-
-{{velocity}}
-$xwiki.ssx.use('WiperDog.checkService')
-
-{{html wiki="true" clean="false"}}
-
-&lt;div id="menu"&gt;&lt;/div&gt;
-&lt;div id="viewer" &gt;
-	&lt;table id = 'displayTable' border = 1&gt;
-		&lt;tr&gt;&lt;th&gt;Job File Name&lt;/th&gt;&lt;td  &gt;&lt;input type="text" name="jobName" id="jobFileName" readonly /&gt;&lt;/td&gt;&lt;/tr&gt;
-		&lt;tr&gt;&lt;th&gt;Import from CSV File: &lt;/th&gt;&lt;td&gt;
-&lt;div id='formUpload'&gt;
-      &lt;form action="${doc.getURL('upload')}" enctype="mutipart/form-data" method="post"&gt;
-         &lt;input type="file" name="filepath_11" id="my_upload" /&gt;
-         &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
-         &lt;div id="fileName" style = "display: none"&gt;&lt;/div&gt;
-         &lt;div id="my_upload_results" &gt;
-            #template('attachmentslist.vm')
-         &lt;/div&gt;
-         &lt;textarea id='fileContent'&gt; &lt;/textarea&gt;
-         &lt;div id="btnLoadFile"&gt;&lt;input type='button' id='loadFromFile' class = 'button' value="Add to List Instances"/&gt;&lt;/div&gt;
-         
-      &lt;/form&gt;
-&lt;/div&gt;
-               &lt;/td&gt;&lt;/tr&gt;
- &lt;tr&gt;&lt;td colspan=2&gt;      &lt;a id="showCSVTip"&gt;Tip for csv file&lt;/a&gt;&lt;div id="csvTip" style="display:none"&gt;
-      	&lt;pre style='color: #717477;font-size: 0.8em;font-weight: normal'&gt;
-       	CSV file format :
-      		INST_NAME,SCHEDULE,HOST_ID,SID,PARAM1,PARAM2,PARAM3
-			inst_1,10i,host_id1,sid1,val_param1,val_param2,val_params3
-			inst_2,20i,host_id2,sid2,val_param21,val_param22,val_params23
-			inst_3,30i,host_id3,sid3,val_param31,val_param32,val_param33
-		+ Header must be include at least following params : INST_NAME,SCHEDULE
-                + For Database Monitoring Instance , HOST_ID and SID params should be available.
-		&lt;/pre&gt;
-      &lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;
- &lt;tr&gt;&lt;td colspan="2"&gt;&lt;div id='messageLoadFile'&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;
-	&lt;/table&gt;
-&lt;/div&gt;
-&lt;div id="instancesTableViewer"&gt;
-	&lt;table id = 'instancesTable'&gt;
-		&lt;tr&gt;&lt;th&gt;Instance Name&lt;/th&gt;&lt;th&gt;Schedule&lt;/th&gt;&lt;th&gt;Params&lt;/th&gt;&lt;/tr&gt;
-	&lt;/table&gt;
-       &lt;input type='button' value="Save to instances file" id='saveToInstFile' class = 'button'/&gt;
-       &lt;input type='button' value="Export to CSV file" id='exportToCSV' class = 'button'/&gt;
-
-&lt;/div&gt;
-
-{{/html}}
-
-{{/velocity}}</content>
+  <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>13</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>d8d12e08-2b18-43c7-861b-d0be9ae12de5</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>edit,comment</levels>
+    </property>
+    <property>
+      <users></users>
+    </property>
+  </object>
+  <object>
+    <name>WiperDog.ImportInstance</name>
+    <number>14</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>bb587585-707c-4b04-b29c-0231087d9224</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <property>
+      <allow>0</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup,</groups>
+    </property>
+    <property>
+      <levels>delete</levels>
+    </property>
+    <property>
+      <users></users>
+    </property>
+  </object>
 </xwikidoc>
