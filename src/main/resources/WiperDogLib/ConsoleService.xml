@@ -647,7 +647,9 @@ try{
 				def startScript = 'cmd /c start "" '+ params['wiperdog_path']['path'] + File.separator + 'bin\\startWiperdog.bat'
 				listCmd.addAll(Arrays.asList(startScript.trim().split(" ")))
 				ProcessBuilder b = new ProcessBuilder(listCmd)
-				//b.directory(new File(params['wiperdog_path']['path']))
+				if(isLocalhost){
+					b.directory(new File(params['wiperdog_path']['path']))
+				}
 				b.redirectErrorStream(true)
 				def proc = b.start()
 				proc.waitFor()
@@ -670,7 +672,9 @@ try{
                                 }
 				listCmd.addAll(Arrays.asList(stopScript.trim().split(" ")))
 				ProcessBuilder b = new ProcessBuilder(listCmd)
-				//b.directory(new File(params['wiperdog_path']['path']))
+				if(isLocalhost){
+					b.directory(new File(params['wiperdog_path']['path']))
+				}
 				b.redirectErrorStream(true)
 				def proc = b.start()
 				proc.waitFor()
@@ -687,7 +691,7 @@ try{
                                         }
                                 } else {
 				     if(proc.exitValue() != null &amp;&amp; proc.exitValue() == 0) {
-					 println proc.in.text
+					 displayTextInHtml(proc.in.text)
 				     } else {
 					 println proc.err.text
 				     }
