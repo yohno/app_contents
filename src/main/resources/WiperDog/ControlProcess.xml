@@ -516,7 +516,9 @@ if (action == 'read') {
         dataSend['data'] = params.wiperdog_path
       }
     } else {
-      println "{{warning}}No config data, use data default !{{/warning}}"
+        //No config data, use data default
+        dataSend['status'] = 0
+        dataSend['data'] = ["os":"linux", "host": "localhost", "user": "", "pass": "", "path": ""]
     }
   } catch (Exception ex) {
     dataSend['status'] = 1

@@ -3706,6 +3706,11 @@ var limit= getParameterByName('limit')
 var selectedIstIid = getParameterByName('IstIid')
 var monitoringDays = getParameterByName('md')
 var keys
+var monitoringDataService
+var liveTableAdapterService
+var realtimeServive
+var realtimeLivetableService
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&amp;]" + name + "=([^&amp;#]*)"),
@@ -3714,8 +3719,487 @@ function getParameterByName(name) {
 };
 
 require(['jquery'],function($){
+$(document).ready(function(){
+   getService()
+   init()
+   drawMenu()
 
-drawMenu()
+function init(){
+   var jobname = getParameterByName('job')
+   var istIid = getParameterByName('IstIid')
+   var limit = getParameterByName('limit')
+   var fromDate = getParameterByName('fromDate')
+   var toDate = getParameterByName('toDate')
+   if((jobname != null &amp;&amp; jobname != "") &amp;&amp; (istIid != null &amp;&amp; istIid != "")){
+      $.ajax({
+         type : "GET",
+         url : monitoringDataService + "/" + jobname + "/" + istIid + "?limit=" + limit + "&amp;fromDate=" + fromDate + "&amp;toDate=" + toDate,
+         async:false,
+         success : function(result){
+              var data = result.data
+              var listKey = result.listKey
+           if(data != null &amp;&amp; data != []) {
+              // Generate resultData and lstKey textarea for export function
+              $("#resultData").text(JSON.stringify(data))
+              $("#lstkey").text(JSON.stringify(listKey))
+
+              // Generate chart containers
+              var jobType = data[0].type
+              $("#chart").empty()
+              $("#chart").css("clear","both")
+              if(jobType == "Store"){
+                 // Job is store
+                 var key = ""
+
+                 //create show/hide chart
+                 $("&lt;br/&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='allChart' id = 'show'&gt;Hide all charts  &lt;/a&gt;&lt;/span&gt;&lt;hr/&gt;").appendTo("#chart");
+
+                 //Draw chart
+                 drawchart(key, result['Chart'], jobType, fromDate, toDate)
+
+                 //Load data and display to table
+		 var $divTableSumary =  $("&lt;br/&gt;&lt;span class = 'chartDesc'&gt;Statistics data &amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLiveTableContainer' id = 'show'&gt;Hide data table  &lt;/a&gt;&lt;/span&gt;&lt;hr/&gt;").appendTo("#chart");
+                 var $divSubtype = $("&lt;table id='livetableList' style='width:100%;align:center'&gt;&lt;/table&gt;").appendTo("#chart");
+                 generateLiveTable(data, jobname, limit, istIid, fromDate, toDate, key)                  
+              } else if(jobType == "Subtyped"){
+                 if(listKey != null &amp;&amp;  listKey.length != 0) {
+                    for(var i = 0 ; i &lt; listKey.length ; i++ ) {
+                         var description = result['data'][0]['KEYEXPR']['_description'][listKey[i]]
+                         generateDescription(listKey[i],description)
+                         //Draw chart subtyped
+                         drawchart(listKey[i], result[listKey[i]]['Chart'], jobType, fromDate, toDate)
+			 var $divTableSumary =  $("&lt;br/&gt;&lt;span class = 'chartDesc'&gt;Statistics data for "+listKey[i]+ "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a        class='toggleLiveTableContainer' id = 'show'&gt;Hide data table  &lt;/a&gt;&lt;/span&gt;&lt;hr/&gt;").appendTo("#chart");
+
+                         var $divSubtype = $("&lt;table id='livetableList_" + listKey[i] + "' style='width:100%;align:center'&gt;&lt;/table&gt;").appendTo("#chart");
+                    }
+                    generateLiveTable(data, jobname, limit, istIid, fromDate, toDate, listKey)
+                 }
+              }
+            } 
+         }
+      })
+   }
+}
+
+function generateLiveTable(data, jobname, limit, istIid, fromDate, toDate, listKey){
+   var strLiveTableJson = ""  
+   if(listKey == "" || listKey == []) {
+     var dataItem = data[0]
+     $("#livetableJson").append(liveTable(dataItem['data'], dataItem.type, jobname, limit, istIid, fromDate, toDate, ""))
+   } else {
+     var dataItem = data[0]
+     var dataObj = null
+     for(var i = 0 ; i &lt; listKey.length ; i++ ) {
+         var tmpObj = JSON.parse(liveTable(dataItem['data'][listKey[i]], dataItem.type, jobname, limit, istIid, fromDate, toDate, listKey[i]))
+         if(dataObj == null ) {
+             dataObj = tmpObj
+         } else {
+             dataObj = $.extend(true,dataObj,tmpObj)
+         }
+         if(dataObj != null ) {
+           strLiveTableJson = JSON.stringify(dataObj)
+         }
+     }
+     $("#livetableJson").append(strLiveTableJson )
+   }
+}
+
+/**
+* create livetable of data draw chart
+* @param data data of all chart
+* @param type type of data draw chart
+* @param job job's name
+* @param limit limit of data montoring
+* @param istIid instance of job
+* @param fromDate start time to get data monitoring for draw chart
+* @param toDate end time to get data monitoring for draw chart
+* @param key key of data subtyped
+* @return str live table of data chart
+*/
+function liveTable(data,type,job,limit,istIid,fromDate,toDate,key){
+   var dataModel = []
+   var dataUrl = ""
+   for (var idx = 0; idx &lt; data.length; idx++) {
+      if(dataModel != null &amp;&amp; dataModel.length &lt;=0){
+         dataModel.push("Fetch At")
+         for(var prop in data[idx]){
+            if(data[idx].hasOwnProperty(prop)){
+               dataModel.push(prop);
+            }
+         }
+      }
+    }
+    if(type == "Store") {
+    	dataUrl = liveTableAdapterService + "?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid
+    } else if (type == "Subtyped") {
+    	dataUrl = liveTableAdapterService + "?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid+"&amp;subType="+key
+    }
+    //-- Building data model
+    var model = []
+    var colSpec
+
+    for (var i = 0 ; i &lt; dataModel.length ; i++ ) {
+         colSpec = {}
+         colSpec['name'] = dataModel[i]
+         colSpec['index'] = dataModel[i]
+         colSpec['width'] = "100"
+         model.push(colSpec)
+    }
+    var dataModelStr = JSON.stringify(dataModel)
+    var modelStr = JSON.stringify(model)
+    var str = ""
+    if(type == "Store") {
+      str =
+        "{\"url\":\""+dataUrl+"\",\"datatype\":\"json\","+
+        "\"colNames\":"+ dataModelStr +
+        ",\"colModel\":"+ modelStr +" ,\"rowList\":[10,20,30],"+
+        "\"pager\":\"#livetablePager\", \"viewrecords\": true, \"caption\":\""+job+"\", \"loadonce\": true}"
+   } else {
+         str = "{ \"" + key +  "\" : {\"url\":\""+dataUrl+"\",\"datatype\":\"json\","+
+        "\"colNames\":"+ dataModelStr +
+        ",\"colModel\":"+ modelStr +" ,\"rowList\":[10,20,30],"+
+        "\"pager\":\"#livetablePager\", \"viewrecords\": true, \"caption\":\""+job+"\", \"loadonce\": true}}"
+   }
+   return str
+}
+
+/**
+* draw chart with data respective
+* @param key key of data subtyped
+* @param chartData first data draw chart
+* @param jobType type of data draw chart
+* @param fromDate start time to get data monitoring for draw chart
+* @param toDate end time to get data monitoring for draw chart
+*/
+function drawchart(key, chartData, jobType, fromDate, toDate){
+   var dataLine = chartData['line']
+   var dataBar = chartData['bar']
+   var dataPie = chartData['pie']
+   var dataArea = chartData['area']
+
+     var lstName = []
+     var tmpPie
+     if(dataPie.length &gt; 0 ){
+        //lstName = dataPie['name']
+        for (var tmpData = 0; tmpData &lt; dataPie.length; tmpData++) {
+           tmpPie = dataPie[tmpData]
+           var tmpName = []
+           for (var index = 0; index &lt; tmpPie.length; index++) {
+               tmpName.push(tmpPie[index]['name'])
+           }
+           lstName.push(tmpName)
+        }
+     }
+
+     //convert name of list name of data pie to format number_name
+     var tmpListNameContainer = []
+     if(lstName != null) {
+	  var chartNumPie = 0
+	  var tmpLst
+	  //for each data of list name
+          for(var i= 0 ; i &lt; lstName.length ; i++ ) {
+                var nameContainer = lstName[i]
+		tmpLst = []
+		for( var j= 0 ; j &lt; nameContainer.length ; j++ ){
+                        var nameContainerItem = nameContainer[j]
+			nameContainerItem = chartNumPie + "_" + nameContainerItem.split(".").join("_")
+                        if(jobType == "Store") {
+                        //add to list name container of data Store
+				tmpListNameContainer.push(nameContainerItem)
+			} else if(jobType == "Subtyped") {
+				tmpLst.push(nameContainerItem )
+			}
+		}
+		//add to list name container of data Subtyped
+                if(jobType== "Subtyped") {
+		   tmpListNameContainer.push(tmpLst)
+                   chartNumPie++
+                }
+	  }
+     }
+
+   // Data of line, bar, pie is in a type of 1 member list =&gt; Have to get 1st member only
+   var chartColumnsLine = getChartColumns(dataLine[0],"line")
+   var chartColumnsBar = getChartColumns(dataBar,"bar")
+   var chartColumnsArea = getChartColumns(dataArea,"area")
+   var chartColumnsPie = getChartColumns(dataPie,"pie")
+   var lineContainerId = "jsonline"
+   var barContainerId = "jsonbar"
+   var pieContainerId = "jsonpie"
+   var areaContainerId = "jsonarea"
+
+   var lstLineContainerId = "lstcontainerline"
+   var lstBarContainerId = "lstcontainerbar"
+   var lstPieContainerId = "lstcontainerpie"
+   var lstAreaContainerId = "lstcontainerarea"
+  
+  if (key != null &amp;&amp; key != "") {
+     //Define json container id for subtype data
+     lineContainerId = lineContainerId + "_" + key
+     barContainerId = barContainerId + "_" + key
+     pieContainerId = pieContainerId + "_" + key
+     areaContainerId = areaContainerId + "_" + key
+     lstLineContainerId = lstLineContainerId + "_" + key
+     lstBarContainerId = lstBarContainerId + "_" + key
+     lstPieContainerId = lstPieContainerId + "_" + key
+     lstAreaContainerId = lstAreaContainerId + "_" + key
+
+  }
+   var fromDateFinal = (fromDate != "")? ("from: " + fromDate) : ""
+   var toDateFinal = (toDate != "")? (" to: " + toDate) : " to system time."
+
+   if(dataPie != null &amp;&amp; dataPie.length &gt; 0) {
+     generateJsonArea(pieContainerId, dataPie)
+     generateJsonArea(lstPieContainerId, tmpListNameContainer)
+     prepareContainerPie(tmpListNameContainer, jobType, key)
+   }
+
+   if (dataLine != null &amp;&amp; dataLine.length &gt; 0) {
+     generateJsonArea(lineContainerId, dataLine)
+     generateJsonArea(lstLineContainerId, chartColumnsLine)
+     prepareContainerLine(chartColumnsLine, fromDateFinal, toDateFinal, key)
+   }
+
+   if (dataBar != null &amp;&amp; dataBar.length &gt; 0) {
+     generateJsonArea(barContainerId, dataBar)
+     generateJsonArea(lstBarContainerId, chartColumnsBar)
+     prepareContainerBar(chartColumnsBar, fromDateFinal, toDateFinal, jobType, key)
+
+   }
+
+   if(dataArea != null &amp;&amp; dataArea.length &gt; 0) {
+     generateJsonArea(areaContainerId, dataArea)
+     generateJsonArea(lstAreaContainerId,chartColumnsArea)
+     prepareContainerArea(chartColumnsArea, fromDateFinal, toDateFinal, jobType, key)
+   }
+}
+
+  /**
+  * Prepare container for draw chart of data Line
+  * @param chartColumnsLine list chart columns for line chart
+  * @param fromDate start time to get data monitoring for draw chart
+  * @param toDate end time to get data monitoring for draw chart
+  * @param key key of data subtyped
+  */
+  function prepareContainerLine(chartColumnsLine, fromDate, toDate, key){
+     $("#chart").append("&lt;div id = 'lineChart" + key +"' style = 'clear:both' &gt;&lt;span class = 'chartDesc'&gt;Line chart: This chart is monitoring data " + fromDate + toDate + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLine' id = 'show'&gt;Hide Line charts&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;")
+     $("#lineChart"+key).append("&lt;div id='wrapperLineChart" + key + "' style='clear:both'&gt;&lt;/div&gt;")
+
+     for(var chartColumnsLineidx = 0; chartColumnsLineidx &lt; chartColumnsLine.length; chartColumnsLineidx++ ){
+        var chartColumnsLineItem = chartColumnsLine[chartColumnsLineidx]
+        $("#wrapperLineChart"+key).append(createButton('start_containerline' + key + '_' + chartColumnsLineItem, 'stop_containerline' + key + '_' + chartColumnsLineItem))
+        $("#wrapperLineChart"+key).append("&lt;div class='displayBlockLine' id='containerline" + key + "_" + chartColumnsLineItem + "'&gt;&lt;/div&gt;")
+     }
+  }
+
+  /**
+  * Prepare container for draw chart of data Pie
+  * @param lstName list name for pie chart
+  * @param jobType type of data draw chart
+  * @param key key of data subtyped
+  */
+  function prepareContainerPie(lstName, jobType, key) {
+     if(lstName.length &gt; 0) {
+        $("#chart").append("&lt;div id = 'pieChart"+key+"' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Pie chart: This chart is lastest monitoring data &amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='togglePie' class = 'show'&gt;Hide pie charts  &lt;/a&gt;&lt;/span&gt;&lt;/div&gt;")
+        $("#pieChart" + key).append("&lt;div id='wrapperPieChart" + key + "' style='clear:both'&gt;&lt;/div&gt;")
+        var chartNumPie = 0
+        for(var index = 0; index &lt; lstName.length; index++) {           
+           var tmp
+           if(jobType == "Store") {
+               tmp = chartNumPie +"_pie"
+               $('#wrapperPieChart').append("&lt;div class='displaypie'&gt;&lt;img class='realtimeBtn' id='start_container" + tmp +"' width=40px height=40px style='display:none' src='/xwiki/bin/download/WiperDog/MonitoringData/play.png'/&gt;&lt;img class='realtimeBtn' id='stop_container" + tmp +"' width=40px height=40px style='display:block' src='/xwiki/bin/download/WiperDog/MonitoringData/pause.png'/&gt;&lt;div id='container" + tmp +"'&gt;&lt;/div&gt;&lt;/div&gt;")
+               chartNumPie++
+           } else {
+              for(var idx2 = 0 ; idx2 &lt; lstName[index].length ; idx2++ ) {
+               tmp = lstName[index][idx2]
+               $('#wrapperPieChart'+key ).append("&lt;div class='displaypie'&gt;&lt;img class='realtimeBtn' id='start_container" + tmp +"' width=40px height=40px style='display:none' src='/xwiki/bin/download/WiperDog/MonitoringData/play.png'/&gt;&lt;img class='realtimeBtn' id='stop_container" + tmp +"' width=40px height=40px style='display:block' src='/xwiki/bin/download/WiperDog/MonitoringData/pause.png'/&gt;&lt;div id='container" +key + "_" + tmp +"'&gt;&lt;/div&gt;&lt;/div&gt;")
+              }
+               chartNumPie++
+           }
+        }
+     }
+  }
+
+  /**
+  * Prepare container for draw chart of data Bar
+  * @param chartColumnsBar list chart columns for bar chart
+  * @param fromDate start time to get data monitoring for draw chart
+  * @param toDate end time to get data monitoring for draw chart
+  * @param jobType type of data draw chart
+  * @param key key of data subtyped
+  */
+  function prepareContainerBar(chartColumnsBar, fromDate, toDate, jobType, key) {
+     var chartBarComment = false
+     var chartNumBar = 0
+     if(chartColumnsBar != null) {
+        for(var chartColumnsBaridx = 0; chartColumnsBaridx &lt; chartColumnsBar.length; chartColumnsBaridx++ ) {
+           // create area for bar chart
+           if(!chartBarComment) {
+              $("#chart").append("&lt;div id = 'barChart" + key + "' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Bar chart: This chart is monitoring data " + fromDate + toDate + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleBar' id = 'show'&gt;Hide bar charts  &lt;/a&gt;&lt;/span&gt;&lt;/div&gt;")
+              $("#barChart" + key).append("&lt;div id='wrapperBarChart"+key+"' style='clear:both'&gt;&lt;/div&gt;")
+              chartBarComment = true
+           }
+           // check data type
+           if(jobType == "Store") {
+              var chartColumnsBarItem = chartColumnsBar[chartColumnsBaridx]
+              for(var index = 0; index &lt; chartColumnsBarItem.length; index++) {
+                 $("#wrapperBarChart").append(createButton('start_containerbar' + chartNumBar + '_' + chartColumnsBarItem[index], 'stop_containerbar' + chartNumBar + '_' + chartColumnsBarItem[index]))
+                 $("#wrapperBarChart").append("&lt;div class='displayBlockBar' id='containerbar" + chartNumBar + "_" + chartColumnsBarItem[index] + "'&gt;&lt;/div&gt;")
+              }
+           } else if(jobType == "Subtyped") {
+              var chartColumnsBarItem = chartColumnsBar[chartColumnsBaridx]
+              for(var index = 0; index &lt; chartColumnsBarItem.length; index++) {
+                 $("#wrapperBarChart" + key).append(createButton('start_containerbar' + key + "_" + chartNumBar + '_' + chartColumnsBarItem[index], 'stop_containerbar' + key + "_" + chartNumBar + '_' + chartColumnsBarItem[index]))
+                 $("#wrapperBarChart" + key).append("&lt;div class='displayBlockBar' id='containerbar" + key + "_" + chartNumBar + "_" + chartColumnsBarItem[index] + "'&gt;&lt;/div&gt;")
+              }
+           }
+           chartNumBar++
+        }
+     }
+  }
+
+  /**
+  * Prepare container for draw chart of data Area
+  * @param chartColumnsArea list chart columns for area chart
+  * @param fromDate start time to get data monitoring for draw chart
+  * @param toDate end time to get data monitoring for draw chart
+  * @param jobType type of data draw chart
+  * @param key key of data subtyped
+  */
+  function prepareContainerArea(chartColumnsArea, fromDate, toDate, jobType, key) {
+     if(chartColumnsArea != null) {
+        var chartAreaComment = false
+        var chartNumArea = 0
+        for(var chartColumnsAreaidx = 0; chartColumnsAreaidx &lt; chartColumnsArea.length; chartColumnsAreaidx++ ) {
+		if(!chartAreaComment){
+		        $("#chart").append("&lt;div id = 'areaChart" + key +"' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Area chart: This chart is monitoring data " + fromDate + toDate  + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleArea' id = 'show'&gt;Hide area charts  &lt;/a&gt;&lt;/span&gt;&lt;/div&gt;")
+		        $("#areaChart"+key).append("&lt;div id='wrapperAreaChart" + key +"' style='clear:both'&gt;&lt;/div&gt;")
+			chartAreaComment = true
+		}
+
+                //set container used to display chart of data area
+		if(jobType == "Store") {
+			var chartColumnsAreaItem = chartColumnsArea[chartColumnsAreaidx]
+			for(var index = 0; index &lt; chartColumnsAreaItem.length; index++) {
+                             $("#wrapperAreaChart").append(createButton('start_containerarea' + chartNumArea + '_' + chartColumnsAreaItem[index], 'stop_containerarea' + chartNumArea + '_' + chartColumnsAreaItem[index]))
+                             $("#wrapperAreaChart").append("&lt;div class='displayBlockArea' id='containerarea" + chartNumArea + "_" + chartColumnsAreaItem[index] + "'&gt;&lt;/div&gt;")
+                        }
+		} else if (jobType == "Subtyped") {
+			var chartColumnsAreaItem = chartColumnsArea[chartColumnsAreaidx]
+			for(var index = 0; index &lt; chartColumnsAreaItem.length; index++) {
+                             $("#wrapperAreaChart" + key).append(createButton('start_containerarea' + key + "_" + chartNumArea + '_' + chartColumnsAreaItem[index], 'stop_containerarea' + key + "_" + chartNumArea + '_' + chartColumnsAreaItem[index]))
+                             $("#wrapperAreaChart" + key).append("&lt;div class='displayBlockArea' id='containerarea" + key + "_" + chartNumArea + "_" + chartColumnsAreaItem[index] + "'&gt;&lt;/div&gt;")
+                        }
+		}
+		chartNumArea++
+        }
+     }
+  }
+
+/**
+* create 2 button Start and Stop by id
+* @param startId id of start button
+* @param stopId id of stop button
+*/
+function createButton(startId, stopId) {
+    return "&lt;img class='realtimeBtn' id='"+startId+"' width=40px height=40px style='display:none' src='/xwiki/bin/download/WiperDog/MonitoringData/play.png'/&gt;&lt;img class='realtimeBtn' id='"+stopId+"' width=40px height=40px style='display:block' src='/xwiki/bin/download/WiperDog/MonitoringData/pause.png'/&gt;"
+}
+
+/**
+* create textarea for storage data
+* @param id id of chart need to process
+* @param data data need to process
+*/
+function generateJsonArea(id, data){
+   if(id != null){
+      $("#jsons").append("&lt;textarea id='" + id + "' &gt;" + parseJson(data) + "&lt;/textarea&gt;")
+   }
+}
+
+/**
+* create title and link show/hide for chart
+* @param key key of data subtype
+* @param descript description of chart
+*/
+function generateDescription(key,descript) {
+   $("#chart").append("&lt;div&gt;&lt;span class='subtype'&gt; Chart of "+ key +": " + descript + '  ' + "&lt;/span&gt;&lt;span class='showHideLink'&gt;&lt;a class= 'allChart' id = 'show' value="+key+"&gt; Hide all charts &lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&lt;br/&gt;&lt;hr/&gt;")
+}
+
+/**
+* Convert data to json
+* @param data data need to convert
+* @return json data after convert to json
+*/
+function parseJson(data){
+   var ret = "" 
+   if(data != null){
+      ret = JSON.stringify(data)
+   }
+   if(ret != null){
+      return replaceAllString(ret, "\\", "_")
+   }
+   return ret
+}
+
+/**
+* Get list chart columns
+* @param data data draw chart
+* @param typeChart type of data draw chart
+* @return chartColumns list data of chart columns
+*/
+function getChartColumns(data, typeChart){
+   var chartColumns = []
+   //data.each {itemData -&gt;
+   if(data != null){
+      for (var itemDataIdx = 0; itemDataIdx &lt; data.length; itemDataIdx++) {
+         var itemData = data[itemDataIdx]
+         if(itemData != null){
+            if(typeChart == "line") {
+               chartColumns.push(itemData.chart_name)
+            } else if(typeChart == "bar"){
+               //get chart columns of data bar
+               chartColumns.push(itemData[0].chart_columns)
+            } else if(typeChart == "area") {
+               //get chart columns of data area
+               chartColumns.push(itemData[0].chartItemName)
+            }
+         }
+      }
+   }
+   return chartColumns
+}
+
+function getService(){
+   $.ajax({
+      type : "GET",
+      url : "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=realtime",
+      success : function(data){
+          realtimeServive = data
+      },
+      async:false});
+   $.ajax({
+      type : "GET",
+      url : "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=monitoring",
+      success : function(data){
+          monitoringDataService = data
+      },
+      async:false});
+  $.ajax({
+      type : "GET",
+      url : "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=tableadapter",
+      success : function(data){
+          liveTableAdapterService = data
+      },
+      async:false});
+   $.ajax({
+      type : "GET",
+      url : "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=realtimeLivetable", 
+      success : function(data){
+          realtimeLivetableService = data
+      },
+      async:false});
+
+}
 
 function drawMenu(){
      $.ajax({
@@ -3843,7 +4327,6 @@ function replaceAllString(oriStr, strTarget, strSubString ){
                  $("#listIstIid &gt; div").css("display","none")
                  $("#IstIid" + convertedJobName).css("display","block")
 		 //ajax_getData(jobName,fromDate,toDate,limit )
-
 	});
 
 	$("#from-date").datetimepicker({
@@ -3884,7 +4367,6 @@ $("#Monitor1day").click(function(){
 	$("#to-date").val(today.toString('yyyy-MM-dd HH:mm:ss'))
 	$("#from-date").val(today.addDays(-1).toString('yyyy-MM-dd HH:mm:ss'))
 
-	//$("#FromToArea").hide('blind')
 	$("#btnArea").show('clip')
 })
 
@@ -3896,7 +4378,6 @@ $("#Monitor3day").click(function(){
 	$("#to-date").val(today.toString('yyyy-MM-dd HH:mm:ss'))
 	$("#from-date").val(today.addDays(-3).toString('yyyy-MM-dd HH:mm:ss'))
 
-	//$("#FromToArea").hide('blind')
 	$("#btnArea").show('blind')
 })
 
@@ -3908,8 +4389,6 @@ $("#Monitor7day").click(function(){
 	$("#to-date").val(today.toString('yyyy-MM-dd HH:mm:ss'))
 	$("#from-date").val(today.addDays(-7).toString('yyyy-MM-dd HH:mm:ss'))
 	
-
-	//$("#FromToArea").hide('blind')
 	$("#btnArea").show('blind')
 })
 
@@ -3959,24 +4438,17 @@ $("#toggleJobSelect").click(function(){
 })
 
 $(".togglePie").click(function(){
-  var lstKey = jQuery.parseJSON($("#lstkey").val())
-  if (lstKey.length &gt; 0) {
-     for (var i = 0; i &lt; lstKey.length; i++) {
-        $(this).parents("#pieChart").children('#wrapperPieChart' + lstKey[i]).toggle('slow')
-     }
-   } else {
-     $(this).parents("#pieChart").children('#wrapperPieChart').toggle('slow')
-   }
+   $(this).parent().next().toggle('slow')
    if($(this).attr('id') == 'show'){
        $(this).attr('id','hide')
-       $(this).text("Show pie charts")
+       $(this).text("Hide pie charts")
    } else {
        $(this).attr('id','show')
-       $(this).text("Hide pie charts")
+       $(this).text("Show pie charts")
    }
 })
 $(".toggleLine").click(function(){
-  $(this).parents("#lineChart").children('#wrapperLineChart').toggle('slow')
+  $(this).parent().next().toggle('slow')
   if($(this).attr('id') == 'show'){
      $(this).attr('id','hide')
      $(this).text("Show line charts")
@@ -3986,7 +4458,7 @@ $(".toggleLine").click(function(){
   }
 })
 $(".toggleBar").click(function(){
-  $(this).parents("#barChart").children('#wrapperBarChart').toggle('slow')
+  $(this).parent().next().toggle('slow')
   if($(this).attr('id') == 'show'){
      $(this).attr('id','hide')
      $(this).text("Show bar charts")
@@ -3996,14 +4468,7 @@ $(".toggleBar").click(function(){
   }
 })
 $(".toggleArea").click(function(){
-  var lstKey = jQuery.parseJSON($("#lstkey").val())
-  if (lstKey.length &gt; 0) {
-     for (var i = 0; i &lt; lstKey.length; i++) {
-        $(this).parents("#areaChart").children('#wrapperAreaChart' + lstKey[i]).toggle('slow')
-     }
-  } else {
-     $(this).parents("#areaChart").children('#wrapperAreaChart').toggle('slow')
-  }
+  $(this).parent().next().toggle('slow')
   if($(this).attr('id') == 'show'){
     $(this).attr('id','hide')
     $(this).text("Show area charts")
@@ -4012,12 +4477,20 @@ $(".toggleArea").click(function(){
     $(this).text("Hide area charts")
   }
 })
+
 $(".allChart").click(function(){
-  $(this).parents("#chartContainer").children('#pieChart').toggle('slow')
-  $(this).parents("#chartContainer").children('#lineChart').toggle('slow')
-  $(this).parents("#chartContainer").children('#barChart').toggle('slow')
-  $(this).parents("#chartContainer").children('#areaChart').toggle('slow')
-  console.log($(this).attr('id'))
+  var key = $(this).attr("value")
+  if (key != null &amp;&amp; key != '') {
+    $(this).parents("#chart").children('#pieChart' + key).toggle('slow')
+    $(this).parents("#chart").children('#lineChart' + key).toggle('slow')
+    $(this).parents("#chart").children('#barChart' + key).toggle('slow')
+    $(this).parents("#chart").children('#areaChart' + key).toggle('slow')
+  } else {
+    $(this).parents("#chart").children('#pieChart').toggle('slow')
+    $(this).parents("#chart").children('#lineChart').toggle('slow')
+    $(this).parents("#chart").children('#barChart').toggle('slow')
+    $(this).parents("#chart").children('#areaChart').toggle('slow')
+  }
   if($(this).attr('id') == 'show'){
      $(this).attr('id','hide')
      $(this).text("Show all charts")
@@ -4025,10 +4498,10 @@ $(".allChart").click(function(){
      $(this).attr('id','show')
      $(this).text("Hide all charts")
   }
-
 })
+
 $(".toggleLiveTableContainer").click(function(){
-  $(this).parents(".liveTableContainer").children('.liveTable').toggle('slow')
+  $(this).parent().next().next().toggle('slow')
   if($(this).attr('id') == 'show'){
      $(this).attr('id','hide')
      $(this).text("Show data table")
@@ -4042,16 +4515,12 @@ $(".toggleLiveTableContainer").click(function(){
   if($("#livetableJson").text() != null &amp;&amp; $("#livetableJson").text() != "") {
     jsonObj = $.parseJSON($("#livetableJson").text()); 
   }
-  if(keys &amp;&amp; keys != '[ ]'){
-    /** Subtyped **/    
-    var newKeys = keys.replace('[',"");
-    keys = newKeys.replace(']',"");
-    var keyArr = (keys.indexOf(',') != -1)? keys.split(','):new Array(keys);
-    //console.log('Key after replace: '+keys)       
+  if(keys != null &amp;&amp; keys != "" &amp;&amp; keys != "[]"){
+    // Subtyped
+    var keyArr = JSON.parse(keys)
     for(var i=0;i&lt;keyArr.length;i++){
-        var keyName = keyArr[i].trim().replace('',"").replace("\"","").replace('\"','');
-        var subTypeJsonObjStr = jsonObj[keyName].replace('#livetablePager','#livetablePager_'+keyName)
-        var subTypeJsonObj = $.parseJSON(subTypeJsonObjStr);
+        var keyName = keyArr[i]
+        var subTypeJsonObj = jsonObj[keyName]
        
         $("#livetableList_"+keyName).jqGrid(subTypeJsonObj);
         $("#livetableList_"+keyName).jqGrid('navGrid', "#livetablePager_"+keyName, {
@@ -4060,7 +4529,6 @@ $(".toggleLiveTableContainer").click(function(){
            del : false,
            search:false
          });
-         
     }
     
   }else{ /** Store**/        
@@ -4070,9 +4538,7 @@ $(".toggleLiveTableContainer").click(function(){
            add : false,
            del : false,
            search:false
-           
        });
-       
    }
   $(function(){
                 $('div.livetblContentClass').css({'width':'98%'});
@@ -4083,9 +4549,8 @@ $(".toggleLiveTableContainer").click(function(){
    		$('div.ui-jqgrid-view').css({'width':'100%'});
                 $('div.ui-state-default.ui-jqgrid-pager.ui-corner-bottom').css({'width':'100%'});
 	});
-   
 });
-        
+})     
 jQuery.noConflict()
 });</code>
     </property>
@@ -4255,19 +4720,27 @@ require(['jquery'],function($){
 	                    }
 	                });
 	            }
+			//get list key of data draw chart and parse to Json
 
-		    //get list key of data draw chart and parse to Json
-                    if($("#lstkey").val() != null &amp;&amp; $("#lstkey").val() != []) {
-			var lstKey = jQuery.parseJSON($("#lstkey").val())
-			//call function draw all line chart
-			drawAllLineChart(lstKey)
-			//call function draw all bar chart
-			drawAllBarChart(lstKey)
-			//call function draw all pie chart
-			drawAllPieChart(lstKey)
-			//call function draw all area chart
-			drawAllAreaChart(lstKey)
-                    }
+			var lstKey = ""
+                        if($("#lstkey").val() != '') { 
+				lstKey = jQuery.parseJSON($("#lstkey").val())
+			}
+                        $('textarea').filter(function() {
+				if(this.id.match(/jsonpie/)) { 
+					drawAllPieChart(lstKey)
+				}
+				if(this.id.match(/jsonline/)) { 
+					drawAllLineChart(lstKey)
+				}
+				if(this.id.match(/jsonbar/)) {
+					drawAllBarChart(lstKey)
+				}
+				if(this.id.match(/jsonarea/)) {
+					drawAllAreaChart(lstKey)
+				}
+			})
+
                     if (monitoringType == "realtime") {
 		        setInterval(function(){realtimeMonitoring()}, 10000);
                     }
@@ -4286,8 +4759,18 @@ require(['jquery'],function($){
 		    } else {
                 //lastFetchAt = lastFetchAt.replace(' JST','')
                 //Because lastFetchAt to be gotten from categories,which has yyyy/MM/dd HH:mm:ss z format, so delete timezone to parse date
-                lastFetchAt = lastFetchAt.substring(0,19)
-		        fromDate2Send = (new Date(lastFetchAt)).toString('yyyy-MM-dd HH:mm:ss')
+		        lastFetchAt = lastFetchAt.substring(0,19)
+                        //fromDate2Send = (new Date(lastFetchAt)).toString('yyyy-MM-dd HH:mm:ss')
+                       if(lastFetchAt.indexOf(" ") &lt; 0 ) {
+lastFetchAt = lastFetchAt.substring(0,4) + "-" + lastFetchAt.substring(4,6) +"-"+ lastFetchAt.substring(6,8) + " " + lastFetchAt.substring(8,10) + ":" + lastFetchAt.substring(10,12)+ ":" + lastFetchAt.substring(12,14)
+                       } else {
+                          if( lastFetchAt.indexOf("/") &gt; 0 ) {
+                            lastFetchAt=lastFetchAt.replace(/\//g,"-")
+                          }
+                       }
+                      fromDate2Send = lastFetchAt
+
+                       
 		    }
 		    if(jobName2Send != null &amp;&amp; jobName2Send != '' &amp;&amp; istIid2Send != null &amp;&amp; istIid2Send != ''){
             	        // Process redrawn line chart, bar chart, area chart by add point method
@@ -4669,7 +5152,7 @@ function drawAllPieChart(lstKey){
 			    //get data pie respective and parse to Json
 			    arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonpie_" + finalKey).val());
 			    //get data container pie respective and parse to Json
-			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerpie_" + finalKey).val());
+			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerpie_" + finalKey).val());
 		            //check data store != null and != []
    		            if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 				var lstContainer = [];
@@ -4694,6 +5177,7 @@ function drawAllPieChart(lstKey){
                                                         lstDataChartNameUnit.push(data_all[j].name)
                                                 	mapAllPie[finalKey + "_" + lstContainer[j]] = lstDataChartNameUnit
 							drawPieChart([data_all[j]], finalKey + "_" + lstContainer[j], chartName, data_all[j].unit)
+
 						}
 					}
 				}
@@ -4702,11 +5186,12 @@ function drawAllPieChart(lstKey){
 		}
 	} else {
 		//get data Store and parse to json
-		var arrayAll = jQuery.parseJSON($("#jsons&gt;.jsonpie").val());
+		var arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonpie").val());
 		//get data pie respective and parse to Json
-		var arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerpie").val());
+		var arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerpie").val());
 		//check data store != null and != []
 		if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
+
 			var lstContainer = [];
 			var data_all = [];
 			//get size of data pie
@@ -4754,7 +5239,7 @@ function drawPieChartUpdate(result, tmpUpdate){
 		var chartNameUpdate
 		//get key chart of data Subtyped
 		var keySubtyped = tmpUpdate.container.charAt(0)
-		var arrayAll = JSON.parse(result)
+		var arrayAll = result
 		var arrayAllUpdate
 		if(tmpUpdate.dataType == "Subtyped"){
 			arrayAllUpdate = arrayAll[keySubtyped]
@@ -4982,7 +5467,7 @@ function drawAllLineChart(lstKey){
 			    //get data line respective and parse to Json
 			    arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonline_" + finalKey).val());
 			    //get data container line respective and parse to Json
-			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerline_" + finalKey).val());
+			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerline_" + finalKey).val());
 		            //check data store != null and != []
 		            if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 				var lstContainer = [];
@@ -5016,9 +5501,9 @@ function drawAllLineChart(lstKey){
 		}
 	} else {
 		//get data Store and parse to json
-		arrayAll = jQuery.parseJSON($("#jsons&gt;.jsonline").val());
+		arrayAll = jQuery.parseJSON($("#jsons&gt; #jsonline").val());
 		//get data line respective and parse to Json 
-		arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerline").val());
+		arrayContainerAll = jQuery.parseJSON($("#jsons&gt; #lstcontainerline").val());
 		//check data store != null and != []
 		if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 			var lstContainer = [];
@@ -5030,15 +5515,15 @@ function drawAllLineChart(lstKey){
 				//set data for draw chart
 				data_all = arrayAll[i]
 				//set list container
-				lstContainer = arrayContainerAll[i]
+				container = arrayContainerAll[i]
 				//check data and list container for draw chart
-				if(data_all.length &gt;0 &amp;&amp; lstContainer.length &gt;0){
+				if(data_all != null &amp;&amp; container != null){
 					// data to display on tooltip
-					var data_detail = data_all[0]
+					//var data_detail = data_all[0]
 					// draw Line chart
 					for(var j=0;j&lt;data_all.length;j++){
 						if(data_all[j].series[0].name == null){
-							data_all[j].series[0].name = lstContainer[j]
+							data_all[j].series[0].name = container
 						}
 						chartName = data_all[j].chart_name
 						title = data_all[j].title
@@ -5062,7 +5547,7 @@ function drawLineChartUpdate(result, tmpUpdate){
 	require(['jquery'],function($){
 		var containerUpdate
 		var arrayAllUpdate
-		var arrayAll = JSON.parse(result)
+		var arrayAll = result
 		var keySubtyped = tmpUpdate.container.charAt(0)
 		if(tmpUpdate.dataType == "Subtyped"){
 			arrayAllUpdate = arrayAll[keySubtyped]
@@ -5340,7 +5825,7 @@ function drawAllBarChart(lstKey){
 			    //get data bar respective and parse to Json
 			    arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonbar_" + finalKey).val());
 			    //get data container bar respective and parse to Json
-			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerbar_" + finalKey).val());
+			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerbar_" + finalKey).val());
 		            //check data store != null and != []
 		            if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 				var lstContainer = [];
@@ -5373,9 +5858,9 @@ function drawAllBarChart(lstKey){
 		}
 	} else {
 		//get data Store and parse to json
-		arrayAll = jQuery.parseJSON($("#jsons&gt;.jsonbar").val());
+		arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonbar").val());
 		//get data bar respective and parse to Json 
-		arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerbar").val());
+		arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerbar").val());
 		//check data store != null and != []
 		if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 			var lstContainer = [];
@@ -5418,7 +5903,7 @@ function drawBarChartUpdate(result, tmpUpdate){
 	require(['jquery'],function($){
 		var chartNameUpdate
 		var arrayAllUpdate
-		var arrayAll = JSON.parse(result)
+		var arrayAll = result
 		var keySubtyped = tmpUpdate.container.charAt(0)
 		if(tmpUpdate.dataType == "Subtyped"){
 			arrayAllUpdate = arrayAll[keySubtyped]
@@ -5698,7 +6183,7 @@ function drawAllAreaChart(lstKey){
 			    //get data area respective and parse to Json
 			    arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonarea_" + finalKey).val());
 			    //get data container area respective and parse to Json
-			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerarea_" + finalKey).val());
+			    arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerarea_" + finalKey).val());
 		            //check data store != null and != [], data area respective and parse to Json != null
      		            if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 				var lstContainer = [];
@@ -5735,9 +6220,9 @@ function drawAllAreaChart(lstKey){
 		}
 	} else {
 		//get data Store and parse to json
-		arrayAll = jQuery.parseJSON($("#jsons&gt;.jsonarea").val());
+		arrayAll = jQuery.parseJSON($("#jsons&gt;#jsonarea").val());
 		//get data area respective and parse to Json
-		arrayContainerAll = jQuery.parseJSON($("#jsons&gt;.lstcontainerarea").val());
+		arrayContainerAll = jQuery.parseJSON($("#jsons&gt;#lstcontainerarea").val());
 		//check data store != null and != [], data area respective and parse to Json != null
 		if(arrayAll != null &amp;&amp; arrayAll != [] &amp;&amp; arrayContainerAll != null) {
 			var lstContainer = [];
@@ -5784,7 +6269,7 @@ function drawAreaChartUpdate(result, tmpUpdate){
 	require(['jquery'],function($){
 		var chartNameUpdate
 		var arrayAllUpdate
-		var arrayAll = JSON.parse(result)
+		var arrayAll = result
 		var keySubtyped = tmpUpdate.container.charAt(0)
 		if(tmpUpdate.dataType == "Subtyped"){
 			arrayAllUpdate = arrayAll[keySubtyped]
@@ -6043,11 +6528,12 @@ function drawAreaChart(xAxis, series, container, unit, chart_name){
 */
 function processCharts(jobName2Send, istIid2Send, fromDate2Send){
 	require(['jquery'],function($){
+  
 	$.ajax({
 		type: "GET",
 		crossDomain: true,
-		url: '/xwiki/bin/get/WiperDogLib/RealtimeData?outputSyntax=plain&amp;jobName=' + jobName2Send + '&amp;IstIid=' + istIid2Send + '&amp;fromDate=' + fromDate2Send + '&amp;drawMethod=addPoint',
-		dataType: 'text',
+		url: realtimeServive + '/' + jobName2Send + '/' + istIid2Send + '?fromDate=' + fromDate2Send + '&amp;drawMethod=addPoint',
+		dataType: 'JSON',
 		success: function(result){
 			processChartSuccessor(result)
 		},
@@ -6067,10 +6553,10 @@ function processCharts(jobName2Send, istIid2Send, fromDate2Send){
 function processPieChart(jobName2Send, istIid2Send){
 	require(['jquery'],function($){
 	$.ajax({
-	    type: "POST",
+	    type: "GET",
 	    crossDomain: true,
-	    url: "/xwiki/bin/get/WiperDogLib/RealtimeData?outputSyntax=plain&amp;jobName=" + jobName2Send + "&amp;IstIid=" + istIid2Send + '&amp;fromDate=&amp;drawMethod=overWrite',
-	    dataType: 'text',
+	    url: realtimeServive + "/" + jobName2Send + "/" + istIid2Send + '?fromDate=&amp;drawMethod=overWrite',
+	    dataType: 'JSON',
 	    success: function(result){
 			processPieChartSuccessor(result)
 	    },
@@ -6109,10 +6595,10 @@ function processLivetable(jobName2Send, istIid2Send){
 		$("#livetableList").jqGrid('clearGridData');
 	}
 	$.ajax({
-	    type: "POST",
+	    type: "GET",
 	    crossDomain: true,
-	    url: "/xwiki/bin/get/WiperDogLib/RealtimeDataLiveTable?outputSyntax=plain&amp;jobName=" + jobName2Send + "&amp;IstIid=" + istIid2Send,
-	    dataType: 'text',
+	    url: realtimeLivetableService + "/" + jobName2Send + "/" + istIid2Send,
+	    dataType: 'json',
 	    success: function(result) {
 			processLivetableSuccessor(result, subtypedKeys)
 		},
@@ -6130,9 +6616,9 @@ function processLivetable(jobName2Send, istIid2Send){
 */
 function processChartSuccessor(result){
 	require(['jquery'],function($){
-	if (result != null &amp;&amp; result != "" &amp;&amp; result != 'null') {
+	if (result != null &amp;&amp; result != "" &amp;&amp; result != []) {
 		var limitChart
-		var listData = JSON.parse(result)
+		var listData = result
 		for(var i = 0; i &lt; listData.length; i++){
 			var data = listData[i]
 			var newDataContainerName = "container" + data.type + data.chartName
@@ -6244,7 +6730,7 @@ function processChartSuccessor(result){
 					    }
                                        }
 				} else {
-					if ($("#lstkey").val() == null || $("#lstkey").val() == "[ ]"){
+					if ($("#lstkey").val() == null || $("#lstkey").val() == "[]"){
 						// Doesn't have this container -&gt; Create and addpoint, addDetail
 						if(document.getElementById('wrapperAreaChart') == null){
 							$('#xwikicontent').append('&lt;div id=\'wrapperAreaChart\'&gt;&lt;p&gt;paragragh&lt;/p&gt;&lt;/div&gt;')
@@ -6312,7 +6798,7 @@ function processPieChartSuccessor(result) {
         var tmpRealtimeBtnId = lstRealtimePieBtnId.clone()
         lstRealtimePieBtnId = []
 	if (result != "" &amp;&amp; result != null) {
-		result = JSON.parse(result)
+		result = result
                 var numberOfDataPie = 0
 		for(var i = 0; i &lt; result.length; i++) {
                     var listJsonPie = []
@@ -6403,8 +6889,8 @@ function processPieChartSuccessor(result) {
 				    }
                                     $("#wrapperPieChart").html(htmlSource)
 				    if (result[i].jsonPie != null &amp;&amp; result[i].jsonPie != []) {
-					$("#jsons&gt;.jsonpie").val(result[i].jsonPie)
-					$("#jsons&gt;.lstcontainerpie").val(result[i].jsonContainerPie)
+					$("#jsons&gt;#jsonpie").val(result[i].jsonPie)
+					$("#jsons&gt;#lstcontainerpie").val(result[i].jsonContainerPie)
 				    }
 		                    //call function draw all pie chart
 		                    drawAllPieChart(lstKey)
@@ -6476,7 +6962,7 @@ function processPieChartSuccessor(result) {
                                         $("#wrapperPieChart" + jsonkey).html(htmlSourceSub)
 				        if (result[i].jsonPie != null &amp;&amp; result[i].jsonPie != []) {
 					    $("#jsonpie_" + jsonkey).val(result[i]['jsonPie'])
-					    $("#jsons&gt;.lstcontainerpie_" + jsonkey).val(result[i]['jsonContainerPie'])
+					    $("#jsons&gt;#lstcontainerpie_" + jsonkey).val(result[i]['jsonContainerPie'])
 				        }
                                         var lstKey = jQuery.parseJSON($("#lstkey").val())
 		                        //call function draw all pie chart
@@ -6499,7 +6985,7 @@ function processPieChartSuccessor(result) {
 function processLivetableSuccessor(result, subtypedKeys){
 	require(['jquery'],function($){
 	if ((subtypedKeys != null || subtypedKeys != '') &amp;&amp; (result != null || result != "")) {
-		var resultObj = $.parseJSON(result)
+		var resultObj = result
 		if(subtypedKeys.length &gt; 0){
 			for(var keyIdx = 0; keyIdx &lt; subtypedKeys.length; keyIdx++){
 				var keySubtyped = subtypedKeys[keyIdx]
@@ -6510,7 +6996,7 @@ function processLivetableSuccessor(result, subtypedKeys){
 			}
 		} else {
 			for(var i = 0; i &lt; resultObj.length; i++){
-				$("#livetableList").jqGrid('addRowData', i, resultObj[i]);
+ 				$("#livetableList").jqGrid('addRowData', i, resultObj[i])
 			}
 		}
 	}
@@ -6582,7 +7068,7 @@ function addDetail(curDetailData, newDetailData){
 * @param error Error's message
 */
 function errorFunc(xhr, status, error){
-	alert("There is an error! Wiperdog agent is on yet?")
+	alert("Can not get data from MongoDB !")
 	console.log(error)
 	console.log(status)
 	console.log(xhr)
@@ -6702,10 +7188,10 @@ function errorFunc(xhr, status, error){
 	doc.text("To: " + toDate, 80, 15)
 
 	if(result_KEYEXPR != null){
-		if(keys != null &amp;&amp; keys != "[ ]" &amp;&amp; keys != ""){
+		if(keys != null &amp;&amp; keys != "[]"){
 			// Subtyped job
 			isStored = false
-			var tmpListKeys = keys.split(',')
+			var tmpListKeys = JSON.parse(keys)
 			for(var i = 0; i &lt; tmpListKeys.length; i++){
 				var key = replaceAllString(tmpListKeys[i], '\"', '').trim()
 				listKeys.push(key)
@@ -6862,10 +7348,10 @@ function exportChart(doc, listKeys, jobName){
 		for(var i = 0; i &lt; listKeys.length; i++){
 			var key = listKeys[i]
 			doc.text('Charts Of ' + key, 5, lastY - 2)
-			listContainerLine = $("#jsons&gt;.lstcontainerline" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerline" + "_" + key).val()) : null
-			listContainerPie = $("#jsons&gt;.lstcontainerpie" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerpie" + "_" + key).val()) : null
-			listContainerArea = $("#jsons&gt;.lstcontainerarea" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerarea" + "_" + key).val()) : null
-			listContainerBar = $("#jsons&gt;.lstcontainerbar" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerbar" + "_" + key).val()) : null
+			listContainerLine = $("#jsons&gt;#lstcontainerline" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerline" + "_" + key).val()) : null
+			listContainerPie = $("#jsons&gt;#lstcontainerpie" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerpie" + "_" + key).val()) : null
+			listContainerArea = $("#jsons&gt;#lstcontainerarea" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerarea" + "_" + key).val()) : null
+			listContainerBar = $("#jsons&gt;#lstcontainerbar" + "_" + key).val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerbar" + "_" + key).val()) : null
 			
 			// Draw Pie chart
 			if(listContainerPie != null){
@@ -6922,10 +7408,10 @@ function exportChart(doc, listKeys, jobName){
 		}
 	}else{
 		// Store
-		listContainerLine = $("#jsons&gt;.lstcontainerline").val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerline").val()) : null
-		listContainerPie = $("#jsons&gt;.lstcontainerpie").val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerpie").val()) : null
-		listContainerArea = $("#jsons&gt;.lstcontainerarea").val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerarea").val()) : null
-		listContainerBar = $("#jsons&gt;.lstcontainerbar").val() != null ? jQuery.parseJSON($("#jsons&gt;.lstcontainerbar").val()) : null
+		listContainerLine = $("#jsons&gt;#lstcontainerline").val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerline").val()) : null
+		listContainerPie = $("#jsons&gt;#lstcontainerpie").val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerpie").val()) : null
+		listContainerArea = $("#jsons&gt;#lstcontainerarea").val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerarea").val()) : null
+		listContainerBar = $("#jsons&gt;#lstcontainerbar").val() != null ? jQuery.parseJSON($("#jsons&gt;#lstcontainerbar").val()) : null
 
 		// Draw Pie charts
 		if(listContainerPie != null){
@@ -7152,8 +7638,8 @@ function getDataUpdate(jobName2Send, istIid2Send, fromDate2Send, toDate2Send, li
 	$.ajax({
 		type: "GET",
 		crossDomain: true,
-		url: "/xwiki/bin/get/WiperDogLib/RealtimeData?outputSyntax=plain&amp;jobName=" + jobName2Send + "&amp;IstIid=" + istIid2Send +"&amp;limit="+limit2Send+ "&amp;fromDate="+ fromDate2Send + "&amp;toDate=" + toDate2Send + "&amp;type=" + type +"&amp;drawMethod=updateChart",
-		dataType: 'text',
+		url: realtimeServive + '/' + jobName2Send + "/" + istIid2Send +"?limit="+limit2Send+ "&amp;fromDate="+ fromDate2Send + "&amp;toDate=" + toDate2Send + "&amp;type=" + type +"&amp;drawMethod=updateChart",
+		dataType: 'JSON',
 		success: function(result){
 			if(type == 'pie'){
 				drawPieChartUpdate(result, tmpUpdate)
@@ -9077,616 +9563,13 @@ println '{{/html}}'
 {{groovy}}
 import groovy.json.*
 xwiki.jsx.use("WiperDogLib.Highcharts")
-
-if(request.xpage == "plain") {
-  response.setContentType('text/plain')
-}
-
-def listData = []
-//get job name from form html
-def job = request.get("job")
-//get from date of data monitoring from form html
-def fromDate = request.get("fromDate")
-//get to date of data monitoring from form html
-def toDate = request.get("toDate")
-//get limit of data monitoring from form html
-def limit= (request.get("limit")!=null)?request.get("limit").toInteger():10
-//get istIid of job respective from form html
-def istIid = request.get("IstIid")
-
-def str= "No data to retrieved !"
-def result = null
-if(job != "" &amp;&amp; job != null &amp;&amp; istIid != null &amp;&amp; istIid != ""){
-  def mongoDBConn
-  try{
-     //open connection to mongoDB
-     mongoDBConn = services.MongoDBConnection
-     
-     mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
-
-     //get data from mongoDB
-     if(fromDate != "" || toDate != ""){
-       result = mongoDBConn.getDataInPeriod(job,fromDate,toDate,limit,istIid)
-     } else {
-       result = mongoDBConn.getDataAllFields(job,limit,istIid)
-     }
-  } catch(Exception ex){
-     println '{{error}}' + ex + '{{/error}}'
-  } finally {
-     //close connection to mongoDB
-     if(mongoDBConn != null){
-         mongoDBConn.closeConnection()
-     }
-  }
-} else {
-  println "{{warning}}There are no selected job or IstIid{{/warning}}"
-}
-def listKey = []
 println '{{html clean="false" wiki="true"}}'
-println "&lt;div id='resultData' style='display:none'&gt;" + com.mongodb.util.JSON.serialize(result) + "&lt;/div&gt;"
-if( (result != null) &amp;&amp; (result.size() &gt; 0) &amp;&amp; (result[0].KEYEXPR != null)&amp;&amp;!(result[0].KEYEXPR instanceof List )){
-  //Format data fetchAt
-  //result.each {item -&gt;
-  for (item in result) {
-    def newdate = new Date().parse("yyyyMMddHHmmssz", item['fetchAt'])
-    item['fetchAt'] = newdate.format('yyyy/MM/dd HH:mm:ss z')
-  }
 
-  	//Draw chart
-	if(result[0].type == "Subtyped") {
-		//set type for draw chart
-		def typeChart = result[0].type
-		//set data subtype for draw chart
-	    def dataSubtype = services.DataToDrawChart.getDataToDrawSubtype(result)
-	    //get list key of data subtyped
-	    //dataSubtype.each {key,value -&gt;
-	    for (e in dataSubtype) {
-	      listKey.add(e.key)
-	    }
-	    //parse data of list key to json data
-	    def jsonkey = com.mongodb.util.JSON.serialize(listKey)
-	    println "&lt;textarea style=\"display:none\" id='lstkey' &gt;$jsonkey&lt;/textarea&gt;"
-		println "&lt;div class = 'chart'&gt;"
-		//dataSubtype.each {key,value -&gt;
-		for (e in dataSubtype) {
-			//call function to draw chart
-			drawChart(e.key, e.value, typeChart, fromDate, toDate)
-			println "&lt;/div&gt;"
-			println "&amp;nbsp;"
-			/** Statistic data table **/
-			println "&lt;div class = 'liveTableContainer' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Statistics data for ${e.key}&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLiveTableContainer' id = 'show'&gt;Hide data table  &lt;/a&gt;&lt;/span&gt;"
-			println "&lt;div class = 'liveTable'&gt;"
-			println "&lt;center&gt;"
-			println "&lt;div class=\"livetblContentClass\" id='livetblContent_" + e.key + "' style='width:98%;clear:both;align:middle;margin-top:10px'&gt;"
-			println "&lt;table id='livetableList_" + e.key + "' style='width:100%;align:center'&gt;&lt;/table&gt;"
-			println "&lt;div id='livetablePager_" + e.key + "' style='position:relative;width:100%'&gt;&lt;/div&gt;"
-			println "&lt;/div&gt;"
-			println "&lt;/center&gt;"
-			println "&lt;/div&gt;"
-			println "&lt;/div&gt;"
-		}
-		println "&lt;div style='clear: both'&gt;&lt;/div&gt;"
-	} else if(result[0].type == "Store") {
-		//set type for draw chart
-		def typeChart = result[0].type
-		def key = ""
-		println "&lt;div class = 'chart'&gt;"
-		//call function to draw chart
-		drawChart(key, result, typeChart, fromDate, toDate)
-	}
-  println "&lt;/div&gt;"
-}else{
-  println 'There is no data for this job with criterias'
-}
-
-/**
-* draw chart with data respective
-* @param key key of data subtyped
-* @param value first data draw chart
-* @param typeChart type of data draw chart
-* @param fromDate start time to get data monitoring for draw chart
-* @param toDate end time to get data monitoring for draw chart
-*/
-def drawChart(key,value,typeChart,fromDate,toDate) {
-	def dataLine = getDataJson(value,"line")
-	def dataBar = getDataJson(value,"bar")
-	def dataPie = getDataJson(value,"pie")
-	def dataArea = getDataJson(value,"area")
-	
-	def chartColumnsLine = getChartColumns(dataLine,"line")
-	def chartColumnsBar = getChartColumns(dataBar,"bar")
-	def chartColumnsArea = getChartColumns(dataArea,"area")
-	def lstName
-	
-	//get list name of data pie
-	if(dataPie.size() &gt; 0 ){
-		lstName = dataPie['name']
-	}
-	//convert name of list name of data pie to format number_name
-	def tmpListNameContainer = []
-	if(lstName != null) {
-		def chartNumPie = 0
-		def tmpLst
-		//for each data of list name
-		for(def nameContainer in lstName){
-			tmpLst = []
-			for(def nameContainerItem in nameContainer ){
-				nameContainerItem = chartNumPie + "_" + nameContainerItem.replaceAll("\\.", "_")
-                if(typeChart == "Store") {
-                     //add to list name container of data Store
-				     tmpListNameContainer.add(nameContainerItem)
-				} else if(typeChart == "Subtyped") {
-				     tmpLst.add(nameContainerItem )
-				}
-			}
-			//add to list name container of data Subtyped
-            if(typeChart == "Subtyped") {
-			    tmpListNameContainer.add(tmpLst)
-                chartNumPie++
-            }
-		}
-	}
-	//get data json of pie
-	def jsonPie = parseJson(dataPie)
-	//get data json of line
-	def jsonLine = parseJson(dataLine)
-	//get data json of bar
-	def jsonBar = parseJson(dataBar)
-	//get data json of area
-	def jsonArea = parseJson(dataArea)
-	//get data json of container pie
-	def jsonContainerPie = parseJson(tmpListNameContainer)
-	
-	//get data json of chartColumns
-	def jsonContainerLine = parseJson(chartColumnsLine)
-	def jsonContainerBar = parseJson(chartColumnsBar)
-	def jsonContainerArea = parseJson(chartColumnsArea)
-	//Prepare data, list container for draw chart and tags of hidden chart
-	prepareDataAndListContainer(value, typeChart, jsonPie, jsonLine, jsonBar, jsonArea, jsonContainerPie, jsonContainerLine, jsonContainerBar, jsonContainerArea, key)
-	//get time of data monitoring for draw chart
-	def fromDateFinal = (!"".equals(fromDate))? ("from: " + fromDate) : ""
-	def toDateFinal = (!"".equals(toDate))? (" to: " + toDate) : " to system time."
-	
-	prepareContainerPie(jsonPie, lstName, typeChart, key)
-	prepareContainerLine(jsonLine, chartColumnsLine, fromDateFinal, toDateFinal, key)
-	prepareContainerBar(jsonBar, chartColumnsBar, fromDateFinal, toDateFinal, typeChart, key)
-	prepareContainerArea(jsonArea, chartColumnsArea, fromDateFinal, toDateFinal, typeChart, key)
-}
-/**
-* Get list chart columns
-* @param data data draw chart
-* @param typeChart type of data draw chart
-* @return chartColumns list data of chart columns
-*/
-def getChartColumns(data,typeChart) {
-	def chartColumns = []
-	//data.each {itemData -&gt;
-	for (itemData in data) {
-		if(itemData.size() &gt; 0){
-			if(typeChart == "line") {
-				//get chart columns of data line
-				//itemData.each{item-&gt;
-				for (item in itemData) {
-					chartColumns.add(item.chart_name)
-				} 
-			} else if(typeChart == "bar"){
-				//get chart columns of data bar
-				chartColumns.add(itemData[0].chart_columns)
-			} else if(typeChart == "area") {
-				//get chart columns of data area
-				chartColumns.add(itemData[0].chartItemName)
-			}
-		}
-	}
-	return chartColumns
-}
-
-/**
-* Get data to draw chart
-* @param value first data draw chart
-* @param type type of chart
-* @return data data after convert to draw chart
-*/
-def getDataJson(value,type) {
-	def data = []
-	if(type == "line" &amp;&amp; services.DataToDrawChart.getDataToDrawLine(value) != []) {
-		//get data draw line
-		data = services.DataToDrawChart.getDataToDrawLine(value)
-	} else if(type == "bar" &amp;&amp; services.DataToDrawChart.getDataToDrawBar(value) != []) {
-		//get data to draw bar
-		data = services.DataToDrawChart.getDataToDrawBar(value)
-	} else if(type == "pie" &amp;&amp; services.DataToDrawChart.getDataToDrawPie(value) != []) {
-		//get data to draw pie
-		data = services.DataToDrawChart.getDataToDrawPie(value)
-	} else if(type == "area" &amp;&amp; services.DataToDrawChart.getDataToDrawArea(value) != []) {
-		//get data to draw area
-		data = services.DataToDrawChart.getDataToDrawArea(value)
-	}
-	return data
-}
-
-/**
-* Convert data to json
-* @param data data need to convert
-* @return json data after convert to json
-*/
-def parseJson(data) {
-	def json
-	if(data != []) {
-		//convert data to json
-		json = com.mongodb.util.JSON.serialize(data)
-                json = json.replace('\\', "_")
-	}
-	return json
-}
-
-/**
-* Prepare data, list container for draw chart and tags of hidden chart
-* @param value first data draw chart
-* @param typeChart type of data draw chart
-* @param jsonPie data json for pie chart
-* @param jsonLine data json for line chart
-* @param jsonBar data json for bar chart
-* @param jsonArea data json for area chart
-* @param jsonContainerPie data json for container of pie chart
-* @param jsonContainerLine data json for container of line chart
-* @param jsonContainerBar data json for container of bar chart
-* @param jsonContainerArea data json for container of area chart
-* @param key key of data subtyped
-*/
-def prepareDataAndListContainer(value, typeChart, jsonPie, jsonLine, jsonBar, jsonArea, jsonContainerPie, jsonContainerLine, jsonContainerBar, jsonContainerArea, key) {
-	//create string to show/hide html
-	def strShowHideHtml = ""
-	if(typeChart == "Store"){
-		//data Store
-		//set value [] to list key for check data Subtype or Store
-		def listEmpty = com.mongodb.util.JSON.serialize([])
-		println "&lt;textarea style=\"display:none\" id='lstkey' &gt;$listEmpty&lt;/textarea&gt;"
-		//Create textarea and container for draw chart
-		println "&lt;div id='jsons' style = \"display:none\"&gt;"
-		println "&lt;textarea class='jsonline' &gt;$jsonLine &lt;/textarea&gt;"
-		println "&lt;textarea class='jsonbar' &gt;$jsonBar &lt;/textarea&gt;"
-		println "&lt;textarea class='jsonpie' &gt;$jsonPie &lt;/textarea&gt;"
-		println "&lt;textarea class='jsonarea' &gt;$jsonArea &lt;/textarea&gt;"
-
-		println "&lt;textarea class='lstcontainerpie' &gt;$jsonContainerPie &lt;/textarea&gt;"
-		println "&lt;textarea class='lstcontainerline' &gt;$jsonContainerLine &lt;/textarea&gt;"
-		println "&lt;textarea class='lstcontainerbar' &gt;$jsonContainerBar &lt;/textarea&gt;"
-		println "&lt;textarea class='lstcontainerarea' &gt;$jsonContainerArea &lt;/textarea&gt;"
-		println "&lt;/div&gt;"
-	} else if(typeChart == "Subtyped") {
-		//data Subtyped
-		println "&lt;div id='jsons' style = \"display:none\"&gt;"
-		def checkChartAvailable = false
-		//Create textarea and container for draw chart of data line
-		if(jsonLine != null) {
-			println "&lt;textarea id=\"jsonline_$key\" &gt;$jsonLine &lt;/textarea&gt;"
-			println "&lt;textarea class=\"lstcontainerline_$key\" &gt;$jsonContainerLine &lt;/textarea&gt;"
-			checkChartAvailable = true
-		}
-		//Create textarea and container for draw chart of data bar
-		if(jsonBar != null) {
-			println "&lt;textarea id=\"jsonbar_$key\"&gt;$jsonBar &lt;/textarea&gt;"
-			println "&lt;textarea class='lstcontainerbar_$key' &gt;$jsonContainerBar &lt;/textarea&gt;"
-			checkChartAvailable = true
-		}
-		//Create textarea and container for draw chart of data pie
-		if(jsonPie != null &amp;&amp; jsonContainerPie != null) {
-			println "&lt;textarea id=\"jsonpie_$key\" &gt;$jsonPie &lt;/textarea&gt;"
-			println "&lt;textarea class='lstcontainerpie_$key' &gt;$jsonContainerPie &lt;/textarea&gt;"
-			checkChartAvailable = true
-		}
-		//Create textarea and container for draw chart of data area
-		if(jsonArea != null) {
-			println "&lt;textarea id=\"jsonarea_$key\" &gt;$jsonArea &lt;/textarea&gt;"
-			println "&lt;textarea class='lstcontainerarea_$key' &gt;$jsonContainerArea &lt;/textarea&gt;"
-			checkChartAvailable = true
-		}
-		//set string when no chart avaiable
-		strShowHideHtml = "{{warning}}No chart avaiable !{{/warning}}"
-		//show hide link if chart avaiable
-		if(checkChartAvailable){
-			strShowHideHtml = "&lt;span class = 'showHideLink'&gt;&lt;a class='allChart' id = 'show'&gt;Hide all charts  &lt;/a&gt;&lt;/span&gt;&lt;/div&gt;"
-		}
-		println "&lt;/div&gt;"
-	}
-	println "&lt;div style='clear:both'&gt;"
-	if(typeChart == "Store") {
-		//set link for hide/show all chart
-		println "&lt;div id = 'chartContainer'  style = 'clear:both' class = 'store'&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='allChart' id = 'show'&gt;Hide all charts  &lt;/a&gt;&lt;/span&gt;"
-		println "---------------------"
-		println "&amp;nbsp;"
-	} else if(typeChart == "Subtyped") {
-		//get description
-		def description
-        if (value.KEYEXPR._description[0] != null) {
-            description = value.KEYEXPR._description[0][key]
-        }
-		println "&lt;div id = 'chartContainer'  style = 'clear:both' &gt;"
-		println "&amp;nbsp;"
-		//set header of chart and link for hide/show all chart
-		if(description != null) {
-			println "&lt;div &gt;&lt;span class=\"subtype\"&gt;Chart Of "+ key +" : " + description +"&amp;nbsp;&lt;/span&gt; " + strShowHideHtml
-		} else {
-			println "&lt;div &gt;&lt;span class=\"subtype\"&gt;Chart Of "+ key + "&amp;nbsp;&lt;/span&gt;" + strShowHideHtml
-		}
-		println "-----"
-	}
-}
-
-/**
-* Prepare container for draw chart of data Pie
-* @param jsonPie data json for pie chart
-* @param lstName list name for pie chart
-* @param typeChart type of data draw chart
-* @param key key of data subtyped
-*/
-def prepareContainerPie(jsonPie, lstName, typeChart, key) {
-	if(jsonPie != null) {
-		//set link for hide/show chart of data pie
-		println "&lt;div id = 'pieChart' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Pie chart : This chart is lastest monitoring data &amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='togglePie' id = 'show'&gt;Hide pie charts  &lt;/a&gt;&lt;/span&gt;"
-		println "&amp;nbsp;"
-		println "&lt;div id=\"wrapperPieChart${key}\" style=\"clear:both\"&gt;"
-		def chartPieComment = false
-		chartNumPie = 0
-		//for each data of list name
-		//lstName.each{chartPieLst-&gt;
-		for (chartPieLst in lstName) {
-			//chartPieLst.each {
-			for (it in chartPieLst) {
-				def tmp
-				//set container used to display chart of data pie
-				if(typeChart == "Subtyped") {
-					tmp = chartNumPie + "_" + it.replaceAll("\\.", "_")
-                                        println "&lt;div class=\"displaypie\"&gt;&lt;img class=\"realtimeBtn\" id=\"start_pie_container${key}_${tmp}\" width=40px height=40px style=\"display:none\" src=\"" + doc.getAttachmentURL('play.png') + "\"/&gt;"
-                                        println "&lt;img class=\"realtimeBtn\" id=\"stop_pie_container${key}_${tmp}\" width=40px height=40px style=\"display:block\" src=\"" + doc.getAttachmentURL('pause.png') + "\"/&gt;"
-					println " &lt;div id=\"container${key}_${tmp}\" &gt;&lt;/div&gt;&lt;/div&gt;"
-				} else if(typeChart == "Store") {
-					tmp = chartNumPie + "_pie"
-                                        println "&lt;div class=\"displaypie\"&gt;&lt;img class=\"realtimeBtn\" id=\"start_container$tmp\" width=40px height=40px style=\"display:none\" src=\"" + doc.getAttachmentURL('play.png') + "\"/&gt;"
-                                        println "&lt;img class=\"realtimeBtn\" id=\"stop_container$tmp\" width=40px height=40px style=\"display:block\" src=\"" + doc.getAttachmentURL('pause.png') + "\"/&gt;"
-					println " &lt;div id=\"container$tmp\" &gt;&lt;/div&gt;&lt;/div&gt;"
-					chartNumPie++
-				}
-			}
-			if(typeChart == "Subtyped") {
-				chartNumPie++
-			}
-		}
-		println "&lt;/div&gt;"
-		println "&lt;/div&gt;"
-	}
-	println "&lt;div style = 'clear: both'&gt;&amp;nbsp;&lt;/div&gt;"
-}
-
-/**
-* Prepare container for draw chart of data Line
-* @param jsonLine data json for line chart
-* @param chartColumnsLine list chart columns for line chart
-* @param fromDateFinal start time to get data monitoring for draw chart
-* @param toDateFinal end time to get data monitoring for draw chart
-* @param typeChart type of data draw chart
-* @param key key of data subtyped
-*/
-def prepareContainerLine(jsonLine, chartColumnsLine, fromDateFinal, toDateFinal, key) {
-	if(jsonLine != null) {
-		def chartLineComment = false
-		def chartNumLine = 0
-		//for each data of list chart columns
-		//chartColumnsLine.each{chartColumnsLineItem -&gt;
-		for (chartColumnsLineItem in chartColumnsLine) {
-			//show information of chart
-			if(!chartLineComment){
-				println "&lt;div id = 'lineChart' style = 'clear:both' &gt;&lt;span class = 'chartDesc'&gt;Line chart : This chart is monitoring data " +fromDateFinal + toDateFinal +"&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLine' id = 'show'&gt;Hide Line charts  &lt;/a&gt;&lt;/span&gt;"
-				println "&amp;nbsp;"
-				println "&lt;div id=\"wrapperLineChart\" style=\" clear:both\"&gt;"
-				chartLineComment = true
-			}
-			//set container used to display chart of data line
-                        createButton("start_containerline${key}_${chartColumnsLineItem}", "stop_containerline${key}_${chartColumnsLineItem}")
-			println " &lt;div class=\"displayBlockLine\" id=\"containerline${key}_${chartColumnsLineItem}\"&gt;&lt;/div&gt;"
-		}
-		if(chartLineComment){
-			println "&lt;/div&gt;"
-			println "&lt;/div&gt;"
-		}
-	}
-	println "&amp;nbsp;"
-}
-
-/**
-* Prepare container for draw chart of data Bar
-* @param jsonBar data json for bar chart
-* @param chartColumnsBar list chart columns for bar chart
-* @param fromDateFinal start time to get data monitoring for draw chart
-* @param toDateFinal end time to get data monitoring for draw chart
-* @param typeChart type of data draw chart
-* @param key key of data subtyped
-*/
-def prepareContainerBar(jsonBar, chartColumnsBar, fromDateFinal, toDateFinal, typeChart, key) {
-	if(jsonBar != null) {
-		def chartBarComment = false
-		def chartNumBar = 0
-		//for each data of list chart columns
-		//chartColumnsBar.each{chartColumnsBarItem -&gt;
-		for (chartColumnsBarItem in chartColumnsBar) {
-			//show information of chart
-			if(!chartBarComment){
-				println "&lt;div id = 'barChart'  style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Bar chart : This chart is monitoring data " + fromDateFinal + toDateFinal + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleBar' id = 'show'&gt;Hide bar charts  &lt;/a&gt;&lt;/span&gt;"
-				println "&amp;nbsp;"
-				println "&lt;div id=\"wrapperBarChart\" style=\"clear:both\"&gt;"
-				chartBarComment = true
-			}
-			//set container used to display chart of data bar
-			if(typeChart == "Subtyped") {
-				//chartColumnsBarItem.each{
-				for (it in chartColumnsBarItem) {
-                                    createButton("start_containerbar${key}_${chartNumBar}_${it}", "stop_containerbar${key}_${chartNumBar}_${it}")
-                                    println " &lt;div class=\"displayBlockBar\" id=\"containerbar${key}_${chartNumBar}_${it}\"&gt;&lt;/div&gt;"
-                                }
-			} else if (typeChart == "Store") {
-				//chartColumnsBarItem.each{
-				for (it in chartColumnsBarItem) {
-                                    createButton("start_containerbar${chartNumBar}_${it}", "stop_containerbar${chartNumBar}_${it}")
-                                    println " &lt;div class=\"displayBlockBar\" id=\"containerbar${chartNumBar}_${it}\"&gt;&lt;/div&gt;"
-                                }
-			}
-			chartNumBar++
-		}
-		if(chartBarComment){
-			println "&lt;/div&gt;"
-			println "&lt;/div&gt;"
-		}
-	}
-	println "&amp;nbsp;"
-}
-
-/**
-* Prepare container for draw chart of data Area
-* @param jsonArea data json for area chart
-* @param chartColumnsArea list chart columns for area chart
-* @param fromDateFinal start time to get data monitoring for draw chart
-* @param toDateFinal end time to get data monitoring for draw chart
-* @param typeChart type of data draw chart
-* @param key key of data subtyped
-*/
-def prepareContainerArea(jsonArea, chartColumnsArea, fromDateFinal, toDateFinal, typeChart, key) {
-	if(jsonArea != null) {
-		def chartAreaComment = false
-		def chartNumArea = 0
-		//for each data of list chart columns
-		//chartColumnsArea.each{chartColumnsAreaItem -&gt;
-		for (chartColumnsAreaItem in chartColumnsArea) {
-			//show information of chart
-			if(!chartAreaComment){
-		        println "&lt;div id = 'areaChart'  style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Area chart : This chart is monitoring data " + fromDateFinal + toDateFinal + "&amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleArea' id = 'show'&gt;Hide area charts  &lt;/a&gt;&lt;/span&gt;"
-		        println "&amp;nbsp;"
-				println "&lt;div id=\"wrapperAreaChart${key}\" style=\"clear:both\"&gt;"
-				chartAreaComment = true
-			}
-			//set container used to display chart of data area
-			if(typeChart == "Subtyped") {
-				//chartColumnsAreaItem.each{
-				for (it in chartColumnsAreaItem) {
-                                    createButton("start_containerarea${key}_${chartNumArea}_${it}", "stop_containerarea${key}_${chartNumArea}_${it}")
-                                    println " &lt;div class=\"displayBlockArea\" id=\"containerarea${key}_${chartNumArea}_${it}\"&gt;&lt;/div&gt;"
-                                }
-			} else if (typeChart == "Store") {
-				//chartColumnsAreaItem.each{ 
-				for (it in chartColumnsAreaItem) {
-                                    createButton("start_containerarea${chartNumArea}_${it}", "stop_containerarea${chartNumArea}_${it}")
-                                    println " &lt;div class=\"displayBlockArea\" id=\"containerarea${chartNumArea}_${it}\"&gt;&lt;/div&gt;"
-                                }
-			}
-			chartNumArea++
-		}
-		if(chartAreaComment){
-			println "&lt;/div&gt;"
-			println "&lt;/div&gt;"
-		}
-	}
-}
-
-def subTypeURLMap = [:]
-//build for livetable
-result.find{rec-&gt;
-	def subtractData = []
-	//-- Parsing data and assign data to subtract list
-	if(rec.type == "Store"){ //-- Store data type
-		subtractData = rec['data']
-		def key = ""
-		println "&lt;div id='livetableJson' style = \"display:none\"&gt;"
-		//show live table of data Store
-		println liveTable(subtractData, rec.type, job, limit, istIid, fromDate, toDate, key)
-		println "&lt;/div&gt;"
-	}else{ //-- Subtype
-		def subData = rec['data']
-		//for each data of data subtyped
-		//subData.each{key,value-&gt;
-		for (e in subData) {
-			subtractData = e.value
-			//set data live table for each key of data subtyped
-			subTypeURLMap[e.key] = liveTable(subtractData, rec.type, job, limit, istIid, fromDate, toDate, e.key)
-		}
-		def finalStr = (new JsonBuilder(subTypeURLMap)).toPrettyString()
-	    println "&lt;div id='livetableJson' style = \"display:none\"&gt;"
-	    //show live table of data Subtyped
-		println finalStr
-		println "&lt;/div&gt;"
-	}
-	return true
-}
-
-/**
-* create 2 button Start and Stop by id
-* @param startId id of start button
-* @param stopId id of stop button
-*/
-def createButton(startId, stopId) {
-    println "&lt;img class=\"realtimeBtn\" id=\"${startId}\" width=40px height=40px style=\"display:none\" src=\"" + doc.getAttachmentURL('play.png') + "\"/&gt;"
-    println "&lt;img class=\"realtimeBtn\" id=\"${stopId}\" width=40px height=40px style=\"display:block\" src=\"" + doc.getAttachmentURL('pause.png') + "\"/&gt;"
-}
-
-/**
-* create livetable of data draw chart
-* @param data data of all chart
-* @param type type of data draw chart
-* @param job job's name
-* @param limit limit of data montoring
-* @param istIid instance of job
-* @param fromDate start time to get data monitoring for draw chart
-* @param toDate end time to get data monitoring for draw chart
-* @param key key of data subtyped
-* @return str live table of data chart
-*/
-def liveTable(data,type,job,limit,istIid,fromDate,toDate,key){
-	def dataModel = []
-	def dataUrl = ""
-	//data.each{r2-&gt;
-	for (r2 in data) {
-      if(dataModel != null &amp;&amp; dataModel.size() &lt;=0){
-        dataModel.add("Fetch At")
-        dataModel.addAll(r2.keySet());
-      }
-    }
-    if(type == "Store") {
-    	dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid
-    } else if (type == "Subtyped") {
-    	dataUrl = "/xwiki/bin/get/WiperDogLib/LivetableDataAdapter?outputSyntax=plain&amp;job="+job +"&amp;limit="+limit+"&amp;fromDate="+fromDate + "&amp;toDate=" + toDate + "&amp;istIid="+istIid+"&amp;subType="+key
-	}
-    //-- Building data model
-    def model = []
-    def colSpec
-    //dataModel.each{name-&gt;
-    for (name in dataModel) {
-      colSpec = [:]
-      colSpec['name'] = name
-      colSpec['index'] = name
-      colSpec['width'] = "100"
-      model.add(colSpec)
-    }
-    def dataModelStr = (new JsonBuilder(dataModel)).toPrettyString()
-    def modelStr = (new JsonBuilder(model)).toPrettyString()
-    str =
-        "{\"url\":\""+dataUrl+"\",\"datatype\":\"json\","+
-        "\"colNames\":"+ dataModelStr +
-        ",\"colModel\":"+ modelStr +" ,\"rowList\":[10,20,30],"+
-        "\"pager\":\"#livetablePager\", \"viewrecords\": true, \"caption\":\""+job+"\", \"loadonce\": true}"
-    return str
-}
-
-if(listKey.size() &lt;= 0 &amp;&amp; (result != null) &amp;&amp; (result.size() &gt; 0) ){
-  println "&lt;div class = 'liveTableContainer' style = 'clear:both'&gt;&lt;span class = 'chartDesc'&gt;Statistics data &amp;nbsp;&lt;/span&gt;&lt;span class = 'showHideLink'&gt;&lt;a class='toggleLiveTableContainer' id = 'show'&gt;Hide data table  &lt;/a&gt;&lt;/span&gt;"
-  println "&lt;div class = 'liveTable'&gt;"
-  println "&lt;center&gt;"
-  println "&lt;div class=\"livetblContentClass\" id=\"livetblContent\" style=\"width:98%;clear:both;align:middle;margin-top:10px;\"&gt;"
-  println "&lt;table id=\"livetableList\" style=\"width:100%;align:center\"&gt;&lt;/table&gt;"
-  println "&lt;div id=\"livetablePager\" style=\"width:100%;align:center\"&gt;&lt;/div&gt;"
-  println "&lt;/div&gt;"
-  println "&lt;/center&gt;"
-  println "&lt;/div&gt;"
-  println "&lt;/div&gt;"
-}
+println "&lt;div id='resultData' style='display:none'&gt;&lt;/div&gt;"
+println "&lt;textarea style=\"display:none\" id='lstkey' &gt;&lt;/textarea&gt;"
+println "&lt;div id='jsons' style = \"display:none\"&gt;&lt;/div&gt;"
+println "&lt;div id='chart' &gt;&lt;/div&gt;"
+println "&lt;div id='livetableJson' style = \"display:none\"&gt;&lt;/div&gt;"
 
 println "{{/html}}"
 {{/groovy}}</content>
