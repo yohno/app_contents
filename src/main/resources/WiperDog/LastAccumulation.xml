@@ -265,7 +265,44 @@ RU5ErkJggg==
     <property>
       <code>require(['jquery'],function($){
 	$(window).ready(function(){
-		
+                console.log("START")
+                var lastAccumService = ""
+		//Get service path from wiperdogconfiguration
+		$.ajax({
+			type: "GET",
+			url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + "LastAccum",
+			async: false,
+			success: function(result) {
+			lastAccumService = result
+			},
+			error: function(xhr, status, error) {
+			console.log(xhr)
+			console.log(status)
+			console.log(error)
+			}
+		});
+                
+		$.ajax({
+			type: "GET",
+			crossDomain: true,
+			url: lastAccumService,
+			dataType: 'json',
+                        async: false,
+			success: function(result) {
+				var htmlStr = ""
+				for(var key in result) {
+					var gridData = result[key]
+					htmlStr += '&lt;div style="display:none"&gt;&lt;textarea class="jsonData"&gt;' + gridData + '&lt;/textarea&gt;&lt;/div&gt;'
+
+				}
+				$("#xwikicontent").append(htmlStr)
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr)
+				console.log(status)
+				console.log(error)
+			}
+		}); 
 		var pbTimer = false;
 		$(window).bind('resize', function(){
 			if (pbTimer !== false) {
@@ -1239,77 +1276,17 @@ jQuery.noConflict()
 	xwiki.jsx.use("LastAccumulation")
 	xwiki.ssx.use("LastAccumulation")
     xwiki.ssx.use("WiperDog.checkService")
+{{/groovy}}
 
-    if(services.MongoDBConnection == null){
-            return
-        }
-		
-	def mongoDBConn
-	try{
-		mongoDBConn = services.MongoDBConnection
-                mongoDBConn.getConnection(services.WiperdogConfig.getDataFromConfig())
-		def db = mongoDBConn.getMongoDB()
-
-		def jobs = []
-		for(job in db.getCollectionNames().findAll({it != "system.indexes"})){
-			jobs.add(job)
-		}
-
-		println('{{html  clean="false" wiki="false"}}')
-		def dataSet = [:]
-
-		println '&lt;div id="container"&gt;'
-		println '&lt;label for="chartType"&gt;Chart Type: &lt;/label&gt;'
-		println '&lt;select id="chartType"&gt;&lt;option&gt;bar&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;'
-		println '&lt;label for="viewLimit"&gt;View Limit: &lt;/label&gt;'
-		println '&lt;select id="viewLimit"&gt;&lt;option&gt;5&lt;/option&gt;&lt;option&gt;10&lt;/option&gt;&lt;option&gt;20&lt;/option&gt;&lt;/select&gt;'
-		println '&lt;input type="button" id="createChart" value="view" /&gt;'
-		println '&lt;input type="button" id="deleteChart" value="hide" /&gt;'
-		println '&lt;div id="chartArea"&gt;&lt;/div&gt;'
-		println '&lt;/div&gt;'
-		println '&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;'
-		for(jobName in jobs){
-			def col = db[jobName]
-			def getStorageSize = col.getStats().size
-			def getCumCount = col.getStats().count
-			def cumStatus = 'antena3'
-			
-
-			def nowDate = System.currentTimeMillis()
-			for(document in col.find().sort(_id:-1).limit(1)){
-				def unixTime = (document['fetchedAt_bin'] != null)? document['fetchedAt_bin'].toLong()*1000 : 0
-				def diffTime = nowDate - unixTime
-				def unixToDate = new Date(unixTime).format("yyyy/MM/dd HH:mm:ss")
-				if(diffTime &gt;= 28800000){
-					cumStatus = 'antena2'
-				}
-				if(diffTime &gt;= 57600000){
-					cumStatus = 'antena1'
-				}
-				if(diffTime &gt;= 86400000){
-					cumStatus = 'antena0'
-				}
-
-				def gridData = [:]
-
-				gridData['cumStatus'] = cumStatus
-				gridData['jobName'] = jobName
-				gridData['unixToDate'] = unixToDate
-				gridData['getStorageSize'] = getStorageSize
-				gridData['getCumCount'] = getCumCount
-				
-				gridData =  com.mongodb.util.JSON.serialize(gridData)
-				println('&lt;div style="display:none"&gt;&lt;textarea class="jsonData"&gt;' + gridData + '&lt;/textarea&gt;&lt;/div&gt;')
-
-			}
-		}
-		println('{{/html}}')
-	} catch (Exception ex){
-		println '{{error}}' + ex + '{{/error}}'
-	} finally {
-		if(mongoDBConn != null){
-			mongoDBConn.closeConnection()
-		}
-	}
-{{/groovy}}</content>
-</xwikidoc>
+{{html  clean="false" wiki="false"}}
+&lt;div id="container"&gt;
+&lt;label for="chartType"&gt;Chart Type: &lt;/label&gt;
+&lt;select id="chartType"&gt;&lt;option&gt;bar&lt;/option&gt;&lt;option&gt;pie&lt;/option&gt;&lt;/select&gt;
+&lt;label for="viewLimit"&gt;View Limit: &lt;/label&gt;
+&lt;select id="viewLimit"&gt;&lt;option&gt;5&lt;/option&gt;&lt;option&gt;10&lt;/option&gt;&lt;option&gt;20&lt;/option&gt;&lt;/select&gt;
+&lt;input type="button" id="createChart" value="view" /&gt;
+&lt;input type="button" id="deleteChart" value="hide" /&gt;
+&lt;div id="chartArea"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;table id="gridList"&gt;&lt;/table&gt;&lt;div id="pager"&gt;&lt;/div&gt;
+{{/html}}</content></xwikidoc>

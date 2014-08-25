@@ -759,6 +759,10 @@ ul li {
 #moreLogs{
 margin-left: 400px;
 disabled: disabled
+}
+
+#lstLog &gt; ul &gt; li &gt; a:hover {
+ cursor: pointer
 }</code>
     </property>
     <property>

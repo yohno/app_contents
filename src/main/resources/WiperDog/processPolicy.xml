@@ -958,6 +958,8 @@ Suggest.LocalMulti.prototype.getLastTokenPos = function() {
     </property>
     <property>
       <code>var servletName // Servlet in use
+var chooseJobPolicyService
+var policyStringService
 var listPolicy = new Array() // Policy list
 var mapPolicy = {} // Policy map
 var tmpPolicyForKey = {} // Temporary policy key
@@ -1476,10 +1478,10 @@ require(['jquery'], function($) {
         // Get policy's script
         var result = getPolicyString(data2send)
         // parse to see if there is any error
-        result = $.parseJSON(result)
         if (result.status == "failed") {
           $("#runTestText").val(mapMessage["policy_syntax_error"] + result.message)
         } else {
+		  result = $.parseJSON(result)
           if (result.message.length == 0) {
             $("#runTestText").val(mapMessage["system_normal"])
           } else {
@@ -1665,8 +1667,8 @@ require(['jquery'], function($) {
       $.ajax({
         type: "POST",
         crossDomain: true,
-        url: "/xwiki/bin/get/WiperDogLib/PolicyStringLib?outputSyntax=plain",
-        dataType: 'text',
+        url: policyStringService,
+        dataType: 'json',
         data: data,
         async: false,
         //context: JSON.stringify(mapFinal),
@@ -1887,12 +1889,35 @@ require(['jquery'], function($) {
    */
 
   function ajaxGetServlet() {
-    params = 'ProcessPolicy'
+    //params = 'ProcessPolicy'
     $.ajax({
       type: "GET",
-      url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + params,
+      url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + "ProcessPolicy",
+      async: false,
       success: function(result) {
         servletName = result
+      },
+      error: function(xhr, status, error) {
+        logError(xhr, status, error)
+      }
+    });
+    $.ajax({
+      type: "GET",
+      async: false,
+      url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + "ChooseJobPolicy",
+      success: function(result) {
+        chooseJobPolicyService = result
+      },
+      error: function(xhr, status, error) {
+        logError(xhr, status, error)
+      }
+    });
+   $.ajax({
+      type: "GET",
+      async: false,
+      url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + "PolicyString",
+      success: function(result) {
+        policyStringService = result
       },
       error: function(xhr, status, error) {
         logError(xhr, status, error)
@@ -2095,15 +2120,19 @@ function processChooseJob(jobName) {
       data2send = {
         'jobName': ''
       }
+      var url 
+      if(jobName != "") {
+         url = chooseJobPolicyService + "/" + jobName
+      } else {
+         url = chooseJobPolicyService
+      }
       $.ajax({
-        type: "POST",
+        type: "GET",
         crossDomain: true,
-        url: "/xwiki/bin/get/WiperDogLib/chooseJobProcess?outputSyntax=plain",
-        dataType: 'text',
-        data: data2send,
+        url: url,
+        dataType: 'json',
         async: false,
         success: function(result) {
-          result = JSON.parse(result)
 
           if (result.status == 'success' &amp;&amp; !($.isEmptyObject(result.data))) {
             $("#initLoading").css("display", "none")
@@ -2134,14 +2163,12 @@ function processChooseJob(jobName) {
       }
       $("#loadingImg").css("display", "block")
       $.ajax({
-        type: "POST",
+        type: "GET",
         crossDomain: true,
-        url: "/xwiki/bin/get/WiperDogLib/chooseJobProcess?outputSyntax=plain",
-        dataType: 'text',
-        data: data2send,
+        url: chooseJobPolicyService + "/" + jobName,
+        dataType: 'json',
         //async: false,
         success: function(result) {
-          result = JSON.parse(result)
           if (result.status == 'success' &amp;&amp; !($.isEmptyObject(result.data))) {
             responseData = result.data
             var sampleData = responseData.SAMPLE

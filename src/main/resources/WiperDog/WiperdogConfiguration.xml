@@ -104,81 +104,6 @@
     <property>
       <code>require(['jquery'],function($){
 
-  var flagPass = true
-  var flagShow = true
-  //Use jquery.showPassword.min.js for hide/show password
-  // Add button to show password in input field
-  $.fn.showPassword = function(options) {
-    var opts = $.extend({}, $.fn.showPassword.defaults, options);
-
-    return this.each(function() {
-      var $this = $(this),
-          elPosition = $this.position(),
-          elWidth = $this.outerWidth(),
-          elHeight = $this.outerHeight(),
-          $parent = $this.parent(),
-          parentHeight = $parent.height();
-
-      // Support for the Metadata Plugin.
-      var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
-      $parent.height(parentHeight);
-      
-      //Create the input to switch
-      $('&lt;input/&gt;', {
-        'class': o.showPasswordInputClass,
-        css: {
-          display: 'none',
-          left: elPosition.left,
-          top: elPosition.top
-        },
-        type: 'text'
-      }).appendTo($parent);
-
-      //Create the link
-      $('&lt;a/&gt;', {
-        href: '#',
-        'class': o.linkClass,
-        click: function(e) {
-          $(".password-showing").prop('disabled',true)
-          var $showPassInput = $parent.find('.'+o.showPasswordInputClass);
-          if(!flagPass){
-             $(".password-showing").prop('disabled',false)
-             if($this.css('display') === 'none') { //If the regular input is hidden
-               $this.val($showPassInput.val()).show();
-               $showPassInput.hide();
-               flagShow = true
-             } else { //If the showing password input is hidden
-               $showPassInput.val($this.val()).show();
-               $this.hide();
-               flagShow = false
-             }
-          }
-          e.preventDefault();
-        },
-        text: o.linkText
-      }).appendTo($parent);
-      
-      var $toggleAnchor = $parent.find('.'+o.linkClass),
-          toggleAnchorWidth = $toggleAnchor.outerWidth(),
-          toggleAnchorLeft = parseInt($toggleAnchor.css('left'), 10),
-          toggleAnchorHeight = $toggleAnchor.outerHeight(),
-          toggleAnchorTop = parseInt($toggleAnchor.css('top'), 10);
-          
-      $toggleAnchor.css({
-        'left': (toggleAnchorLeft - toggleAnchorWidth - o.linkRightOffset),
-        'top': (toggleAnchorTop - toggleAnchorHeight - o.linkTopOffset)
-      });
-    });
-  };
-  // default options
-  $.fn.showPassword.defaults = {
-    linkClass: 'show-password-link',
-    linkText: 'Show',
-    showPasswordInputClass: 'password-showing',
-    linkRightOffset: 0,
-    linkTopOffset: 0
-  };
-
   function deleteRow(r){
     var i=r.parentNode.parentNode.rowIndex;
     var row = r.parentNode.parentNode
@@ -199,16 +124,13 @@
     var desc_txt = row.cells[4].innerText || row.cells[4].textContent
     $("#desc").val(desc_txt)
   }
-
-  function sendDataMongo(resultMongo){
-     var data2send = JSON.stringify(resultMongo)
-     $("#resultMongo").val(data2send)
-  }
-
+  
+  // send data to process
   function sendData(result){
      var data2send = JSON.stringify(result)
      $("#result").val(data2send)
   }
+  
   var td_desc_width = ($("#desc").parent().width())
   $("#desc").width(td_desc_width)
   var name = null
@@ -219,109 +141,15 @@
   if($("#result").text() != null){
      var result = $.parseJSON($("#result").text())
   }
-  if($("#resultMongo").text() != null){
-     var resultMongo = $.parseJSON($("#resultMongo").text())
-  }
-
-  var hostMongo = null
-  var portMongo = null
-  var userMongo = null
-  var passMongo = null
-  var dbNameMongo = null
-
+  
   if(result == null || (result instanceof Array)){
     result = {}
   }
-  if(resultMongo == null || (resultMongo instanceof Array)){
-    resultMongo = {}
-  }
   $("#name").focus()
-  $("#update").click(function(){
-    hostMongo = $("#hostMongo").val()
-       //check validate host
-       if(hostMongo === ""){
-          $("#messageMongo").text("Host name of MongoDB can not be empty!")
-          return false
-       } else {
-          $("#messageMongo").text("")
-       }
-    portMongo = $("#portMongo").val()
-       //check validate port
-       if(portMongo === ""){
-          $("#messageMongo").text("Port of MongoDB can not be empty!")
-          return false
-       } else { 
-          if(!($.isNumeric(portMongo))){
-              $("#messageMongo").text("Port of MongoDB must be numeric!")
-              return false
-          }else{
-              $("#messageMongo").text("")
-          }
-       }
-    userMongo = $("#userMongo").val()
-    var passValidate = /^[a-zA-Z0-9]+$/; 
-       if(flagShow) {
-          passMongo = $("#password").val()
-       } else {
-          passMongo = $(".password-showing").val()
-       }   
-       //check validate username and password
-       if(userMongo === "" &amp;&amp; passMongo != ""){
-          $("#messageMongo").text("UserName connect to MongoDB can not be empty when have Password!")
-          return false
-       } else {
-              $("#messageMongo").text("")
-       }
-       //check validate password
-       if(!passValidate.test(passMongo) &amp;&amp; passMongo != ""){
-          $("#messageMongo").text("Password only include alphanumeric!")
-          return false
-       } else {
-          $("#messageMongo").text("")
-       }
-       //check password can't be empty
-       if(userMongo != "" &amp;&amp; passMongo === ""){
-          $("#messageMongo").text("Password can't be empty!")
-          return false
-       } else {
-          $("#messageMongo").text("")
-       }
-    dbNameMongo = $("#dbNameMongo").val()
-       //check validate database name
-       if(dbNameMongo === ""){
-          $("#messageMongo").text("Database Name of MongoDB can not be empty!")
-          return false
-       } else {
-              $("#messageMongo").text("")
-       }
-    var confirm_update = confirm("Update Information of MongoDB. Are you sure?")
-    if(confirm_update){
-      $("#hostMongo").val(hostMongo)
-      $("#portMongo").val(portMongo)
-      $("#userMongo").val(userMongo)
-      $("#password").val(passMongo)
-      $("#dbNameMongo").val(dbNameMongo)
-      $("#messageMongo").text('Update successfully!')
-      $("#hostMongo").prop('disabled',true)
-      $("#portMongo").prop('disabled',true)
-      $("#userMongo").prop('disabled',true)
-      $("#password").prop('disabled',true)
-      $("#dbNameMongo").prop('disabled',true)
-    } else {
-      return false
-    }
-    resultMongo = {}
-    resultMongo['host'] = hostMongo
-    resultMongo['port'] = portMongo
-    resultMongo['user'] = userMongo
-    resultMongo['pass'] = passMongo
-    resultMongo['dbName'] = dbNameMongo
-    sendDataMongo(resultMongo)
-  })
-        var beforeOS = null
-        var beforeHost = null
+  
+  var beforeOS = null
+  var beforeHost = null
   $(document).ready(function() {
-	$('#password').showPassword();
         $.ajax({
 	   type:"GET",
 	   url: "/xwiki/bin/get/WiperDog/ControlProcess?outputSyntax=plain&amp;action=read",
@@ -333,7 +161,6 @@
                 beforeHost = result.data.host
                 $('#remoteHost').val(result.data.host)
                 if(result.data.os == 'win' &amp;&amp; result.data.host != 'localhost'){
-                  //$('#winProc').show()
                   $('.u').show(400)
                   $('.p').show(400)
                 } else {
@@ -527,18 +354,7 @@
       editRow(this)
       $("#name").prop('disabled',true)
   })
-
-  $(document).on('click','.editMongo',function(){
-      $("#hostMongo").prop('disabled',false)
-      $("#portMongo").prop('disabled',false)
-      $("#userMongo").prop('disabled',false)
-      $("#password").prop('disabled',false)
-      $(".password-showing").prop('disabled',false)
-      $(".show-password-link").prop('disabled',false)
-      $("#dbNameMongo").prop('disabled',false)
-      flagPass = false
-  })
-
+  
   var userName = ''
   var password = ''
   var wdHome = ''
@@ -568,6 +384,7 @@
 	 }
      beforeHost= value
   });
+  
   // Select Operating System
   //var beforeOS = $("input:radio[name=os]:checked").val()
   $("input:radio[name=os]").click(function() {
@@ -2114,14 +1931,12 @@ $xwiki.ssx.use("WiperDog.checkService")
 {{groovy}}
 import groovy.json.*
 def servletData= request.getParameter('result')
-def dataMongo = request.getParameter('resultMongo')
 def defaultParams= services.GetServlet.DEFAULT_CONFIG
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
 
 def slurper = new JsonSlurper()
 def messServlet = null
-def messageMongo = null
 
 def oldData = services.WiperdogConfig.getDataFromConfig()
 if(servletData!= null ){
@@ -2142,32 +1957,11 @@ if(servletData!= null ){
 	}
 }
 
-if(dataMongo != null){
-	try{
-		if(oldData == null){
-			oldData = [:]
-		}
-		if(oldData['mongoDB'] == null){
-			oldData['mongoDB'] = [:]
-		}
-		oldData['mongoDB'] = slurper.parseText(dataMongo)
-                oldData['mongoDB']['port'] = Long.valueOf(oldData['mongoDB']['port'])
-		
-                services.WiperdogConfig.setDataToConfig(oldData)
-
-		messageMongo = "Create mongoDB information successfully!"
-	}catch(Exception ex){
-		messageMongo = "{{error}}Failed to create mongoDB information!" + ex +"{{/error}}"
-	}
-}
-
-
 def params = oldData
 if(params == null || params == [:]) {
 	params = defaultParams
 }
 def paramsServlet = params['servlet_config']
-def mongoDBInfo = params['mongoDB']
 
 if(paramsServlet == null || paramsServlet == [:] ){
 	paramsServlet = defaultParams['servlet_config']
@@ -2183,17 +1977,9 @@ if(paramsServlet == null || paramsServlet == [:] ){
 	}
 }
 
-if(mongoDBInfo == null || mongoDBInfo == [:] ){
-	mongoDBInfo = defaultParams['mongoDB']
-}
-
-params['mongoDB'] = mongoDBInfo 
 params['servlet_config'] = paramsServlet
 def builder = new JsonBuilder(params['servlet_config'])
 def str_json = builder.toPrettyString()
-
-def builderMongo = new JsonBuilder(params['mongoDB'])
-def strJsonMongo = builderMongo.toPrettyString()
 
 def tmp = [:]
 println "{{html clean='false' wiki = 'true'}}"
@@ -2238,69 +2024,6 @@ println "&lt;/div&gt;"
 println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
 println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
 
-println "&lt;form action='#' method='POST'&gt;"
-println "&lt;div class='header'&gt;MongoDB Configuration&lt;/div&gt;"
-println "&lt;table id='mongoDBInfo'&gt;"
-println "&lt;tr&gt;&lt;td&gt;Host Name:&lt;/td&gt;"
-     def hostname = ""
-     if(mongoDBInfo != null &amp;&amp; mongoDBInfo != [:]){
-          hostname = mongoDBInfo.host
-          if(hostname == null){
-	  	hostname = ""
-	  }
-     }
-println "&lt;td&gt;&lt;input type='text' id ='hostMongo' value='$hostname' disabled/&gt;&lt;/td&gt;&lt;/tr&gt;"
-println "&lt;tr&gt;&lt;td&gt;Port:&lt;/td&gt;"
-     def port = ""
-     if(mongoDBInfo != null &amp;&amp; mongoDBInfo != [:]){
-          port = mongoDBInfo.port
-          if(port == null){
-	  	port = ""
-	  }
-     }
-println "&lt;td&gt;&lt;input type='text' id ='portMongo' value='$port' disabled/&gt;&lt;/td&gt;&lt;/tr&gt;"
-println "&lt;tr&gt;&lt;td&gt;UserName:&lt;/td&gt;"
-     def userName = ""
-     if(mongoDBInfo != null &amp;&amp; mongoDBInfo != [:]){
-          userName = mongoDBInfo.user
-          if(userName == null){	
-	  	userName = ""
-	  }
-     }
-println "&lt;td&gt;&lt;input type='text' id ='userMongo' value='$userName' disabled/&gt;&lt;/td&gt;&lt;/tr&gt;"
-println "&lt;tr&gt;&lt;td&gt;Password:&lt;/td&gt;"
-     def pass = ""
-     if(mongoDBInfo != null &amp;&amp; mongoDBInfo != [:]){
-          pass = mongoDBInfo.pass
-          if(pass == null){
-	  	pass = ""
-	  }
-     }
-println "&lt;td&gt;&lt;input type='password' id ='password' class='password' value='$pass' disabled/&gt;&lt;/td&gt;&lt;/tr&gt;"
-println "&lt;tr&gt;&lt;td&gt;Database Name:&lt;/td&gt;"
-     def dbName = ""
-     if(mongoDBInfo != null &amp;&amp; mongoDBInfo != [:]){
-          dbName = mongoDBInfo.dbName
-          if(dbName == null){
-	  	dbName = ""
-	  }
-     }
-println "&lt;td&gt;&lt;input type='text' id ='dbNameMongo' value='$dbName' disabled/&gt;&lt;/td&gt;&lt;/tr&gt;"
-
-println "&lt;/table&gt;"
-println "{{html wiki = 'false' clean = 'true'}}"
-println "&lt;textarea id='resultMongo' name='resultMongo' style='display:none' readonly&gt;$strJsonMongo&lt;/textarea&gt;"
-println "&lt;input type='button' value='Edit' style='width:50px' class='editMongo button'/&gt;" 
-println "&lt;input type='submit' id='update' style='width:120px' class='updateMongo button' value='Update MongoDB'/&gt;"
-println "{{/html}}"
-println "&lt;/form&gt;"
-println "&lt;div class='message' id='messageMongo'&gt;"
-	if(messageMongo != null){
-		println messageMongo
-	}
-println "&lt;/div&gt;"
-println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
-println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
 {{/groovy}}
 
 {{html}}

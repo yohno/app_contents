@@ -442,9 +442,16 @@ class GetServlet implements ScriptService{
                      ProcessPolicy:[servlet:"http://localhost:13111/policyServlet",desc:"Using for WiperDog/processPolicy page"],
                      importinstances:[servlet:"http://localhost:13111/ImportInstanceServlet",desc:"Using for Using for WiperDog/Import Instance Info page"],
                      dbtype:[servlet:"http://localhost:8089/use_for_xwiki",desc:"Using for getting dbtype and related information"],
-                     menuGenerator:[servlet:"http://localhost:8089/menuGenerator",desc:"Using for MenuGenerator page"]
-		  ],
-                  mongoDB:[host:"127.0.0.1",port:27017,dbName:"wiperdog"]
+                     menuGenerator:[servlet:"http://localhost:8089/menuGenerator",desc:"Using for MenuGenerator page"],
+                     monitoring:[servlet:"http://localhost:8089/monitoringData",desc:"Using for WiperDog/MonitoringData page"],
+                     tableadapter:[servlet:"http://localhost:8089/liveTableAdapter",desc:"Using for WiperDog/MonitoringData page"],
+                     realtimeLivetable:[servlet:"http://localhost:8089/realtimeLivetable",desc:"Using for table statistics in MonitoringData page"],
+                     realtime:[servlet:"http://localhost:8089/realtime",desc:"Using for realtime of chart in MonitoringData page"],
+                     msgPolicy:[servlet:"http://localhost:8089/msgPolicy",desc:"Using for WiperDog/Policy Evaluation message page"],
+                     LastAccum:[servlet:"http://localhost:8089/LastAccumulation",desc:"Using for WiperDog/LastAccumulation page"],
+                     PolicyString:[servlet:"http://localhost:8089/PolicyString",desc:"Using for WiperDog/processPolicy page"],
+                     ChooseJobPolicy:[servlet:"http://localhost:8089/ChooseJobPolicy",desc:"Using for WiperDog/processPolicy page"]
+		  ]
                 ]
 
 	Object getParam(def name, services){

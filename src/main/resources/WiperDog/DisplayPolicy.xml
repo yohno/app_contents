@@ -3724,10 +3724,22 @@ var istIidName;
 var timeInterval = 10000
 var istIidSelector
 var exportType
-
+var msgPolicyService
 require(['jquery'], function($) {
     $(document).ready(function(){
 
+    $.ajax({
+      type: "GET",
+      url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + "msgPolicy",
+      async: false,
+      success: function(result) {
+        msgPolicyService = result
+      },
+      error: function(xhr, status, error) {
+        logError(xhr, status, error)
+      }
+    });
+ 
         $("#pauseImg").click(function() {
              $("#resumeImg").show()
              $("#pauseImg").hide()
@@ -3753,13 +3765,12 @@ require(['jquery'], function($) {
         // CREATE SELECT BOX
         var initScreen = {'action': 'INITSCREEN'}
         $.ajax({
-            type: "POST",
+            type: "GET",
             crossDomain: true,
-            url: "/xwiki/bin/get/WiperDogLib/MsgPolicyFromMongo?outputSyntax=plain",
-            dataType: 'text',
-            data: initScreen,
+            url: msgPolicyService + "/INITSCREEN" ,
+            dataType: 'json',
             success: function(result) {
-                result = JSON.parse(result)
+                //result = JSON.parse(result)
                 if(result.status == "success") {
                     generateIstIidAndJobList(result)
                     $("#messages").text("Getting data...");
@@ -3856,13 +3867,12 @@ function getData(isExport){
         var data2send = {'action': 'GETDATA'}
         if(!isExport){
         $.ajax({
-            type: "POST",
+            type: "GET",
             crossDomain: true,
-            url: "/xwiki/bin/get/WiperDogLib/MsgPolicyFromMongo?outputSyntax=plain",
-            dataType: 'text',
-            data: data2send,
+            url: msgPolicyService + "/GETDATA",
+            dataType: 'json',
             success: function(result) {
-                result = JSON.parse(result)
+                //result = JSON.parse(result)
                 var lstCollections
                 var listFinalData = new Array()
                 if(result.status == "fail") {
