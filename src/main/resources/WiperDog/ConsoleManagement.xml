@@ -313,7 +313,7 @@ dAoAAAAASUVORK5CYII=
       <cache>default</cache>
     </property>
     <property>
-      <code>require(['jquery'],function($){
+<code>require(['jquery'],function($){
     $("#btnStart").click(function(){    		
     		$("#consoleout").text('Starting Wiperdog monitoring agent...');
    		var commandURL = '/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=start';
@@ -344,16 +344,31 @@ dAoAAAAASUVORK5CYII=
 		$("#txtHostIP").val('');
 		$("#txtPort").val('');
                
- 		var jqxhr = $.getJSON(commandURL, function(data) {
-                 console.log(data)
-   			$("#txtHostName").val(data.hostName);
-   			$("#txtHostIP").val(data.hostIp);
-   			$("#txtPort").val(data.hostPort);
-                        if(data.hostName == "" &amp;&amp; data.hostIp == "" &amp;&amp; data.hostPort == "") {
+ 		//var jqxhr = $.getJSON(commandURL, function(data) {
+                 $.ajax({
+                  url:commandURL,
+                  dataType: "json",
+                  success : function(result){
+                          
+                        if(result.hostName == "" &amp;&amp; result.hostIp == "" &amp;&amp; result.hostPort == "") {
                            $("#consoleout").text('Can not get host information ,check for host available to connect or permission to access !');
                         } else {
-                           $("#consoleout").text('Query host information...DONE!');
+                            if(result.hostName != null ) {
+   			     $("#txtHostName").val(result.hostName);
+   			      $("#txtHostIP").val(result.hostIP);
+   			      $("#txtPort").val(result.hostPort);
+   			      $("#txtHomePath").val(result.homePath);
+                             $("#consoleout").text('Query host information...DONE!');
+                            } else {
+                                $("#consoleout").text(result)
+                            }
                         }
+                  },
+                  error : function(xhr,error,status) { 
+                    console.log(xhr)
+                    console.log(error)
+                    console.log(status)
+                  }
 		});	
  	}
 
@@ -784,11 +799,9 @@ dAoAAAAASUVORK5CYII=
       <users/>
     </property>
   </object>
-  <content>{{include document="WiperDog.checkService"/}}
-{{velocity}}
+  <content>{{velocity}}
 $xwiki.jsx.use('WiperDogLib.JQueryUILib')
 $xwiki.ssx.use('WiperDogLib.JQueryUILib')
-$xwiki.ssx.use('WiperDog.checkService')
 {{/velocity}}
 {{tabs idsToLabels='tabId11=General, tabId12=System components' /}}
 
