@@ -5,13 +5,13 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>WiperDogLib.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1409623941000</creationDate>
+  <creationDate>1409646159000</creationDate>
+  <parent>WiperDogLib.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1409638797000</date>
-  <contentUpdateDate>1409625954000</contentUpdateDate>
+  <date>1410317339000</date>
+  <contentUpdateDate>1409646159000</contentUpdateDate>
   <version>1.1</version>
   <title>CommonMessage</title>
   <comment/>
@@ -120,6 +120,7 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
 &#xd;
     err_instance_name: "Instance name is require !",&#xd;
     err_instance_schedule: "Instance Schedule is require !",&#xd;
+    err_instance_schedule_format: "Instance Schedule Format Error!",&#xd;
     msg_instance_update: "Instance param updated !",&#xd;
     msg_instance_add: "New Instance added !",&#xd;
 &#xd;
@@ -136,6 +137,9 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
     err_osinfotext: "\"OSINFO\" must be map like [host:'localhost',user:'',pass:'',os:'win'] or parameters.osinfo",&#xd;
     err_keyexpr_root: "\"_root\" must be map or list type",&#xd;
     err_keyexpr_unit: "\"_unit\" must be map type",&#xd;
+    err_queryvariabletext: "\"QUERY_VARIABLES\" must be map type",&#xd;
+    err_dbexecvariabletext: "\"DBEXEC_VARIABLES\" must be map type",&#xd;
+    err_dest: "\"DEST\" must be map type or parameters.dest",&#xd;
 &#xd;
     err_validation: "Input data is wrong. Please check them",&#xd;
 &#xd;
