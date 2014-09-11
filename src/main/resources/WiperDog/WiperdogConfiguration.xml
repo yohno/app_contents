@@ -21,7 +21,59 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+<hidden>false</hidden><attachment>
+<filename>ajax-loader.gif</filename>
+<filesize>2608</filesize>
+<author>XWiki.Admin</author>
+<date>1410244583000</date>
+<version>1.1</version>
+<comment></comment><content>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
+</content></attachment>
   <object>
     <class>
       <name>XWiki.JavaScriptExtension</name>
@@ -102,448 +154,506 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>require(['jquery'],function($){
+     <code>require(['jquery'], function($) {
+    function deleteRow(r) {
+        var i = r.parentNode.parentNode.rowIndex;
+        var row = r.parentNode.parentNode
+        document.getElementById('table_display').deleteRow(i);
+        return row
+    }
 
-  function deleteRow(r){
-    var i=r.parentNode.parentNode.rowIndex;
-    var row = r.parentNode.parentNode
-    document.getElementById('table_display').deleteRow(i);
-    return row
-  }
+    function editRow(r) {
+        var row = r.parentNode.parentNode
+        var key_edit = row.cells[0].innerText || row.cells[0].textContent
+        $("#name").val(key_edit)
+        var host_txt = row.cells[1].innerText || row.cells[1].textContent
+        $("#host").val(host_txt)
+        var port_txt = row.cells[2].innerText || row.cells[2].textContent
+        $("#port").val(port_txt)
+        var servlet_txt = row.cells[3].innerText || row.cells[3].textContent
+        $("#servlet").val(servlet_txt)
+        var desc_txt = row.cells[4].innerText || row.cells[4].textContent
+        $("#desc").val(desc_txt)
+    }
 
-  function editRow(r){
-    var row = r.parentNode.parentNode
-    var key_edit= row.cells[0].innerText || row.cells[0].textContent
-    $("#name").val(key_edit)
-    var host_txt = row.cells[1].innerText || row.cells[1].textContent
-    $("#host").val(host_txt)
-    var port_txt = row.cells[2].innerText || row.cells[2].textContent
-    $("#port").val(port_txt)
-    var servlet_txt = row.cells[3].innerText || row.cells[3].textContent
-    $("#servlet").val(servlet_txt)
-    var desc_txt = row.cells[4].innerText || row.cells[4].textContent
-    $("#desc").val(desc_txt)
-  }
-  
-  // send data to process
-  function sendData(result){
-     var data2send = JSON.stringify(result)
-     $("#result").val(data2send)
-  }
-  
-  var td_desc_width = ($("#desc").parent().width())
-  $("#desc").width(td_desc_width)
-  var name = null
-  var hostName = null
-  var port = null
-  var servlet = null
-  var desc = null
-  if($("#result").text() != null){
-     var result = $.parseJSON($("#result").text())
-  }
-  
-  if(result == null || (result instanceof Array)){
-    result = {}
-  }
-  $("#name").focus()
-  
-  var beforeOS = null
-  var beforeHost = null
-  $(document).ready(function() {
+    // send data to process
+    function sendData(result) {
+        var data2send = JSON.stringify(result)
+        $("#result").val(data2send)
+    }
+
+    var td_desc_width = ($("#desc").parent().width())
+    $("#desc").width(td_desc_width)
+    var name = null
+    var hostName = null
+    var port = null
+    var servlet = null
+    var desc = null
+    if ($("#result").text() != null) {
+        var result = $.parseJSON($("#result").text())
+    }
+
+    if (result == null || (result instanceof Array)) {
+        result = {}
+    }
+    $("#name").focus()
+
+    var beforeOS = null
+    var beforeHost = null
+    $(document).ready(function() {
+        //Fill default data to page
         $.ajax({
-	   type:"GET",
-	   url: "/xwiki/bin/get/WiperDog/ControlProcess?outputSyntax=plain&amp;action=read",
-	   dataType: "json",
-	   crossDomain: true,
-	   success: function(result){
-              if(result.data != null &amp;&amp; result.data != ''){
-                beforeOS = result.data.os
-                beforeHost = result.data.host
-                $('#remoteHost').val(result.data.host)
-                if(result.data.os == 'win' &amp;&amp; result.data.host != 'localhost'){
-                  $('.u').show(400)
-                  $('.p').show(400)
+            type: "GET",
+            url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=readCfg",
+            dataType: "json",
+            crossDomain: true,
+            success: function(result) {
+                if (result != null &amp;&amp; result != '') {
+                    if (result.Error != null &amp;&amp; result.Error != '') {
+                        $('#remoteHost').val('')
+                        $('#remoteHost').hide()
+                        $('#uName').val('')
+                        $('#passwd').val('')
+                        $('.u').hide(400)
+                        $('.p').hide(400)
+                        $('#dir').val('')
+                        $("input:radio[name=os][value=linux]").prop("checked", true)
+                        $("input:radio[name=hostSelect][value=local]").prop("checked", true)
+                    } else {
+                        beforeOS = result.os
+                        beforeHost = result.host
+                        $('#remoteHost').val(result.host)
+                        if (result.os == 'win' &amp;&amp; result.host != 'localhost') {
+                            $('.u').show(400)
+                            $('.p').show(400)
+                        } else {
+                            if (result.os == 'linux' &amp;&amp; result.host != 'localhost') {
+                                $('.u').show(400)
+                                $('.p').hide(400)
+                            } else {
+                                if (result.host == "localhost") {
+                                    $('.u').hide(400)
+                                    $('.p').hide(400)
+                                }
+                            }
+                        }
+                        $('#uName').val((result.user).replace('/', '\\'))
+                        $('#passwd').val(result.pass)
+                        console.log(result.os)
+                        if (result.os == 'linux') {
+                            $("input:radio[name=os][value=linux]").prop("checked", true)
+                            $('#dir').val(result.path)
+                        } else {
+                            $("input:radio[name=os][value=win]").prop("checked", true)
+                            $('#dir').val((result.path).replace(/\//g, '\\'))
+                        }
+                        if (result.host == 'localhost' || result.host == '127.0.0.1') {
+                            $("input:radio[name=hostSelect][value=local]").prop("checked", true)
+                            $('#remoteHost').hide()
+                        } else {
+                            $("input:radio[name=hostSelect][value=other]").prop("checked", true)
+                        }
+                        if (result.isService) {
+                            $("#installSysService").attr("checked", true)
+                        } else {
+                            $("#installSysService").attr("checked", false)
+                        }
+                    }
                 } else {
-                 if(result.data.os == 'linux' &amp;&amp; result.data.host != 'localhost'){
-                     $('.u').show(400)
-                     $('.p').hide(400)
-                 } else {
-                      if(result.data.host == "localhost"){
-                           $('.u').hide(400)
-                           $('.p').hide(400)
-                      }
-                 }
+                    $('#remoteHost').val('')
+                    $('#remoteHost').hide()
+                    $('#uName').val('')
+                    $('#passwd').val('')
+                    $('#dir').val('')
+                    $("input:radio[name=os][value=linux]").prop("checked", true)
+                    $("input:radio[name=hostSelect][value=local]").prop("checked", true)
                 }
-                $('#uName').val((result.data.user).replace('/','\\'))
-                $('#passwd').val(result.data.pass)
-                if(result.data.os == 'linux'){
-                  $("input:radio[name=os][value=linux]").prop("checked",true)
-                  $('#dir').val(result.data.path)
-                } else {
-                  $("input:radio[name=os][value=win]").prop("checked",true)
-                  $('#dir').val((result.data.path).replace(/\//g,'\\'))
-                }
-                if(result.data.host == 'localhost' || result.data.host == '127.0.0.1'){  
-                  $("input:radio[name=hostSelect][value=local]").prop("checked",true)
-                  $('#remoteHost').hide()
-                } else {
-                  $("input:radio[name=hostSelect][value=other]").prop("checked",true)
-                }
-              } else {
-                $('#remoteHost').val('')
-                $('#remoteHost').hide()
-                $('#uName').val('')
-                $('#passwd').val('')
-                $('#dir').val('')
-                $("input:radio[name=os][value=linux]").prop("checked",true)
-                $("input:radio[name=hostSelect][value=local]").prop("checked",true)
-              }
-	   },
-	   error: function (xhr,status,error){
-		console.log(xhr)
-		console.log(status)
-		console.log(error)
-	   }
-       });
-  })
-  $("#add").click(function(){
-     name = $("#name").val()
-     if(name === ""){
-        $("#message").text("Name can not be empty !")
-          return
-     } else {
-            $("#message").text("")
-     }
-
-     hostName = $("#host").val()
-     if(hostName === ""){
-        $("#message").text("Host name can not be empty !")
-          return
-     } else {
-        $("#message").text("")
-     }
-     port = $("#port").val()
-     var intRegex = /^\d+$/;
-     if(port === ""){
-        $("#message").text("Port can not be empty !")
-        return
-     } else {
-        if(!intRegex.test(port)){
-            $("#message").text("Port must be numeric !")
-             return
-        }else{
-            $("#message").text("")
-        }
-     }
-     servlet= $("#servlet").val()
-     if(servlet === ""){
-        $("#message").text("Servlet can not be empty !")
-         return
-     } else {
-        if(servlet.indexOf("/") === 0 || servlet.charAt(servlet.length - 1) == '/') {
-           $("#message").text("Servlet can not start or end with '/' character  !")
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr)
+                console.log(status)
+                console.log(error)
+            }
+        });
+    })
+    $("#add").click(function() {
+        name = $("#name").val()
+        if (name === "") {
+            $("#message").text("Name can not be empty !")
             return
         } else {
-          $("#message").text("")
+            $("#message").text("")
         }
-     }
-    desc = $("#desc").val()
-     if(desc === null){
-       desc = ""
 
-     }
-     var key = name
-     var value_servlet = "http://" + hostName + ":" + port + "/" + servlet
-     var update = false
-     for(key_res in result ){
-       if(key === key_res){
-       update = true
-       break
-     }
-   }
-  if(update){
-     var confirm_update = confirm("Name exists ,want to update ?")
-     if(confirm_update){
-       var rows = document.getElementById('table_display').rows
-       for(var i = 0 ; i &lt; rows.length ; i++) {
-         var key2remove = rows[i].cells[0].innerText || rows[i].cells[0].textContent
-         if(key == key2remove ){
-          rows[i].cells[1].innerText = $("#host").val()
-          rows[i].cells[1].textContent = $("#host").val()
-          rows[i].cells[2].innerText = $("#port").val()
-          rows[i].cells[2].textContent = $("#port").val()
-          rows[i].cells[3].innerText = $("#servlet").val()
-          rows[i].cells[3].textContent = $("#servlet").val()
-          rows[i].cells[4].innerText = $("#desc").val()
-          rows[i].cells[4].textContent = $("#desc").val()
-          $("#message").text('Update succefully !')
-          $("#name").prop('disabled',false)
-          $("#name").val("")
-          $("#host").val("")
-          $("#port").val("")
-          $("#servlet").val("")
-          $("#desc").val("")
-         }
-       }
-    }
-  } else {
-    var tr2 = document.createElement('tr')
-    var td_name2 = document.createElement('td')
-    var inp_name2 = document.createTextNode(name)
-    td_name2.appendChild(inp_name2)
-    var td_host2 = document.createElement('td')
-    var inp_host2 = document.createTextNode(hostName)
-    td_host2.appendChild(inp_host2)
-    var td_port2 = document.createElement('td')
-    var inp_port2 = document.createTextNode(port)
-    td_port2.appendChild(inp_port2)
-    var td_servlet2 = document.createElement('td')
-    var inp_servlet2 = document.createTextNode(servlet)
-    var td_desc = document.createElement('td')
-    var inp_desc = document.createTextNode(desc)
-               
-    var btn_delete = document.createElement('input')
-     btn_delete.setAttribute('type','button')
-     btn_delete.setAttribute('style','width:50px')
-     btn_delete.setAttribute('value','Delete')
-     btn_delete.setAttribute('class','delete button')
-    var btn_edit = document.createElement('input')
-     btn_edit.setAttribute('type','button')
-     btn_edit.setAttribute('class','edit button')
-     btn_edit.setAttribute('value','Edit')
-     btn_edit.setAttribute('style','width:50px')
-    var td_action = document.createElement('td')
-      td_action.appendChild(btn_delete)
-      td_action.appendChild(btn_edit)
-      td_servlet2.appendChild(inp_servlet2)
-                  td_desc.appendChild(inp_desc)
-    tr2.appendChild(td_name2)
-    tr2.appendChild(td_host2)
-    tr2.appendChild(td_port2)
-    tr2.appendChild(td_servlet2)
-                tr2.appendChild(td_desc)
-    tr2.appendChild(td_action)
-               $(tr2).insertBefore($("#input"))
-    $("#name").val("")
-    $("#host").val("")
-    $("#port").val("")
-    $("#servlet").val("")
-    $("#desc").val("")
-
-     }
-     result[key] = {}
-     result[key]['servlet'] = value_servlet
-     result[key]['desc'] = desc
-     sendData(result)
-
-  });
-   $(document).on('click','.delete',function(){
-    var conf_del = confirm("Are you sure ?")
-    if(conf_del){
-      var row = deleteRow(this)
-      var key_remove = row.cells[0].innerText || row.cells[0].textContent
-			delete result[key_remove]
-      sendData(result)
-      if($("#name").text() === key_remove) {
-         $("#name").prop('disabled',false)
-      }
-
-    }
-  })
-  $(document).on('click','.edit',function(){
-      editRow(this)
-      $("#name").prop('disabled',true)
-  })
-  
-  var userName = ''
-  var password = ''
-  var wdHome = ''
-  var remoteHost = ''
-  var os = ''
-  var host = ''
-
-  // Host select
-  //var beforeHost= $("input:radio[name=hostSelect]:checked").val()
-  $("input:radio[name=hostSelect]").click(function() { 
-         var value = $(this).val()
-         var os = $("input:radio[name=os]:checked").val()
-         if (beforeHost != value &amp;&amp; value == 'other') {
-		$("#remoteHost").show(400);
-                if(os == 'win'){
-			$(".p").show(400)
-                } else {
-                        $(".p").hide(400)
-                }
-			$(".u").show(400)
-	 } else {
-             if(beforeHost != value ){
-		$("#remoteHost").hide(400)
-			$(".u").hide(400)
-			$(".p").hide(400)		
-             }
-	 }
-     beforeHost= value
-  });
-  
-  // Select Operating System
-  //var beforeOS = $("input:radio[name=os]:checked").val()
-  $("input:radio[name=os]").click(function() {
-	var value = $(this).val()
-        host = $("input[name=hostSelect]:checked").val()
-	if (beforeOS != value &amp;&amp; checkDirtyAll()) {
-		var conf = confirm("Your data input will be reset ! Continue ?")
-		if (conf) {
-			resetAll()
-		} else {
-                       	if (value == 'win' &amp;&amp; host != 'local') {
-		           $('.u').show(400)
-		           $('.p').show(400)
-                        } else {
-	                   $('.u').show(400)
-	                   $('.p').hide(400)
-		        }        
-			return
-		}
-	}
-	if (value == 'win' &amp;&amp; host == 'other') {
-		$('.u').show(400)
-		$('.p').show(400)
-	} else {
-            if( value == 'linux' &amp;&amp; host == 'other'){
-	        $('.u').show(400)
-              } else {
-                $('.u').hide(400) 
-              }
-	        $('.p').hide(400)
-	}
-    beforeOS = value
-  });
-  //reset data inputtext
-  function resetAll() {
-    $("#remoteHost").val("")
-    $("#uName").val("")
-    $("#passwd").val("")
-    $("#dir").val("")
-  }
-
-  //Check all values of text fields
-  function checkDirtyAll() {
-    userName = $.trim($("#uName").val())
-    password = $.trim($("#passwd").val())
-    wdHome = $.trim($("#dir").val())
-    remoteHost = $.trim($("#remoteHost").val())
-    if (userName != "" || password != "" || wdHome != "" || remoteHost != "") {
-	return true
-    } else {
-	return false
-    }
-  }
-
-  //validate data when click button update
-  $("#updateWDPath").click(function(){
-    var regexIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
-    os = $("input:radio:checked[name=os]").val()
-    host = $("input[name=hostSelect]:checked").val()
-    wdHome = $.trim($("#dir").val())
-    userName = ''
-    password = ''
-    if(host == 'other'){
-      remoteHost = $.trim($("#remoteHost").val())
-      if(os == 'win'){
-        password = $.trim($("#passwd").val())
-      }
-        userName = $.trim($("#uName").val())
-    }
-    if(host == 'local'){
-      remoteHost = 'localhost'
-    }
-    //validate with os linux
-    if(remoteHost == '' &amp;&amp; os == 'linux' &amp;&amp; host == 'other') {
-      $("#messageWiperdog").show()
-      $("#messageWiperdog").text('Host IP can not be empty!!!')
-      return false
-    }
-    if( host == 'other' &amp;&amp; !regexIP.test(remoteHost)) {
-      $("#messageWiperdog").show()
-      $("#messageWiperdog").text("Host IP is not valid !")                    
-      return false
-    } else {
-      $("#messageWiperdog").text("")
-    }
-    //validate with os window
-    if(os == 'win' &amp;&amp; host == 'other') {
-      if(remoteHost == ''){
-        $("#messageWiperdog").show()
-        $("#messageWiperdog").text('Host IP can not be empty!!!')
-        return false
-      }
-      if(userName == ''){
-        $("#messageWiperdog").show()
-        $("#messageWiperdog").text('User connect can not be empty!!!')
-        return false
-      }
-      if(password == ''){
-        $("#messageWiperdog").show()
-        $("#messageWiperdog").text('Password connect can not be empty!!!')
-        return false
-      }
-    }
-    //validate wiperdog home
-    if(wdHome == '') {
-      $("#messageWiperdog").show()
-      $("#messageWiperdog").text('Wiperdog Home can not be empty!!!')
-      return false
-    }
-
-    var dataResult = {}
-    dataResult['os'] = os
-    dataResult['host'] = remoteHost
-    dataResult['user'] = userName
-    dataResult['pass'] = password
-    dataResult['path'] = wdHome
-    dataResult['installSysService'] = $("#installSysService").is(":checked")
-
-    var data2send = {}
-    data2send["data"] = JSON.stringify(dataResult)
-    $("#messageWiperdog").show()
-    $("#messageWiperdog").text('Processing...')
-    console.log(JSON.stringify(data2send))
-    $.ajax({
-	type:"POST",
-	url: "/xwiki/bin/get/WiperDog/ControlProcess?outputSyntax=plain&amp;action=write&amp;cont=",
-	dataType: "json",
-	data: data2send ,
-	crossDomain: true,
-	success: function(result){
-            $("#messageWiperdog").show()
-            $("#messageWiperdog").text(result.message)
-            if(result.status == 1){
-                var conf= confirm("Are you want to update file conf.params?")
-                if(conf){
-                    $.ajax({
-            	  type:"POST",
-	              url: "/xwiki/bin/get/WiperDog/ControlProcess?outputSyntax=plain&amp;action=write&amp;cont=yes",
-            	      dataType: "json",
-            	      data: data2send ,
-            	      crossDomain: true,
-  	              success: function(result){
-                         $("#messageWiperdog").text(result.message)
-                      }
-                    })
-               } else {
-                  $("#messageWiperdog").text('Failed to update wiperdog config!!!')
-               }
+        hostName = $("#host").val()
+        if (hostName === "") {
+            $("#message").text("Host name can not be empty !")
+            return
+        } else {
+            $("#message").text("")
+        }
+        port = $("#port").val()
+        var intRegex = /^\d+$/;
+        if (port === "") {
+            $("#message").text("Port can not be empty !")
+            return
+        } else {
+            if (!intRegex.test(port)) {
+                $("#message").text("Port must be numeric !")
+                return
+            } else {
+                $("#message").text("")
             }
-	},
-	error: function (xhr,status,error){
-		console.log(xhr)
-		console.log(status)
-		console.log(error)
-                $("#messageWiperdog").text('Failed to update wiperdog config!!!')
-	}
+        }
+        servlet = $("#servlet").val()
+        if (servlet === "") {
+            $("#message").text("Servlet can not be empty !")
+            return
+        } else {
+            if (servlet.indexOf("/") === 0 || servlet.charAt(servlet.length - 1) == '/') {
+                $("#message").text("Servlet can not start or end with '/' character  !")
+                return
+            } else {
+                $("#message").text("")
+            }
+        }
+        desc = $("#desc").val()
+        if (desc === null) {
+            desc = ""
+
+        }
+        var key = name
+        var value_servlet = "http://" + hostName + ":" + port + "/" + servlet
+        var update = false
+        for (key_res in result) {
+            if (key === key_res) {
+                update = true
+                break
+            }
+        }
+        if (update) {
+            var confirm_update = confirm("Name exists ,want to update ?")
+            if (confirm_update) {
+                var rows = document.getElementById('table_display').rows
+                for (var i = 0; i &lt; rows.length; i++) {
+                    var key2remove = rows[i].cells[0].innerText || rows[i].cells[0].textContent
+                    if (key == key2remove) {
+                        rows[i].cells[1].innerText = $("#host").val()
+                        rows[i].cells[1].textContent = $("#host").val()
+                        rows[i].cells[2].innerText = $("#port").val()
+                        rows[i].cells[2].textContent = $("#port").val()
+                        rows[i].cells[3].innerText = $("#servlet").val()
+                        rows[i].cells[3].textContent = $("#servlet").val()
+                        rows[i].cells[4].innerText = $("#desc").val()
+                        rows[i].cells[4].textContent = $("#desc").val()
+                        $("#message").text('Update succefully !')
+                        $("#name").prop('disabled', false)
+                        $("#name").val("")
+                        $("#host").val("")
+                        $("#port").val("")
+                        $("#servlet").val("")
+                        $("#desc").val("")
+                    }
+                }
+            }
+        } else {
+            var tr2 = document.createElement('tr')
+            var td_name2 = document.createElement('td')
+            var inp_name2 = document.createTextNode(name)
+            td_name2.appendChild(inp_name2)
+            var td_host2 = document.createElement('td')
+            var inp_host2 = document.createTextNode(hostName)
+            td_host2.appendChild(inp_host2)
+            var td_port2 = document.createElement('td')
+            var inp_port2 = document.createTextNode(port)
+            td_port2.appendChild(inp_port2)
+            var td_servlet2 = document.createElement('td')
+            var inp_servlet2 = document.createTextNode(servlet)
+            var td_desc = document.createElement('td')
+            var inp_desc = document.createTextNode(desc)
+
+            var btn_delete = document.createElement('input')
+            btn_delete.setAttribute('type', 'button')
+            btn_delete.setAttribute('style', 'width:50px')
+            btn_delete.setAttribute('value', 'Delete')
+            btn_delete.setAttribute('class', 'delete button')
+            var btn_edit = document.createElement('input')
+            btn_edit.setAttribute('type', 'button')
+            btn_edit.setAttribute('class', 'edit button')
+            btn_edit.setAttribute('value', 'Edit')
+            btn_edit.setAttribute('style', 'width:50px')
+            var td_action = document.createElement('td')
+            td_action.appendChild(btn_delete)
+            td_action.appendChild(btn_edit)
+            td_servlet2.appendChild(inp_servlet2)
+            td_desc.appendChild(inp_desc)
+            tr2.appendChild(td_name2)
+            tr2.appendChild(td_host2)
+            tr2.appendChild(td_port2)
+            tr2.appendChild(td_servlet2)
+            tr2.appendChild(td_desc)
+            tr2.appendChild(td_action)
+            $(tr2).insertBefore($("#input"))
+            $("#name").val("")
+            $("#host").val("")
+            $("#port").val("")
+            $("#servlet").val("")
+            $("#desc").val("")
+
+        }
+        result[key] = {}
+        result[key]['servlet'] = value_servlet
+        result[key]['desc'] = desc
+        sendData(result)
+
     });
-  })
-jQuery.noConflict()
+    $(document).on('click', '.delete', function() {
+        var conf_del = confirm("Are you sure ?")
+        if (conf_del) {
+            var row = deleteRow(this)
+            var key_remove = row.cells[0].innerText || row.cells[0].textContent
+            delete result[key_remove]
+            sendData(result)
+            if ($("#name").text() === key_remove) {
+                $("#name").prop('disabled', false)
+            }
+
+        }
+    })
+    $(document).on('click', '.edit', function() {
+        editRow(this)
+        $("#name").prop('disabled', true)
+    })
+
+    var userName = ''
+    var password = ''
+    var wdHome = ''
+    var remoteHost = ''
+    var os = ''
+    var host = ''
+
+    // Host select
+    //var beforeHost= $("input:radio[name=hostSelect]:checked").val()
+    $("input:radio[name=hostSelect]").click(function() {
+        var value = $(this).val()
+        var os = $("input:radio[name=os]:checked").val()
+        if (beforeHost != value &amp;&amp; value == 'other') {
+            $("#remoteHost").show(400);
+            if (os == 'win') {
+                $(".p").show(400)
+            } else {
+                $(".p").hide(400)
+            }
+            $(".u").show(400)
+        } else {
+            if (beforeHost != value) {
+                $("#remoteHost").hide(400)
+                $(".u").hide(400)
+                $(".p").hide(400)
+            }
+        }
+        beforeHost = value
+    });
+
+    // Select Operating System
+    //var beforeOS = $("input:radio[name=os]:checked").val()
+    $("input:radio[name=os]").click(function() {
+        var value = $(this).val()
+        host = $("input[name=hostSelect]:checked").val()
+        if (beforeOS != value &amp;&amp; checkDirtyAll()) {
+            var conf = confirm("Your data input will be reset ! Continue ?")
+            if (conf) {
+                resetAll()
+            } else {
+                if (value == 'win' &amp;&amp; host != 'local') {
+                    $('.u').show(400)
+                    $('.p').show(400)
+                } else {
+                    $('.u').show(400)
+                    $('.p').hide(400)
+                }
+                return
+            }
+        }
+        if (value == 'win' &amp;&amp; host == 'other') {
+            $('.u').show(400)
+            $('.p').show(400)
+        } else {
+            if (value == 'linux' &amp;&amp; host == 'other') {
+                $('.u').show(400)
+            } else {
+                $('.u').hide(400)
+            }
+            $('.p').hide(400)
+        }
+        beforeOS = value
+    });
+    //reset data inputtext
+    function resetAll() {
+        $("#remoteHost").val("")
+        $("#uName").val("")
+        $("#passwd").val("")
+        $("#dir").val("")
+    }
+
+    //Check all values of text fields
+    function checkDirtyAll() {
+        userName = $.trim($("#uName").val())
+        password = $.trim($("#passwd").val())
+        wdHome = $.trim($("#dir").val())
+        remoteHost = $.trim($("#remoteHost").val())
+        if (userName != "" || password != "" || wdHome != "" || remoteHost != "") {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    //validate data when click button update
+    $("#updateWDPath").click(function() {
+        //Clear message
+        var regexIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+        os = $("input:radio:checked[name=os]").val()
+        host = $("input[name=hostSelect]:checked").val()
+        wdHome = $.trim($("#dir").val())
+        userName = ''
+        password = ''
+        if (host == 'other') {
+            remoteHost = $.trim($("#remoteHost").val())
+            if (os == 'win') {
+                password = $.trim($("#passwd").val())
+            }
+            userName = $.trim($("#uName").val())
+        }
+        if (host == 'local') {
+            remoteHost = 'localhost'
+        }
+        //validate with os linux
+        if (remoteHost == '' &amp;&amp; os == 'linux' &amp;&amp; host == 'other') {
+            $("#messageWiperdog").show()
+            $("#messageWiperdog").text('Host IP can not be empty!!!')
+            return false
+        }
+        if (host == 'other' &amp;&amp; !regexIP.test(remoteHost)) {
+            $("#messageWiperdog").show()
+            $("#messageWiperdog").text("Host IP is not valid !")
+            return false
+        } else {
+            $("#messageWiperdog").text("")
+        }
+        //validate with os window
+        if (os == 'win' &amp;&amp; host == 'other') {
+            if (remoteHost == '') {
+                $("#messageWiperdog").show()
+                $("#messageWiperdog").text('Host IP can not be empty!!!')
+                return false
+            }
+            if (userName == '') {
+                $("#messageWiperdog").show()
+                $("#messageWiperdog").text('User connect can not be empty!!!')
+                return false
+            }
+            if (password == '') {
+                $("#messageWiperdog").show()
+                $("#messageWiperdog").text('Password connect can not be empty!!!')
+                return false
+            }
+        }
+        //validate wiperdog home
+        if (wdHome == '') {
+            $("#messageWiperdog").show()
+            $("#messageWiperdog").text('Wiperdog Home can not be empty!!!')
+            return false
+        }
+
+        var dataResult = {}
+        dataResult['os'] = os
+        dataResult['host'] = remoteHost
+        dataResult['user'] = userName
+        dataResult['pass'] = password
+        dataResult['path'] = wdHome
+        dataResult['installSysService'] = $("#installSysService").is(":checked")
+
+        var data2send = {}
+        data2send["data"] = JSON.stringify(dataResult)
+        $("#messageWiperdog").show()
+        $("#loader_ico").show()
+        //Install new service if require
+        $("#loader_mess").text('Processing...')
+        if ($("#installSysService").is(":checked")) {
+            $("#messageWiperdog").empty()
+                   $("#loader_ico").show()
+                   $("#loader_mess").text('Installing Wiperdog as system service...')
+                    $.ajax({
+                        type: "POST",
+                        url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=installService",
+                        dataType: "text",
+                        data: data2send,
+                        crossDomain: true,
+                        success: function(result) {
+                            $("#messageWiperdog").append('&lt;br/&gt;&lt;b&gt;Install Wiperdog as system service...Done &lt;/b&gt;&lt;br/&gt;')
+                            $("#messageWiperdog").append(result.replace(/\n\n/g, "\n").replace(/\n/g, "&lt;br/&gt;"))
+                            $("#loader_mess").text('Starting Wiperdog service..')
+                            $.ajax({
+                                type: "POST",
+                                url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=start&amp;startService=true",
+                                dataType: "text",
+                                data: data2send,
+                                crossDomain: true,
+                                success: function(result) {
+                                    $("#messageWiperdog").append('&lt;br/&gt;&lt;b&gt;Start wiperdog...Done &lt;/b&gt;&lt;br/&gt;')
+                                    $("#messageWiperdog").append(result.replace(/\n/g, "&lt;br/&gt;") + "&lt;br/&gt;")
+        $("#loader_mess").text('Writing configuration to file...')
+        $.ajax({
+            type: "POST",
+            url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=writeCfg",
+            dataType: "text",
+            data: data2send,
+            crossDomain: true,
+            success: function(result) {
+                $("#messageWiperdog").show()
+                $("#messageWiperdog").append("&lt;br/&gt;&lt;b&gt;" + result.replace(/\\n/g, "&lt;br/&gt;" + "&lt;/b&gt;"))
+                $("#loader_ico").hide()
+                $("#loader_mess").text("")
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr)
+                console.log(status)
+                console.log(error)
+                $("#messageWiperdog").append('&lt;br/&gt;Failed to update wiperdog config!!!')
+                                    $("#loader_ico").hide()
+                                    $("#loader_mess").text("")
+
+            }
+        });
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log(xhr)
+                                    console.log(status)
+                                    console.log(error)
+                                    $("#messageWiperdog").append('Failed to update wiperdog config!!!')
+                                    $("#loader_ico").hide()
+                                    $("#loader_mess").text("")
+
+                                }
+
+                            })
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr)
+                            console.log(status)
+                            console.log(error)
+                            $("#messageWiperdog").append('Failed to update wiperdog config!!!')
+                                    $("#loader_ico").hide()
+                                    $("#loader_mess").text("")
+
+                        }
+
+                    })
+        }
+
+    })
+    jQuery.noConflict()
 });</code>
     </property>
     <property>
@@ -2052,7 +2162,8 @@ println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
 	&lt;label for = 'dir'&gt;Current Wiperdog path :&lt;/label&gt;
 	&lt;input type ='text' id = 'dir' name = 'wdDir' /&gt;
 	&lt;input type = 'button' id = 'updateWDPath' class='button' value = 'UPDATE'/&gt;
-	&lt;br&gt;&lt;input type="checkbox" name="installSysService" value="installSysService" id="installSysService"&gt;Install the new Wiperdog as system service and Restart service&lt;/checkbox&gt;
+	&lt;br&gt;&lt;input type="checkbox" name="installSysService" value="installSysService" id="installSysService"&gt;Install/reinstall Wiperdog as system service and start/restart service&lt;/checkbox&gt;
+        &lt;div id="loader_ico" style="display:none"&gt;&lt;img src="/xwiki/bin/download/WiperDog/WiperdogConfiguration/ajax-loader.gif"/&gt;&lt;span id = "loader_mess"&gt;Processing...&lt;span&gt;&lt;div/&gt;
 &lt;/form&gt;
 &lt;br/&gt;
 &lt;div class='message' id='messageWiperdog' style='display:none'&gt;
@@ -2062,5 +2173,5 @@ println "&lt;div&gt;&amp;nbsp;&lt;/div&gt;"
 &lt;div&gt;&amp;nbsp;&lt;/div&gt;
 &lt;div&gt;&amp;nbsp;&lt;/div&gt;
 &lt;br/&gt;
-{{/html}}</content>
-</xwikidoc>
+{{/html}}</content></xwikidoc>
+

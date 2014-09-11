@@ -330,7 +330,7 @@ dAoAAAAASUVORK5CYII=
    		execute(commandURL);
  	});
  	$("#btnHostInfo").click(function(){
-    	$("#consoleout").text('Query host information...');
+    		$("#consoleout").text('Query host information...');
    		var commandURL = '/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=hostinfo';
    		executeJson(commandURL);
  	});
@@ -340,28 +340,33 @@ dAoAAAAASUVORK5CYII=
 		});	
  	}
  	function executeJson(commandURL){
- 		$("#txtHostName").val('');
-		$("#txtHostIP").val('');
-		$("#txtPort").val('');
+ 		$("#txtHostName").val('').prop("readonly",true);
+		$("#txtHostIP").val('').prop("readonly",true);;
+		$("#txtPort").val('').prop("readonly",true);;
+		$("#txtHomePath").val('').prop("readonly",true);;
                
  		//var jqxhr = $.getJSON(commandURL, function(data) {
                  $.ajax({
                   url:commandURL,
-                  dataType: "json",
+                  dataType: "text",
                   success : function(result){
-                          
-                        if(result.hostName == "" &amp;&amp; result.hostIp == "" &amp;&amp; result.hostPort == "") {
-                           $("#consoleout").text('Can not get host information ,check for host available to connect or permission to access !');
-                        } else {
+                        try{
+                          result = JSON.parse(result)
+                          if(result.hostName == "" &amp;&amp; result.hostIp == "" &amp;&amp; result.hostPort == "") {
+                             $("#consoleout").text('Can not get host information ,check for host available to connect or permission to access !');
+                          } else {
                             if(result.hostName != null ) {
-   			     $("#txtHostName").val(result.hostName);
+   			      $("#txtHostName").val(result.hostName);
    			      $("#txtHostIP").val(result.hostIP);
    			      $("#txtPort").val(result.hostPort);
    			      $("#txtHomePath").val(result.homePath);
                              $("#consoleout").text('Query host information...DONE!');
                             } else {
-                                $("#consoleout").text(result)
+                                $("#consoleout").text(result.Error)
                             }
+                          }
+                        } catch(e){
+                           $("#consoleout").text(result.Error)
                         }
                   },
                   error : function(xhr,error,status) { 
@@ -373,6 +378,7 @@ dAoAAAAASUVORK5CYII=
  	}
 
 });</code>
+
     </property>
     <property>
       <name>ConsoleMgmtJS</name>
