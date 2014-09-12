@@ -425,6 +425,9 @@
   <content>
 {{groovy}}
 import groovy.json.*
+if(request.xpage == "plain") {
+	response.setContentType('text/html')
+}
 //Closure to run a process
 def runProcClosure(listCmd,dir,waitFor){
 	def output = [:]
@@ -499,57 +502,149 @@ public boolean serverListening(String host, int port)
 			catch(Exception e){}
 	}
 }
-//Closure to build list commands for process on Windows
-def buildCmdList(isLocalhost,psExec,isInteractive,params){
-       def parentCmd = new ArrayList&lt;String&gt;()
+//Closure to build list remoteCmds for process on Windows
+def buildRemoteCmdWin(isLocalhost,psExec,isInteractive,host,user,passwd){
+	def parentCmd = new ArrayList&lt;String&gt;()
 	if(!isLocalhost){
+		parentCmd.add("cmd")
+		parentCmd.add("/c")
 		parentCmd.add(psExec)
-		parentCmd.add("\\\\" + params['wiperdog_path']['host'])
+		parentCmd.add("\\\\" + host)
 		if(isInteractive){
 			parentCmd.add("-i")
 		}
 		parentCmd.add("-accepteula")
 		parentCmd.add("-u")
-		parentCmd.add('"'+ params['wiperdog_path']['user']+'"')
+		parentCmd.add('"'+user+'"')
 		parentCmd.add("-p")
-		parentCmd.add('"'+ params['wiperdog_path']['pass'] +'"')
+		parentCmd.add('"'+ passwd +'"')
 	}
-	return parentCmd 
+	return parentCmd
 }
 
-def params = services.WiperdogConfig.getDataFromConfig()
+def params
+def wiperdog_home
+def host
+def user
+def passwd
+def os
+def isService
+def mapMess = [:]
+
+// Get data configuration for remote control start/stop/status wiperdog
+if(request.getParameter("data") != null ) {
+	params = request.getParameter("data")
+	def slurper = new JsonSlurper();
+	def dataObject = slurper.parseText(params);
+	wiperdog_home = dataObject["path"]
+	user = dataObject["user"]
+	host = dataObject["host"]
+	passwd = dataObject["pass"]
+        isService = dataObject["installSysService"]
+	os = dataObject["os"]
+} else {
+	if(services.WiperdogConfig != null){
+		params = services.WiperdogConfig.getDataFromConfig()
+                if(params != null &amp;&amp; params["wiperdog_path"]){
+                  wiperdog_home =  params['wiperdog_path']['path']
+		  user = params['wiperdog_path']['user']
+		  host = params['wiperdog_path']['host']
+		  passwd =  params['wiperdog_path']['pass']
+		  os = params['wiperdog_path']['os'] 
+                } else {
+		  mapMess['Error'] = "Wiperdog path configuration not found! Please config it from 'Configuration for access to Wiperdog server' page!"
+		  def builder = new JsonBuilder(mapMess)
+		  println builder.toPrettyString()
+		  return
+                }		
+	} else {
+		mapMess['Error'] = "Wiperdog path configuration not found! Please config it from 'Configuration for access to Wiperdog server' page!"
+		def builder = new JsonBuilder(mapMess)
+		println builder.toPrettyString()
+		return
+	}
+}
+//Get PsExec path to run remote remoteCmds
+def isLocalhost = true
+if(!"localhost".equals(host) &amp;&amp; !"127.0.0.1".equals(host)){
+	isLocalhost = false
+}
+def osName = System.getProperty('os.name')
+def psExec
+if(!isLocalhost &amp;&amp; osName != null &amp;&amp; osName.toLowerCase().contains("win")){
+	psExec = System.getenv("PSTOOLS");
+	if(psExec == null){
+		println "Can not remote to: " + host
+		println "Tool to remote (PsExec.exe) not found !"
+		return
+	}
+	psExec = psExec.replace("\\","/").trim()+"/psexec.exe"
+}
+def remoteCmd = ""
+if(!isLocalhost){
+
+	if(osName != null &amp;&amp; osName.toLowerCase().contains("win")){
+		// Get permission to using resource on localhost
+		def netUseCmd = 'net use \\\\' + host + '\\IPC$ '+ passwd +' /USER:' + user
+		def proc = netUseCmd.execute()
+		proc.waitFor()
+		remoteCmd = "cmd /c "+ psExec + " \\\\" + host + " -accepteula -u " + '"'+user+'"' + " -p " + '"'+ passwd +'"'
+	} else {
+		remoteCmd = "ssh -o -o PasswordAuthentication=no " +user.trim() + "@" + host.trim() + " "
+	}
+}
 try{
 	def cmd = request.getParameter("cmd");
 	if(cmd != null &amp;&amp; cmd != ""){
-		def osName = System.getProperty('os.name')
+
+		if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("writeCfg")){
+			def currentCfg = services.WiperdogConfig.getDataFromConfig()
+                        if(currentCfg == null) {
+                          currentCfg = services.GetServlet.DEFAULT_CONFIG
+                        }
+			if(currentCfg != null ) {
+                              if(currentCfg["wiperdog_path"] == null ){
+                                 currentCfg["wiperdog_path"] = [:]
+                              }
+				try{
+					currentCfg["wiperdog_path"]["path"] = wiperdog_home
+					currentCfg["wiperdog_path"]["host"] = host
+					currentCfg["wiperdog_path"]["user"] = user
+					currentCfg["wiperdog_path"]["pass"] = passwd
+                                        currentCfg["wiperdog_path"]["isService"] = isService
+                                        currentCfg["wiperdog_path"]["os"] = os
+					services.WiperdogConfig.setDataToConfig(currentCfg)
+					println "Update configuration successfull !"
+                                        
+				}catch(Exception ex){
+					println "Failed to update wiperdog path configuration ! \n - Reason : " + ex.toString()
+				}
+
+			}
+                     return
+		}
+		if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("readCfg")){
+			def currentCfg = services.WiperdogConfig.getDataFromConfig()
+			if(currentCfg != null &amp;&amp; currentCfg['wiperdog_path'] != null) {
+				try{
+                                        
+					def builder = new JsonBuilder(currentCfg['wiperdog_path'])
+					println builder.toPrettyString().replace("\\\\","/")
+
+				}catch(Exception ex){
+					println "Failed to read Wiperdog path configuration 'conf.params' ! \n - Reason : " + ex.toString()
+				}
+
+			}
+                     return
+		}
+                
 		if(osName != null &amp;&amp; osName.toLowerCase().indexOf('win') ==-1){
-			def decidedWiperdog_path
-
-			if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
-				decidedWiperdog_path = params['wiperdog_path']['path']
-			}else{
-				println "Wiperdog home not found !"
-				println "Please config it !"
-				return
-			}
-                        def isLocalhost = true
-			if(params['wiperdog_path'] != null &amp;&amp; params['wiperdog_path']['host'] != "localhost" &amp;&amp; params['wiperdog_path']['host'] != "127.0.0.1"){
-				isLocalhost = false
-			}
-
-			if(request.xpage == "plain") {
-				response.setContentType('text/html')
-			}
 			def errorStr = ""
-			def command = ""
-			if(params['wiperdog_path']['host'] != "localhost"){
-				command = "ssh -o PasswordAuthentication=no " + params['wiperdog_path']['user'].trim() + "@" + params['wiperdog_path']['host'].trim() + " "
-			}
 			def proc = null
-
 			//Get jetty port
-			def commandJport = command + 'cat ' + decidedWiperdog_path +'/etc/system.properties'
-			proc = commandJport.execute()
+			def remoteCmdJport = remoteCmd + 'cat ' + wiperdog_home +'/etc/system.properties'
+			proc = remoteCmdJport.execute()
 			proc.waitFor()
 			def tmpHostPort = proc.in.text
 			def hostPort = ""
@@ -558,57 +653,74 @@ try{
 			}
 
 			if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("start")){
-				command += '/bin/sh ' + decidedWiperdog_path + '/bin/startWiperdog.sh 0&lt;&amp;- &amp;&gt;/dev/null &amp;'
-				proc = command.execute()
-                                println "Wiperdog started."
- 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("stop")){
-				command += '/bin/sh ' + decidedWiperdog_path + '/bin/stopWiperdog.sh'
-				proc = command.execute()
-				proc.waitFor()
-				errorStr = proc.err.text
-				if(errorStr != null &amp;&amp; errorStr  != '')
-					println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;"
-                                displayTextInHtml(proc.in.text)
-			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("status")){
-                                // check status
-                                def portStatus = serverListening(params['wiperdog_path']['host'], hostPort.toInteger())
-                                if(portStatus) {
-                                   println "Wiperdog running."
+                                def startByService = request.getParameter("startService")
+                                if(!startByService.equals("true")) {
+				  remoteCmd += '/bin/sh ' + wiperdog_home + '/bin/startWiperdog.sh 0&lt;&amp;- &amp;&gt;/dev/null &amp;'
+				  proc = remoteCmd.execute()
+                                  println proc.in.text
+                                  println proc.err.text
+				  println "Wiperdog started."
                                 } else {
-                                   println "Wiperdog stopped."
-                                }                                 
+                                  startService(os,wiperdog_home,host,user,passwd,remoteCmd)
+                                }
+			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("stop")){
+				def stopByService = request.getParameter("stopByService")
+
+				if("true".equals(stopByService)) {
+					stopService(os,host,user,passwd,remoteCmd)
+				} else {
+					remoteCmd += '/bin/sh ' + wiperdog_home + '/bin/stopWiperdog.sh'
+					proc = remoteCmd.execute()
+					proc.waitFor()
+					errorStr = proc.err.text
+					if(errorStr != null &amp;&amp; errorStr  != '')
+						println "&lt;p&gt; Information: ${errorStr}&lt;/p&gt;"
+					displayTextInHtml(proc.in.text)
+				}
+			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("status")){
+				// check status
+				def portStatus = serverListening(host, hostPort.toInteger())
+				if(portStatus) {
+					println "Wiperdog running."
+				} else {
+					println "Wiperdog stopped."
+				}
 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("hostinfo")){
 				def hostInfo = [:]
-                                if(!isLocalhost) {
-      				  if(params['wiperdog_path']['host'] != null &amp;&amp; params['wiperdog_path']['host'] != 'localhost') {
-					hostInfo['hostName']  = InetAddress.getByName(params['wiperdog_path']['host']).getHostName()
-					hostInfo['hostIP'] =  params['wiperdog_path']['host']
-				  } 
-                                } else {
+				if(!isLocalhost) {
+					if(host != null &amp;&amp; host != 'localhost') {
+						hostInfo['hostName']  = InetAddress.getByName(host).getHostName()
+						hostInfo['hostIP'] =  host
+					}
+				} else {
 					hostInfo['hostName']  = InetAddress.getLocalHost().getHostName()
 					hostInfo['hostIP'] =  getIPv4InetAddress()
-                                }
+				}
 
 				hostInfo['hostPort'] = hostPort
-                                hostInfo['homePath'] = params['wiperdog_path']['path'].replace("\\","/")
+				hostInfo['homePath'] = wiperdog_home.replace("\\","/")
 				def builder = new JsonBuilder(hostInfo)
 				println builder.toPrettyString()
 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("hostport")){
-				command += 'cat ' + decidedWiperdog_path +'/etc/system.properties'
-				proc = command.execute()
+				remoteCmd += 'cat ' + wiperdog_home +'/etc/system.properties'
+				proc = remoteCmd.execute()
 				proc.waitFor()
 				println proc.in.text.split("netty.port=")[1].split("\n")[0]
+
+			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("installService")){
+                                if(verifyDataConfig(os,wiperdog_home,host,user,passwd,remoteCmd)) {
+				  installAsService(os,wiperdog_home,host,user,passwd,remoteCmd)
+                                }
+
+
 			}
 		}else{
 			//Process for Windows
 			//-- Set wiperdog PATH
 			Properties props = System.getProperties();
 			def xwiki_dir = props.getProperty('user.dir');
-			def decidedWiperdog_path
 			//def params = services.WiperdogConfig.getDataFromConfig()
-			if((params != null) &amp;&amp; (params['wiperdog_path'] != null)){
-				decidedWiperdog_path = params['wiperdog_path']['path']
-			}else{
+			if(params == null){
 				println "Wiperdog home not found !"
 				println "Please config it !"
 				return
@@ -621,116 +733,102 @@ try{
 			//-- END
 
 			def errorStr = ""
-			def psExec = null
-			def command = ""
 			List&lt;String&gt; listCmd = new ArrayList&lt;String&gt;()
-			//Get PsExec path to run remote commands
-			def isLocalhost = true
-			if(params['wiperdog_path'] != null &amp;&amp; params['wiperdog_path']['host'] != "localhost" &amp;&amp; params['wiperdog_path']['host'] != "127.0.0.1"){
-				isLocalhost = false
-			}
-			if(!isLocalhost){
-				psExec = System.getenv("PSTOOLS");
-				if(psExec == null){
-					println "Can not remote to: " + params['wiperdog_path']['host']
-					println "Tool to remote (PsExec.exe) not found !"
-					return
-				}
-                                psExec = psExec.replace("\\","/").trim()+"/psexec.exe"
- 
-			}
-			
 
-			//Run start wiperdog command
+
+
+			//Run start wiperdog remoteCmd
 			if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("start")){
-                                listCmd = buildCmdList(isLocalhost,psExec,true,params)
-				def startScript = 'cmd /c start "" '+ params['wiperdog_path']['path'] + File.separator + 'bin\\startWiperdog.bat'
-				listCmd.addAll(Arrays.asList(startScript.trim().split(" ")))
-				ProcessBuilder b = new ProcessBuilder(listCmd)
-				if(isLocalhost){
-					b.directory(new File(params['wiperdog_path']['path']))
-				}
-				b.redirectErrorStream(true)
-				def proc = b.start()
-				proc.waitFor()
-				if(proc.exitValue() == 0) {
-					println "Wiperdog started at : " + params['wiperdog_path']['host']
-				}
-				else {
-					if(params['wiperdog_path']['host'] != "localhost"){
-						println "Could not start wiperdog on : !" + params['wiperdog_path']['host']  + " - " + proc.in.text
-					} else {
-						println "Could not start wiperdog on : !" + params['wiperdog_path']['host']  + " - " + proc.in.text
-					}
+				def startByService = request.getParameter("startService")
+				if(!startByService) {
+					//listCmd = buildRemoteCmdWin(isLocalhost,psExec,true,host,user,passwd)
+					ProcessBuilder b = new ProcessBuilder()
 
+					def startScript = ''
+
+					if(isLocalhost){
+						startScript = 'cmd /c start "" '+ wiperdog_home + File.separator + 'bin\\startWiperdog.bat'
+						b.directory(new File(wiperdog_home))
+					} else {
+						startScript = remoteCmd + ' -i -w "' + wiperdog_home + '\\bin" cmd /c start "" '+ wiperdog_home + File.separator + 'bin\\startWiperdog.bat'
+					}
+					b.command(Arrays.asList(startScript.trim().split(" ")))
+					b.redirectErrorStream(true)
+					def proc = b.start()
+					proc.waitFor()
+					if(proc.exitValue() == 0) { 
+						displayTextInHtml ("Wiperdog started at : " + host)
+					}
+					else {
+						if(host != "localhost"){
+							displayTextInHtml("Could not start wiperdog on : !" + host  + " - " + proc.in.text)
+						} else {
+							displayTextInHtml("Could not start wiperdog on : !" + host  + " - " + proc.in.text)
+						}
+
+					}
+				} else {
+					startService(os,wiperdog_home,host,user,passwd,remoteCmd)
 				}
+
 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("stop")){
-                                listCmd = buildCmdList(isLocalhost,psExec,false,params)
-                           	def stopScript = 'cmd /c '+ params['wiperdog_path']['path'] + File.separator + 'bin\\stopWiperdog.bat'
-                                if(!isLocalhost) {
-                                   stopScript += " &gt; "+ params['wiperdog_path']['path'] + '\\stop.tmp 2&gt;&amp;1'
-                                }
-				listCmd.addAll(Arrays.asList(stopScript.trim().split(" ")))
-				ProcessBuilder b = new ProcessBuilder(listCmd)
-				if(isLocalhost){
-					b.directory(new File(params['wiperdog_path']['path']))
+
+				def stopByService = request.getParameter("stopService")
+
+				if("true".equals(stopByService)) {
+					stopService(os,wiperdog_home,host,user,passwd,remoteCmd)
+				} else {
+					def stopScript = remoteCmd + ' -i -w "' + wiperdog_home + '\\bin"' +' cmd /c "'+ wiperdog_home + File.separator + 'bin\\stopWiperdog.bat"'
+					def proc = stopScript.execute()
+					proc.waitFor()
+                                        println proc.in.text
+                                        println proc.err.text
+					if(proc.exitValue() == 0) {
+                                            println "Wiperdog stopped !"
+					} else {
+                                            println "Failed to stop wiperdog !"
+					}
 				}
-				b.redirectErrorStream(true)
-				def proc = b.start()
-				proc.waitFor()
-                                 if(!isLocalhost) {
-					def tmpWiperdog_path = decidedWiperdog_path.replace(":\\","\$\\")
-					def cmdCopy = "cmd /c copy /Y \\\\" +params['wiperdog_path']['host']+"\\"+ tmpWiperdog_path+"\\stop.tmp ."
-					proc = cmdCopy.execute()
-					File stopResult = new File("stop.tmp")
-                                        if(stopResult.exists()) {
-				           displayTextInHtml(stopResult.getText())
-                                           stopResult.delete()
-                                        } else {
-                                           println "Failed to stop wiperdog !"
-                                        }
-                                } else {
-				     if(proc.exitValue() != null &amp;&amp; proc.exitValue() == 0) {
-					 displayTextInHtml(proc.in.text)
-				     } else {
-					 println proc.err.text
-				     }
-                                 }
+                                return
 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("status")){
-                                def runningPort
+				def runningPort
 				//-- Get Jetty port from wiperdog properties file
 				if(!isLocalhost){
-					def rootDir = decidedWiperdog_path.substring(0,decidedWiperdog_path.indexOf(":"))
-					def cmdNetUse = "net use \\\\"+params['wiperdog_path']['host']+"\\"+rootDir + "\$" + " /user:"+params['wiperdog_path']['user']+" "+params['wiperdog_path']['pass']
+					def rootDir = wiperdog_home.substring(0,wiperdog_home.indexOf(":"))
+					def cmdNetUse = "net use \\\\"+host+"\\"+rootDir + "\$" + " /user:"+params['wiperdog_path']['user']+" "+passwd
 					def proc = cmdNetUse.execute()
-					def tmpWiperdog_path = decidedWiperdog_path.replace(":\\","\$\\")
-					def cmdCopy = "cmd /c copy /Y \\\\" +params['wiperdog_path']['host']+"\\"+ tmpWiperdog_path+"\\etc\\system.properties ."
+					def tmpWiperdog_path = wiperdog_home.replace(":\\","\$\\")
+					def cmdCopy = "cmd /c copy /Y \\\\" +host+"\\"+ tmpWiperdog_path+"\\etc\\system.properties ."
 					proc = cmdCopy.execute()
+                                        proc.waitFor()
 					File sysProps = new File("system.properties")
 					if(sysProps.exists()){
-					     runningPort = sysProps.getText().split("netty.port=")[1].split("\n")[0]
-                                             sysProps.delete()
+						runningPort = sysProps.getText().split("netty.port=")[1].split("\n")[0]
+						sysProps.delete()
+					} else {
+						println "Failed to get wiperdog port"
+						return
 					}
 				} else {
 					Properties jettyProps = new Properties()
-					File propsFile = new File(decidedWiperdog_path +'/etc/system.properties')
+					File propsFile = new File(wiperdog_home +'/etc/system.properties')
 					jettyProps.load(propsFile.newDataInputStream())
 					runningPort = jettyProps.getProperty('netty.port')
 				}
-                             
-                                def portStatus = serverListening(params['wiperdog_path']['host'],runningPort.toInteger() )
-                                if(portStatus) {
-                                   println "Wiperdog is running on ${params['wiperdog_path']['host']}" 
-                                } else {
-                                   println "Wiperdog not running on ${params['wiperdog_path']['host']}"
-                                }
+
+				def portStatus = serverListening(host,runningPort.toInteger() )
+				if(portStatus) {
+					println "Wiperdog is running on ${host}"
+				} else {
+					println "Wiperdog not running on ${host}"
+				}
 			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("hostinfo")){
 				def hostInfo = [:]
 				//Get host name
 
-				if(params['wiperdog_path']['host'] != null &amp;&amp; params['wiperdog_path']['host'] != 'localhost') {
-					hostInfo['hostName']  = InetAddress.getByName(params['wiperdog_path']['host']).getHostName()
-					hostInfo['hostIP'] =  params['wiperdog_path']['host']
+				if(host != null &amp;&amp; host != 'localhost') {
+					hostInfo['hostName']  = InetAddress.getByName(host).getHostName()
+					hostInfo['hostIP'] =  host
 				} else {
 					//if()
 					hostInfo['hostName']  = InetAddress.getLocalHost().getHostName()
@@ -739,44 +837,296 @@ try{
 
 				//-- Get Jetty port from wiperdog properties file
 				if(!isLocalhost){
-					def rootDir = decidedWiperdog_path.substring(0,decidedWiperdog_path.indexOf(":"))
-					def cmdNetUse = "net use \\\\"+params['wiperdog_path']['host']+"\\"+rootDir + "\$" + " /user:"+params['wiperdog_path']['user']+" "+params['wiperdog_path']['pass']
+					def rootDir = wiperdog_home.substring(0,wiperdog_home.indexOf(":"))
+					def cmdNetUse = "net use \\\\"+host+"\\"+rootDir + "\$" + " /user:"+params['wiperdog_path']['user']+" "+passwd
 					def proc = cmdNetUse.execute()
-					def tmpWiperdog_path = decidedWiperdog_path.replace(":\\","\$\\")
-					def cmdCopy = "cmd /c copy /Y \\\\" +params['wiperdog_path']['host']+"\\"+ tmpWiperdog_path+"\\etc\\system.properties ."
+                                        proc.waitFor()
+					def tmpWiperdog_path = wiperdog_home.replace(":\\","\$\\")
+					def cmdCopy = "cmd /c copy /Y \\\\" +host+"\\"+ tmpWiperdog_path+"\\etc\\system.properties ."
 					proc = cmdCopy.execute()
+                                        proc.waitFor()
 					File sysProps = new File("system.properties")
 					if(sysProps.exists()){
 						hostInfo['hostPort'] = sysProps.getText().split("netty.port=")[1].split("\n")[0]
-                                                sysProps.delete()
+						sysProps.delete()
 					} else {
 						hostInfo['hostPort'] = ""
 					}
 				} else {
 					Properties jettyProps = new Properties()
-					File propsFile = new File(decidedWiperdog_path +'/etc/system.properties')
+					File propsFile = new File(wiperdog_home +'/etc/system.properties')
 					jettyProps.load(propsFile.newDataInputStream())
 					def hostPort = jettyProps.getProperty('netty.port')
 					hostInfo['hostPort'] = hostPort
 				}
-                                hostInfo['homePath'] = params['wiperdog_path']['path'].replace("\\","/")
+				hostInfo['homePath'] = wiperdog_home.replace("\\","/")
 				def builder = new JsonBuilder(hostInfo)
 				println builder.toPrettyString()
 
 
-			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("hostport")){
-				//-- Get Jetty port from wiperdog properties
-				Properties jettyProps = new Properties()
-				File propsFile = new File(decidedWiperdog_path +'/etc/system.properties')
-				jettyProps.load(propsFile.newDataInputStream())
-				def hostPort = jettyProps.getProperty('netty.port')
-				println hostPort
+			}else if(cmd != null &amp;&amp; !cmd.equals("") &amp;&amp; cmd.equals("installService")){
+                                if(verifyDataConfig(os,wiperdog_home,host,user,passwd,remoteCmd)) {
+				  installAsService(os,wiperdog_home,host,user,passwd,remoteCmd)
+                                }
 			}
 		}
+
 	}
 }catch(Exception ex){
 	println ex
 }
+def stopService(os,wiperdog_home,host,user,passwd,remoteCmd){
+	if("win".equals(os)){
+		def stopCmd = ""
+		if(!"localhost".equals(host) &amp;&amp; !"127.0.0.1".equals(host)) {
+			stopCmd = remoteCmd + ' net stop wiperdog &gt; stop.tmp 2&gt;&amp;1'
+		} else {
+			stopCmd = 'net stop wiperdog'
+		}
+                def batFile = new File("stop_service.bat")
+                if(!batFile.exists()){
+                    batFile.createNewFile()
+                }                
+                batFile.setText("@echo off\n" + stopCmd + "\n exit")
+		def proc = stopCmd.execute()
+		proc.waitFor()
+		def tmpOut = new File("stop.tmp")
+                println tmpOut.getCanonicalPath()
+		if(tmpOut.exists()) {
+			println removeUnexpMess(tmpOut.getText())
+		} else {
+			println "Failed to stop wiperdog service"
+		}
+               batFile.delete()
+	       tmpOut.delete()
 
-{{/groovy}}</content>
-</xwikidoc>
+	} else {
+		remoteCmd += " service wiperdog stop"
+
+	}
+
+}
+
+def startService(os,wiperdog_home,host,user,passwd,remoteCmd){
+	if("win".equals(os)){
+		def startCmd = ""
+		if(!"localhost".equals(host) &amp;&amp; !"127.0.0.1".equals(host)) {
+			//startCmd = 'sc \\\\' + host  + ' start wiperdog'
+                         startCmd = remoteCmd + ' net start wiperdog '
+		} else {
+			startCmd = 'net start wiperdog'
+		}
+		def proc = startCmd.execute()
+		proc.waitFor()
+		println removeUnexpMess(proc.in.text)
+		println removeUnexpMess(proc.err.text)
+
+	} else {
+		remoteCmd += "service wiperdog start"
+                println remoteCmd
+		def proc = remoteCmd.execute()
+		proc.waitFor()
+		println removeUnexpMess(proc.in.text)
+		println removeUnexpMess(proc.err.text)
+
+	}
+
+}
+def installAsService(os,wiperdog_home,host,user,passwd,remoteCmd){
+	if("win".equals(os)){
+		def tmpStdoutFile = 'install_service.txt'
+		remoteCmd += ' "' + wiperdog_home+ '/service/javaservice/create_wiperdog_service.bat" ' + '"' + wiperdog_home + '" &gt; ' + tmpStdoutFile + ' 2&gt;&amp;1 &amp;&amp; exit'
+                def batFile = new File("install_service.bat")
+                if(!batFile.exists()){
+                    batFile.createNewFile()
+                }
+                batFile.setText("@echo off\n" + remoteCmd )
+		def tmpOut = new File(tmpStdoutFile)
+                def proc = 'cmd /c start /wait install_service.bat &amp;&amp; exit'.execute()
+                proc.waitFor()
+		if(tmpOut.exists()) {
+			println removeUnexpMess(tmpOut.getText())
+		       tmpOut.delete()
+                       batFile.delete()
+		} else {
+			println "Failed to install wiperdog service"
+		}
+           
+	} else {
+
+		def installerFile = new File("install_service.sh")
+		StringBuffer sBuff = new StringBuffer(512)
+		sBuff.append("#!/bin/bash\n#\n#\n#\n")
+		sBuff.append("isUbuntu=`uname -a | grep buntu`\n")
+		sBuff.append("if [ ! -n \"\$isUbuntu\" ]\n")  // If is not ubuntu
+		sBuff.append("then\n")
+		sBuff.append(". ~/.bash_profile\n")
+		sBuff.append("	service_cmd=`which service`\n")
+		sBuff.append("	chkconfig_cmd=`which chkconfig`\n")
+		sBuff.append("	if [ ! -n \$service_cmd ] || [ ! -x \$service_cmd ] || [ ! -n \$chkconfig_cmd ] || [ ! -x \$chkconfig_cmd ]\n")
+		sBuff.append("	then\n")
+		sBuff.append("    echo Service commands are not found on this system.\n")
+		sBuff.append("    echo Cannot install wiperdog as system service unless you install chkconfig and service command!\n")
+		sBuff.append("    exit 1\n")
+		sBuff.append("	fi\n")
+
+		sBuff.append("	\$service_cmd wiperdog stop \n")
+		sBuff.append("	/bin/cp \""+wiperdog_home+"/bin/wiperdog\" /etc/init.d/\n")
+		sBuff.append("	/bin/chmod 755 /etc/init.d/wiperdog\n")
+		sBuff.append("	\$chkconfig_cmd --del wiperdog\n")
+		sBuff.append("	\$chkconfig_cmd --add wiperdog\n")
+		sBuff.append("	\$chkconfig_cmd --level 2 wiperdog on\n")
+		sBuff.append("	\$chkconfig_cmd --level 3 wiperdog on\n")
+		sBuff.append("	\$chkconfig_cmd --level 4 wiperdog on\n")
+		sBuff.append("	\$chkconfig_cmd --level 5 wiperdog on\n")
+		sBuff.append("	\$chkconfig_cmd --list wiperdog\n")
+
+		sBuff.append("else \n") // If is ubuntu
+		sBuff.append("	service_cmd=`which service`\n")
+		sBuff.append("	chkconfig_cmd=`which update-rc.d`\n")
+		sBuff.append("	if [ ! -n \$service_cmd ] || [ ! -x \$service_cmd ] || [ ! -n \$chkconfig_cmd ] || [ ! -x \$chkconfig_cmd ]\n")
+		sBuff.append("	then\n")
+		sBuff.append("    echo Service commands are not found on this system.\n")
+		sBuff.append("    echo Cannot install wiperdog as system service unless you install update-rc.d and service command!\n")
+		sBuff.append("    exit 1\n")
+		sBuff.append("	fi\n")
+
+		sBuff.append("	\$service_cmd wiperdog stop \n")
+		sBuff.append("	/bin/cp \""+wiperdog_home+"/bin/wiperdog\" /etc/init.d/\n")
+		sBuff.append("	/bin/chmod 755 /etc/init.d/wiperdog\n")
+		sBuff.append("	\$chkconfig_cmd -f wiperdog remove\n")
+		sBuff.append("	\$chkconfig_cmd wiperdog defaults\n")
+		sBuff.append("	\$chkconfig_cmd wiperdog start 20 2 3 4 5 .\n")
+
+		sBuff.append("fi\n")
+
+		sBuff.append("/bin/chmod 755 \""+ wiperdog_home +"\"/bin/* \n")
+		sBuff.append("/bin/rm -f \""+ wiperdog_home +"/var/run/wiperdog.lck\" \n")
+		sBuff.append("vim_cmd=`which vi`\n")
+		sBuff.append("if [ ! -n \$vim_cmd ] || [ ! -x \$vim_cmd ]\n")
+		sBuff.append("then\n")
+		sBuff.append("    echo Vim editor is not install or not valid in this system,\n")
+		sBuff.append("    you need to change file format in  "+ wiperdog_home +"/bin/* manually\n")
+		sBuff.append("else\n")
+		//-- Set file format for executable unix shell script in 'bin' folder
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/clearjobdata\"  &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/gendbpasswd.sh\"  &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/groovy\"  &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/jobrunner.sh\"  &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/startGroovy\"  &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/startWiperdog.sh\"   &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("\$vim_cmd +':w ++ff=unix' +':q' \""+ wiperdog_home +"/bin/wiperdog\"  &gt; /dev/null 2&gt;&amp;1 &amp;\n")
+		sBuff.append("fi\n")
+		if(!installerFile.exists()){
+			installerFile.createNewFile()
+		}
+		installerFile.setText(sBuff.toString());
+
+		if(!"localhost".equals(host) &amp;&amp; !"127.0.0.1".equals(host)){
+			//copy installer file to remote host and execute it
+			//Rememer to grant privilege for user run Xwiki to access remote machine without password with SSH keys
+			 def copyCmd = 'scp install_service.sh ' + user + '@' + host + ':' + '"' + wiperdog_home +'"'
+			 def proc =  copyCmd.execute()
+			 proc.waitFor()
+			 println proc.in.text
+			 println proc.err.text
+			 
+			//Change mode to executable for 'installer_service.sh'
+			def chmodeCmd = 'chmod 755 install_service.sh'
+			proc =  chmodeCmd.execute()
+			proc.waitFor()
+			println proc.in.text
+			println proc.err.text
+
+			//Execute installer script
+			def executeScriptCmd = remoteCmd + "sudo " + wiperdog_home + "/install_service.sh"
+			proc =  executeScriptCmd.execute()
+			proc.waitFor()
+			println proc.in.text
+			println proc.err.text
+
+		} else {
+			def listCmd = []
+			listCmd.add("/bin/chmod")
+			listCmd.add("755")
+			listCmd.add("install_service.sh")
+			ProcessBuilder builder = new ProcessBuilder(listCmd);
+			builder.redirectErrorStream(true);
+			Process proc = builder.start();
+
+			listCmd = []
+			listCmd.add("sudo")
+			listCmd.add("/bin/sh")
+			listCmd.add("install_service.sh")
+			builder = new ProcessBuilder(listCmd);
+			builder.redirectErrorStream(true);
+			proc = builder.start();
+			proc.waitFor()
+			println proc.in.text
+			println proc.err.text
+
+		}
+	}
+
+}
+
+def copyFileRemoteWin(host,user,passwd,source,dest){
+	def rootDir = source.substring(0,source.indexOf(":"))
+	def cmdNetUse = "net use \\\\"+host+"\\"+rootDir + "\$" + " /user:"+ user + " " + passwd
+	def proc = cmdNetUse.execute()
+	def tmpSourceFile = source.replace(":\\","\$\\")
+	def cmdCopy = "cmd /c copy /Y \\\\" +host+"\\"+ tmpSourceFile + " " + dest
+	proc = cmdCopy.execute()
+        proc.waitFor()
+}
+
+def delFileRemoteWin(remoteCmd,file){
+	remoteCmd += "cmd /c del file /f"
+	def proc = remoteCmd.execute()
+	println proc.in.text
+	println proc.err.text
+}
+
+def verifyDataConfig(os,wiperdog_home,host,user,passwd,remoteCmd){
+      //Verify host exist
+      if(!InetAddress.getByName(host).isReachable(3000)){
+          println "Failed to remote connect to : ${host} ,check if remote host available or network problem !"
+          return false
+      } 
+      //Verify wiperdog path exist
+         if(host != "localhost" &amp;&amp; host != "127.0.0.1") {
+            def checkExistCmd = ""
+            if(os.equals("win")){
+               checkExistCmd = remoteCmd + 'cd "' + wiperdog_home + '"'
+               def proc = checkExistCmd.execute()
+               proc.waitFor()
+
+            } else {
+               checkExistCmd = remoteCmd + 'cd "' + wiperdog_home + '"'
+               def proc = checkExistCmd.execute()
+               proc.waitFor()
+               if(proc.err.text.contains("Not a directory")){
+                 println " ${wiperdog_home} not found on : ${host}"
+                 return false
+               }
+             }
+           
+         } else {
+            def wdDir = new File(wiperdog_home)
+            if(!wdDir.exists()){
+               println "Wiperdog path not exist on localhost"
+               return false
+            }
+         }
+      return true
+}
+def removeUnexpMess(stdout){
+  def result = new StringBuilder()
+  stdout.eachLine(){
+      if(it.trim() != "" &amp;&amp; !it.toLowerCase().contains("psexe") &amp;&amp; !it.contains("Mark Russinovich") &amp;&amp; !it.contains("Sysinternals") &amp;&amp; !it.contains("Connecting to") &amp;&amp; !it.contains("Starting net") &amp;&amp; !it.contains("with error code")){
+        result.append(it + "\n")
+      }
+  }
+  return result.toString()
+}
+{{/groovy}}</content></xwikidoc>
