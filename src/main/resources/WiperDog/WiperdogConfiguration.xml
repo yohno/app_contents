@@ -603,29 +603,28 @@ mwWLCLHsQsfhxBWTe9QkOzCwC8sv5Ho127akyRM7QQAAOwAAAAAAAAAAAA==
                                 success: function(result) {
                                     $("#messageWiperdog").append('&lt;br/&gt;&lt;b&gt;Start wiperdog...Done &lt;/b&gt;&lt;br/&gt;')
                                     $("#messageWiperdog").append(result.replace(/\n/g, "&lt;br/&gt;") + "&lt;br/&gt;")
-        $("#loader_mess").text('Writing configuration to file...')
-        $.ajax({
-            type: "POST",
-            url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=writeCfg",
-            dataType: "text",
-            data: data2send,
-            crossDomain: true,
-            success: function(result) {
-                $("#messageWiperdog").show()
-                $("#messageWiperdog").append("&lt;br/&gt;&lt;b&gt;" + result.replace(/\\n/g, "&lt;br/&gt;" + "&lt;/b&gt;"))
-                $("#loader_ico").hide()
-                $("#loader_mess").text("")
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr)
-                console.log(status)
-                console.log(error)
-                $("#messageWiperdog").append('&lt;br/&gt;Failed to update wiperdog config!!!')
-                                    $("#loader_ico").hide()
-                                    $("#loader_mess").text("")
-
-            }
-        });
+                                    $("#loader_mess").text('Writing configuration to file...')
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=writeCfg",
+                                        dataType: "text",
+                                        data: data2send,
+                                        crossDomain: true,
+                                        success: function(result) {
+                                            $("#messageWiperdog").show()
+                                            $("#messageWiperdog").append("&lt;br/&gt;&lt;b&gt;" + result.replace(/\\n/g, "&lt;br/&gt;" + "&lt;/b&gt;"))
+                                            $("#loader_ico").hide()
+                                            $("#loader_mess").text("")
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.log(xhr)
+                                            console.log(status)
+                                            console.log(error)
+                                            $("#messageWiperdog").append('&lt;br/&gt;Failed to update wiperdog config!!!')
+                                            $("#loader_ico").hide()
+                                            $("#loader_mess").text("")
+                                        }
+                                    });
                                 },
                                 error: function(xhr, status, error) {
                                     console.log(xhr)
@@ -650,8 +649,30 @@ mwWLCLHsQsfhxBWTe9QkOzCwC8sv5Ho127akyRM7QQAAOwAAAAAAAAAAAA==
                         }
 
                     })
+        } else {
+                    $("#loader_mess").text('Writing configuration to file...')
+                    $.ajax({
+                        type: "POST",
+                        url: "/xwiki/bin/get/WiperDogLib/ConsoleService?outputSyntax=plain&amp;cmd=writeCfg",
+                        dataType: "text",
+                        data: data2send,
+                        crossDomain: true,
+                        success: function(result) {
+                            $("#messageWiperdog").show()
+                            $("#messageWiperdog").append("&lt;br/&gt;&lt;b&gt;" + result.replace(/\\n/g, "&lt;br/&gt;" + "&lt;/b&gt;"))
+                            $("#loader_ico").hide()
+                            $("#loader_mess").text("")
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr)
+                            console.log(status)
+                            console.log(error)
+                            $("#messageWiperdog").append('&lt;br/&gt;Failed to update wiperdog config!!!')
+                            $("#loader_ico").hide()
+                            $("#loader_mess").text("")
+                        }
+                    });
         }
-
     })
     jQuery.noConflict()
 });</code>
@@ -2040,8 +2061,7 @@ $xwiki.ssx.use("WiperDog.checkService")
 
 {{groovy}}
 import groovy.json.*
-def servletData= request.getParameter('result')
-def defaultParams= services.GetServlet.DEFAULT_CONFIG
+def servletData = request.getParameter('result')
 Properties props = System.getProperties();
 def xwiki_dir = props.getProperty('user.dir');
 
@@ -2049,6 +2069,7 @@ def slurper = new JsonSlurper()
 def messServlet = null
 
 def oldData = services.WiperdogConfig.getDataFromConfig()
+
 if(servletData!= null ){
 	try{
 		if(oldData == null){
@@ -2068,27 +2089,13 @@ if(servletData!= null ){
 }
 
 def params = oldData
-if(params == null || params == [:]) {
-	params = defaultParams
-}
-def paramsServlet = params['servlet_config']
+def paramsServlet = [:]
 
-if(paramsServlet == null || paramsServlet == [:] ){
-	paramsServlet = defaultParams['servlet_config']
-} else {
-	def paramsKeys = paramsServlet.keySet()
-	for(key in defaultParams['servlet_config'].keySet()){
-                def value = defaultParams['servlet_config'][key]
-		if(!paramsKeys.contains(key)){
-			paramsServlet[key] = {}
-			paramsServlet[key]['servlet'] = value.servlet
-			paramsServlet[key]['desc'] = value.desc
-		}
-	}
+if(params != null &amp;&amp; params != [:] &amp;&amp; params['servlet_config'] != null &amp;&amp; params['servlet_config'] != [:]) {
+	// data servlet config
+	paramsServlet = params['servlet_config']
 }
-
-params['servlet_config'] = paramsServlet
-def builder = new JsonBuilder(params['servlet_config'])
+def builder = new JsonBuilder(paramsServlet)
 def str_json = builder.toPrettyString()
 
 def tmp = [:]
@@ -2097,26 +2104,28 @@ println "&lt;form action='#' method='POST'&gt;"
 println "&lt;div class= 'header'&gt;Servlet Configuration&lt;/div&gt;"
 println "&lt;table id='table_display'&gt;"
 println "&lt;tr style='text-align:center'&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Host name&lt;/th&gt;&lt;th&gt;Port&lt;/th&gt;&lt;th&gt;Servlet path&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Action&lt;/th&gt;&lt;/tr&gt;"
+if(paramsServlet != [:]) {
 	for(key in paramsServlet.keySet()){
-        def value = paramsServlet[key]
-	def arr_str = ""
-	def hostname = ""
-	def port = ""
-	def servletPath = ""
-	def description = ""
-	if(value.servlet != null &amp;&amp;  value.servlet != []){
-		arr_str = value.servlet.split(":")
-		hostname = arr_str[1].replace("//","")
-		port = arr_str[2].substring(0,arr_str[2].indexOf("/"))
-		servletPath = arr_str[2].substring(arr_str[2].indexOf("/")+1)
+        	def value = paramsServlet[key]
+		def arr_str = ""
+		def hostname = ""
+		def port = ""
+		def servletPath = ""
+		def description = ""
+		if(value.servlet != null &amp;&amp;  value.servlet != []){
+			arr_str = value.servlet.split(":")
+			hostname = arr_str[1].replace("//","")
+			port = arr_str[2].substring(0,arr_str[2].indexOf("/"))
+			servletPath = arr_str[2].substring(arr_str[2].indexOf("/")+1)
+		}
+		if(value.desc != null &amp;&amp; value.desc != []){
+			description = value.desc
+		} else {
+			description = "No description"
+		}
+		println "&lt;tr&gt;&lt;td&gt;$key&lt;/td&gt;&lt;td&gt;$hostname&lt;/td&gt;&lt;td&gt;$port&lt;/td&gt;&lt;td&gt;$servletPath&lt;/td&gt;&lt;td&gt;$description&lt;/td&gt;&lt;td style='width:120px,text-align:center'&gt;&lt;input type='button' style='width:50px' value='Delete' class='delete button'/&gt;&lt;input type='button' value='Edit' style='width:50px' class='edit button'/&gt;&lt;/td&gt;&lt;/tr&gt;" 
 	}
-	if(value.desc != null &amp;&amp; value.desc != []){
-		description = value.desc
-	} else {
-		description = "No description"
-	}
-	println "&lt;tr&gt;&lt;td&gt;$key&lt;/td&gt;&lt;td&gt;$hostname&lt;/td&gt;&lt;td&gt;$port&lt;/td&gt;&lt;td&gt;$servletPath&lt;/td&gt;&lt;td&gt;$description&lt;/td&gt;&lt;td style='width:120px,text-align:center'&gt;&lt;input type='button' style='width:50px' value='Delete' class='delete button'/&gt;&lt;input type='button' value='Edit' style='width:50px' class='edit button'/&gt;&lt;/td&gt;&lt;/tr&gt;" 
-	}
+}
 println "&lt;tr id='input'&gt;&lt;td&gt;&lt;input type='text' id = 'name' /&gt;&lt;/td&gt;&lt;td&gt;&lt;input type='text' id = 'host' /&gt;&lt;/td&gt;&lt;td&gt;&lt;input type='text' id = 'port' /&gt;&lt;/td&gt;&lt;td&gt;&lt;input type='text' id = 'servlet' /&gt;&lt;/td&gt;&lt;td&gt;&lt;textarea type='text' width='auto' id='desc'/&gt;&lt;/textarea&gt;&lt;/td&gt;&lt;/tr&gt;"
 println "&lt;/table&gt;"
 println "{{html wiki = 'false' clean = 'true'}}"
