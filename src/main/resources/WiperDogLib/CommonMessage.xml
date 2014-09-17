@@ -278,6 +278,9 @@ color: green&#xd;
 .error{&#xd;
 color: red&#xd;
 }&#xd;
+#hintMessage{&#xd;
+color: lightgray&#xd;
+}&#xd;
 </code>
     </property>
     <property>
