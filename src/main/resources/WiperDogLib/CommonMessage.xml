@@ -6,12 +6,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1409646159000</creationDate>
+  <creationDate>1410327667000</creationDate>
   <parent>WiperDogLib.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1410317339000</date>
-  <contentUpdateDate>1409646159000</contentUpdateDate>
+  <date>1410856826000</date>
+  <contentUpdateDate>1410327667000</contentUpdateDate>
   <version>1.1</version>
   <title>CommonMessage</title>
   <comment/>
@@ -106,6 +106,12 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
       <code>var mapMessages = &#xd;
 {&#xd;
 &#xd;
+    err_import_inst_header: "Incorrect header format. Header element can not be empty string",&#xd;
+    err_import_inst_header_params: "Incorrect header format. Header must be contain following params : INST_NAME,SCHEDULE !",&#xd;
+    err_import_inst_no_data: "No data from file to load !",&#xd;
+    err_import_inst_no_data_save: "No data to save to instances file !",&#xd;
+    msg_import_inst_success: "Load from file successfully",&#xd;
+&#xd;
     err_chart_group: "Group chart is require !",&#xd;
     err_chart_type: "No chart type selected !",&#xd;
     err_chart_name: "Chart name is require !",&#xd;
@@ -153,7 +159,9 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
     msg_delete_instance_param: "Delete this params instance , are you sure ?",&#xd;
     msg_exist_instance: "Instance name existed ! Update it ?",&#xd;
     msg_delete_instance: "Delete this instance , are you sure ?",&#xd;
-    msg_empty_data_csv: "Data of List Instance is empty. Are you want to write file .csv?"&#xd;
+    msg_empty_data_csv: "Data of List Instance is empty. Are you want to write file .csv?",&#xd;
+&#xd;
+    msg_run_test: "Loading. Please Wait.",&#xd;
 }&#xd;
 &#xd;
 function getMessage(id){&#xd;
@@ -269,7 +277,8 @@ color: green&#xd;
 }&#xd;
 .error{&#xd;
 color: red&#xd;
-}</code>
+}&#xd;
+</code>
     </property>
     <property>
       <name>stylesheet</name>

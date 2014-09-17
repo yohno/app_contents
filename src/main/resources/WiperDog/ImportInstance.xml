@@ -6,40 +6,44 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1408067443000</creationDate>
+  <creationDate>1410327662000</creationDate>
   <parent>WiperDog.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1408070443000</date>
-  <contentUpdateDate>1408070443000</contentUpdateDate>
+  <date>1410856896000</date>
+  <contentUpdateDate>1410856896000</contentUpdateDate>
   <version>1.1</version>
   <title>Import Instance Info</title>
-  <comment></comment>
+  <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>{{include document="WiperDog.checkService"/}}&#xd;
 {{include document="WiperDogLib.GetJobInfo"/}}&#xd;
+{{include document="WiperDogLib.CommonMessage"/}}&#xd;
 &#xd;
 {{velocity}}&#xd;
 $xwiki.ssx.use('WiperDog.checkService')&#xd;
 $xwiki.jsx.use("WiperDogLib.GetJobInfo")&#xd;
 $xwiki.ssx.use("WiperDogLib.GetJobInfo")&#xd;
+$xwiki.jsx.use("WiperDogLib.CommonMessage")&#xd;
+$xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
 &#xd;
 {{html wiki="true" clean="false"}}&#xd;
+&#xd;
 &lt;div id="dropdownlist">&#xd;
  &lt;table>&#xd;
   &lt;tr>&#xd;
    &lt;th>Monitoring Type(*)&lt;/th>&#xd;
-   &lt;td>&lt;select id="listMonitoring" tabindex="1">&lt;/select>&lt;/td>&#xd;
+   &lt;td>&lt;select id="listMonitoring" tabindex="1">&lt;/select>&lt;div id="messageMonitoringtype">&lt;/div>&lt;/td>&#xd;
   &lt;/tr>&#xd;
   &lt;tr>&#xd;
    &lt;th>DB Type&lt;/th>&#xd;
-   &lt;td>&lt;select id="dbTypeCbb" tabindex="2">&lt;/select>&lt;br/>choose if Monitoring Type is @DB&lt;/td>&#xd;
+   &lt;td>&lt;select id="dbTypeCbb" tabindex="2">&lt;/select>&lt;br/>&lt;div id="hintMessage">choose if Monitoring Type is @DB&lt;/div>&lt;div id="messageDbtypeCbb">&lt;/div>&lt;/td>&#xd;
   &lt;/tr>&#xd;
   &lt;tr>&#xd;
    &lt;th>Job File&lt;/th>&#xd;
-   &lt;td>&lt;select id="listJob" tabindex="3">&lt;option id="noChoice" value="noChoice">-select a job-&lt;/option>&lt;/select>&lt;br/>choose if edit existed job&lt;/td>&#xd;
+   &lt;td>&lt;select id="listJob" tabindex="3">&lt;option id="noChoice" value="noChoice">-select a job-&lt;/option>&lt;/select>&lt;br/>&lt;div id="hintMessage">choose if edit existed job&lt;/div>&lt;/td>&#xd;
   &lt;/tr>&#xd;
  &lt;/table>&#xd;
 &lt;/div>&#xd;
@@ -77,18 +81,9 @@ $xwiki.ssx.use("WiperDogLib.GetJobInfo")&#xd;
 {{/velocity}}&#xd;
 </content>
   <attachment>
-    <filename>instance_nodata.csv</filename>
-    <author>xwiki:XWiki.Admin</author>
-    <date>1408070443000</date>
-    <version>1.1</version>
-    <comment/>
-    <content>SU5TVF9OQU1FLFNDSEVEVUxFDQo=</content>
-    <filesize>20</filesize>
-  </attachment>
-  <attachment>
     <filename>sample.csv</filename>
     <author>xwiki:XWiki.Admin</author>
-    <date>1408069840000</date>
+    <date>1410327662000</date>
     <version>1.1</version>
     <comment/>
     <content>SU5TVF9OQU1FLFNDSEVEVUxFLEhPU1RfSUQsU0lELFBBUkFNMSxQQVJBTTIsUEFSQU0zDQppbnN0XzEsMTBpLGhvc3RfaWQxLHNpZDEsdmFsX3BhcmFtMSx2YWxfcGFyYW0yLHZhbF9wYXJhbXMzDQppbnN0XzIsMjBpLGhvc3RfaWQyLHNpZDIsdmFsX3BhcmFtMjEsdmFsX3BhcmFtMjIsdmFsX3BhcmFtczIzDQppbnN0XzMsMzBpLGhvc3RfaWQzLHNpZDMsdmFsX3BhcmFtMzEsdmFsX3BhcmFtMzIsdmFsX3BhcmFtMzM=</content>
@@ -1334,12 +1329,12 @@ require(['jquery'], function($) {&#xd;
 &#xd;
 					for (var j = 0; j &lt; tmpHeaders.length; j++) {&#xd;
 						if (tmpHeaders[j] == "") {&#xd;
-							$('#messageLoadFile').text("Incorrect header format ,header element can not be empty string !\nCheck tip to correct it").addClass('error').removeClass('message')&#xd;
+                                                        setErrorMessage("err_import_inst_header","#messageLoadFile");&#xd;
 							return&#xd;
 						}&#xd;
 					}&#xd;
 					if (($.inArray('INST_NAME', tmpHeaders) == -1) || ($.inArray('SCHEDULE', tmpHeaders) == -1)) {&#xd;
-						$('#messageLoadFile').text("Incorrect header format ,header must be contain following params : INST_NAME,SCHEDULE !\nCheck tip to correct it").addClass('error').removeClass('message')&#xd;
+                                                setErrorMessage("err_import_inst_header_params","#messageLoadFile");&#xd;
 						return&#xd;
 					}&#xd;
 					headers = tmpHeaders.length&#xd;
@@ -1403,9 +1398,9 @@ require(['jquery'], function($) {&#xd;
 			}&#xd;
 &#xd;
 			if(listObject.length > 0 ) {&#xd;
-				$('#messageLoadFile').text('Load from file successfully  ').removeClass("error").addClass('message')&#xd;
+                                setMessage("msg_import_inst_success","#messageLoadFile");&#xd;
 			} else {&#xd;
-				$('#messageLoadFile').text('No data from file to load !  ').removeClass("message").addClass('error')&#xd;
+                                setErrorMessage("err_import_inst_no_data","#messageLoadFile");&#xd;
 			}&#xd;
 &#xd;
 			$('#fileContent').val("");&#xd;
@@ -1517,7 +1512,7 @@ require(['jquery'], function($) {&#xd;
 					}&#xd;
 				})&#xd;
 			} else {&#xd;
-				$('#messageLoadFile').text('No data to save to instances file  ').addClass('error')&#xd;
+                                setErrorMessage("err_import_inst_no_data_save","#messageLoadFile");&#xd;
 			}&#xd;
 		});&#xd;
 	}&#xd;
@@ -1685,13 +1680,13 @@ require(['jquery'], function($) {&#xd;
             var jobInstanceValue = {}&#xd;
             var htmlInstancesSource = ""&#xd;
             var mapInstances = result.instances&#xd;
-			var existedInstancesList = []&#xd;
+            var existedInstancesList = []&#xd;
             if (mapInstances != null) {&#xd;
                 var lstKeyInst = Object.keys(mapInstances)&#xd;
                 for (var i = 0; i &lt; lstKeyInst.length; i++) {&#xd;
-					&#xd;
-					var existedInstance = {}&#xd;
-                    var instName = lstKeyInst[i]&#xd;
+                    &#xd;
+                    var existedInstance = {}&#xd;
+                    var instName = lstKeyInst[i];&#xd;
                     var params = ""&#xd;
                     var schedule = ""&#xd;
 &#xd;
@@ -1706,17 +1701,12 @@ require(['jquery'], function($) {&#xd;
                     }&#xd;
                     jobInstance[instName] = jobInstanceValue&#xd;
                     jobInstanceValue = {}&#xd;
-                    htmlInstancesSource += "&lt;tr>&lt;td>" + instName + "&lt;/td>&lt;td>" + schedule + "&lt;/td>&lt;td>" + params + "&lt;/td>&lt;/tr>"&#xd;
-&#xd;
-					existedInstance['INST_NAME'] = instName&#xd;
-					existedInstance['SCHEDULE'] = schedule&#xd;
-					existedInstance['PARAMS'] = jobInstanceValue['params']&#xd;
+                    htmlInstancesSource += "&lt;tr&gt;&lt;td>" + instName + "&lt;/td>&lt;td>" + schedule + "&lt;/td>&lt;td>" + params + "&lt;/td>&lt;/tr>"&#xd;
+                    existedInstance['INST_NAME'] = instName&#xd;
+                    existedInstance['SCHEDULE'] = schedule&#xd;
+                    existedInstance['PARAMS'] = jobInstanceValue['params']&#xd;
+                    existedInstancesList.push(existedInstance)&#xd;
                 }&#xd;
-&#xd;
-				if( null!=existedInstance &amp;&amp; ""!=existedInstance ){&#xd;
-					existedInstancesList.push(existedInstance)&#xd;
-				}&#xd;
-&#xd;
             }&#xd;
             &#xd;
             $("#instancesTable").append(htmlInstancesSource)&#xd;
@@ -1997,7 +1987,7 @@ function replaceAllString(oriStr, strTarget, strSubString) {&#xd;
 **/&#xd;
 displayedInstances= []&#xd;
 function setDisplayedInstances(value){&#xd;
-	displayedInstances= value&#xd;
+	displayedInstances=value;&#xd;
 }&#xd;
 function pushDisplayedInstances(value){&#xd;
 	displayedInstances.push(value)&#xd;

@@ -6,12 +6,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1409646154000</creationDate>
+  <creationDate>1410327662000</creationDate>
   <parent>WiperDog.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1410316735000</date>
-  <contentUpdateDate>1410316501000</contentUpdateDate>
+  <date>1410909809000</date>
+  <contentUpdateDate>1410489124000</contentUpdateDate>
   <version>1.1</version>
   <title>JobConfiguration</title>
   <comment/>
@@ -36,11 +36,11 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
   &lt;/tr>&#xd;
   &lt;tr>&#xd;
    &lt;th>DB Type&lt;/th>&#xd;
-   &lt;td>&lt;select id="dbTypeCbb" tabindex="2">&lt;/select>&lt;br/>choose if Monitoring Type is @DB&lt;div id="messageDbtypeCbb">&lt;/div>&lt;/td>&#xd;
+   &lt;td>&lt;select id="dbTypeCbb" tabindex="2">&lt;/select>&lt;br/>&lt;div id="hintMessage">choose if Monitoring Type is @DB&lt;/div>&lt;div id="messageDbtypeCbb">&lt;/div>&lt;/td>&#xd;
   &lt;/tr>&#xd;
   &lt;tr>&#xd;
    &lt;th>Job File&lt;/th>&#xd;
-   &lt;td>&lt;select id="listJob" tabindex="3">&lt;option id="noChoice" value="noChoice">-select a job-&lt;/option>&lt;/select>&lt;br/>choose if edit existed job&lt;/td>&#xd;
+   &lt;td>&lt;select id="listJob" tabindex="3">&lt;option id="noChoice" value="noChoice">-select a job-&lt;/option>&lt;/select>&lt;br/>&lt;div id="hintMessage">choose if edit existed job&lt;/div>&lt;/td>&#xd;
   &lt;/tr>&#xd;
  &lt;/table>&#xd;
 &lt;/div>&#xd;
@@ -87,7 +87,7 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
 		&lt;td>&lt;textarea id="dbexecVariableText" style="width:100%" rows=5 tabindex="8" placeholder='"Id":1'>&lt;/textarea>&lt;div id="messageDbexecVariableText">&lt;/div>&lt;/td>&#xd;
 	&lt;/tr>&#xd;
 	&lt;tr id="showHideCommandForm">&#xd;
-		&lt;th>Command(*)&lt;/th&gt;&#xd;
+		&lt;th>Command(*)&lt;/th>&#xd;
 		&lt;td>&lt;textarea id="commandText" style="width:100%" rows=5 tabindex="7" placeholder='cmd /c "echo 123 ABC" '>&lt;/textarea>&lt;div id="messageCommandText">&lt;/div>&lt;/td>&#xd;
 	&lt;/tr>&#xd;
 	&lt;tr id="showHideFormatForm">&#xd;
@@ -96,7 +96,7 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
 	&lt;/tr>&#xd;
 	&lt;tr id="showHideFetchactionForm">&#xd;
 		&lt;th>Fetch Action(*)&lt;/th>&#xd;
-		&lt;td>&lt;textarea id="fetchactionText" style="width:100%" rows=5 tabindex="7" placeholder='return [[a: "abc", b: "def"]]'>&lt;/textarea>&lt;div id="messageFetchactionText">&lt;/div>&lt;/td>&#xd;
+		&lt;td>&lt;textarea id="fetchactionText" style="width:100%" rows=5 tabindex="7" placeholder='return [ [a: "abc", b: "def"] ]'>&lt;/textarea>&lt;div id="messageFetchactionText">&lt;/div>&lt;/td>&#xd;
 	&lt;/tr>&#xd;
 &#xd;
 	&lt;tr>&#xd;
@@ -136,7 +136,7 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
 	&lt;/tr>&#xd;
 	&lt;tr>&#xd;
 		&lt;th>Comment for Job&lt;/th>&#xd;
-		&lt;td>&lt;textarea style="width:100%;" rows=5 id="commentForJobText" tabindex="14" placeholder="/* comment for job */">&lt;/textarea>&lt;/td>&#xd;
+		&lt;td>&lt;textarea style="width:100%;" rows=5 id="commentForJobText" tabindex="14" placeholder="/* comment for job */"&gt;&lt;/textarea>&lt;/td>&#xd;
 	&lt;/tr>&#xd;
 	&lt;tr>&#xd;
 		&lt;th>Resource Id&lt;/th>&#xd;
@@ -182,9 +182,9 @@ $xwiki.ssx.use("WiperDogLib.CommonMessage")&#xd;
 	&lt;tr>&#xd;
 		&lt;th>Group&lt;/th>&#xd;
 		&lt;th>Type&lt;/th>&#xd;
-		&lt;th>Name&lt;/th>&#xd;
+		&lt;th&gt;Name&lt;/th>&#xd;
 		&lt;th>Chart Column&lt;/th>&#xd;
-		&lt;th>Hint Column&lt;/th&gt;&#xd;
+		&lt;th>Hint Column&lt;/th>&#xd;
 		&lt;th>Action&lt;/th>&#xd;
 	&lt;/tr>&#xd;
 	&lt;tr id="inputChart">&#xd;
@@ -921,8 +921,8 @@ require(['jquery'], function($) {&#xd;
     &#xd;
     // CLICK "RUN" BUTTON&#xd;
     $("#runTest").click(function() {&#xd;
-        $("#testResult").html("Roading. Please Wait.")&#xd;
-        doSend('run')&#xd;
+        $('#testResult').html(getMessage('msg_run_test'));&#xd;
+        doSend('run');&#xd;
     });&#xd;
     &#xd;
     // CLICK "BACK TO MAIN MENU" BUTTON&#xd;
@@ -1024,8 +1024,7 @@ require(['jquery'], function($) {&#xd;
      * doSend: get all data from JobConfiguration monitor and send to servlet&#xd;
      * @param action: exportFromJobConfig, save or saveNRun&#xd;
     */&#xd;
-    function doSend(action) {&#xd;
-    &#xd;
+    function doSend(action) {   &#xd;
         // resetErrorMessage&#xd;
 		$("#messageValid").html("")&#xd;
 		$("#messageDbtypeCbb").html("")&#xd;
@@ -1084,9 +1083,9 @@ require(['jquery'], function($) {&#xd;
             ajax_post_data_write(JobDeclared, function(result) {}, finalMapData, action)&#xd;
         }else{&#xd;
         	if('save'==action){&#xd;
-        		$("#messageValid").html("&lt;p>" + getMessage("err_validation") + "&lt;/p>")&#xd;
+        		$("#messageValid").html("&lt;p>" + getMessage("err_validation") + "&lt;/p>");&#xd;
         	}else if('run'==action){&#xd;
-        		$("#testResult").html("&lt;p>" + getMessage("err_validation") + "&lt;/p>")&#xd;
+        		$("#testResult").html("&lt;p>" + getMessage("err_validation") + "&lt;/p>");&#xd;
         	}&#xd;
         }&#xd;
 &#xd;
@@ -1312,12 +1311,13 @@ require(['jquery'], function($) {&#xd;
             dest = document.getElementById('destText').value.trim();&#xd;
             &#xd;
             if ("parameters.dest" != dest){&#xd;
-                dest = checkMapTypeValidation(dest);&#xd;
+                //dest = checkMapTypeValidation(dest);&#xd;
+                dest = standardDest(dest);&#xd;
                 if(""==dest){&#xd;
                     checkValid=false;&#xd;
                     setErrorMessage("err_dest","#messageDest");&#xd;
                 }else{&#xd;
-                    jobMap['dest'] = standardDest(dest);&#xd;
+                    jobMap['dest'] = dest;&#xd;
                 }&#xd;
             }&#xd;
         }&#xd;
@@ -1549,18 +1549,21 @@ require(['jquery'], function($) {&#xd;
      * @return standard destText&#xd;
     */&#xd;
     function standardDest(destText) {&#xd;
-        destText = standardRoot(destText)&#xd;
+//        destText = standardRoot(destText)&#xd;
         destText = replaceAllString(destText, "[", "")&#xd;
         destText = replaceAllString(destText, "]", "")&#xd;
         var lstDest = destText.split(",")&#xd;
         var outputDest = ""&#xd;
         for (var i = 0; i &lt; lstDest.length; i++) {&#xd;
-            outputDest += "[" + lstDest[i] + "],"&#xd;
+            if(""!=checkMapTypeValidation(lstDest[i])){&#xd;
+                outputDest += "[" + lstDest[i] + "],"&#xd;
+            }else{&#xd;
+                return "";&#xd;
+            }&#xd;
         }&#xd;
         outputDest = "[" + outputDest.substring(0, outputDest.length - 1) + "]"&#xd;
         return outputDest&#xd;
     }&#xd;
-&#xd;
 &#xd;
 &#xd;
     /**&#xd;
