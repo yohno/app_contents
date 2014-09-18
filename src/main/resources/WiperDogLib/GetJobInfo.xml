@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xwikidoc version="1.1">
+  <web>WiperDogLib</web>
+  <name>GetJobInfo</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1408079312000</creationDate>
+  <parent>WiperDogLib.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1408079312000</date>
+  <contentUpdateDate>1408079312000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <comment></comment>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}&#xd;
+$xwiki.jsx.use("WiperDogLib.GetJobInfo")&#xd;
+{{/velocity}}&#xd;
+</content>
+  <object>
+    <name>WiperDogLib.GetJobInfo</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>d70cb014-9b2c-4320-bb90-e669ed5366ca</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>require(['jquery'], function($) {&#xd;
+&#xd;
+	/**-----------------------------------------------&#xd;
+	 * variables&#xd;
+	 *------------------------------------------------*/&#xd;
+&#xd;
+	var listDBType = []&#xd;
+	var actionOfJob = ''&#xd;
+	var JobDeclared = getServlet('JobDeclared')&#xd;
+	var DBTypeServlet = getServlet('dbtype')&#xd;
+&#xd;
+	/**-----------------------------------------------&#xd;
+	 * executions&#xd;
+	 *------------------------------------------------*/&#xd;
+	&#xd;
+	//get MONITORINGTYPE&#xd;
+	$.ajax({&#xd;
+		 type: "GET",&#xd;
+		 url:DBTypeServlet,&#xd;
+		 async: false,&#xd;
+		 dataType: 'json',&#xd;
+		 success : function(result){&#xd;
+			var listMonitoringType = result['MonitoringType']&#xd;
+			if(listMonitoringType != null){&#xd;
+				var monitoringTypeSource = ''&#xd;
+				for (var i = 0; i &lt; listMonitoringType.length; i++) {&#xd;
+					monitoringTypeSource += "&lt;option id=\"" + listMonitoringType[i] + "\" value=\"" + listMonitoringType[i] + "\">" + listMonitoringType[i] + "&lt;/option>"&#xd;
+				}&#xd;
+				$("#listMonitoring").append(monitoringTypeSource)&#xd;
+			}&#xd;
+		},&#xd;
+			error: function(xhr,status,error){&#xd;
+		}&#xd;
+	});&#xd;
+	&#xd;
+	//GET DBTYPE&#xd;
+	$.ajax({&#xd;
+		type: "GET",&#xd;
+		url:DBTypeServlet + "/DbType",&#xd;
+		async: false,&#xd;
+		dataType: 'json',&#xd;
+		success : function(result){&#xd;
+			  mapDBType = result&#xd;
+			  var dbTypeSource = '&lt;option id=\"none\" value=\"\">-select a db type-&lt;/option>'&#xd;
+			  for(dbtype in mapDBType){&#xd;
+				  if(mapDBType.hasOwnProperty(dbtype)){&#xd;
+					   listDBType.push(dbtype)&#xd;
+					   dbTypeSource += "&lt;option id=\"" + dbtype + "\" value=\"" + dbtype + "\">" + dbtype + "&lt;/option>"&#xd;
+				  }&#xd;
+			  }&#xd;
+			  $("#dbTypeCbb").html(dbTypeSource)&#xd;
+		},&#xd;
+			error: function(xhr,status,error){&#xd;
+		}&#xd;
+	});&#xd;
+	&#xd;
+	// GET JOB => GET JOB INFORMATION&#xd;
+	$("[id=listJob]").change(function() {&#xd;
+		// GET NAME OF JOB SELECTED&#xd;
+		selectedJob = $("#listJob option:selected").val()&#xd;
+		// IF DON'T CHOOSE JOB => RESET TO INIT SCREEN&#xd;
+		if (selectedJob == "noChoice") {&#xd;
+&#xd;
+&#xd;
+		resetControl("JOBFILE")&#xd;
+		}&#xd;
+		// CHOOSE A JOB => SEND JOB NAME TO SERVLET, USE AJAX&#xd;
+		if ((selectedJob != null) &amp;&amp; (selectedJob != "") &amp;&amp; (selectedJob != "noChoice")) {&#xd;
+			var data = {}&#xd;
+			data['COMMAND'] = "Read"&#xd;
+			data['job'] = (selectedJob)	&#xd;
+			ajax_post_data_read(JobDeclared, function(result) {}, data)&#xd;
+		}&#xd;
+	});&#xd;
+	&#xd;
+	// ---- CHANGE MONITORINGTYPE&#xd;
+	$("#listMonitoring").change(function() {&#xd;
+&#xd;
+		// RESET CONTROL: need to create "resetControl" on each page&#xd;
+		resetControl("MONITORINGTYPE")&#xd;
+&#xd;
+		var type = $("#listMonitoring option:selected").val() // @DB, @SYS, @NET, @Others&#xd;
+	&#xd;
+		if (type == "@DB") {&#xd;
+			$("#dbTypeCbb").prop('disabled',false)&#xd;
+			dbTypeSource = '&lt;option id=\"none\" value=\"\">-select a db type-&lt;/option>'&#xd;
+			for (var i = 0; i &lt; listDBType.length; i++) {&#xd;
+				dbTypeSource += "&lt;option id=\"" + listDBType[i] + "\" value=\"" + listDBType[i] + "\">" + listDBType[i] + "&lt;/option>"&#xd;
+			}&#xd;
+			$("#dbTypeCbb").html(dbTypeSource)&#xd;
+			$("#listJob").html("&lt;option id='noChoice' value='noChoice'>-select a job-&lt;/option>")&#xd;
+		} else {&#xd;
+			dbTypeSource = '&lt;option id=\"none\" value=\"\">-select a db type-&lt;/option>'&#xd;
+			$("#dbTypeCbb").html(dbTypeSource)&#xd;
+			$("#listJob").html("&lt;option id='noChoice' value='noChoice'>-select a job-&lt;/option>")&#xd;
+			// PROCESS GET LIST JOB FOR @SYS, @NET OR OTHERS&#xd;
+			&#xd;
+			$.ajax({&#xd;
+				type: "GET",&#xd;
+				crossDomain: true,&#xd;
+				url: JobDeclared + "?morType=" + type,&#xd;
+				dataType: 'json',&#xd;
+				success: function(result) {&#xd;
+					if(result.status != 'fail'){&#xd;
+						for (var i = 0; i &lt; result.listJob.length; i++) {&#xd;
+							$("#listJob").append("&lt;option id=" + result.listJob[i] + " value=" + result.listJob[i] + ">" + result.listJob[i] + "&lt;/option>")&#xd;
+						}&#xd;
+					}&#xd;
+				},&#xd;
+				error: function(xhr, status, error) {&#xd;
+					showErrorMsg(xhr, status, error)&#xd;
+					alert(mapMsg['err_run_wiperdog'])&#xd;
+				}&#xd;
+			});&#xd;
+		}&#xd;
+	});&#xd;
+	&#xd;
+	//CHANGE DBTYPE&#xd;
+	$("#dbTypeCbb").change(function() {&#xd;
+		var selectedDBType = $("#dbTypeCbb option:selected").val() // SQL_Server, MySQL, Postgres&#xd;
+&#xd;
+		// RESET CONTROL: need to create "resetControl" on each page&#xd;
+		resetControl("DBTYPE")&#xd;
+	&#xd;
+		if (selectedDBType != null &amp;&amp; selectedDBType != "") {&#xd;
+			$.ajax({&#xd;
+				type: "GET",&#xd;
+				crossDomain: true,&#xd;
+				url: JobDeclared + "?dbtype=" + selectedDBType,&#xd;
+				dataType: 'json',&#xd;
+				success: function(result) {&#xd;
+					for (var i = 0; i &lt; result.length; i++) {&#xd;
+						$("#listJob").append("&lt;option id=" + result[i] + " value=" + result[i] + ">" + result[i] + "&lt;/option>")&#xd;
+					}&#xd;
+				},&#xd;
+				error: function(xhr, status, error) {&#xd;
+					showErrorMsg(xhr, status, error)&#xd;
+					alert(mapMsg['err_run_wiperdog'])&#xd;
+				}&#xd;
+			});&#xd;
+		}&#xd;
+	});&#xd;
+&#xd;
+&#xd;
+	/**-----------------------------------------------&#xd;
+	 * functions&#xd;
+	 *------------------------------------------------*/&#xd;
+&#xd;
+	/**&#xd;
+	 * getServlet: get servlet from GetServlet page&#xd;
+	 * @param paramsServlet: servlet name&#xd;
+	 * @return servlet&#xd;
+	*/&#xd;
+	function getServlet(paramsServlet) {&#xd;
+		var servlet = ""&#xd;
+		$.ajax({&#xd;
+			type: "GET",&#xd;
+			url: "/xwiki/bin/get/WiperDog/GetServlet?outputSyntax=plain&amp;name=" + paramsServlet,&#xd;
+			async: false,&#xd;
+			success: function(result) {&#xd;
+				servlet = result&#xd;
+			},&#xd;
+			error: function(xhr, status, error) {&#xd;
+				showErrorMsg(xhr, status, error)&#xd;
+			}&#xd;
+		});&#xd;
+		return servlet&#xd;
+	}&#xd;
+&#xd;
+	/**&#xd;
+	 * ajax_post_data_read: send job was selected and corresponding action of it (read) to servlet&#xd;
+	 * @param domain: servlet&#xd;
+	 * @param data: job name&#xd;
+	 * @return data response => call function bindingData to fill data into below elements&#xd;
+	*/&#xd;
+	function ajax_post_data_read(domain, callback, data) {&#xd;
+		$.ajax({&#xd;
+			type: "POST",&#xd;
+			crossDomain: true,&#xd;
+			url: domain,&#xd;
+			dataType: 'json',&#xd;
+			data: JSON.stringify(data),&#xd;
+			success: function(result) {&#xd;
+&#xd;
+				// reset to init screen&#xd;
+				resetControl("JOBFILE")&#xd;
+&#xd;
+				var statusExecute = result.status&#xd;
+				if (statusExecute == "failed") {&#xd;
+					// If process in servlet has error => show message&#xd;
+					$("#messageValid").html(mapMsg['err_wrong_format'])&#xd;
+				} else {&#xd;
+					// Success => process fill data&#xd;
+					$("#messageValid").html("")&#xd;
+					bindingData(result)&#xd;
+				}&#xd;
+				callback(result)&#xd;
+			},&#xd;
+			error: function(xhr, status, error) {&#xd;
+				showErrorMsg(xhr, status, error)&#xd;
+				alert(mapMsg['err_run_wiperdog'])&#xd;
+			}&#xd;
+		});&#xd;
+	}&#xd;
+});</code>
+    </property>
+    <property>
+      <name>dropdownlist</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <name>WiperDogLib.GetJobInfo</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>3ef7e685-3dea-4cca-aa78-43f66b9a1131</guid>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>default</cache>
+    </property>
+    <property>
+      <code>#dropdownlist th{&#xd;
+	width:20%;&#xd;
+}&#xd;
+&#xd;
+#dropdownlist table{&#xd;
+	width:60%;&#xd;
+}</code>
+    </property>
+    <property>
+      <name>dropdownlist</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+</xwikidoc>

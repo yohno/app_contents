@@ -1561,13 +1561,13 @@
       <meta/>
     </property>
     <property>
-      <rightPanels/>
+      <rightPanels>Panels.RecentlyVisited,Panels.WiperDogPanel,Panels.Spaces</rightPanels>
     </property>
     <property>
       <showLeftPanels>0</showLeftPanels>
     </property>
     <property>
-      <showRightPanels>0</showRightPanels>
+      <showRightPanels>1</showRightPanels>
     </property>
     <property>
       <showannotations/>

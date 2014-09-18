@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xwikidoc version="1.1">
+  <web>Panels</web>
+  <name>WiperDogPanel</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1406849231000</creationDate>
+  <parent>Panels.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1406849231000</date>
+  <contentUpdateDate>1406849231000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <comment></comment>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content/>
+  <object>
+    <name>Panels.WiperDogPanel</name>
+    <number>0</number>
+    <className>Panels.PanelClass</className>
+    <guid>a488975e-dee5-4c32-97e8-405f6339e288</guid>
+    <class>
+      <name>Panels.PanelClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <category>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>category</name>
+        <number>5</number>
+        <prettyName>Category</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Information|Navigation|Tools|Administration|Other</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </category>
+      <content>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>content</name>
+        <number>4</number>
+        <prettyName>Content</prettyName>
+        <rows>25</rows>
+        <size>120</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </content>
+      <description>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>description</name>
+        <number>3</number>
+        <prettyName>Description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <type>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>type</name>
+        <number>2</number>
+        <prettyName>Panel type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>view|edit</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </type>
+    </class>
+    <property>
+      <category>Navigation</category>
+    </property>
+    <property>
+      <content>{{velocity}}&#xd;
+#panelheader('WiperDogPanel')&#xd;
+&#xd;
+=== Monitoring===&#xd;
+* [[**View Policy Alert**>>DisplayPolicy]]&#xd;
+* [[**Monitor Performance Data**>>MonitoringData]]&#xd;
+* [[**Check Last Executed Job**>>LastAccumulation]]&#xd;
+&#xd;
+=== Configuration Job===&#xd;
+* Config Policy&#xd;
+** [[**Create/Update Policy**>>processPolicy]]&#xd;
+* Config Job&#xd;
+** [[**Import/Export Job Instances**>>ImportInstance]]&#xd;
+** [[**Create/Update Job**>>JobConfiguration]]&#xd;
+** [[**Refer Job Document**>>JobDoc]]&#xd;
+&#xd;
+=== Configuration WiperDog===&#xd;
+* Execute&#xd;
+** [[**Refer Log**>>LogFileInfo]]&#xd;
+** [[**Start/Stop WiperDog Server**>>ConsoleManagement]]&#xd;
+* Config&#xd;
+** [[**Config Target Database Info**>>DBConfiguration]]&#xd;
+** [[**Config WiperDog Server Info**>>WiperdogConfiguration]]&#xd;
+* Install&#xd;
+** [[**Install WiperDog Server**>>WiperdogServiceInstallation]]&#xd;
+&#xd;
+#panelfooter()&#xd;
+{{/velocity}}</content>
+    </property>
+    <property>
+      <description>WiperDog's Navigation Panel</description>
+    </property>
+    <property>
+      <name>WiperDogPanel</name>
+    </property>
+    <property>
+      <type>view</type>
+    </property>
+  </object>
+</xwikidoc>
