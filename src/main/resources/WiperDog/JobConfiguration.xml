@@ -6,12 +6,12 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1410327662000</creationDate>
+  <creationDate>1411021592000</creationDate>
   <parent>WiperDog.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1410909809000</date>
-  <contentUpdateDate>1410489124000</contentUpdateDate>
+  <date>1411025673000</date>
+  <contentUpdateDate>1411021592000</contentUpdateDate>
   <version>1.1</version>
   <title>JobConfiguration</title>
   <comment/>
@@ -376,6 +376,7 @@ require(['jquery'], function($) {&#xd;
         $(".toggleJobInformation").click(function(){&#xd;
             $(".JobInformationValues").toggle('slow')&#xd;
             showHideControl($(this),"JOB INFORMATION")&#xd;
+&#xd;
         })&#xd;
         $(".toggleKEYEXPR").click(function(){&#xd;
             $(".keyExprValues").toggle('slow')&#xd;
@@ -1011,6 +1012,12 @@ require(['jquery'], function($) {&#xd;
      * @param str: KEYEXPR, JOB PARAMS, JOB INSTANCES&#xd;
     */&#xd;
     function showHideControl(element,str) {&#xd;
+        if("@OS"==$("#listMonitoring").val()){&#xd;
+             $(".osInfoForm").show();&#xd;
+        }else{&#xd;
+             $(".osInfoForm").hide();&#xd;
+        }&#xd;
+&#xd;
         if(element.attr('id') == 'show') {&#xd;
             element.text('Show '+ str +' Form')&#xd;
             element.attr('id','hide')&#xd;
@@ -1759,7 +1766,9 @@ function resetControl(type) {&#xd;
 		&#xd;
 		if("@OS"==$("#listMonitoring").val()){&#xd;
 			$(".osInfoForm").show();&#xd;
-		}&#xd;
+		}else{&#xd;
+			$(".osInfoForm").hide();&#xd;
+                }&#xd;
 	});&#xd;
 }&#xd;
 &#xd;
