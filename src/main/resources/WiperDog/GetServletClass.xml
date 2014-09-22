@@ -430,33 +430,9 @@ import com.xpn.xwiki.web.*;
 
 class GetServlet implements ScriptService{
 	def static params
-    static final DEFAULT_CONFIG = [
-                  servlet_config:[
-		     dbinfo:[servlet:"http://localhost:13111/DBConfigServlet" ,desc:"Using for WiperDog/DBConfiguration page"],
-		     dbcommon:[servlet:"http://localhost:13111/DBCommonConfig" ,desc:"Using for WiperDog/JobDBConnectionConfiguration page "],
-		     jobdoc:[servlet:"http://localhost:13111/JobDocInfoServlet",desc:"Using for WiperDog/JobDoc page"],
-		     console:[servlet:"http://localhost:13111/wiperdog/echo",desc:"Using for WiperDog/ConsoleManager page"],
-                     logfileinfo:[servlet:"http://localhost:13111/LogFileInfoServlet",desc:"Using for WiperDog/LogFileInfo page"],
-                     JobDeclared:[servlet:"http://localhost:13111/JobDeclared",desc:"Using for WiperDog/JobConfiguration page"],
-                     testjob:[servlet:"http://localhost:13111/TestJobServlet",desc:"Using for Using for WiperDog/TestJob page"],
-                     ProcessPolicy:[servlet:"http://localhost:13111/policyServlet",desc:"Using for WiperDog/processPolicy page"],
-                     importinstances:[servlet:"http://localhost:13111/ImportInstanceServlet",desc:"Using for Using for WiperDog/Import Instance Info page"],
-                     dbtype:[servlet:"http://localhost:8089/use_for_xwiki",desc:"Using for getting dbtype and related information"],
-                     menuGenerator:[servlet:"http://localhost:8089/menuGenerator",desc:"Using for MenuGenerator page"],
-                     monitoring:[servlet:"http://localhost:8089/monitoringData",desc:"Using for WiperDog/MonitoringData page"],
-                     tableadapter:[servlet:"http://localhost:8089/liveTableAdapter",desc:"Using for WiperDog/MonitoringData page"],
-                     realtimeLivetable:[servlet:"http://localhost:8089/realtimeLivetable",desc:"Using for table statistics in MonitoringData page"],
-                     realtime:[servlet:"http://localhost:8089/realtime",desc:"Using for realtime of chart in MonitoringData page"],
-                     msgPolicy:[servlet:"http://localhost:8089/msgPolicy",desc:"Using for WiperDog/Policy Evaluation message page"],
-                     LastAccum:[servlet:"http://localhost:8089/LastAccumulation",desc:"Using for WiperDog/LastAccumulation page"],
-                     PolicyString:[servlet:"http://localhost:8089/PolicyString",desc:"Using for WiperDog/processPolicy page"],
-                     ChooseJobPolicy:[servlet:"http://localhost:8089/ChooseJobPolicy",desc:"Using for WiperDog/processPolicy page"]
-		  ]
-                ]
 
 	Object getParam(def name, services){
             if( (name != null) &amp;&amp; (name != "") ){
-	        def defaultParams = getDefaultConfigByKey('servlet_config')
 		def confData = services.WiperdogConfig.getDataFromConfig()
 		if (confData != null) {
 	            def servletCfg = confData['servlet_config']
@@ -464,14 +440,9 @@ class GetServlet implements ScriptService{
 	                return servletCfg[name]['servlet']
 		    }
 		}
-                return defaultParams[name]['servlet']
-	    }
-	    return null
+            }
+            return null
 	}
-
-     public static Object getDefaultConfigByKey(key){
-             return DEFAULT_CONFIG[key]
-     }
 }
 
 DefaultComponentDescriptor descriptor = new DefaultComponentDescriptor(implementation: GetServlet.class, role: ScriptService.class, roleHint: 'GetServlet');
