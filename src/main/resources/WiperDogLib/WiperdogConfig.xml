@@ -23,9 +23,9 @@
 <syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden><attachment>
 <filename>conf.params</filename>
-<filesize>3335</filesize>
+<filesize>3128</filesize>
 <author>xwiki:XWiki.Admin</author>
-<date>1411114022000</date>
+<date>1411348578000</date>
 <version>1.1</version>
 <comment></comment><content>WwogICAgInNlcnZsZXRfY29uZmlnIjogWwogICAgICAgICJyZWFsdGltZUxpdmV0YWJsZSI6IFsK
 ICAgICAgICAgICAgImRlc2MiOiAiVXNpbmcgZm9yIHRhYmxlIHN0YXRpc3RpY3MgaW4gTW9uaXRv
@@ -81,11 +81,7 @@ b3IgV2lwZXJEb2cvTG9nRmlsZUluZm8gcGFnZSIsCiAgICAgICAgICAgICJzZXJ2bGV0IjogImh0
 dHA6Ly9sb2NhbGhvc3Q6MTMxMTEvTG9nRmlsZUluZm9TZXJ2bGV0IgogICAgICAgIF0sCiAgICAg
 ICAgInRhYmxlYWRhcHRlciI6IFsKICAgICAgICAgICAgImRlc2MiOiAiVXNpbmcgZm9yIFdpcGVy
 RG9nL01vbml0b3JpbmdEYXRhIHBhZ2UiLAogICAgICAgICAgICAic2VydmxldCI6ICJodHRwOi8v
-bG9jYWxob3N0OjgwODkvbGl2ZVRhYmxlQWRhcHRlciIKICAgICAgICBdCiAgICBdLAogICAgIndp
-cGVyZG9nX3BhdGgiOiBbCiAgICAgICAgIm9zIjogImxpbnV4IiwKICAgICAgICAiaG9zdCI6ICJs
-b2NhbGhvc3QiLAogICAgICAgICJ1c2VyIjogIiIsCiAgICAgICAgInBhc3MiOiAiIiwKICAgICAg
-ICAicGF0aCI6ICIvaG9tZS93aXBlcmRvZy93aXBlcmRvZy0wLjIuNi1TTkFQU0hPVCIsCiAgICAg
-ICAgImlzU2VydmljZSI6IGZhbHNlCiAgICBdCl0=
+bG9jYWxob3N0OjgwODkvbGl2ZVRhYmxlQWRhcHRlciIKICAgICAgICBdCiAgICBdCl0=
 </content></attachment>
 <content>{{groovy}}
 import org.xwiki.component.descriptor.*;
