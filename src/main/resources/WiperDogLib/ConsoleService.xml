@@ -778,7 +778,13 @@ try{
 				if("true".equals(stopByService)) {
 					stopService(os,wiperdog_home,host,user,passwd,remoteCmd)
 				} else {
-					def stopScript = remoteCmd + ' -i -w "' + wiperdog_home + '\\bin"' +' cmd /c "'+ wiperdog_home + File.separator + 'bin\\stopWiperdog.bat"'
+
+					def stopScript = '';
+					if(isLocalhost){
+						stopScript = 'cmd /c start "" '+ wiperdog_home + File.separator + 'bin\\stopWiperdog.bat'
+					}else{
+						stopScript = remoteCmd + ' -i -w "' + wiperdog_home + '\\bin"' +' cmd /c "'+ wiperdog_home + File.separator + 'bin\\stopWiperdog.bat"'
+					}
 					def proc = stopScript.execute()
 					proc.waitFor()
                                         println proc.in.text
